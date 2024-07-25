@@ -53,7 +53,7 @@ def test_parse_job_block(resume_parser, sample_job_block):
         job.responsibilities
         == "Wrote all the code\nWrote all the tests."
     )
-    assert job.skills == ["* Python", "* Pytest"]
+    assert job.skills == ["Python", "Pytest"]
 
 
 def test_parse_job_block_empty_description(resume_parser, sample_job_block):
