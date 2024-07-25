@@ -20,7 +20,10 @@ class Role:
         assert isinstance(title, str), "Job title must be a string"
         assert isinstance(start_date, datetime), "Start date must be a datetime object"
         assert isinstance(end_date, datetime), "End date must be a datetime object"
-        assert isinstance(description, (str, type(None))), "Description must be a string"
+        assert isinstance(
+            description,
+            (str, type(None)),
+        ), "Description must be a string"
         assert isinstance(responsibilities, str), "Responsibilities must be a string"
         assert isinstance(reason_for_change, (str, type(None)))
 
