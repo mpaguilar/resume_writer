@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from resume_model import Education, Personal, PersonalInfo, Role
+from resume_model import Certification, Education, Personal, PersonalInfo, Role
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class MarkdownResumeParser:
         _banner = None
         _note = None
 
-        _blocks = self.get_top_level_blocks(block_lines)
+        _blocks = self.top_level_blocks(block_lines)
         for _block_name, _block_lines in _blocks.items():
             # Parse the block lines into a PersonalInfo object.
             if _block_name.lower() == "info":
@@ -77,7 +77,7 @@ class MarkdownResumeParser:
 
         _education: list[Education] = []
 
-        _blocks = self.get_top_level_blocks(block_lines)
+        _blocks = self.top_level_blocks(block_lines)
         for _block_name, _block_lines in _blocks.items():
             if _block_name.lower() == "degree":
                 for _block_line in _block_lines:
@@ -159,7 +159,7 @@ class MarkdownResumeParser:
 
         """
 
-        _blocks = self.get_top_level_blocks(block_lines)
+        _blocks = self.top_level_blocks(block_lines)
         _description = None
         _responsibilities = None
         _skills: list = []
@@ -205,8 +205,8 @@ class MarkdownResumeParser:
 
         """
 
-        _blocks = self.get_top_level_blocks(block_lines)
-        _work_history = []
+        _blocks = self.top_level_blocks(block_lines)
+        _work_history: list[Role] = []
 
         # Parse the block lines into a list of roles.
         for _block_name, _block_lines in _blocks.items():
@@ -216,19 +216,58 @@ class MarkdownResumeParser:
 
         return _work_history
 
-    def get_top_level_blocks(self, lines: list[str]) -> dict[str, list[str]]:
+    def top_level_multi_blocks(self, lines: list[str]) -> list[list[str]]:
+        """Handle multiple blocks which have the same name."""
+        _blocks = []
+        _current_block = []
+        _section_header = None
+
+        for _line in lines:
+            _line = _line.strip()
+
+            # skip empty lines
+            if not _line:
+                continue
+
+            if _line.startswith("# "):
+                _section_header = _line[1:].strip()
+                log.info(f"Found section header: {_section_header}")
+                if len(_current_block) > 0:
+                    _blocks.append(list(_current_block))
+                _current_block.clear()
+                continue
+
+            if _section_header is not None:
+                _current_block.append(_line)
+
+        # Get the last block
+        if len(_current_block) > 0:
+            _blocks.append(list(_current_block))
+
+        return _blocks
+
+    def top_level_blocks(self, lines: list[str]) -> dict[str, list[str]]:
         """Get the top-level blocks of text from the list of strings.
 
-        Read the lines.
+        Parameters
+        ----------
+        lines : list[str]
+            A list of strings representing the lines of text to be processed.
 
-        1. If the line starts with '# ', it's a top-level header.
-        2. If the line doesn't start with a #, it's a line of text.
-        3. If the line is empty, skip it.
-        4. If the line starts with a #, start a new section.
-        5. If the line doesn't start with a #, add it to the current section.
-        5a. If the line starts with a #, it's a subheader.
-            Remove the # and add it to the current section.
-        6. Return a dictionary of sections.
+        Returns
+        -------
+        dict[str, list[str]]
+            A dictionary where the keys are the top-level section headers and the values
+            are lists of strings representing the lines of text under each section.
+
+        Notes
+        -----
+        The function breaks the lines into markdown sections by header. It identifies
+        top-level headers by checking if a line starts with '# '. Empty lines are
+        skipped. Lines that don't start with a '#' are considered lines of text and
+        are added to  the current section. If a line starts with a '#' but not
+        '# ', it's considered a subheader and the hash is removed before adding
+        it to the current section.
 
         """
 
@@ -258,8 +297,64 @@ class MarkdownResumeParser:
 
         return _blocks
 
+    def parse_certification(self, block_lines: list[str]) -> Certification:
+        """Parse a block of certification info."""
+
+        _certification = None
+
+        _name: str | None = None
+        _issuer: str | None = None
+        _issued: datetime | None = None
+
+        for _line in block_lines:
+            _line = _line.strip()
+
+            if _line.lower().startswith("name:"):
+                _name = _line.split(":")[1].strip()
+            if _line.lower().startswith("issuer:"):
+                _issuer = _line.split(":")[1].strip()
+            if _line.lower().startswith("issued:"):
+                _issued_txt = _line.split(":")[1].strip()
+                _issued = datetime.strptime(_issued_txt, "%m/%Y")  # noqa: DTZ007
+
+        _certification = Certification(
+            name=_name,
+            issuer=_issuer,
+            issued=_issued,
+        )
+
+        return _certification
+
+    def parse_certifications_block(self, block_lines: list[str]) -> list[str]:
+        """Parse a block of multiple certifications.
+
+        Allowed headers:
+        - Certification
+
+        """
+
+        _certifications: list[Certification] = []
+
+        _certification_blocks = self.top_level_multi_blocks(block_lines)
+
+        for _block in _certification_blocks:
+            _certification = self.parse_certification(_block)
+
+            _certifications.append(_certification)
+
+        return _certifications
+
     def parse(self) -> dict[str, list[str]]:
-        """Parse a markdown file into a Resume object."""
+        """Parse a markdown file into a Resume object.
+
+        Allowed headers:
+        - Personal
+        - Work History
+        - Education
+        - Certifications
+        - Awards
+
+        """
 
         with open(self.file_path) as _file:
             _lines = _file.readlines()
@@ -269,7 +364,7 @@ class MarkdownResumeParser:
         # get the primary blocks
         # allowed values: Personal, Work History, Education, Certifications, Awards
 
-        _blocks = self.get_top_level_blocks(_lines)
+        _blocks = self.top_level_blocks(_lines)
 
         for _block_name, _block_lines in _blocks.items():
             if _block_name.lower() == "personal":

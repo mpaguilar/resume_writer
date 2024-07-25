@@ -62,6 +62,20 @@ class Education:
         self.end_date = end_date
 
 
+class Certification:
+    """Details of a certification."""
+
+    def __init__(self, issuer: str | None, name: str | None, issued: datetime | None):
+        """Initialize the object."""
+        assert isinstance(name, (str, type(None)))
+        assert isinstance(issuer, (str, type(None)))
+        assert isinstance(issued, (datetime, type(None)))
+
+        self.name = name
+        self.issued = issued
+        self.issuer = issuer
+
+
 class Personal:
     """Details of personal information."""
 
@@ -99,7 +113,7 @@ class Resume:
 
     def __init__(
         self,
-        personal_info: PersonalInfo,
+        personal_info: Personal,
         education: list[Education],
         experience: list[Role],
         certifications: list[str],
