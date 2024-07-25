@@ -106,7 +106,6 @@ class MarkdownResumeParser:
 
         for _block in _certification_blocks:
             _certification = self.parse_certification(_block)
-
             _certifications.append(_certification)
 
         return _certifications
@@ -195,7 +194,7 @@ class MarkdownResumeParser:
 
         return _skills
 
-    def parse_job_block(self, block_lines: list[str]) -> Role:
+    def parse_role_block(self, block_lines: list[str]) -> Role:
         """Parse a block of job info.
 
         Allowed headers:
@@ -206,11 +205,11 @@ class MarkdownResumeParser:
 
         """
 
-        _blocks = self.top_level_blocks(block_lines)
         _description = None
         _responsibilities = None
         _skills: list = []
 
+        _blocks = self.top_level_blocks(block_lines)
         log.debug(f"workhistory _blocks: {_blocks.keys()}")
 
         for _block_name, _block_lines in _blocks.items():
@@ -251,15 +250,12 @@ class MarkdownResumeParser:
         - Role
 
         """
-
-        _blocks = self.top_level_blocks(block_lines)
         _work_history: list[Role] = []
 
-        # Parse the block lines into a list of roles.
-        for _block_name, _block_lines in _blocks.items():
-            if _block_name.lower() == "role":
-                _role = self.parse_job_block(_block_lines)
-                _work_history.append(_role)
+        _role_blocks = self.top_level_multi_blocks(block_lines)
+        for _role_block in _role_blocks:
+            _role = self.parse_role_block(_role_block)
+            _work_history.append(_role)
 
         return _work_history
 
@@ -285,6 +281,9 @@ class MarkdownResumeParser:
                 continue
 
             if _section_header is not None:
+                if _line.startswith("#"):
+                    # this is a subheader, we want the line, but not the extra level
+                    _line = _line[1:]
                 _current_block.append(_line)
 
         # Get the last block

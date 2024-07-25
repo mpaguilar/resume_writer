@@ -1,3 +1,4 @@
+from datetime import datetime
 import pytest
 from resume_writer.resume_markdown import MarkdownResumeParser
 
@@ -45,11 +46,11 @@ def block_lines():
 
 def test_parse_work_history_blocks(resume_markdown, block_lines):
     work_history = resume_markdown.parse_work_history_block(block_lines)
-    assert len(work_history) == 2
+    assert len(work_history) == 2 # noqa: PLR2004
 
     assert work_history[0].company == "Google"
-    assert work_history[0].start_date == "01/2020"
-    assert work_history[0].end_date == "01/2022"
+    assert work_history[0].start_date == datetime(2020, 1, 1, 0, 0) #noqa: DTZ001
+    assert work_history[0].end_date == datetime(2022, 1, 1, 0, 0) #noqa: DTZ001
     assert work_history[0].title == "Senior Software Engineer"
     assert work_history[0].reason_for_change == "Promoted to Manager"
     assert (
@@ -63,8 +64,8 @@ def test_parse_work_history_blocks(resume_markdown, block_lines):
     assert work_history[0].skills == ["Python", "Java", "Git"]
 
     assert work_history[1].company == "Google"
-    assert work_history[1].start_date == "01/2020"
-    assert work_history[1].end_date == "01/2022"
+    assert work_history[1].start_date == datetime(2020, 1, 1, 0, 0) #noqa: DTZ001
+    assert work_history[1].end_date == datetime(2022, 1, 1, 0, 0) #noqa: DTZ001
     assert work_history[1].title == "Software Engineer"
     assert work_history[1].reason_for_change == "Promoted to Senior software engineer"
     assert work_history[1].description == "Wrote functional program modules"

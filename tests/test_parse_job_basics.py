@@ -42,7 +42,7 @@ def test_parse_job_basics_block(resume_parser, sample_job_block):
 
 
 def test_parse_job_block(resume_parser, sample_job_block):
-    job = resume_parser.parse_job_block(sample_job_block)
+    job = resume_parser.parse_role_block(sample_job_block)
     assert job.title == "Software Engineer"
     assert job.company == "Google"
     assert job.start_date == datetime(2018, 1, 1, 0, 0) #noqa: DTZ001
@@ -58,7 +58,7 @@ def test_parse_job_block(resume_parser, sample_job_block):
 
 def test_parse_job_block_empty_description(resume_parser, sample_job_block):
     sample_job_block[7:8] = []
-    job = resume_parser.parse_job_block(sample_job_block)
+    job = resume_parser.parse_role_block(sample_job_block)
     assert job.description is None
 
 
