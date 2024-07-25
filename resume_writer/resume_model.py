@@ -1,8 +1,8 @@
 from datetime import datetime
 
 
-class WorkExperience:
-    """Details of work-related experience."""
+class WorkHistory:
+    """Details of a single work-related experience."""
 
     def __init__(  # noqa: PLR0913
         self,
@@ -10,14 +10,17 @@ class WorkExperience:
         title: str,
         start_date: datetime,
         end_date: datetime,
+        description: str | None,
         responsibilities: str,
         reason_for_change: str,
+        skills: list[str],
     ):
         """Initialize the object."""
         assert isinstance(company, str), "Company name must be a string"
         assert isinstance(title, str), "Job title must be a string"
         assert isinstance(start_date, datetime), "Start date must be a datetime object"
         assert isinstance(end_date, datetime), "End date must be a datetime object"
+        assert isinstance(description, (str, type(None))), "Description must be a string"
         assert isinstance(responsibilities, str), "Responsibilities must be a string"
 
         self.company = company
@@ -25,7 +28,9 @@ class WorkExperience:
         self.start_date = start_date
         self.end_date = end_date
         self.responsibilities = responsibilities
+        self.description = description
         self.reason_for_change = reason_for_change
+        self.skills = skills
 
         assert isinstance(
             reason_for_change,
@@ -41,16 +46,16 @@ class Education:
 
     def __init__(
         self,
-        school: str,
-        degree: str,
-        start_date: datetime,
-        end_date: datetime,
+        school: str | None,
+        degree: str | None,
+        start_date: datetime | None,
+        end_date: datetime | None,
     ):
         """Initialize the object."""
-        assert isinstance(school, str), "School name must be a string"
-        assert isinstance(degree, str), "Degree must be a string"
-        assert isinstance(start_date, datetime), "Start date must be a datetime object"
-        assert isinstance(end_date, datetime), "End date must be a datetime object"
+        assert isinstance(school, (str, type(None)))
+        assert isinstance(degree, (str, type(None)))
+        assert isinstance(start_date, (datetime, type(None)))
+        assert isinstance(end_date, (datetime, type(None)))
 
         self.school = school
         self.degree = degree
@@ -97,7 +102,7 @@ class Resume:
         self,
         personal_info: PersonalInfo,
         education: list[Education],
-        experience: list[WorkExperience],
+        experience: list[WorkHistory],
         certifications: list[str],
         description: str,
     ):
