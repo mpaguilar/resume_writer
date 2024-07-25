@@ -64,6 +64,53 @@ class MarkdownResumeParser:
 
         return _personal
 
+    def parse_certification(self, block_lines: list[str]) -> Certification:
+        """Parse a block of certification info."""
+
+        _certification = None
+
+        _name: str | None = None
+        _issuer: str | None = None
+        _issued: datetime | None = None
+
+        for _line in block_lines:
+            _line = _line.strip()
+
+            if _line.lower().startswith("name:"):
+                _name = _line.split(":")[1].strip()
+            if _line.lower().startswith("issuer:"):
+                _issuer = _line.split(":")[1].strip()
+            if _line.lower().startswith("issued:"):
+                _issued_txt = _line.split(":")[1].strip()
+                _issued = datetime.strptime(_issued_txt, "%m/%Y")  # noqa: DTZ007
+
+        _certification = Certification(
+            name=_name,
+            issuer=_issuer,
+            issued=_issued,
+        )
+
+        return _certification
+
+    def parse_certifications_block(self, block_lines: list[str]) -> list[str]:
+        """Parse a block of multiple certifications.
+
+        Allowed headers:
+        - Certification
+
+        """
+
+        _certifications: list[Certification] = []
+
+        _certification_blocks = self.top_level_multi_blocks(block_lines)
+
+        for _block in _certification_blocks:
+            _certification = self.parse_certification(_block)
+
+            _certifications.append(_certification)
+
+        return _certifications
+
     def parse_education_block(
         self,
         block_lines: list[str],
@@ -296,53 +343,6 @@ class MarkdownResumeParser:
                 _blocks[_section_header].append(_line)
 
         return _blocks
-
-    def parse_certification(self, block_lines: list[str]) -> Certification:
-        """Parse a block of certification info."""
-
-        _certification = None
-
-        _name: str | None = None
-        _issuer: str | None = None
-        _issued: datetime | None = None
-
-        for _line in block_lines:
-            _line = _line.strip()
-
-            if _line.lower().startswith("name:"):
-                _name = _line.split(":")[1].strip()
-            if _line.lower().startswith("issuer:"):
-                _issuer = _line.split(":")[1].strip()
-            if _line.lower().startswith("issued:"):
-                _issued_txt = _line.split(":")[1].strip()
-                _issued = datetime.strptime(_issued_txt, "%m/%Y")  # noqa: DTZ007
-
-        _certification = Certification(
-            name=_name,
-            issuer=_issuer,
-            issued=_issued,
-        )
-
-        return _certification
-
-    def parse_certifications_block(self, block_lines: list[str]) -> list[str]:
-        """Parse a block of multiple certifications.
-
-        Allowed headers:
-        - Certification
-
-        """
-
-        _certifications: list[Certification] = []
-
-        _certification_blocks = self.top_level_multi_blocks(block_lines)
-
-        for _block in _certification_blocks:
-            _certification = self.parse_certification(_block)
-
-            _certifications.append(_certification)
-
-        return _certifications
 
     def parse(self) -> dict[str, list[str]]:
         """Parse a markdown file into a Resume object.
