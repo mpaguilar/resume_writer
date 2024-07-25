@@ -1,7 +1,7 @@
 from datetime import datetime
 
 
-class WorkHistory:
+class Role:
     """Details of a single work-related experience."""
 
     def __init__(  # noqa: PLR0913
@@ -12,7 +12,7 @@ class WorkHistory:
         end_date: datetime,
         description: str | None,
         responsibilities: str,
-        reason_for_change: str,
+        reason_for_change: str | None,
         skills: list[str],
     ):
         """Initialize the object."""
@@ -22,6 +22,7 @@ class WorkHistory:
         assert isinstance(end_date, datetime), "End date must be a datetime object"
         assert isinstance(description, (str, type(None))), "Description must be a string"
         assert isinstance(responsibilities, str), "Responsibilities must be a string"
+        assert isinstance(reason_for_change, (str, type(None)))
 
         self.company = company
         self.title = title
@@ -31,11 +32,6 @@ class WorkHistory:
         self.description = description
         self.reason_for_change = reason_for_change
         self.skills = skills
-
-        assert isinstance(
-            reason_for_change,
-            str,
-        ), "Reason for leaving must be a string"
 
         ## how should I handle the case where the person is currently working there?
         ## how should I handle new position in the same company?
@@ -102,7 +98,7 @@ class Resume:
         self,
         personal_info: PersonalInfo,
         education: list[Education],
-        experience: list[WorkHistory],
+        experience: list[Role],
         certifications: list[str],
         description: str,
     ):

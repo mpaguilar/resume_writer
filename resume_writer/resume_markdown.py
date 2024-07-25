@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from resume_model import Education, Personal, PersonalInfo, WorkHistory
+from resume_model import Education, Personal, PersonalInfo, Role
 
 log = logging.getLogger(__name__)
 
@@ -135,7 +135,20 @@ class MarkdownResumeParser:
 
         return _title, _company, _started, _ended, _reason
 
-    def parse_job_block(self, block_lines: list[str]) -> WorkHistory:
+    def parse_skills_block(self, block_lines: list[str]) -> list[str]:
+        """Parse a block of skills info."""
+
+        # Parse the block lines into a list of skills.
+        _skills = []
+        for _block_line in block_lines:
+            if _block_line.lower().startswith("* ") or _block_line.lower().startswith(
+                "- ",
+            ):
+                _skills.append(_block_line.strip()[2:])  # noqa: PERF401 # too long for list comp
+
+        return _skills
+
+    def parse_job_block(self, block_lines: list[str]) -> Role:
         """Parse a block of job info.
 
         Allowed headers:
@@ -166,9 +179,9 @@ class MarkdownResumeParser:
                 _responsibilities = "".join(_block_lines)
 
             if _block_name.lower() == "skills":
-                _skills = _block_lines
+                _skills = self.parse_skills_block(_block_lines)
 
-        _job = WorkHistory(
+        _job = Role(
             title=_title,
             company=_company,
             start_date=_started,
@@ -184,14 +197,24 @@ class MarkdownResumeParser:
     def parse_work_history_block(
         self,
         block_lines: list[str],
-    ) -> list[WorkHistory]:
+    ) -> list[Role]:
         """Parse a block of work history info.
 
         Allowed headers:
-        - Job
+        - Role
 
         """
-        return []
+
+        _blocks = self.get_top_level_blocks(block_lines)
+        _work_history = []
+
+        # Parse the block lines into a list of roles.
+        for _block_name, _block_lines in _blocks.items():
+            if _block_name.lower() == "role":
+                _role = self.parse_job_block(_block_lines)
+                _work_history.append(_role)
+
+        return _work_history
 
     def get_top_level_blocks(self, lines: list[str]) -> dict[str, list[str]]:
         """Get the top-level blocks of text from the list of strings.
@@ -255,6 +278,10 @@ class MarkdownResumeParser:
             if _block_name.lower() == "education":
                 _education = self.parse_education_block(_block_lines)
 
-            # if _block_name.lower() == "work history":
+            if _block_name.lower() == "work history":
+                _work_history = self.parse_work_history_block(_block_lines)
+
+            if _block_name.lower() == "certifications":
+                _certifications = self.parse_certifications_block(_block_lines)
 
         return _blocks
