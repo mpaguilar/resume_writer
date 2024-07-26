@@ -9,7 +9,7 @@ class Role:
         company: str,
         title: str,
         start_date: datetime,
-        end_date: datetime,
+        end_date: datetime | None,
         description: str | None,
         responsibilities: str,
         reason_for_change: str | None,
@@ -19,11 +19,11 @@ class Role:
         assert isinstance(company, str), "Company name must be a string"
         assert isinstance(title, str), "Job title must be a string"
         assert isinstance(start_date, datetime), "Start date must be a datetime object"
-        assert isinstance(end_date, datetime), "End date must be a datetime object"
+        assert isinstance(end_date, (datetime, type(None)))
         assert isinstance(
             description,
             (str, type(None)),
-        ), "Description must be a string"
+        )
         assert isinstance(responsibilities, str), "Responsibilities must be a string"
         assert isinstance(reason_for_change, (str, type(None)))
 
@@ -113,16 +113,14 @@ class Resume:
 
     def __init__(
         self,
-        personal_info: Personal,
+        personal: Personal,
         education: list[Education],
-        experience: list[Role],
+        work_history: list[Role],
         certifications: list[str],
-        description: str,
     ):
         """Initialize the object."""
 
-        self.personal = personal_info
+        self.personal = personal
         self.education = education
-        self.experience = experience
+        self.work_history = work_history
         self.certifications = certifications
-        self.description = description

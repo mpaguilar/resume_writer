@@ -11,7 +11,7 @@ def go() -> None:
     _parser = MarkdownResumeParser("data/resume.md")
 
     _resume = _parser.parse()
-    rich.print(_resume.keys())
+    rich.print(_resume)
 
 
 if __name__ == "__main__":
