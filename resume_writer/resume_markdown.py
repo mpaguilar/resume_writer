@@ -522,7 +522,7 @@ class MarkdownResumeParser:
                 datetime,
             ), "_started should be a datetime object"
             assert isinstance(_ended, datetime), "_ended should be a datetime object"
-            assert isinstance(_reason, str), "_reason should be a string"
+            assert isinstance(_reason, (str, type(None))), "_reason should be a string"
 
             if _block_name.lower() == "description" and len(_block_lines) > 0:
                 _description = "\n".join(_block_lines)
@@ -536,7 +536,7 @@ class MarkdownResumeParser:
                 _skills = self.parse_skills_block(_block_lines)
                 log.debug(f"role _skills: {_skills}")
 
-        _job = Role(
+        _role = Role(
             title=_title,
             company=_company,
             start_date=_started,
@@ -547,9 +547,9 @@ class MarkdownResumeParser:
             skills=_skills,
         )
 
-        log.debug(f"workhistory _job: {_job.title}")
+        log.debug(f"workhistory _role: {_role.title}")
 
-        return _job
+        return _role
 
     def parse_work_history_block(
         self,
