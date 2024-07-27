@@ -1,7 +1,15 @@
 import logging
 from datetime import datetime
 
-from resume_model import Certification, Education, Personal, PersonalInfo, Resume, Role
+from resume_model import (
+    Certification,
+    Education,
+    Personal,
+    PersonalInfo,
+    Resume,
+    Role,
+    WorkHistory,
+)
 
 log = logging.getLogger(__name__)
 
@@ -554,7 +562,7 @@ class MarkdownResumeParser:
     def parse_work_history_block(
         self,
         block_lines: list[str],
-    ) -> list[Role]:
+    ) -> WorkHistory:
         """Parse a block of work history information.
 
         This function takes a list of strings, each representing a line in a work
@@ -568,9 +576,9 @@ class MarkdownResumeParser:
 
         Returns
         -------
-        list[Role]
-            A list of Role objects, each containing information about a single
-            role in the work history.
+        WorkHistory object
+            A WorkHistory object containing a list of Role objects, each representing
+            a single role in the work history.
 
         Notes
         -----
@@ -583,14 +591,24 @@ class MarkdownResumeParser:
         - Role
 
         """
+
+        assert isinstance(block_lines, list), "block_lines must be a list"
+        assert all(
+            isinstance(line, str) for line in block_lines
+        ), "All elements in block_lines must be strings"
+
         _work_history: list[Role] = []
 
         _role_blocks = self.top_level_multi_blocks(block_lines)
         for _role_block in _role_blocks:
             _role = self.parse_role_block(_role_block)
+            assert isinstance(_role, Role), "parse_role_block must return a Role object"
             _work_history.append(_role)
 
-        return _work_history
+        assert all(
+            isinstance(role, Role) for role in _work_history
+        ), "All elements in _work_history must be Role objects"
+        return WorkHistory(roles=_work_history)
 
     def top_level_multi_blocks(self, lines: list[str]) -> list[list[str]]:
         """Handle multiple blocks which have the same name.

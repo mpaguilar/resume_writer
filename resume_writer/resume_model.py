@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class Role:
@@ -108,6 +108,17 @@ class PersonalInfo:
         self.phone = phone
 
 
+class WorkHistory:
+    """Details of work history."""
+
+    def __init__(
+        self,
+        roles: list[Role],
+    ):
+        """Initialize the object."""
+        self.roles = roles
+
+
 class Resume:
     """Resume details."""
 
@@ -115,12 +126,70 @@ class Resume:
         self,
         personal: Personal,
         education: list[Education],
-        work_history: list[Role],
+        work_history: WorkHistory,
         certifications: list[str],
     ):
         """Initialize the object."""
+
+        assert isinstance(
+            personal,
+            Personal,
+        ), "personal must be an instance of Personal"
+        assert isinstance(education, list), "education must be a list"
+        assert all(
+            isinstance(edu, Education) for edu in education
+        ), "education must be a list of Education instances"
+        assert isinstance(
+            work_history,
+            WorkHistory,
+        ), "work_history must be an instance of WorkHistory"
+        assert isinstance(certifications, list), "certifications must be a list"
+        assert all(
+            isinstance(cert, str) for cert in certifications
+        ), "certifications must be a list of strings"
 
         self.personal = personal
         self.education = education
         self.work_history = work_history
         self.certifications = certifications
+
+    @property
+    def years_of_experience(self) -> int:
+        """Return the number of years of experience.
+
+        1. Collect all the start and end dates of the roles.
+        2. Sort the end dates in ascending order.
+        3. for every start date, find the next end date that is greater than it.
+        4. subtract the start date from the end date and add it to the total experience.
+        5. return the total experience in years.
+        """
+
+        _total_experience = timedelta()
+        _roles = sorted(self.role, key=lambda x: x.start_date)
+        for _role in _roles:
+            if _role.duration is not None:
+                _end_date = datetime.now()  # noqa: DTZ005
+                for _next_role in _roles:
+                    if _next_role.start_date > _role.end_date:
+                        _end_date = _next_role.start_date
+                        break
+                    _end_date = _next_role.end_date
+                _duration = _end_date - _role.start_date
+                _total_experience += _duration
+
+        return round(_total_experience.days / 365, 1)
+
+    def stats(self) -> dict[str, int]:
+        """Return a dictionary of statistics about the resume."""
+
+        _total_experience = timedelta()
+        for role in self.work_history.role:
+            if role.duration is not None:
+                _total_experience += role.duration
+
+        return {
+            "education": len(self.education),
+            "roles": len(self.work_history),
+            "certifications": len(self.certifications),
+            "total_experience": self.years_of_experience,
+        }

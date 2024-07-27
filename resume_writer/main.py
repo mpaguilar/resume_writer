@@ -12,7 +12,7 @@ def go() -> None:
 
     _resume = _parser.parse()
     rich.print(_resume)
-
+    rich.print(_resume.stats())
 
 if __name__ == "__main__":
     go()
