@@ -1,4 +1,7 @@
+import logging
 from datetime import datetime, timedelta
+
+log = logging.getLogger(__name__)
 
 
 class Role:
@@ -36,8 +39,12 @@ class Role:
         self.reason_for_change = reason_for_change
         self.skills = skills
 
-        ## how should I handle the case where the person is currently working there?
-        ## how should I handle new position in the same company?
+    @property
+    def duration(self) -> timedelta:
+        """Return the duration of the role."""
+        if self.end_date is None:
+            return datetime.now() - self.start_date  # noqa: DTZ005
+        return self.end_date - self.start_date
 
 
 class Education:
@@ -127,7 +134,7 @@ class Resume:
         personal: Personal,
         education: list[Education],
         work_history: WorkHistory,
-        certifications: list[str],
+        certifications: list[Certification],
     ):
         """Initialize the object."""
 
@@ -145,8 +152,8 @@ class Resume:
         ), "work_history must be an instance of WorkHistory"
         assert isinstance(certifications, list), "certifications must be a list"
         assert all(
-            isinstance(cert, str) for cert in certifications
-        ), "certifications must be a list of strings"
+            isinstance(cert, Certification) for cert in certifications
+        ), "certifications must be a list of Certification objects"
 
         self.personal = personal
         self.education = education
@@ -155,41 +162,57 @@ class Resume:
 
     @property
     def years_of_experience(self) -> int:
-        """Return the number of years of experience.
+        """Return the number of years of experience."""
 
-        1. Collect all the start and end dates of the roles.
-        2. Sort the end dates in ascending order.
-        3. for every start date, find the next end date that is greater than it.
-        4. subtract the start date from the end date and add it to the total experience.
-        5. return the total experience in years.
-        """
+        _total_duration = timedelta()
 
-        _total_experience = timedelta()
-        _roles = sorted(self.role, key=lambda x: x.start_date)
-        for _role in _roles:
-            if _role.duration is not None:
-                _end_date = datetime.now()  # noqa: DTZ005
-                for _next_role in _roles:
-                    if _next_role.start_date > _role.end_date:
-                        _end_date = _next_role.start_date
-                        break
-                    _end_date = _next_role.end_date
-                _duration = _end_date - _role.start_date
-                _total_experience += _duration
+        _date_ranges = []
+        for _role in self.work_history.roles:
+            _end_date = datetime.now() if _role.end_date is None else _role.end_date #noqa: DTZ005
 
-        return round(_total_experience.days / 365, 1)
+            _date_ranges.append((_role.start_date, _end_date))
+
+        _merged_ranges = self._merge_date_ranges(_date_ranges)
+
+        _total_days = 0
+
+        for _start, _end in _merged_ranges:
+            _total_days += (_end - _start).days
+
+        _total_duration = round(_total_days / 365, 1)
+
+        assert _total_duration >= 0, "_total_experience must be greater than 0"
+        return _total_duration
+
+    def _merge_date_ranges(
+        self,
+        date_ranges: list[tuple[datetime, datetime]],
+    ) -> list[tuple[datetime, datetime]]:
+        _sorted_ranges = sorted(date_ranges, key=lambda x: x[0])
+        _merged_ranges = []
+
+        _current_start_date, _current_end_date = _sorted_ranges[0]
+
+        for _start, _end in _sorted_ranges[1:]:
+            if _start <= _current_end_date:  # overlapping
+                _current_end_date = max(_current_end_date, _end)
+            else:
+                _merged_ranges.append((_current_start_date, _current_end_date))
+                _current_start_date, _current_end_date = _start, _end
+        _merged_ranges.append((_current_start_date, _current_end_date))
+        return _merged_ranges
 
     def stats(self) -> dict[str, int]:
         """Return a dictionary of statistics about the resume."""
 
         _total_experience = timedelta()
-        for role in self.work_history.role:
+        for role in self.work_history.roles:
             if role.duration is not None:
                 _total_experience += role.duration
 
         return {
             "education": len(self.education),
-            "roles": len(self.work_history),
+            "roles": len(self.work_history.roles),
             "certifications": len(self.certifications),
             "total_experience": self.years_of_experience,
         }
