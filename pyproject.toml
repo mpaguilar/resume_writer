@@ -43,7 +43,10 @@ ignore = ["ANN101", "D201", "D202",
 "**/tests/**/*" = ["ANN", # ignore annotations in tests
                     "D", # ignore docstrings in tests
                     "I", # ignore import order in tests
-                    "PLR2004"] # ignore magic values in tests
+                    "PLR2004", # ignore magic values in tests
+                    "DTZ005", # ignore datetime.now() in tests,
+                    "DTZ001", # ignore datetime.utcnow() in tests
+]
 
 [tool.pytest.ini_options]
 pythonpath = [".", "./resume_writer", "./tests"]
