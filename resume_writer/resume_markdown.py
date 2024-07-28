@@ -785,18 +785,45 @@ class MarkdownResumeParser:
             if _block_name.lower() == "personal":
                 log.debug("Parsing personal block")
                 _personal = self.parse_personal_block(_block_lines)
+                assert isinstance(
+                    _personal,
+                    Personal,
+                ), "Parsed personal block is not of type Personal"
 
             if _block_name.lower() == "education":
                 log.debug("Parsing education block")
                 _education = self.parse_education_block(_block_lines)
+                for edu in _education:
+                    assert isinstance(
+                        edu,
+                        Education,
+                    ), "Parsed education block contains non-Education objects"
 
             if _block_name.lower() == "work history":
                 log.debug("Parsing work history block")
                 _work_history = self.parse_work_history_block(_block_lines)
+                assert isinstance(
+                    _work_history,
+                    WorkHistory,
+                ), "Parsed work history block is not a list"
+                for work in _work_history.roles:
+                    assert isinstance(
+                        work,
+                        Role,
+                    ), "Parsed work history block contains non-WorkHistory objects"
 
             if _block_name.lower() == "certifications":
                 log.debug("Parsing certifications block")
                 _certifications = self.parse_certifications_block(_block_lines)
+                assert isinstance(
+                    _certifications,
+                    list,
+                ), "Parsed certifications block is not a list"
+                for cert in _certifications:
+                    assert isinstance(
+                        cert,
+                        Certification,
+                    ), "Parsed certifications block contains non-Certification objects"
 
         return Resume(
             personal=_personal,
