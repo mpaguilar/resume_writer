@@ -44,33 +44,32 @@ def block_lines():
     ]
 
 
-def test_parse_work_history_blocks(resume_markdown, block_lines):
-    work_history = resume_markdown.parse_work_history_block(block_lines)
-    assert len(work_history) == 2 # noqa: PLR2004
+def test_parse_role_blocks(resume_markdown, block_lines):
+    roles = resume_markdown.parse_work_history_block(block_lines).roles
+    assert len(roles) == 2
 
-    assert work_history[0].company == "Google"
-    assert work_history[0].start_date == datetime(2020, 1, 1, 0, 0) #noqa: DTZ001
-    assert work_history[0].end_date == datetime(2022, 1, 1, 0, 0) #noqa: DTZ001
-    assert work_history[0].title == "Senior Software Engineer"
-    assert work_history[0].reason_for_change == "Promoted to Manager"
+    assert roles[0].company == "Google"
+    assert roles[0].start_date == datetime(2020, 1, 1, 0, 0)
+    assert roles[0].end_date == datetime(2022, 1, 1, 0, 0)
+    assert roles[0].title == "Senior Software Engineer"
+    assert roles[0].reason_for_change == "Promoted to Manager"
     assert (
-        work_history[0].description
+        roles[0].description
         == "Developed a new feature for the company's flagship product"
     )
     assert (
-        work_history[0].responsibilities
+        roles[0].responsibilities
         == "This is a paragraph.\n\nThis is another paragraph."
     )
-    assert work_history[0].skills == ["Python", "Java", "Git"]
+    assert roles[0].skills == ["Python", "Java", "Git"]
 
-    assert work_history[1].company == "Google"
-    assert work_history[1].start_date == datetime(2020, 1, 1, 0, 0) #noqa: DTZ001
-    assert work_history[1].end_date == datetime(2022, 1, 1, 0, 0) #noqa: DTZ001
-    assert work_history[1].title == "Software Engineer"
-    assert work_history[1].reason_for_change == "Promoted to Senior software engineer"
-    assert work_history[1].description == "Wrote functional program modules"
+    assert roles[1].company == "Google"
+    assert roles[1].start_date == datetime(2020, 1, 1, 0, 0)
+    assert roles[1].end_date == datetime(2022, 1, 1, 0, 0)
+    assert roles[1].title == "Software Engineer"
+    assert roles[1].reason_for_change == "Promoted to Senior software engineer"
+    assert roles[1].description == "Wrote functional program modules"
     assert (
-        work_history[1].responsibilities
-        == "This is a paragraph.\nThis is another paragraph."
+        roles[1].responsibilities == "This is a paragraph.\nThis is another paragraph."
     )
-    assert work_history[1].skills == ["Python", "Java", "Git"]
+    assert roles[1].skills == ["Python", "Java", "Git"]
