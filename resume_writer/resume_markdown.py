@@ -87,10 +87,10 @@ class MarkdownResumeParser:
                 )
 
             if _block_name.lower() == "banner":
-                _banner = "".join(_block_lines)
+                _banner = " ".join(_block_lines)
 
             if _block_name.lower() == "note":
-                _note = "".join(_block_lines)
+                _note = "\n".join(_block_lines)
 
         _personal = Personal(
             personal_info=_personal_info,
@@ -724,6 +724,8 @@ class MarkdownResumeParser:
 
         _blocks: dict = {}
 
+        _section_header = None
+
         # break the lines into markdown sections by header
         for _line in lines:
             _line = _line.strip()
@@ -741,6 +743,10 @@ class MarkdownResumeParser:
                 ), "_section_header should be a string"
                 log.debug(f"Found section header: {_section_header}")
                 _blocks[_section_header] = []
+                continue
+
+            if _section_header is None:
+                # we havent found a section header yet, so skip
                 continue
 
             # if the line doesn't start with a #, it's a line of text
