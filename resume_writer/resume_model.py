@@ -47,8 +47,8 @@ class Role:
         return self.end_date - self.start_date
 
 
-class Education:
-    """Details of educational background."""
+class Degree:
+    """Details of a specific degree."""
 
     def __init__(
         self,
@@ -67,6 +67,13 @@ class Education:
         self.degree = degree
         self.start_date = start_date
         self.end_date = end_date
+
+class Education:
+    """Details of educational background."""
+
+    def __init__(self, degrees : list[Degree]):
+        """Initialize the object."""
+        self.degrees = degrees
 
 
 class Certification:

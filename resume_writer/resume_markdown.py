@@ -3,6 +3,7 @@ from datetime import datetime
 
 from resume_model import (
     Certification,
+    Degree,
     Education,
     Personal,
     PersonalInfo,
@@ -240,6 +241,70 @@ class MarkdownResumeParser:
 
         return _certifications
 
+    def parse_degree_block(self, block_lines: list[str]) -> Degree:
+        """Parse a single degree from a list of strings.
+
+        Parameters
+        ----------
+        block_lines : list[str]
+            List of strings containing degree information.
+
+        Returns
+        -------
+        Degree
+            Parsed degree object.
+
+        Notes
+        -----
+        1. Initialize variables for school, degree, start_date, and end_date.
+        2. Iterate through each line in block_lines.
+        3. If line starts with "school:", extract and store the school name.
+        4. If line starts with "degree:", extract and store the degree.
+        5. If line starts with "started:", extract and store the start date.
+        6. If line starts with "ended:", extract and store the end date.
+        7. Create a Degree object with the extracted information.
+        8. Assert the created object is of type Degree.
+        9. Return the parsed Degree object.
+
+        """
+
+        assert isinstance(block_lines, list), "block_lines should be a list of strings"
+        assert all(
+            isinstance(line, str) for line in block_lines
+        ), "All elements in block_lines should be strings"
+
+        _degree = None
+
+        _school: str | None = None
+        _degree: str | None = None
+        _start_date: datetime | None = None
+        _end_date: datetime | None = None
+
+        for _line in block_lines:
+            if _line.lower().startswith("school:"):
+                _school = _line.split(":")[1].strip()
+            if _line.lower().startswith("degree:"):
+                _degree = _line.split(":")[1].strip()
+            if _line.lower().startswith("started:"):
+                _start_date_txt = _line.split(":")[1].strip()
+                _start_date = datetime.strptime(_start_date_txt, "%m/%Y")  # noqa: DTZ007
+            if _line.lower().startswith("ended:"):
+                _end_date_txt = _line.split(":")[1].strip()
+                _end_date = datetime.strptime(_end_date_txt, "%m/%Y")  # noqa: DTZ007
+
+        _degree = Degree(
+            school=_school,
+            degree=_degree,
+            start_date=_start_date,
+            end_date=_end_date,
+        )
+        assert isinstance(
+            _degree,
+            Degree,
+        ), f"Expected Degree, got {type(_degree).__name__}"
+
+        return _degree
+
     def parse_education_block(
         self,
         block_lines: list[str],
@@ -276,59 +341,19 @@ class MarkdownResumeParser:
             isinstance(line, str) for line in block_lines
         ), "All elements in block_lines should be strings"
 
-        _education: list[Education] = []
+        _education: Education = Education(degrees=[])
 
-        _blocks = self.top_level_blocks(block_lines)
-        for _block_name, _block_lines in _blocks.items():
-            assert isinstance(_block_name, str), "Block names should be strings"
-            assert isinstance(
-                _block_lines,
-                list,
-            ), "Block lines should be a list of strings"
-            assert all(
-                isinstance(line, str) for line in _block_lines
-            ), "All elements in block lines should be strings"
+        _education_blocks = self.top_level_multi_blocks(block_lines)
 
-            if _block_name.lower() == "degree":
-                for _block_line in _block_lines:
-                    # Parse the block lines into a Education object.
-                    if _block_line.lower().startswith("degree:"):
-                        _degree = _block_line.split(":")[1].strip()
-                        assert isinstance(_degree, str), "Degree should be a string"
-                    if _block_line.lower().startswith("school:"):
-                        _school = _block_line.split(":")[1].strip()
-                        assert isinstance(_school, str), "School should be a string"
-                    if _block_line.lower().startswith("started:"):
-                        _started_txt = _block_line.split(":")[1].strip()
-                        _started = datetime.strptime(_started_txt, "%m/%Y")  # noqa: DTZ007
-                        assert isinstance(
-                            _started,
-                            datetime,
-                        ), "Start date should be a datetime object"
-                    if _block_line.lower().startswith("ended:"):
-                        _ended_txt = _block_line.split(":")[1].strip()
-                        _ended = datetime.strptime(_ended_txt, "%m/%Y")  # noqa: DTZ007
-                        assert isinstance(
-                            _ended,
-                            datetime,
-                        ), "End date should be a datetime object"
+        for _block in _education_blocks:
+            "Process each Degree block."
+            _degree = self.parse_degree_block(_block)
+            _education.degrees.append(_degree)
 
-                _degree = Education(
-                    degree=_degree,
-                    school=_school,
-                    start_date=_started,
-                    end_date=_ended,
-                )
-                assert isinstance(
-                    _degree,
-                    Education,
-                ), "Parsed data should be an Education object"
-                _education.append(_degree)
-
-        assert isinstance(_education, list), "Return value should be a list"
-        assert all(
-            isinstance(edu, Education) for edu in _education
-        ), "All elements in the returned list should be Education objects"
+        assert isinstance(
+            _education,
+            Education,
+        ), f"Expected Education, got {type(_education).__name__}"
 
         return _education
 
