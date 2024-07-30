@@ -37,7 +37,7 @@ ignore = ["ANN101", "D201", "D202",
     "UP032", "G001", # I like str.format
     "TRY003", # Ignore long exception messages
     "D104", "D100", # Ignore docstring for __init__.py, __main__.py
-    "EM101", "G004" # Ignore strings in exception and logs, I'm feeling lazy
+    "EM101", "EM102", "G004" # Ignore strings in exception and logs, I'm feeling lazy
     ]
 
 [tool.ruff.lint.per-file-ignores]
