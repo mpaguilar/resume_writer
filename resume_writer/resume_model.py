@@ -39,13 +39,6 @@ class Role:
         self.reason_for_change = reason_for_change
         self.skills = skills
 
-    @property
-    def duration(self) -> timedelta:
-        """Return the duration of the role."""
-        if self.end_date is None:
-            return datetime.now() - self.start_date  # noqa: DTZ005
-        return self.end_date - self.start_date
-
 
 class Degree:
     """Details of a specific degree."""
@@ -68,10 +61,11 @@ class Degree:
         self.start_date = start_date
         self.end_date = end_date
 
+
 class Education:
     """Details of educational background."""
 
-    def __init__(self, degrees : list[Degree]):
+    def __init__(self, degrees: list[Degree]):
         """Initialize the object."""
         self.degrees = degrees
 
@@ -139,7 +133,7 @@ class Resume:
     def __init__(
         self,
         personal: Personal,
-        education: list[Education],
+        education: Education,
         work_history: WorkHistory,
         certifications: list[Certification],
     ):
@@ -149,10 +143,7 @@ class Resume:
             personal,
             Personal,
         ), "personal must be an instance of Personal"
-        assert isinstance(education, list), "education must be a list"
-        assert all(
-            isinstance(edu, Education) for edu in education
-        ), "education must be a list of Education instances"
+        assert isinstance(education, Education), "education must be an Education object"
         assert isinstance(
             work_history,
             WorkHistory,
@@ -175,7 +166,7 @@ class Resume:
 
         _date_ranges = []
         for _role in self.work_history.roles:
-            _end_date = datetime.now() if _role.end_date is None else _role.end_date #noqa: DTZ005
+            _end_date = datetime.now() if _role.end_date is None else _role.end_date  # noqa: DTZ005
 
             _date_ranges.append((_role.start_date, _end_date))
 
@@ -209,17 +200,30 @@ class Resume:
         _merged_ranges.append((_current_start_date, _current_end_date))
         return _merged_ranges
 
+    @property
+    def career_experience(self) -> float:
+        """Return the total number of years of experience."""
+
+        _start_dates = [x.start_date for x in self.work_history.roles]
+        _end_dates = [x.end_date for x in self.work_history.roles]
+
+        _first_start_date = min(_start_dates)
+        _last_end_date = max(_end_dates)
+
+        # Calculate the total number of years of experience
+        _total_career_experience = round(
+            (_last_end_date - _first_start_date).days / 365,
+            1,
+        )
+        return _total_career_experience
+
     def stats(self) -> dict[str, int]:
         """Return a dictionary of statistics about the resume."""
 
-        _total_experience = timedelta()
-        for role in self.work_history.roles:
-            if role.duration is not None:
-                _total_experience += role.duration
-
         return {
-            "education": len(self.education),
+            "education": len(self.education.degrees),
             "roles": len(self.work_history.roles),
             "certifications": len(self.certifications),
             "total_experience": self.years_of_experience,
+            "career_experience": self.career_experience,
         }

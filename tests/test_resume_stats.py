@@ -2,7 +2,7 @@ import pytest
 from datetime import datetime
 from unittest.mock import Mock
 
-from resume_model import Role, Resume, Personal, Certification, WorkHistory
+from resume_model import Role, Resume, Personal, Certification, WorkHistory, Education
 
 
 @pytest.fixture()
@@ -23,7 +23,7 @@ def resume_details():
         "personal": Mock(spec=Personal),
         "certifications": [Mock(spec=Certification)],
         "work_history": WorkHistory(roles=[]),
-        "education": [],
+        "education": Mock(spec=Education),
     }
 
 
@@ -140,3 +140,5 @@ def test_years_of_experience_overlapping_roles(resume_details, role_details):
     # should have only two merged entries
     resume.work_history.roles = [role1, role2, role3, role4]
     assert resume.years_of_experience == 7.0
+
+

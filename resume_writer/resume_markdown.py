@@ -14,6 +14,8 @@ from resume_model import (
 
 log = logging.getLogger(__name__)
 
+class MarkdowResumeParserError(Exception):
+    """Exception raised for errors in the input."""
 
 class MarkdownResumeParser:
     """Parse a markdown file into a Resume object."""
@@ -795,7 +797,67 @@ class MarkdownResumeParser:
 
         return _blocks
 
-    def parse(self) -> Resume:
+    def parse_block(
+        self,
+        block_name: str,
+        block_lines: list[str],
+    ) -> Personal | Education | WorkHistory:
+        """Parse a single block."""
+
+        if block_name.lower() == "personal":
+            log.debug("Parsing personal block")
+            _personal = self.parse_personal_block(block_lines)
+            assert isinstance(
+                _personal,
+                Personal,
+            ), "Parsed personal block is not of type Personal"
+            return _personal
+
+        if block_name.lower() == "education":
+            log.debug("Parsing education block")
+            _education = self.parse_education_block(block_lines)
+            assert isinstance(
+                _education,
+                Education,
+            ), "Parsed education block is not of type Education"
+            for edu in _education.degrees:
+                assert isinstance(
+                    edu,
+                    Degree,
+                ), "Parsed education degrees blocks contains non-Degree objects"
+            return _education
+
+        if block_name.lower() == "work history":
+            log.debug("Parsing work history block")
+            _work_history = self.parse_work_history_block(block_lines)
+            assert isinstance(
+                _work_history,
+                WorkHistory,
+            ), "Parsed work history block is not a list"
+            for work in _work_history.roles:
+                assert isinstance(
+                    work,
+                    Role,
+                ), "Parsed work history block contains non-WorkHistory objects"
+            return _work_history
+
+        if block_name.lower() == "certifications":
+            log.debug("Parsing certifications block")
+            _certifications = self.parse_certifications_block(block_lines)
+            assert isinstance(
+                _certifications,
+                list,
+            ), "Parsed certifications block is not a list"
+            for cert in _certifications:
+                assert isinstance(
+                    cert,
+                    Certification,
+                ), "Parsed certifications block contains non-Certification objects"
+            return _certifications
+
+        return None
+
+    def parse(self) -> Resume: # noqa: C901
         """Parse a markdown file into a Resume object.
 
         Allowed headers:
@@ -810,51 +872,50 @@ class MarkdownResumeParser:
         with open(self.file_path) as _file:
             _lines = _file.readlines()
 
+        _ret = {}
+
+        _personal: Personal | None = None
+        _education: Education | None = None
+        _work_history: WorkHistory | None = None
+        _certifications: list[Certification] | None = None
+
         _blocks = self.top_level_blocks(_lines)
 
         for _block_name, _block_lines in _blocks.items():
+            _parsed_block = self.parse_block(
+                block_name=_block_name,
+                block_lines=_block_lines,
+            )
+            _ret[_block_name] = _parsed_block
+            if _parsed_block is None:
+                raise MarkdowResumeParserError(f"Unknown block: {_block_name}")
             if _block_name.lower() == "personal":
-                log.debug("Parsing personal block")
-                _personal = self.parse_personal_block(_block_lines)
-                assert isinstance(
-                    _personal,
-                    Personal,
-                ), "Parsed personal block is not of type Personal"
+                _personal = _parsed_block
+            elif _block_name.lower() == "education":
+                _education = _parsed_block
+            elif _block_name.lower() == "work history":
+                _work_history = _parsed_block
+            elif _block_name.lower() == "certifications":
+                _certifications = _parsed_block
+            else:
+                log.warning(f"Unknown block: {_block_name}")
 
-            if _block_name.lower() == "education":
-                log.debug("Parsing education block")
-                _education = self.parse_education_block(_block_lines)
-                for edu in _education:
-                    assert isinstance(
-                        edu,
-                        Education,
-                    ), "Parsed education block contains non-Education objects"
+        _missing_blocks: list[str] = []
+        if _personal is None:
+            _missing_blocks.append("Personal")
+            _personal = Personal(None, None, None)
 
-            if _block_name.lower() == "work history":
-                log.debug("Parsing work history block")
-                _work_history = self.parse_work_history_block(_block_lines)
-                assert isinstance(
-                    _work_history,
-                    WorkHistory,
-                ), "Parsed work history block is not a list"
-                for work in _work_history.roles:
-                    assert isinstance(
-                        work,
-                        Role,
-                    ), "Parsed work history block contains non-WorkHistory objects"
+        if _education is None:
+            _missing_blocks.append("Education")
+            _education = Education([])
 
-            if _block_name.lower() == "certifications":
-                log.debug("Parsing certifications block")
-                _certifications = self.parse_certifications_block(_block_lines)
-                assert isinstance(
-                    _certifications,
-                    list,
-                ), "Parsed certifications block is not a list"
-                for cert in _certifications:
-                    assert isinstance(
-                        cert,
-                        Certification,
-                    ), "Parsed certifications block contains non-Certification objects"
+        if _work_history is None:
+            _missing_blocks.append("Work History")
+            _work_history = WorkHistory(roles=[])
+
+        if _certifications is None:
+            _missing_blocks.append("Certifications")
+            _certifications = []
 
         return Resume(
             personal=_personal,
