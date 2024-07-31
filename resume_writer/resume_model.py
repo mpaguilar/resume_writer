@@ -3,6 +3,34 @@ from datetime import datetime, timedelta
 
 log = logging.getLogger(__name__)
 
+class BlockLabelParse:
+    """Mixing for parsing blocks for labels."""
+
+    @classmethod
+    def parse(cls, block_lines: list[str]) -> "PersonalInfo":
+        """Parse the block of lines into a PersonalInfo object."""
+
+        assert isinstance(block_lines, list)
+        assert all(isinstance(line, str) for line in block_lines)
+
+        _expected_fields = cls.expected_fields()
+        _init_kwargs: dict[str, str | bool] = {}
+
+        for _block_line in block_lines:
+
+            _label = _block_line.split(":")[0].lower() # for lookup
+            _user_label = _block_line.split(":")[0] # verbatim
+            if _label in _expected_fields:
+                if _label == "require sponsorship":
+                    _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
+                _init_arg = _expected_fields[_label]
+                _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
+                _init_kwargs[_init_arg] = _value
+                _expected_fields.pop(_label)
+        _none_kwargs = {_field: None for _field in _expected_fields.values()}
+        _init_kwargs.update(_none_kwargs)
+
+        return cls(**_init_kwargs)
 
 class Role:
     """Details of a single work-related experience."""
@@ -100,20 +128,57 @@ class Personal:
         self.note = note
 
 
-class PersonalInfo:
+
+class PersonalInfo(BlockLabelParse):
     """Details of personal information."""
 
-    def __init__(
+    def __init__(  # noqa:PLR0913
         self,
-        name: str | None = None,
-        email: str | None = None,
-        phone: str | None = None,
+        name: str | None,
+        email: str | None,
+        phone: str | None,
+        website: str | None,
+        github: str | None,
+        linkedin: str | None,
+        work_authorization: str | None,
+        require_sponsorship: bool | None,
+        twitter: str | None,
+        location: str | None,
     ):
         """Initialize the object."""
 
         self.name = name
         self.email = email
         self.phone = phone
+
+        self.website: str | None = website
+        self.github: str | None = github
+        self.linkedin: str | None = linkedin
+        self.work_authorization: str | None = work_authorization
+        self.require_sponsorship: bool | None = require_sponsorship
+        self.twitter: str | None = twitter
+        self.location: str | None = location
+
+    @staticmethod
+    def expected_fields() -> dict[str, str]:
+        """Return the expected constructor fields."""
+
+        # A label may contain spaces or other characters
+        # these need to be translated into argument names
+        _fields = {
+            "name": "name",
+            "email": "email",
+            "phone": "phone",
+            "website": "website",
+            "linkedin": "linkedin",
+            "github": "github",
+            "twitter": "twitter",
+            "work authorization": "work_authorization",
+            "require sponsorship": "require_sponsorship",
+            "location": "location",
+        }
+
+        return _fields
 
 
 class WorkHistory:

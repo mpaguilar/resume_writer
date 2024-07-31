@@ -14,8 +14,10 @@ from resume_model import (
 
 log = logging.getLogger(__name__)
 
+
 class MarkdowResumeParserError(Exception):
     """Exception raised for errors in the input."""
+
 
 class MarkdownResumeParser:
     """Parse a markdown file into a Resume object."""
@@ -59,9 +61,10 @@ class MarkdownResumeParser:
         assert isinstance(block_lines, list)
         assert all(isinstance(line, str) for line in block_lines)
 
-        _personal_info = PersonalInfo()
+        _personal_info = None
         _banner = None
         _note = None
+
 
         _blocks = self.top_level_blocks(block_lines)
         for _block_name, _block_lines in _blocks.items():
@@ -71,23 +74,7 @@ class MarkdownResumeParser:
 
             # Parse the block lines into a PersonalInfo object.
             if _block_name.lower() == "info":
-                _name = None
-                _email = None
-                _phone = None
-                for _block_line in _block_lines:
-                    assert isinstance(_block_line, str)
-                    if _block_line.lower().startswith("name:"):
-                        _name = _block_line.split(":")[1].strip()
-                    if _block_line.lower().startswith("email:"):
-                        _email = _block_line.split(":")[1].strip()
-                    if _block_line.lower().startswith("phone:"):
-                        _phone = _block_line.split(":")[1].strip()
-
-                _personal_info = PersonalInfo(
-                    name=_name,
-                    email=_email,
-                    phone=_phone,
-                )
+                _personal_info = PersonalInfo.parse(block_lines=_block_lines)
 
             if _block_name.lower() == "banner":
                 _banner = " ".join(_block_lines)
@@ -857,7 +844,7 @@ class MarkdownResumeParser:
 
         return None
 
-    def parse(self) -> Resume: # noqa: C901
+    def parse(self) -> Resume:  # noqa: C901
         """Parse a markdown file into a Resume object.
 
         Allowed headers:
