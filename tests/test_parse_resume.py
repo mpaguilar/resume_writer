@@ -5,7 +5,7 @@ from unittest.mock import mock_open, patch
 from resume_model import Education
 from resume_writer.resume_markdown import (
     MarkdownResumeParser,
-    PersonalInfo,
+    
     Degree,
     WorkHistory,
     Role,

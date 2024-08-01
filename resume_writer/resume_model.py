@@ -125,10 +125,11 @@ class BasicBlockParse:
 
         _init_kwargs: dict[str, str] = {}
         for _block in _blocks:
-            if _block in _expected_blocks:
-                _init_arg = _expected_blocks[_block]
-                _init_kwargs[_init_arg] = _blocks[_block]
-                _expected_blocks.pop(_block)
+            _lookup_block = _block.lower().strip()
+            if _lookup_block in _expected_blocks:
+                _init_arg = _expected_blocks[_lookup_block]
+                _init_kwargs[_init_arg] = _block
+                _expected_blocks.pop(_lookup_block)
             else:
                 log.info(f"Unexpected block: {_block}")
 
