@@ -1,14 +1,26 @@
 import logging
 from datetime import datetime, timedelta
+from typing import TypeVar
 
 log = logging.getLogger(__name__)
 
-class BlockLabelParse:
-    """Mixing for parsing blocks for labels."""
+T = TypeVar("T")
+
+"""
+The overall resume or any given block of text will contain only one of the following:
+ - Only a mix of uniquely-named top level blocks
+ - Only one or more blocks of the same name
+ - Only label-value pairs
+ - Only plain text
+"""
+
+
+class LabelBlockParse:
+    """Mixin for parsing blocks for labels."""
 
     @classmethod
-    def parse(cls, block_lines: list[str]) -> "PersonalInfo":
-        """Parse the block of lines into a PersonalInfo object."""
+    def parse(cls: T, block_lines: list[str]) -> T:
+        """Parse the block of lines into an object."""
 
         assert isinstance(block_lines, list)
         assert all(isinstance(line, str) for line in block_lines)
@@ -17,20 +29,113 @@ class BlockLabelParse:
         _init_kwargs: dict[str, str | bool] = {}
 
         for _block_line in block_lines:
+            _label = _block_line.split(":")[0].lower()  # for lookup
+            _user_label = _block_line.split(":")[0]  # verbatim
 
-            _label = _block_line.split(":")[0].lower() # for lookup
-            _user_label = _block_line.split(":")[0] # verbatim
+            # lookup the label in the expected fields
             if _label in _expected_fields:
-                if _label == "require sponsorship":
-                    _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
+                # the argument name is the value of the label in the expected fields
                 _init_arg = _expected_fields[_label]
+                # remove the label from the line, leaving the value
                 _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
+                # add the argument name and value to the init kwargs
                 _init_kwargs[_init_arg] = _value
+                # remove the label from the expected fields
                 _expected_fields.pop(_label)
+
+        # if there are any expected fields left, add them to the init kwargs with None
         _none_kwargs = {_field: None for _field in _expected_fields.values()}
+        # update the init kwargs with the none kwargs
         _init_kwargs.update(_none_kwargs)
 
         return cls(**_init_kwargs)
+
+
+class BasicBlockParse:
+    """Mixin for blocks containing a mix of top level blocks."""
+
+    @classmethod
+    def parse_blocks(cls: T, block_lines: list[str]) -> dict[str, str]:
+        """Parse the block of lines into an object."""
+
+        assert isinstance(block_lines, list), "block_lines should be a list"
+        assert all(
+            isinstance(line, str) for line in block_lines
+        ), "block_lines should be a list of strings"
+
+        _blocks: dict = {}
+
+        _section_header = None
+
+        # iterate over the lines in the block
+        for _block_line in block_lines:
+            _block_line = _block_line.strip()
+
+            # skip empty lines
+            if not _block_line:
+                continue
+
+            # if the line starts with "# ", it's a section header
+            if _block_line.startswith("# "):
+                _section_header = _block_line[1:].strip()
+                assert isinstance(
+                    _section_header,
+                    str,
+                ), "_section_header should be a string"
+                assert _section_header != "", "_section_header should not be empty"
+
+                log.debug(f"Found section header: {_section_header}")
+                _blocks[_section_header] = []
+                continue
+
+            if _section_header is None:
+                # we haven't found a section header yet
+                # this shouldn't happen, but we'll ignore it for now
+                log.info(f"Found line without section header: {_block_line}")
+                continue
+
+            # if the line doesn't start with "#", it's a line of text
+            if _block_line and not _block_line.startswith("# "):
+                if _block_line.startswith("#"):
+                    # this is a subheader, add it without the hash
+                    _block_line = _block_line[1:]
+                    log.debug(f"Found subheader: {_block_line}")
+                _blocks[_section_header].append(_block_line)
+
+        # check up on the values we've got so far
+        assert isinstance(_blocks, dict), "_blocks should be a dictionary"
+        assert all(
+            isinstance(key, str) for key in _blocks
+        ), "_blocks keys should be strings"
+        assert all(
+            isinstance(value, list) for value in _blocks.values()
+        ), "_blocks values should be lists"
+        assert all(
+            isinstance(item, str) for value in _blocks.values() for item in value
+        ), "_blocks values should be lists of strings"
+
+        return _blocks
+
+    @classmethod
+    def parse(cls: T, block_lines: list[str]) -> T:
+        """Parse the block of lines into an object."""
+
+        _expected_blocks = cls.expected_blocks()
+        _blocks: dict[str, str] = cls.parse_blocks(block_lines)
+
+        _init_kwargs: dict[str, str] = {}
+        for _block in _blocks:
+            if _block in _expected_blocks:
+                _init_arg = _expected_blocks[_block]
+                _init_kwargs[_init_arg] = _blocks[_block]
+                _expected_blocks.pop(_block)
+            else:
+                log.info(f"Unexpected block: {_block}")
+
+        _none_kwargs = {_field: None for _field in _expected_blocks.values()}
+        _init_kwargs.update(_none_kwargs)
+        return cls(**_init_kwargs)
+
 
 class Role:
     """Details of a single work-related experience."""
@@ -112,14 +217,21 @@ class Certification:
         self.issuer = issuer
 
 
-class Personal:
-    """Details of personal information."""
+class Personal(BasicBlockParse):
+    """Details of personal information.
+
+    Text contains 3 sections:
+    1. Info: Personal information
+    2. Banner: Banner text
+    3. Note: Note text
+
+    """
 
     def __init__(
         self,
         personal_info: "PersonalInfo | None",
-        banner: str | None,
-        note: str | None,
+        banner: list[str] | None,
+        note: list[str] | None,
     ):
         """Initialize the object."""
 
@@ -127,10 +239,33 @@ class Personal:
         self.banner = banner
         self.note = note
 
+    @staticmethod
+    def expected_blocks() -> dict[str, str]:
+        """Return the expected blocks."""
+
+        return {
+            "Info": "personal_info",
+            "Banner": "banner",
+            "Note": "note",
+        }
 
 
-class PersonalInfo(BlockLabelParse):
-    """Details of personal information."""
+class PersonalInfo(LabelBlockParse):
+    """Details of personal information.
+
+    Text contains lables and values. Labels without values should be omitted:
+    1. Name: John Doe
+    2. Email: name@example.com
+    3. Phone: 123-456-7890
+    4. Website: https://www.example.com
+    5. Github: https://github.com/example
+    6. LinkedIn: https://www.linkedin.com/in/example/
+    7. Work Authorization: US Citizen/Green Card
+    8. Require Sponsorship: Yes/No
+    9. Twitter: https://twitter.com/example
+    10. Location: Texas, USA
+
+    """
 
     def __init__(  # noqa:PLR0913
         self,

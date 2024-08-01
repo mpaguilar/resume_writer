@@ -6,7 +6,6 @@ from resume_model import (
     Degree,
     Education,
     Personal,
-    PersonalInfo,
     Resume,
     Role,
     WorkHistory,
@@ -26,70 +25,6 @@ class MarkdownResumeParser:
         """Initialize the parser."""
         assert isinstance(file_path, str), "file_path must be a string"
         self.file_path = file_path
-
-    def parse_personal_block(
-        self,
-        block_lines: list[str],
-    ) -> Personal:
-        """Parse a block of personal information from a list of strings.
-
-        Parameters
-        ----------
-        block_lines : list[str]
-            A list of strings representing the personal information block.
-
-        Returns
-        -------
-        Personal
-            A Personal object containing the parsed personal information.
-
-        Notes
-        -----
-        1. Initialize an empty PersonalInfo object and set banner and note to None.
-        2. Split the block_lines into top-level blocks based on headers.
-        3. For each block, parse the block lines into the appropriate attribute.
-        4. Create a Personal object with the parsed personal information.
-        5. Return the Personal object.
-
-        Allowed headers:
-        - Info
-        - Banner
-        - Note
-
-        """
-
-        assert isinstance(block_lines, list)
-        assert all(isinstance(line, str) for line in block_lines)
-
-        _personal_info = None
-        _banner = None
-        _note = None
-
-
-        _blocks = self.top_level_blocks(block_lines)
-        for _block_name, _block_lines in _blocks.items():
-            assert isinstance(_block_name, str)
-            assert isinstance(_block_lines, list)
-            assert all(isinstance(line, str) for line in _block_lines)
-
-            # Parse the block lines into a PersonalInfo object.
-            if _block_name.lower() == "info":
-                _personal_info = PersonalInfo.parse(block_lines=_block_lines)
-
-            if _block_name.lower() == "banner":
-                _banner = " ".join(_block_lines)
-
-            if _block_name.lower() == "note":
-                _note = "\n".join(_block_lines)
-
-        _personal = Personal(
-            personal_info=_personal_info,
-            banner=_banner,
-            note=_note,
-        )
-
-        assert isinstance(_personal, Personal)
-        return _personal
 
     def parse_certification(self, block_lines: list[str]) -> Certification:
         """Parse a block of certification information.

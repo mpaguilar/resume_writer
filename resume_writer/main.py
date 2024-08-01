@@ -13,11 +13,11 @@ def print_personal(personal : Personal) -> None:
     rich.print(f"[bold]Phone:[/bold] {personal.personal_info.phone}")
 
     _personal_info = personal.personal_info
-    rich.print(f"[bold]Website:[/bold] {personal.website}")
-    rich.print(f"[bold]LinkedIn:[/bold] {personal.linkedin}")
-    rich.print(f"[bold]GitHub:[/bold] {personal.github}")
-    rich.print(f"[bold]Twitter:[/bold] {personal.twitter}")
-    rich.print(f"[bold]Work Authorization:[/bold] {personal.work_authorization}")
+    rich.print(f"[bold]Website:[/bold] {_personal_info.website}")
+    rich.print(f"[bold]LinkedIn:[/bold] {_personal_info.linkedin}")
+    rich.print(f"[bold]GitHub:[/bold] {_personal_info.github}")
+    rich.print(f"[bold]Twitter:[/bold] {_personal_info.twitter}")
+    rich.print(f"[bold]Work Authorization:[/bold] {_personal_info.work_authorization}")
 
 
 def dump_resume(resume : Resume) -> None:

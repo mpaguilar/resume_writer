@@ -1,5 +1,6 @@
 import pytest
 from resume_writer.resume_markdown import MarkdownResumeParser
+from resume_model import Personal
 
 test_data = """
 ## Info
@@ -43,18 +44,24 @@ def block_lines():
     return return_lines
 
 
-def test_parse_personal_block_valid_input(resume_markdown, block_lines):
-    personal = resume_markdown.parse_personal_block(block_lines)
-    assert personal.personal_info.name == "John Doe"
-    assert personal.personal_info.email == "johndoe@example.com"
-    assert personal.personal_info.phone == "123-456-7890"
-    assert (
-        personal.banner
-        == "Experienced Widget Expert with a lot of experience in the field."
-    )
-    assert (
-        personal.note
-        == "Proficent in the skills employers look for.\nLots of experience."
-    )
+def test_parse_personal_block_valid_input(block_lines):
+    personal = Personal.parse(block_lines)
+    assert personal.personal_info is not None
+    assert personal.banner == [
+        "Experienced Widget Expert with a lot of experience in the field.",
+    ]
+    assert personal.note == [
+        "Proficent in the skills employers look for.",
+        "Lots of experience.",
+    ]
 
+def test_parse_personal_block_missing_block(block_lines):
+    block_lines = block_lines[:12] + block_lines[15:]
 
+    personal = Personal.parse(block_lines)
+    assert personal.personal_info is not None
+    assert personal.banner is None
+    assert personal.note == [
+        "Proficent in the skills employers look for.",
+        "Lots of experience.",
+    ]
