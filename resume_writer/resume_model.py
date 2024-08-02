@@ -2,6 +2,9 @@ import logging
 from datetime import datetime, timedelta
 from typing import TypeVar
 
+from models.parsers import BasicBlockParse, LabelBlockParse, MultiBlockParse
+from models.roles import Roles
+
 log = logging.getLogger(__name__)
 
 T = TypeVar("T")
@@ -14,246 +17,6 @@ The overall resume or any given block of text will contain only one of the follo
  - Only plain text
 """
 
-
-class LabelBlockParse:
-    """Mixin for parsing blocks for labels."""
-
-    @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
-        """Parse the block of lines into an object."""
-
-        assert isinstance(block_lines, list)
-        assert all(isinstance(line, str) for line in block_lines)
-
-        _expected_fields = cls.expected_fields()
-        _init_kwargs: dict[str, str | bool] = {}
-
-        for _block_line in block_lines:
-            _label = _block_line.split(":")[0].lower()  # for lookup
-            _user_label = _block_line.split(":")[0]  # verbatim
-
-            # lookup the label in the expected fields
-            if _label in _expected_fields:
-                # the argument name is the value of the label in the expected fields
-                _init_arg = _expected_fields[_label]
-                # remove the label from the line, leaving the value
-                _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
-                # add the argument name and value to the init kwargs
-                _init_kwargs[_init_arg] = _value
-                # remove the label from the expected fields
-                _expected_fields.pop(_label)
-
-        # if there are any expected fields left, add them to the init kwargs with None
-        _none_kwargs = {_field: None for _field in _expected_fields.values()}
-        # update the init kwargs with the none kwargs
-        _init_kwargs.update(_none_kwargs)
-
-        return cls(**_init_kwargs)
-
-
-class BasicBlockParse:
-    """Mixin for blocks containing a mix of top level blocks."""
-
-    @classmethod
-    def parse_blocks(cls: T, block_lines: list[str]) -> dict[str, str]:
-        """Parse the block of lines into a dictionary of blocks."""
-
-        assert isinstance(block_lines, list), "block_lines should be a list"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "block_lines should be a list of strings"
-
-        _blocks: dict = {}
-
-        _section_header = None
-
-        # iterate over the lines in the block
-        for _block_line in block_lines:
-            _block_line = _block_line.strip()
-
-            # skip empty lines
-            if not _block_line:
-                continue
-
-            # if the line starts with "# ", it's a section header
-            if _block_line.startswith("# "):
-                _section_header = _block_line[1:].strip()
-                assert isinstance(
-                    _section_header,
-                    str,
-                ), "_section_header should be a string"
-                assert _section_header != "", "_section_header should not be empty"
-
-                log.debug(f"Found section header: {_section_header}")
-                _blocks[_section_header] = []
-                continue
-
-            if _section_header is None:
-                # we haven't found a section header yet
-                # this shouldn't happen, but we'll ignore it for now
-                log.info(f"Found line without section header: {_block_line}")
-                continue
-
-            # if the line doesn't start with "#", it's a line of text
-            if _block_line and not _block_line.startswith("# "):
-                if _block_line.startswith("#"):
-                    # this is a subheader, add it without the hash
-                    _block_line = _block_line[1:]
-                    log.debug(f"Found subheader: {_block_line}")
-                _blocks[_section_header].append(_block_line)
-
-        # check up on the values we've got so far
-        assert isinstance(_blocks, dict), "_blocks should be a dictionary"
-        assert all(
-            isinstance(key, str) for key in _blocks
-        ), "_blocks keys should be strings"
-        assert all(
-            isinstance(value, list) for value in _blocks.values()
-        ), "_blocks values should be lists"
-        assert all(
-            isinstance(item, str) for value in _blocks.values() for item in value
-        ), "_blocks values should be lists of strings"
-
-        return _blocks
-
-    @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
-        """Parse the block of lines into an object."""
-
-        _expected_blocks = cls.expected_blocks()
-        _blocks: dict[str, str] = cls.parse_blocks(block_lines)
-
-        _init_kwargs: dict[str, str] = {}
-        for _block in _blocks:
-            _lookup_block = _block.lower().strip()
-            if _lookup_block in _expected_blocks:
-                _init_arg = _expected_blocks[_lookup_block]
-                _init_kwargs[_init_arg] = _block
-                _expected_blocks.pop(_lookup_block)
-            else:
-                log.info(f"Unexpected block: {_block}")
-
-        _none_kwargs = {_field: None for _field in _expected_blocks.values()}
-        _init_kwargs.update(_none_kwargs)
-        return cls(**_init_kwargs)
-
-
-class MultiBlockParse:
-    """Mixin for blocks containing multiple blocks with the same name."""
-
-    @classmethod
-    def parse_blocks(cls: T, block_lines: list[str]) -> list[list[str]]:
-        """Handle multiple blocks which have the same name.
-
-        Parameters
-        ----------
-        block_lines : list[str]
-            A list of strings representing the lines of a document.
-
-        Returns
-        -------
-        list[list[str]]
-            A list of lists of strings, where each sublist represents a block of text.
-
-        Notes
-        -----
-        1. Initialize an empty list to store the blocks and a current block.
-        2. Iterate through each line in the input list.
-        3. Skip empty lines.
-        4. If a line starts with "# ", it's a section header. Append the current block
-            to the list of blocks, clear the current block, and set the section header.
-        4a. This is rather naive, it doesn't check the section name, it only assumes it
-            is the one we're looking for.
-        5. If a line starts with "#" and a section header is set, it's a subheader.
-            Remove the "#" and append the line to the current block.
-        6. After iterating through all lines, append the current block to the
-            list of blocks.
-        7. Return the list of blocks.
-
-        """
-
-        assert isinstance(block_lines, list), "Expected 'lines' to be of type list[str]"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "Expected all elements in 'lines' to be of type str"
-
-        _blocks = []
-        _current_block = []
-        _section_header = None
-
-        for _line in block_lines:
-            _line = _line.strip()
-
-            # skip empty lines
-            if not _line:
-                continue
-
-            if _line.startswith("# "):
-                _section_header = _line[1:].strip()
-                log.info(f"Found section header: {_section_header}")
-                if len(_current_block) > 0:
-                    _blocks.append(list(_current_block))
-                _current_block.clear()
-                continue
-
-            if _section_header is not None:
-                if _line.startswith("#"):
-                    # this is a subheader, we want the line, but not the extra level
-                    _line = _line[1:]
-                _current_block.append(_line)
-
-        # Get the last block
-        if len(_current_block) > 0:
-            _blocks.append(list(_current_block))
-
-        assert isinstance(
-            _blocks,
-            list,
-        ), "Expected '_blocks' to be of type list[list[str]]"
-        assert all(
-            isinstance(block, list) for block in _blocks
-        ), "Expected all elements in '_blocks' to be of type list[str]"
-        assert all(
-            all(isinstance(item, str) for item in block) for block in _blocks
-        ), "Expected all elements in '_blocks' to be of type str"
-
-        return _blocks
-
-
-class Role:
-    """Details of a single work-related experience."""
-
-    def __init__(  # noqa: PLR0913
-        self,
-        company: str,
-        title: str,
-        start_date: datetime,
-        end_date: datetime | None,
-        description: str | None,
-        responsibilities: str,
-        reason_for_change: str | None,
-        skills: list[str],
-    ):
-        """Initialize the object."""
-        assert isinstance(company, str), "Company name must be a string"
-        assert isinstance(title, str), "Job title must be a string"
-        assert isinstance(start_date, datetime), "Start date must be a datetime object"
-        assert isinstance(end_date, (datetime, type(None)))
-        assert isinstance(
-            description,
-            (str, type(None)),
-        )
-        assert isinstance(responsibilities, str), "Responsibilities must be a string"
-        assert isinstance(reason_for_change, (str, type(None)))
-
-        self.company = company
-        self.title = title
-        self.start_date = start_date
-        self.end_date = end_date
-        self.responsibilities = responsibilities
-        self.description = description
-        self.reason_for_change = reason_for_change
-        self.skills = skills
 
 
 class Degree:
@@ -332,21 +95,6 @@ class Certifications(MultiBlockParse):
     def list_class() -> type:
         """Return the type that will be contained in the list."""
         return Certification
-
-    @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
-        """Parse the blocks and return a list of objects."""
-
-        _object_list: list[cls] = []
-        _object_blocks = cls.parse_blocks(block_lines)
-        _list_type = cls.list_class()
-
-        for _block in _object_blocks:
-            _object = _list_type.parse(_block)
-            _object_list.append(_object)
-
-        assert all(isinstance(obj, _list_type) for obj in _object_list)
-        return _object_list
 
 
 class Personal(BasicBlockParse):
@@ -448,15 +196,6 @@ class PersonalInfo(LabelBlockParse):
         return _fields
 
 
-class WorkHistory:
-    """Details of work history."""
-
-    def __init__(
-        self,
-        roles: list[Role],
-    ):
-        """Initialize the object."""
-        self.roles = roles
 
 
 class Resume:
@@ -466,7 +205,7 @@ class Resume:
         self,
         personal: Personal,
         education: Education,
-        work_history: WorkHistory,
+        work_history: Roles,
         certifications: list[Certification],
     ):
         """Initialize the object."""
@@ -478,7 +217,7 @@ class Resume:
         assert isinstance(education, Education), "education must be an Education object"
         assert isinstance(
             work_history,
-            WorkHistory,
+            Roles,
         ), "work_history must be an instance of WorkHistory"
         assert isinstance(certifications, list), "certifications must be a list"
         assert all(

@@ -7,7 +7,7 @@ from resume_writer.resume_markdown import (
     MarkdownResumeParser,
     
     Degree,
-    WorkHistory,
+    Roles,
     Role,
     Certification,
 )
@@ -143,7 +143,7 @@ def test_parse_work_history(mock_file_content):
         resume = _resume_parser.parse()
         work_history = resume.work_history
 
-    assert isinstance(work_history, WorkHistory)
+    assert isinstance(work_history, Roles)
     # Two roles
     assert len(work_history.roles) == 2
     # First role

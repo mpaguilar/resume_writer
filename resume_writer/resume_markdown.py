@@ -1,14 +1,13 @@
 import logging
 from datetime import datetime
 
+from models.roles import Role, Roles
 from resume_model import (
     Certification,
     Degree,
     Education,
     Personal,
     Resume,
-    Role,
-    WorkHistory,
 )
 
 log = logging.getLogger(__name__)
@@ -511,7 +510,7 @@ class MarkdownResumeParser:
     def parse_work_history_block(
         self,
         block_lines: list[str],
-    ) -> WorkHistory:
+    ) -> Roles:
         """Parse a block of work history information.
 
         This function takes a list of strings, each representing a line in a work
@@ -557,7 +556,7 @@ class MarkdownResumeParser:
         assert all(
             isinstance(role, Role) for role in _work_history
         ), "All elements in _work_history must be Role objects"
-        return WorkHistory(roles=_work_history)
+        return Roles(roles=_work_history)
 
     def top_level_multi_blocks(self, lines: list[str]) -> list[list[str]]:
         """Handle multiple blocks which have the same name.
@@ -723,7 +722,7 @@ class MarkdownResumeParser:
         self,
         block_name: str,
         block_lines: list[str],
-    ) -> Personal | Education | WorkHistory:
+    ) -> Personal | Education | Roles:
         """Parse a single block."""
 
         if block_name.lower() == "personal":
@@ -754,7 +753,7 @@ class MarkdownResumeParser:
             _work_history = self.parse_work_history_block(block_lines)
             assert isinstance(
                 _work_history,
-                WorkHistory,
+                Roles,
             ), "Parsed work history block is not a list"
             for work in _work_history.roles:
                 assert isinstance(
@@ -798,7 +797,7 @@ class MarkdownResumeParser:
 
         _personal: Personal | None = None
         _education: Education | None = None
-        _work_history: WorkHistory | None = None
+        _work_history: Roles | None = None
         _certifications: list[Certification] | None = None
 
         _blocks = self.top_level_blocks(_lines)
@@ -833,7 +832,7 @@ class MarkdownResumeParser:
 
         if _work_history is None:
             _missing_blocks.append("Work History")
-            _work_history = WorkHistory(roles=[])
+            _work_history = Roles(roles=[])
 
         if _certifications is None:
             _missing_blocks.append("Certifications")
