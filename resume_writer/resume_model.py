@@ -56,7 +56,7 @@ class BasicBlockParse:
 
     @classmethod
     def parse_blocks(cls: T, block_lines: list[str]) -> dict[str, str]:
-        """Parse the block of lines into an object."""
+        """Parse the block of lines into a dictionary of blocks."""
 
         assert isinstance(block_lines, list), "block_lines should be a list"
         assert all(
@@ -138,6 +138,88 @@ class BasicBlockParse:
         return cls(**_init_kwargs)
 
 
+class MultiBlockParse:
+    """Mixin for blocks containing multiple blocks with the same name."""
+
+    @classmethod
+    def parse_blocks(cls: T, block_lines: list[str]) -> list[list[str]]:
+        """Handle multiple blocks which have the same name.
+
+        Parameters
+        ----------
+        block_lines : list[str]
+            A list of strings representing the lines of a document.
+
+        Returns
+        -------
+        list[list[str]]
+            A list of lists of strings, where each sublist represents a block of text.
+
+        Notes
+        -----
+        1. Initialize an empty list to store the blocks and a current block.
+        2. Iterate through each line in the input list.
+        3. Skip empty lines.
+        4. If a line starts with "# ", it's a section header. Append the current block
+            to the list of blocks, clear the current block, and set the section header.
+        4a. This is rather naive, it doesn't check the section name, it only assumes it
+            is the one we're looking for.
+        5. If a line starts with "#" and a section header is set, it's a subheader.
+            Remove the "#" and append the line to the current block.
+        6. After iterating through all lines, append the current block to the
+            list of blocks.
+        7. Return the list of blocks.
+
+        """
+
+        assert isinstance(block_lines, list), "Expected 'lines' to be of type list[str]"
+        assert all(
+            isinstance(line, str) for line in block_lines
+        ), "Expected all elements in 'lines' to be of type str"
+
+        _blocks = []
+        _current_block = []
+        _section_header = None
+
+        for _line in block_lines:
+            _line = _line.strip()
+
+            # skip empty lines
+            if not _line:
+                continue
+
+            if _line.startswith("# "):
+                _section_header = _line[1:].strip()
+                log.info(f"Found section header: {_section_header}")
+                if len(_current_block) > 0:
+                    _blocks.append(list(_current_block))
+                _current_block.clear()
+                continue
+
+            if _section_header is not None:
+                if _line.startswith("#"):
+                    # this is a subheader, we want the line, but not the extra level
+                    _line = _line[1:]
+                _current_block.append(_line)
+
+        # Get the last block
+        if len(_current_block) > 0:
+            _blocks.append(list(_current_block))
+
+        assert isinstance(
+            _blocks,
+            list,
+        ), "Expected '_blocks' to be of type list[list[str]]"
+        assert all(
+            isinstance(block, list) for block in _blocks
+        ), "Expected all elements in '_blocks' to be of type list[str]"
+        assert all(
+            all(isinstance(item, str) for item in block) for block in _blocks
+        ), "Expected all elements in '_blocks' to be of type str"
+
+        return _blocks
+
+
 class Role:
     """Details of a single work-related experience."""
 
@@ -204,18 +286,67 @@ class Education:
         self.degrees = degrees
 
 
-class Certification:
+class Certification(LabelBlockParse):
     """Details of a certification."""
 
-    def __init__(self, issuer: str | None, name: str | None, issued: datetime | None):
+    def __init__(
+        self,
+        issuer: str | None,
+        name: str | None,
+        issued: str | datetime | None,
+    ):
         """Initialize the object."""
         assert isinstance(name, (str, type(None)))
         assert isinstance(issuer, (str, type(None)))
-        assert isinstance(issued, (datetime, type(None)))
+        assert isinstance(issued, (str, datetime, type(None)))
+
+        if isinstance(issued, str):
+            issued = datetime.strptime(issued, "%m/%Y")  # noqa: DTZ007
 
         self.name = name
         self.issued = issued
         self.issuer = issuer
+
+    @staticmethod
+    def expected_fields() -> dict[str, str]:
+        """Return the expected fields for this object."""
+        return {
+            "issuer": "issuer",
+            "name": "name",
+            "issued": "issued",
+        }
+
+
+class Certifications(MultiBlockParse):
+    """Details of professional credentials."""
+
+    def __init__(self, certifications: list[Certification]):
+        """Initialize the object."""
+        self.certifications = certifications
+
+    def __iter__(self):
+        """Iterate over the certifications."""
+        return iter(self.certifications)
+
+    @staticmethod
+    def list_class() -> type:
+        """Return the type that will be contained in the list."""
+        return Certification
+
+    @classmethod
+    def parse(cls: T, block_lines: list[str]) -> T:
+        """Parse the blocks and return a list of objects."""
+
+        _object_list: list[cls] = []
+        _object_blocks = cls.parse_blocks(block_lines)
+        _list_type = cls.list_class()
+
+        for _block in _object_blocks:
+            _object = _list_type.parse(_block)
+            _object_list.append(_object)
+
+        assert all(isinstance(obj, _list_type) for obj in _object_list)
+        return _object_list
 
 
 class Personal(BasicBlockParse):

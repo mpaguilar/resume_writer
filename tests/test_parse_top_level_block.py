@@ -46,7 +46,7 @@ def test_parse_block_basic(block_lines):
     assert dummy.section2 == "Section 2"
 
 
-def test_top_level_blocks_empty_lines(resume_markdown):
+def test_top_level_blocks_empty_lines():
     lines = ["", "  ", "\n", "\t"]
     dummy = DummyClass.parse_blocks(block_lines=lines)
     assert dummy == {}

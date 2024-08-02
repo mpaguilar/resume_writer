@@ -37,7 +37,7 @@ def block_lines():
     return return_lines
 
 def test_parse_personal_info_block_valid_input(block_lines):
-    personal = PersonalInfo.parse_labels(block_lines)
+    personal = PersonalInfo.parse(block_lines)
     assert isinstance(personal, PersonalInfo)
     assert personal.name == "John Doe"
     assert personal.email == "johndoe@example.com"

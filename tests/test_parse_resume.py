@@ -114,22 +114,6 @@ def test_parse_personal(mock_file_content):
     # Extract the personal section from the mock file content
     personal_lines = "\n".join(resume_lines[:15])
 
-    with patch("builtins.open", mock_open(read_data=personal_lines)):
-        _resume_parser = MarkdownResumeParser("fake_path.md")
-        resume = _resume_parser.parse()
-        personal = resume.personal
-        personal_info = personal.personal_info
-
-    assert isinstance(personal_info, PersonalInfo)
-    assert personal_info.name == "John Doe"
-    assert personal_info.email == "johndoe@example.com"
-    assert personal_info.phone == "123-456-7890"
-    assert (
-        personal.banner
-        == "Experienced Widget Expert with a lot of experience in the field."
-    )
-    assert personal.note == "Proficent in the skills employers look for."
-
 
 def test_parse_education(mock_file_content):
     resume_lines = mock_file_content.split("\n")

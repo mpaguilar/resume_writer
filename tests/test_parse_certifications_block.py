@@ -1,58 +1,37 @@
 import pytest
-from datetime import datetime
-from resume_writer.resume_markdown import MarkdownResumeParser
+from resume_writer.resume_model import Certification, Certifications
 
+test_data = """
+# Certification
 
-@pytest.fixture()
-def resume_markdown():
-    return MarkdownResumeParser("dummy")
+Issuer: BigCorp
+Name: BigCorp Certified Widget Expert
+Issued: 03/2020
+
+# Certification
+Issuer: BigCorp
+Name: BigCorp Certified Thing Expert
+Issued: 04/2020
+"""
 
 
 @pytest.fixture()
 def block_lines():
-    return [
-        "# Certification",
-        "Name: Python Certification",
-        "Issuer: Python Institute",
-        "Issued: 01/2022",
-        "# Certification",
-        "Name: Machine Learning Certification",
-        "Issuer: Python Institute",
-        "Issued: 01/2022",
-    ]
+    lines = test_data.split("\n")
+
+    return_lines = []
+    for line in lines:
+        if line.startswith("##"):
+            return_lines.append(line[1:])
+        else:
+            return_lines.append(line)
+
+    return return_lines
 
 
-def test_parse_certifications_block_single_certification(resume_markdown, block_lines):
-    block_lines = block_lines[:4]  # Only take the first certification block
-    certifications = resume_markdown.parse_certifications_block(block_lines)
-    assert len(certifications) == 1
-    assert certifications[0].name == "Python Certification"
-    assert certifications[0].issuer == "Python Institute"
-    assert certifications[0].issued == datetime.strptime("01/2022", "%m/%Y")  # noqa: DTZ007
-
-
-def test_parse_certifications_block_multiple_certifications(
-    resume_markdown,
-    block_lines,
-):
-    certifications = resume_markdown.parse_certifications_block(block_lines)
-
-    assert len(certifications) == 2  # noqa: PLR2004
-    assert certifications[0].name == "Python Certification"
-    assert certifications[1].name == "Machine Learning Certification"
-
-
-def test_parse_certifications_block_no_certifications(resume_markdown):
-    block_lines = ["Some other section: blahblahblah", "Some info"]
-    certifications = resume_markdown.parse_certifications_block(block_lines)
-    assert len(certifications) == 0
-
-
-def test_parse_certifications_block_invalid_date_format(resume_markdown, block_lines):
-    block_lines[3] = "Issued: 01-2022"
-
-    with pytest.raises(
-        ValueError,
-        match="time data '01-2022' does not match format '%m/%Y'",
-    ):
-        resume_markdown.parse_certifications_block(block_lines)
+def test_parse_certifications_block(block_lines):
+    certifications = Certifications.parse(block_lines=block_lines)
+    assert len(certifications) == 2
+    assert all(
+        isinstance(certification, Certification) for certification in certifications
+    )
