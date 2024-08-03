@@ -1,10 +1,10 @@
 import logging
 from datetime import datetime
 
+from models.education import Degree
 from models.roles import Role, Roles
 from resume_model import (
     Certification,
-    Degree,
     Education,
     Personal,
     Resume,

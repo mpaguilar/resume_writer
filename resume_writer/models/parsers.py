@@ -45,7 +45,10 @@ class TextBlockParse:
 
 
 class LabelBlockParse:
-    """Mixin for parsing blocks for labels."""
+    """Mixin for parsing blocks for labels.
+
+    Inheriting classes must implement `expected_fields` method.
+    """
 
     @classmethod
     def parse(cls: T, block_lines: list[str]) -> T:

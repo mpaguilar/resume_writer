@@ -1,19 +1,29 @@
 import pytest
-from resume_writer.resume_markdown import MarkdownResumeParser
-from resume_model import Personal
+from resume_writer.models.personal import (
+    ContactInfo,
+    Websites,
+    VisaStatus,
+    Banner,
+    Note,
+)
 
 test_data = """
-## Info
+## Contact Information
 Name: John Doe
 Email: johndoe@example.com
 Phone: 123-456-7890
+Location: Somewhere, USA
 
+## Websites
 GitHub: https://github.com/example
 LinkedIn: https://www.linkedin.com/in/example
 Website: https://www.example.com
+Twitter: https://twitter.com/example
+
+## Visa Status
 Work Authorization: US Citizen
-Requires sponsorship: No
-Location: Somewhere, USA
+Require sponsorship: No
+
 
 ## Banner
 
@@ -26,42 +36,73 @@ Lots of experience.
 """
 
 
-@pytest.fixture()
-def resume_markdown():
-    return MarkdownResumeParser("dummy")
+def _deindenter(lines):
+    _lines = []
+    for _line in lines:
+        if _line.startswith("##"):
+            _line = _line[1:]
+            _lines.append(_line)
+        else:
+            _lines.append(_line)
+    return _lines
 
 
 @pytest.fixture()
 def block_lines():
     lines = test_data.split("\n")
-    return_lines = []
-    for line in lines:
-        if line.startswith("##"):
-            return_lines.append(line[1:])
-        else:
-            return_lines.append(line)
-
-    return return_lines
+    return _deindenter(lines)
 
 
-def test_parse_personal_block_valid_input(block_lines):
-    personal = Personal.parse(block_lines)
-    assert personal.personal_info is not None
-    assert personal.banner == [
-        "Experienced Widget Expert with a lot of experience in the field.",
-    ]
-    assert personal.note == [
-        "Proficent in the skills employers look for.",
-        "Lots of experience.",
-    ]
+def test_parse_personal_contact_info(block_lines):
+    _lines = block_lines[2:6]
+    contact_info = ContactInfo.parse(_lines)
+    assert contact_info.name == "John Doe"
+    assert contact_info.email == "johndoe@example.com"
+    assert contact_info.phone == "123-456-7890"
+    assert contact_info.location == "Somewhere, USA"
 
-def test_parse_personal_block_missing_block(block_lines):
-    block_lines = block_lines[:12] + block_lines[15:]
 
-    personal = Personal.parse(block_lines)
-    assert personal.personal_info is not None
-    assert personal.banner is None
-    assert personal.note == [
-        "Proficent in the skills employers look for.",
-        "Lots of experience.",
-    ]
+def test_parse_personal_websites(block_lines):
+    _lines = block_lines[8:13]
+    websites = Websites.parse(_lines)
+    assert websites.github == "https://github.com/example"
+    assert websites.linkedin == "https://www.linkedin.com/in/example"
+    assert websites.website == "https://www.example.com"
+    assert websites.twitter == "https://twitter.com/example"
+
+
+def test_parse_personal_websites_missing_field(block_lines):
+    _lines = block_lines[9:13]  # skil first line, github
+    websites = Websites.parse(_lines)
+    assert websites.github is None
+    assert websites.linkedin == "https://www.linkedin.com/in/example"
+    assert websites.website == "https://www.example.com"
+    assert websites.twitter == "https://twitter.com/example"
+
+
+def test_parse_visa_status(block_lines):
+    _lines = block_lines[14:17]
+    visa_status = VisaStatus.parse(_lines)
+    assert visa_status.work_authorization == "US Citizen"
+    assert visa_status.require_sponsorship is False
+
+    _lines[1] = ""
+    visa_status = VisaStatus.parse(_lines)
+    assert visa_status.require_sponsorship is None
+
+
+def test_parse_banner(block_lines):
+    _lines = block_lines[19:22]
+    banner = Banner.parse(_lines)
+    assert (
+        banner.text
+        == "Experienced Widget Expert with a lot of experience in the field."
+    )
+
+
+def test_parse_note(block_lines):
+    _lines = block_lines[24:27]
+    note = Note.parse(_lines)
+    assert (
+        note.text == "Proficent in the skills employers look for.\nLots of experience."
+    )

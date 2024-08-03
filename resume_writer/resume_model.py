@@ -2,6 +2,7 @@ import logging
 from datetime import datetime, timedelta
 from typing import TypeVar
 
+from models.education import Education
 from models.parsers import BasicBlockParse, LabelBlockParse, MultiBlockParse
 from models.roles import Roles
 
@@ -17,36 +18,6 @@ The overall resume or any given block of text will contain only one of the follo
  - Only plain text
 """
 
-
-
-class Degree:
-    """Details of a specific degree."""
-
-    def __init__(
-        self,
-        school: str | None,
-        degree: str | None,
-        start_date: datetime | None,
-        end_date: datetime | None,
-    ):
-        """Initialize the object."""
-        assert isinstance(school, (str, type(None)))
-        assert isinstance(degree, (str, type(None)))
-        assert isinstance(start_date, (datetime, type(None)))
-        assert isinstance(end_date, (datetime, type(None)))
-
-        self.school = school
-        self.degree = degree
-        self.start_date = start_date
-        self.end_date = end_date
-
-
-class Education:
-    """Details of educational background."""
-
-    def __init__(self, degrees: list[Degree]):
-        """Initialize the object."""
-        self.degrees = degrees
 
 
 class Certification(LabelBlockParse):
