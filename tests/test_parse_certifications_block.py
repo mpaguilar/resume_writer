@@ -1,37 +1,47 @@
+from datetime import datetime
+
 import pytest
-from resume_writer.resume_model import Certification, Certifications
+from models.certifications import Certification
 
 test_data = """
-# Certification
+## Certification
 
 Issuer: BigCorp
 Name: BigCorp Certified Widget Expert
 Issued: 03/2020
+Expires: 03/2025
 
-# Certification
+## Certification
 Issuer: BigCorp
 Name: BigCorp Certified Thing Expert
 Issued: 04/2020
+Expires: 04/2025
+
+
 """
+
+
+def _deindenter(lines):
+    _lines = []
+    for _line in lines:
+        if _line.startswith("##"):
+            _line = _line[1:]
+            _lines.append(_line)
+        else:
+            _lines.append(_line)
+    return _lines
 
 
 @pytest.fixture()
 def block_lines():
     lines = test_data.split("\n")
-
-    return_lines = []
-    for line in lines:
-        if line.startswith("##"):
-            return_lines.append(line[1:])
-        else:
-            return_lines.append(line)
-
-    return return_lines
+    return _deindenter(lines)
 
 
-def test_parse_certifications_block(block_lines):
-    certifications = Certifications.parse(block_lines=block_lines)
-    assert len(certifications) == 2
-    assert all(
-        isinstance(certification, Certification) for certification in certifications
-    )
+def test_parse_certification_block(block_lines):
+    _lines = block_lines[3:7]
+    cert = Certification.parse(_lines)
+    assert cert.issuer == "BigCorp"
+    assert cert.name == "BigCorp Certified Widget Expert"
+    assert cert.issued == datetime(2020, 3, 1)
+    assert cert.expires == datetime(2025, 3, 1)

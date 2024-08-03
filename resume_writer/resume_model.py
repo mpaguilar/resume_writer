@@ -2,8 +2,8 @@ import logging
 from datetime import datetime, timedelta
 from typing import TypeVar
 
+from models.certifications import Certification
 from models.education import Education
-from models.parsers import LabelBlockParse, MultiBlockParse
 from models.personal import Personal
 from models.roles import Roles
 
@@ -18,54 +18,6 @@ The overall resume or any given block of text will contain only one of the follo
  - Only label-value pairs
  - Only plain text
 """
-
-
-class Certification(LabelBlockParse):
-    """Details of a certification."""
-
-    def __init__(
-        self,
-        issuer: str | None,
-        name: str | None,
-        issued: str | datetime | None,
-    ):
-        """Initialize the object."""
-        assert isinstance(name, (str, type(None)))
-        assert isinstance(issuer, (str, type(None)))
-        assert isinstance(issued, (str, datetime, type(None)))
-
-        if isinstance(issued, str):
-            issued = datetime.strptime(issued, "%m/%Y")  # noqa: DTZ007
-
-        self.name = name
-        self.issued = issued
-        self.issuer = issuer
-
-    @staticmethod
-    def expected_fields() -> dict[str, str]:
-        """Return the expected fields for this object."""
-        return {
-            "issuer": "issuer",
-            "name": "name",
-            "issued": "issued",
-        }
-
-
-class Certifications(MultiBlockParse):
-    """Details of professional credentials."""
-
-    def __init__(self, certifications: list[Certification]):
-        """Initialize the object."""
-        self.certifications = certifications
-
-    def __iter__(self):
-        """Iterate over the certifications."""
-        return iter(self.certifications)
-
-    @staticmethod
-    def list_class() -> type:
-        """Return the type that will be contained in the list."""
-        return Certification
 
 
 class Resume:
