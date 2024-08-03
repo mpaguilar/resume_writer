@@ -5,6 +5,7 @@ from resume_writer.models.personal import (
     VisaStatus,
     Banner,
     Note,
+    Personal,
 )
 
 test_data = """
@@ -106,3 +107,12 @@ def test_parse_note(block_lines):
     assert (
         note.text == "Proficent in the skills employers look for.\nLots of experience."
     )
+
+
+def test_parse_full_peronal_block(block_lines):
+    personal = Personal.parse(block_lines)
+    assert isinstance(personal, Personal)
+    assert isinstance(personal.contact_info, ContactInfo)
+    assert isinstance(personal.websites, Websites)
+    assert isinstance(personal.visa_status, VisaStatus)
+    assert isinstance(personal.banner, Banner)

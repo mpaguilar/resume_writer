@@ -5,32 +5,6 @@ from models.parsers import BasicBlockParse, LabelBlockParse, TextBlockParse
 log = logging.getLogger(__name__)
 
 
-class Personal(BasicBlockParse):
-    """Details of personal information."""
-
-    def __init__(
-        self,
-        personal_info: "PersonalInfo | None",
-        banner: list[str] | None,
-        note: list[str] | None,
-    ):
-        """Initialize the object."""
-
-        self.personal_info = personal_info
-        self.banner = banner
-        self.note = note
-
-    @staticmethod
-    def expected_blocks() -> dict[str, str]:
-        """Return the expected blocks."""
-
-        return {
-            "Info": "personal_info",
-            "Banner": "banner",
-            "Note": "note",
-        }
-
-
 class ContactInfo(LabelBlockParse):
     """Details of personal contact information."""
 
@@ -197,67 +171,65 @@ class Note(TextBlockParse):
         self.text = "\n".join(_note)
 
 
-class PersonalInfo(LabelBlockParse):
-    """Details of personal information.
+class Personal(BasicBlockParse):
+    """Details of personal information."""
 
-    Text contains lables and values. Labels without values should be omitted:
-    1. Name: John Doe
-    2. Email: name@example.com
-    3. Phone: 123-456-7890
-    4. Website: https://www.example.com
-    5. Github: https://github.com/example
-    6. LinkedIn: https://www.linkedin.com/in/example/
-    7. Work Authorization: US Citizen/Green Card
-    8. Require Sponsorship: Yes/No
-    9. Twitter: https://twitter.com/example
-    10. Location: Texas, USA
-
-    """
-
-    def __init__(  # noqa:PLR0913
+    def __init__(
         self,
-        name: str | None,
-        email: str | None,
-        phone: str | None,
-        website: str | None,
-        github: str | None,
-        linkedin: str | None,
-        work_authorization: str | None,
-        require_sponsorship: bool | None,
-        twitter: str | None,
-        location: str | None,
+        contact_info: ContactInfo | None,
+        websites: Websites | None,
+        visa_status: VisaStatus | None,
+        banner: Banner | None,
+        note: Note | None,
     ):
         """Initialize the object."""
 
-        self.name = name
-        self.email = email
-        self.phone = phone
+        assert isinstance(
+            contact_info,
+            (ContactInfo, type(None)),
+        ), "Contact info must be a ContactInfo object or None"
+        assert isinstance(
+            websites,
+            (Websites, type(None)),
+        ), "Websites must be a Websites object or None"
+        assert isinstance(
+            visa_status,
+            (VisaStatus, type(None)),
+        ), "Visa status must be a VisaStatus object or None"
+        assert isinstance(
+            banner,
+            (Banner, type(None)),
+        ), "Banner must be a Banner object or None"
+        assert isinstance(
+            note,
+            (Note, type(None)),
+        ), "Note must be a Note object or None"
 
-        self.website: str | None = website
-        self.github: str | None = github
-        self.linkedin: str | None = linkedin
-        self.work_authorization: str | None = work_authorization
-        self.require_sponsorship: bool | None = require_sponsorship
-        self.twitter: str | None = twitter
-        self.location: str | None = location
+        self.contact_info = contact_info
+        self.websites = websites
+        self.visa_status = visa_status
+        self.banner = banner
+        self.note = note
 
     @staticmethod
-    def expected_fields() -> dict[str, str]:
-        """Return the expected constructor fields."""
+    def expected_blocks() -> dict[str, str]:
+        """Return the expected blocks."""
 
-        # A label may contain spaces or other characters
-        # these need to be translated into argument names
-        _fields = {
-            "name": "name",
-            "email": "email",
-            "phone": "phone",
-            "website": "website",
-            "linkedin": "linkedin",
-            "github": "github",
-            "twitter": "twitter",
-            "work authorization": "work_authorization",
-            "require sponsorship": "require_sponsorship",
-            "location": "location",
+        return {
+            "contact information": "contact_info",
+            "websites": "websites",
+            "visa status": "visa_status",
+            "banner": "banner",
+            "note": "note",
         }
 
-        return _fields
+    @staticmethod
+    def block_classes() -> dict[str, type]:
+        """Return the classes for the blocks."""
+        return {
+            "contact information": ContactInfo,
+            "websites": Websites,
+            "visa status": VisaStatus,
+            "banner": Banner,
+            "note": Note,
+        }

@@ -3,7 +3,8 @@ from datetime import datetime, timedelta
 from typing import TypeVar
 
 from models.education import Education
-from models.parsers import BasicBlockParse, LabelBlockParse, MultiBlockParse
+from models.parsers import LabelBlockParse, MultiBlockParse
+from models.personal import Personal
 from models.roles import Roles
 
 log = logging.getLogger(__name__)
@@ -17,7 +18,6 @@ The overall resume or any given block of text will contain only one of the follo
  - Only label-value pairs
  - Only plain text
 """
-
 
 
 class Certification(LabelBlockParse):
@@ -66,107 +66,6 @@ class Certifications(MultiBlockParse):
     def list_class() -> type:
         """Return the type that will be contained in the list."""
         return Certification
-
-
-class Personal(BasicBlockParse):
-    """Details of personal information.
-
-    Text contains 3 sections:
-    1. Info: Personal information
-    2. Banner: Banner text
-    3. Note: Note text
-
-    """
-
-    def __init__(
-        self,
-        personal_info: "PersonalInfo | None",
-        banner: list[str] | None,
-        note: list[str] | None,
-    ):
-        """Initialize the object."""
-
-        self.personal_info = personal_info
-        self.banner = banner
-        self.note = note
-
-    @staticmethod
-    def expected_blocks() -> dict[str, str]:
-        """Return the expected blocks."""
-
-        return {
-            "Info": "personal_info",
-            "Banner": "banner",
-            "Note": "note",
-        }
-
-
-class PersonalInfo(LabelBlockParse):
-    """Details of personal information.
-
-    Text contains lables and values. Labels without values should be omitted:
-    1. Name: John Doe
-    2. Email: name@example.com
-    3. Phone: 123-456-7890
-    4. Website: https://www.example.com
-    5. Github: https://github.com/example
-    6. LinkedIn: https://www.linkedin.com/in/example/
-    7. Work Authorization: US Citizen/Green Card
-    8. Require Sponsorship: Yes/No
-    9. Twitter: https://twitter.com/example
-    10. Location: Texas, USA
-
-    """
-
-    def __init__(  # noqa:PLR0913
-        self,
-        name: str | None,
-        email: str | None,
-        phone: str | None,
-        website: str | None,
-        github: str | None,
-        linkedin: str | None,
-        work_authorization: str | None,
-        require_sponsorship: bool | None,
-        twitter: str | None,
-        location: str | None,
-    ):
-        """Initialize the object."""
-
-        self.name = name
-        self.email = email
-        self.phone = phone
-
-        self.website: str | None = website
-        self.github: str | None = github
-        self.linkedin: str | None = linkedin
-        self.work_authorization: str | None = work_authorization
-        self.require_sponsorship: bool | None = require_sponsorship
-        self.twitter: str | None = twitter
-        self.location: str | None = location
-
-    @staticmethod
-    def expected_fields() -> dict[str, str]:
-        """Return the expected constructor fields."""
-
-        # A label may contain spaces or other characters
-        # these need to be translated into argument names
-        _fields = {
-            "name": "name",
-            "email": "email",
-            "phone": "phone",
-            "website": "website",
-            "linkedin": "linkedin",
-            "github": "github",
-            "twitter": "twitter",
-            "work authorization": "work_authorization",
-            "require sponsorship": "require_sponsorship",
-            "location": "location",
-        }
-
-        return _fields
-
-
 
 
 class Resume:
