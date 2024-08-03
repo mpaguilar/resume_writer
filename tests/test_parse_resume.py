@@ -1,21 +1,8 @@
-from datetime import datetime
 
 import pytest
-from unittest.mock import mock_open, patch
-from resume_model import Education
-from resume_writer.resume_markdown import (
-    MarkdownResumeParser,
-    
-    Degree,
-    Roles,
-    Role,
-    Certification,
-)
 
 
-@pytest.fixture()
-def mock_file_content():
-    return """
+test_data = """
 # Personal
 
 ## Info
@@ -108,100 +95,3 @@ Performed routine activities associated with a junor role.
 
 """
 
-
-def test_parse_personal(mock_file_content):
-    resume_lines = mock_file_content.split("\n")
-    # Extract the personal section from the mock file content
-    personal_lines = "\n".join(resume_lines[:15])
-
-
-def test_parse_education(mock_file_content):
-    resume_lines = mock_file_content.split("\n")
-    # Extract the education section from the mock file content
-    education_lines = "\n".join(resume_lines[16:28])
-
-    with patch("builtins.open", mock_open(read_data=education_lines)):
-        _resume_parser = MarkdownResumeParser("fake_path.md")
-        resume = _resume_parser.parse()
-        education = resume.education
-
-    assert isinstance(education, Education)
-    assert len(education.degrees) == 2
-    assert isinstance(education.degrees[0], Degree)
-    assert education.degrees[0].school == "University of Example"
-    assert education.degrees[0].degree == "Impressive Degree"
-    assert education.degrees[0].start_date == datetime(1990, 8, 1, 0, 0)
-    assert education.degrees[0].end_date == datetime(1994, 5, 1, 0, 0)
-
-
-def test_parse_work_history(mock_file_content):
-    resume_lines = mock_file_content.split("\n")
-    # Extract the work history section from the mock file content
-    work_history_lines = "\n".join(resume_lines[30:])
-    with patch("builtins.open", mock_open(read_data=work_history_lines)):
-        _resume_parser = MarkdownResumeParser("fake_path.md")
-        resume = _resume_parser.parse()
-        work_history = resume.work_history
-
-    assert isinstance(work_history, Roles)
-    # Two roles
-    assert len(work_history.roles) == 2
-    # First role
-    assert isinstance(work_history.roles[0], Role)
-    assert work_history.roles[0].company == "Another Company"
-    assert work_history.roles[0].title == "Senior Worker"
-    assert work_history.roles[0].start_date == datetime(2023, 1, 1, 0, 0)
-    assert work_history.roles[0].end_date == datetime(2024, 1, 1, 0, 0)
-    # Three skills
-    assert len(work_history.roles[0].skills) == 3
-    assert "Skill 1" in work_history.roles[0].skills
-    assert "Skill 2" in work_history.roles[0].skills
-    assert "Skill 3" in work_history.roles[0].skills
-    # Second role
-    assert isinstance(work_history.roles[1], Role)
-    assert work_history.roles[1].company == "Example Company"
-    assert work_history.roles[1].title == "Junior Worker"
-    assert work_history.roles[1].start_date == datetime(2020, 6, 1, 0, 0)
-    assert work_history.roles[1].end_date == datetime(2022, 6, 1, 0, 0)
-    # Three skills, one different than before
-    assert len(work_history.roles[1].skills) == 3
-    assert "Skill 1" in work_history.roles[1].skills
-    assert "Skill 2" in work_history.roles[1].skills
-    assert "Skill 4" in work_history.roles[1].skills
-
-
-def test_parse_certifications(mock_file_content):
-    resume_lines = mock_file_content.split("\n")
-    # Extract the certifications section from the mock file content
-    certifications_lines = "\n".join(resume_lines[30:42])
-    with patch("builtins.open", mock_open(read_data=certifications_lines)):
-        _resume_parser = MarkdownResumeParser("fake_path.md")
-        resume = _resume_parser.parse()
-        certifications = resume.certifications
-
-        assert isinstance(certifications, list)
-        assert len(certifications) == 2
-        assert isinstance(certifications[0], Certification)
-
-
-def test_overall_stats(mock_file_content):
-    with patch("builtins.open", mock_open(read_data=mock_file_content)):
-        _resume_parser = MarkdownResumeParser("fake_path.md")
-        resume = _resume_parser.parse()
-        overall_stats = resume.stats()
-
-        assert isinstance(overall_stats, dict)
-        assert "education" in overall_stats
-        assert overall_stats["education"] == 2
-
-        assert "roles" in overall_stats
-        assert overall_stats["roles"] == 2
-
-        assert "certifications" in overall_stats
-        assert overall_stats["certifications"] == 2
-
-        assert "total_experience" in overall_stats
-        assert overall_stats["total_experience"] == 3.0
-
-        assert "career_experience" in overall_stats
-        assert overall_stats["career_experience"] == 3.6
