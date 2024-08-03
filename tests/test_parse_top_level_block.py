@@ -1,14 +1,7 @@
 import pytest
 
-from resume_writer.resume_markdown import MarkdownResumeParser
-from resume_writer.resume_model import BasicBlockParse
-from resume_writer.models.parsers import TextBlockParse
 
-
-@pytest.fixture()
-def resume_markdown():
-    return MarkdownResumeParser("dummy")
-
+from resume_writer.models.parsers import TextBlockParse, BasicBlockParse
 
 @pytest.fixture()
 def block_lines():
