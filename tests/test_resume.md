@@ -14,7 +14,7 @@ Twitter: https://twitter.com/example
 
 ## Visa Status
 Work Authorization: US Citizen
-Requires sponsorship: No
+Require sponsorship: No
 
 
 ## Banner

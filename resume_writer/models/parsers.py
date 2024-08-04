@@ -5,6 +5,8 @@ T = TypeVar("T")
 
 log = logging.getLogger(__name__)
 
+class ParseError(Exception):
+    """Exception raised when parsing fails."""
 
 class ListBlockParse:
     """Mixin for parsing bullet points into a list."""
@@ -75,7 +77,13 @@ class LabelBlockParse:
         _init_kwargs: dict[str, str | bool] = {}
 
         for _block_line in block_lines:
-            _label = _block_line.split(":")[0].lower()  # for lookup
+            _line_split = _block_line.split(":")
+            # the line is just a line, not a label
+            if len(_line_split) < 2: # noqa: PLR2004
+                continue
+
+            _label = _line_split[0].lower()  # for lookup
+
             _user_label = _block_line.split(":")[0]  # verbatim
 
             # lookup the label in the expected fields
@@ -84,6 +92,9 @@ class LabelBlockParse:
                 _init_arg = _expected_fields[_label]
                 # remove the label from the line, leaving the value
                 _value = _block_line.replace(f"{_user_label}:", "", 1).strip()
+                # if the value is empty, skip it
+                if _value == "":
+                    continue
                 # add the argument name and value to the init kwargs
                 _init_kwargs[_init_arg] = _value
                 # remove the label from the expected fields

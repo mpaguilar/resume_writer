@@ -81,6 +81,24 @@ def test_parse_personal_websites_missing_field(block_lines):
     assert websites.twitter == "https://twitter.com/example"
 
 
+def test_parse_personal_websites_missing_label(block_lines):
+    _lines = block_lines[8:13]  # skip first line, github
+    _lines[0] = "Github:"
+    websites = Websites.parse(_lines)
+    assert websites.github is None
+    assert websites.linkedin == "https://www.linkedin.com/in/example"
+    assert websites.website == "https://www.example.com"
+    assert websites.twitter == "https://twitter.com/example"
+
+def test_parse_personal_websites_missing_colon_on_label(block_lines):
+    _lines = block_lines[8:13]  # skip first line, github
+    _lines[0] = "Github"
+    websites = Websites.parse(_lines)
+    assert websites.github is None
+    assert websites.linkedin == "https://www.linkedin.com/in/example"
+    assert websites.website == "https://www.example.com"
+    assert websites.twitter == "https://twitter.com/example"
+
 def test_parse_visa_status(block_lines):
     _lines = block_lines[14:17]
     visa_status = VisaStatus.parse(_lines)
@@ -109,10 +127,13 @@ def test_parse_note(block_lines):
     )
 
 
-def test_parse_full_peronal_block(block_lines):
+def test_parse_full_personal_block(block_lines):
     personal = Personal.parse(block_lines)
     assert isinstance(personal, Personal)
     assert isinstance(personal.contact_info, ContactInfo)
     assert isinstance(personal.websites, Websites)
     assert isinstance(personal.visa_status, VisaStatus)
     assert isinstance(personal.banner, Banner)
+
+
+
