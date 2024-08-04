@@ -11,16 +11,19 @@ class Degree(LabelBlockParse):
 
     def __init__(
         self,
-        school: str | None,
+        school: str,
         degree: str | None,
         start_date: str | datetime | None,
         end_date: str | datetime | None,
     ):
         """Initialize the object."""
-        assert isinstance(school, (str, type(None)))
+        assert isinstance(school, str)
         assert isinstance(degree, (str, type(None)))
         assert isinstance(start_date, (str, datetime, type(None)))
         assert isinstance(end_date, (str, datetime, type(None)))
+
+        if school:
+            log.debug(f"Creating degree object for {school}.")
 
         self.school = school
         self.degree = degree
@@ -50,7 +53,11 @@ class Degrees(MultiBlockParse):
 
         assert isinstance(degrees, list)
         assert all(isinstance(degree, Degree) for degree in degrees)
-        log.info(f"Creating degrees object with {len(degrees)} degrees.")
+
+        if degrees:
+            log.info(f"Creating degrees object with {len(degrees)} degrees.")
+        else:
+            log.info("Creating degrees object with no degrees.")
 
         self.degrees = degrees
 
@@ -78,7 +85,10 @@ class Education(BasicBlockParse):
     def __init__(self, degrees: Degrees | None):
         """Initialize the object."""
         assert isinstance(degrees, (Degrees, type(None)))
-        log.info(f"Creating education object with {len(degrees)} degrees.")
+        if degrees:
+            log.info(f"Creating education object with {len(degrees)} degrees.")
+        else:
+            log.info("Creating education object with no degrees.")
         self.degrees = degrees
 
     @staticmethod

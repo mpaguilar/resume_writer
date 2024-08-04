@@ -27,10 +27,10 @@ class Certification(LabelBlockParse):
 
         # If the issued date is a string, convert it to a datetime object
         if isinstance(issued, str):
-            issued = datetime.strptime(issued, "%m/%Y") # noqa: DTZ007
+            issued = datetime.strptime(issued, "%m/%Y")  # noqa: DTZ007
 
         if isinstance(expires, str):
-            expires = datetime.strptime(expires, "%m/%Y") # noqa: DTZ007
+            expires = datetime.strptime(expires, "%m/%Y")  # noqa: DTZ007
 
         self.issuer = issuer
         self.name = name
@@ -58,6 +58,10 @@ class Certifications(MultiBlockParse):
     def __iter__(self):
         """Iterate over the certifications."""
         return iter(self.certifications)
+
+    def __len__(self):
+        """Return the number of certifications."""
+        return len(self.certifications)
 
     @staticmethod
     def list_class() -> type:

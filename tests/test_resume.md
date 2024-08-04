@@ -12,7 +12,7 @@ LinkedIn: https://www.linkedin.com/in/example
 Website: https://www.example.com
 Twitter: https://twitter.com/example
 
-## Work Authorizaton
+## Visa Status
 Work Authorization: US Citizen
 Requires sponsorship: No
 

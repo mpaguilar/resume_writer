@@ -122,7 +122,7 @@ class Role(BasicBlockParse):
         self.skills = skills
 
     @staticmethod
-    def expected_blocks() -> dict[str, type]:
+    def expected_blocks() -> dict[str, str]:
         """Return the expected blocks for this object."""
 
         return {

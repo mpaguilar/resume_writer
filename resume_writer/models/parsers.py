@@ -47,7 +47,21 @@ class TextBlockParse:
 class LabelBlockParse:
     """Mixin for parsing blocks for labels.
 
-    Inheriting classes must implement `expected_fields` method.
+    Inheriting classes must implement `expected_fields` method, which
+    is a mapping between the label and the argument name for the
+    constructor.
+
+    Example:
+    -------
+    @staticmethod
+    def expected_fields() -> dict[str, str]:
+        return {
+            "school": "school",
+            "degree": "degree",
+            "start date": "start_date",
+            "end date": "end_date",
+        }
+
     """
 
     @classmethod
@@ -88,7 +102,29 @@ class BasicBlockParse:
 
     Subclasses must include two static methods:
     * `expected_blocks`: a dictionary of block names and their init arg names
-    * `block_classes`: a dictionary of block names and their classes
+    * `block_classes`: a dictionary of block names and the class to instanciate
+    for that block.
+
+    Example:
+    -------
+    @staticmethod
+    def expected_blocks() -> dict[str, str]:
+        return {
+            "basics": "basics",
+            "description": "description",
+            "responsibilities": "responsibilities",
+            "skills": "skills",
+        }
+
+    @staticmethod
+    def block_classes() -> dict[str, type]:
+        return {
+            "basics": RoleBasics,
+            "description": RoleDescription,
+            "responsibilities": RoleResponsibilities,
+            "skills": RoleSkills,
+        }
+
     """
 
     @classmethod
