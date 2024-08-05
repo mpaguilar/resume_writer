@@ -3,6 +3,7 @@ import logging
 import rich
 from models.personal import Personal
 from models.resume import Resume
+from utils.resume_stats import DateStats
 
 log = logging.basicConfig(level=logging.DEBUG)
 
@@ -14,11 +15,23 @@ def print_personal(personal: Personal) -> None:
     rich.print(f"[bold]Phone:[/bold] {personal.contact_info.phone}")
 
 
+def career_years_of_experience( resume : Resume) -> None:
+    """Print the years of experience."""
+    _roles = resume.roles
+    _date_stats = DateStats()
+    for role in _roles:
+        _date_stats.add_date_range(role.basics.start_date, role.basics.end_date)
+
+    _yoe = _date_stats.years_of_experience()
+
+    rich.print(f"[bold]Years of Experience:[/bold] {_yoe}")
+
 def dump_resume(resume: Resume) -> None:
     """Dump the resume to the console."""
 
     _personal = resume.personal
     print_personal(_personal)
+    career_years_of_experience(resume)
 
 
 def go() -> None:
@@ -32,6 +45,8 @@ def go() -> None:
 
     # dump the resume to the console
     dump_resume(_resume)
+
+
 
 
 if __name__ == "__main__":
