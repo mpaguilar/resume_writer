@@ -1,9 +1,6 @@
 from datetime import datetime
 
-import pytest
-
 from utils.resume_stats import DateStats
-
 
 
 def parse_date(date_str: str) -> datetime:

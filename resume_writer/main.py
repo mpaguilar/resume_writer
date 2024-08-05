@@ -22,7 +22,7 @@ def career_years_of_experience( resume : Resume) -> None:
     for role in _roles:
         _date_stats.add_date_range(role.basics.start_date, role.basics.end_date)
 
-    _yoe = _date_stats.years_of_experience()
+    _yoe = _date_stats.years_of_experience
 
     rich.print(f"[bold]Years of Experience:[/bold] {_yoe}")
 
