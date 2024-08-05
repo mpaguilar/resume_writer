@@ -16,13 +16,13 @@ T = TypeVar("T")
 log = logging.getLogger(__name__)
 
 
-class RoleDescription(TextBlockParse):
+class RoleSummary(TextBlockParse):
     """Brief description of a role."""
 
-    def __init__(self, description: str):
+    def __init__(self, summary: str):
         """Initialize the object."""
-        assert isinstance(description, str), "Description must be a string"
-        self.description = description
+        assert isinstance(summary, str), "Summary must be a string"
+        self.summary = summary
 
 
 class RoleResponsibilities(TextBlockParse):
@@ -94,7 +94,7 @@ class Role(BasicBlockParse):
     def __init__(
         self,
         basics: RoleBasics | None,
-        description: RoleDescription | None,
+        summary: RoleSummary | None,
         responsibilities: RoleResponsibilities | None,
         skills: RoleSkills | None,
     ):
@@ -104,9 +104,9 @@ class Role(BasicBlockParse):
             (RoleBasics, type(None)),
         ), "Basics must be a RoleBasics object or None"
         assert isinstance(
-            description,
-            (RoleDescription, type(None)),
-        ), "Description must be a RoleDescription object or None"
+            summary,
+            (RoleSummary, type(None)),
+        ), "Summary must be a RoleSummary object or None"
         assert isinstance(
             responsibilities,
             (RoleResponsibilities, type(None)),
@@ -117,7 +117,7 @@ class Role(BasicBlockParse):
         ), "Skills must be a RoleSkills object or None"
 
         self.basics = basics
-        self.description = description
+        self.summary = summary
         self.responsibilities = responsibilities
         self.skills = skills
 
@@ -127,7 +127,7 @@ class Role(BasicBlockParse):
 
         return {
             "basics": "basics",
-            "description": "description",
+            "summary": "summary",
             "responsibilities": "responsibilities",
             "skills": "skills",
         }
@@ -137,7 +137,7 @@ class Role(BasicBlockParse):
         """Return the classes for the blocks."""
         return {
             "basics": RoleBasics,
-            "description": RoleDescription,
+            "summary": RoleSummary,
             "responsibilities": RoleResponsibilities,
             "skills": RoleSkills,
         }

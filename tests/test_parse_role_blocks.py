@@ -6,7 +6,7 @@ from resume_writer.models.roles import (
     Role,
     Roles,
     RoleBasics,
-    RoleDescription,
+    RoleSummary,
     RoleSkills,
     RoleResponsibilities,
 )
@@ -22,7 +22,7 @@ Title: Senior Worker
 
 Reason for change: Searching for new opportunities
 
-### Description
+### Summary
 Performed senior tasks
 
 ### Responsibilities
@@ -97,13 +97,13 @@ def test_role_basics_block(block_lines):
     assert _basics.reason_for_change == "Searching for new opportunities"
 
 
-def test_description_block(block_lines):
+def test_summary_block(block_lines):
     _lines = _deindenter(block_lines[12:14])
     # remove blank lines
     _lines = [line for line in _lines if line]
-    _description = RoleDescription.parse(_lines)
-    assert isinstance(_description, RoleDescription)
-    assert _description.description == "Performed senior tasks"
+    _summary = RoleSummary.parse(_lines)
+    assert isinstance(_summary, RoleSummary)
+    assert _summary.summary == "Performed senior tasks"
 
 
 def test_responsibilities_block(block_lines):
@@ -136,7 +136,7 @@ def test_role_block(block_lines):
     _role = Role.parse(_block_lines)
     assert isinstance(_role, Role)
     assert isinstance(_role.basics, RoleBasics)
-    assert isinstance(_role.description, RoleDescription)
+    assert isinstance(_role.summary, RoleSummary)
     assert isinstance(_role.responsibilities, RoleResponsibilities)
     assert isinstance(_role.skills, RoleSkills)
 

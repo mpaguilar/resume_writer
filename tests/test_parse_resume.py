@@ -79,7 +79,7 @@ Title: Senior Worker
 
 Reason for change: Searching for new opportunities
 
-### Description
+### Summary
 Performed senior tasks
 
 ### Responsibilities
@@ -103,7 +103,7 @@ Title: Junior Worker
 
 Reason for change: Laid off
 
-### Description
+### Summary
 Performed junior tasks.
 
 ### Responsibilities
