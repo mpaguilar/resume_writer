@@ -25,12 +25,19 @@ class Degree(LabelBlockParse):
         if school:
             log.debug(f"Creating degree object for {school}.")
 
+        if end_date and not start_date:
+            raise ValueError("End date provided without start date.")
+
         self.school = school
         self.degree = degree
         if isinstance(start_date, str):
             start_date = datetime.strptime(start_date, "%m/%Y")  # noqa: DTZ007
         if isinstance(end_date, str):
             end_date = datetime.strptime(end_date, "%m/%Y")  # noqa: DTZ007
+
+        if start_date and end_date and start_date > end_date:
+            raise ValueError("Start date is after end date.")
+
         self.start_date = start_date
         self.end_date = end_date
 

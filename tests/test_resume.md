@@ -33,14 +33,14 @@ Lots of experience.
 ### Degree
 School: University of Example
 Degree: Impressive Degree
-Started: 08/1990
-Ended: 05/1994
+Start date: 08/1990
+End date: 05/1994
 
 ### Degree
 School: University of College
 Degree: Less Impressive Degree
-Started: 08/1986
-Ended: 05/1989
+Start date: 08/1986
+End date: 05/1989
 
 # Certifications
 
@@ -74,6 +74,7 @@ Performed senior tasks
 
 ### Responsibilities
 Performed activities associated with a senior role.
+Also did other things as required.
 
 ### Skills
 * Skill 1
@@ -97,7 +98,10 @@ Reason for change: Laid off
 Performed junior tasks.
 
 ### Responsibilities
-Performed routine activities associated with a junor role.
+Performed routine activities associated with a junior role.
+Other things were done as required.
+* a thing
+* another thing
 
 ### Skills
 

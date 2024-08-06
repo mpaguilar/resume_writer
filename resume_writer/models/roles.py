@@ -31,7 +31,9 @@ class RoleResponsibilities(TextBlockParse):
     def __init__(self, responsibilities: str):
         """Initialize the object."""
         assert isinstance(responsibilities, str), "Responsibilities must be a string"
-        self.responsibilities = responsibilities
+        self.text = responsibilities
+
+
 
 
 class RoleSkills(ListBlockParse):
@@ -42,6 +44,18 @@ class RoleSkills(ListBlockParse):
         assert isinstance(skills, list), "Skills must be a list"
         assert all(isinstance(skill, str) for skill in skills), "Skills must be strings"
         self.skills = skills
+
+    def __iter__(self):
+        """Iterate over the skills."""
+        return iter(self.skills)
+
+    def __len__(self):
+        """Return the number of skills."""
+        return len(self.skills)
+
+    def __getitem__(self, index : int):
+        """Return the skill at the given index."""
+        return self.skills[index]
 
 
 class RoleBasics(LabelBlockParse):

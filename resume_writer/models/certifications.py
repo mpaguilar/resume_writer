@@ -14,14 +14,14 @@ class Certification(LabelBlockParse):
 
     def __init__(
         self,
+        name: str,
         issuer: str | None,
-        name: str | None,
         issued: datetime | str | None,
         expires: datetime | str | None,
     ):
         """Initialize the object."""
+        assert isinstance(name, str)
         assert isinstance(issuer, (str, type(None)))
-        assert isinstance(name, (str, type(None)))
         assert isinstance(issued, (datetime, str, type(None)))
         assert isinstance(expires, (datetime, str, type(None)))
 
