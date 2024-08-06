@@ -7,10 +7,6 @@ from docx_render.ats_education_section import ATSEducationSection
 from docx_render.ats_personal_section import ATSPersonalSection
 from docx_render.ats_roles_section import ATSRolesSection
 from docx_render.resume_settings import (
-    ResumeCertificationsSettings,
-    ResumeEducationSettings,
-    ResumePersonalSettings,
-    ResumeRolesSettings,
     ResumeSettings,
 )
 from models.resume import Resume
@@ -30,19 +26,6 @@ class ATSResume:
         if settings is None:
             settings = ResumeSettings()
 
-        # Using the defaults, but including as usage example.
-        settings.personal = ResumePersonalSettings()
-        settings.render_personal = True
-
-        settings.education = ResumeEducationSettings()
-        settings.render_education = True
-
-        settings.certifications = ResumeCertificationsSettings()
-        settings.render_certifications = True
-
-        settings.roles = ResumeRolesSettings()
-        settings.render_roles = True
-
         ## end of settings
 
         self.settings = settings
@@ -58,19 +41,22 @@ class ATSResume:
 
         ATSPersonalSection(self.document, self.resume, self.settings.personal).render()
 
-        ATSEducationSection(
-            self.document,
-            self.resume,
-            self.settings.education,
-        ).render()
+        if self.settings.render_education:
+            ATSEducationSection(
+                self.document,
+                self.resume,
+                self.settings.education,
+            ).render()
 
-        ATSCertificationsSection(
-            self.document,
-            self.resume,
-            self.settings.certifications,
-        ).render()
+        if self.settings.render_certifications:
+            ATSCertificationsSection(
+                self.document,
+                self.resume,
+                self.settings.certifications,
+            ).render()
 
-        ATSRolesSection(self.document, self.resume, self.settings.roles).render()
+        if self.settings.render_roles:
+            ATSRolesSection(self.document, self.resume, self.settings.roles).render()
 
         _path = Path(path)
         self.save(_path)

@@ -10,6 +10,7 @@ class ResumePersonalSettings:
         self.websites = True
         self.note = True
 
+
 class ResumeEducationSettings:
     """Control what parts of a resume's education section are rendered."""
 
@@ -18,6 +19,7 @@ class ResumeEducationSettings:
 
         self.degrees = True
 
+
 class ResumeCertificationsSettings:
     """Control what parts of a resume's certifications section are rendered."""
 
@@ -25,6 +27,7 @@ class ResumeCertificationsSettings:
         """Initialize everything to True."""
 
         self.include_expires = True
+
 
 class ResumeRolesSettings:
     """Control what parts of a resume's roles section are rendered."""
@@ -37,6 +40,7 @@ class ResumeRolesSettings:
         self.responsibilities = True
         self.accomplishments = True
         self.reason_for_leaving = True
+
 
 class ResumeSettings:
     """Control what parts of a resume are rendered."""
@@ -56,3 +60,21 @@ class ResumeSettings:
         self.roles = ResumeRolesSettings()
         self.render_roles = True
 
+    def update(self, settings: dict) -> None:
+        """Update the settings with the given dictionary."""
+
+        _render_personal = settings.get("render_personal")
+        if _render_personal is not None:
+            self.render_personal = _render_personal
+
+        _render_eduction = settings.get("render_education")
+        if _render_eduction is not None:
+            self.render_education = _render_eduction
+
+        _render_certifications = settings.get("render_certifications")
+        if _render_certifications is not None:
+            self.render_certifications = _render_certifications
+
+        _roles = settings.get("render_roles")
+        if _roles is not None:
+            self.render_roles = _roles

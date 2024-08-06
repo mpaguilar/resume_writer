@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import docx.document
 from docx_render.resume_settings import ResumeCertificationsSettings
@@ -48,10 +49,12 @@ class ATSCertificationsSection:
                 _paragraph_lines.append(f"Issued by: {_cert.issuer}")
 
             if _cert.issued:
-                _paragraph_lines.append(f"Issued: {_cert.issued}")
+                _value = datetime.strftime(_cert.issued, "%B %Y")
+                _paragraph_lines.append(f"Issued: {_value}")
 
             if _cert.expires and self.settings.include_expires:
-                _paragraph_lines.append(f"Expires: {_cert.expires}")
+                _value = datetime.strftime(_cert.expires, "%B %Y")
+                _paragraph_lines.append(f"Expires: {_value}")
 
             if len(_paragraph_lines) > 0:
                 self.document.add_paragraph("\n".join(_paragraph_lines))
