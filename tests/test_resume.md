@@ -23,7 +23,7 @@ Experienced Widget Expert with a lot of experience in the field.
 
 ## Note
 
-Proficent in the skills employers look for.
+Proficient in the skills employers look for.
 Lots of experience.
 
 # Education
