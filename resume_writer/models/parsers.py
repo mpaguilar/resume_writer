@@ -5,8 +5,10 @@ T = TypeVar("T")
 
 log = logging.getLogger(__name__)
 
+
 class ParseError(Exception):
     """Exception raised when parsing fails."""
+
 
 class ListBlockParse:
     """Mixin for parsing bullet points into a list."""
@@ -23,6 +25,10 @@ class ListBlockParse:
         _items = []
 
         for _block_line in block_lines:
+            # skip empty lines
+            if not _block_line:
+                continue
+
             if _block_line.startswith(("* ", "- ")):
                 _line = _block_line[2:].strip()
                 if _line == "":
@@ -77,9 +83,13 @@ class LabelBlockParse:
         _init_kwargs: dict[str, str | bool] = {}
 
         for _block_line in block_lines:
+            # skip empty lines
+            if not _block_line:
+                continue
+
             _line_split = _block_line.split(":")
             # the line is just a line, not a label
-            if len(_line_split) < 2: # noqa: PLR2004
+            if len(_line_split) < 2:  # noqa: PLR2004
                 continue
 
             _label = _line_split[0].lower()  # for lookup
@@ -153,11 +163,9 @@ class BasicBlockParse:
 
         # iterate over the lines in the block
         for _block_line in block_lines:
-            _block_line = _block_line.strip()
+            # keep carriage returns, but strip everything else
 
-            # skip empty lines
-            if not _block_line:
-                continue
+            _block_line = _block_line.strip(" ")
 
             # if the line starts with "# ", it's a section header
             if _block_line.startswith("# "):
