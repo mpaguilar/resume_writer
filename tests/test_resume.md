@@ -66,8 +66,8 @@ Company: Another Company
 Start date: 01/2023
 End date: 01/2024
 Title: Senior Worker
-
 Reason for change: Searching for new opportunities
+Location: remote
 
 ### Summary
 Performed senior tasks
@@ -93,6 +93,8 @@ End date: 06/2022
 Title: Junior Worker
 
 Reason for change: Laid off
+
+Location: Somewhere, USA
 
 ### Summary
 Performed junior tasks.
