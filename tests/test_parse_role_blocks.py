@@ -113,7 +113,7 @@ def test_responsibilities_block(block_lines):
     _responsibilities = RoleResponsibilities.parse(_lines)
     assert isinstance(_responsibilities, RoleResponsibilities)
     assert (
-        _responsibilities.responsibilities
+        _responsibilities.text
         == "Performed activities associated with a senior role."
     )
 
