@@ -50,6 +50,7 @@ ignore = ["ANN101", "D201", "D202",
                     "PLR2004", # ignore magic values in tests
                     "DTZ005", # ignore datetime.now() in tests,
                     "DTZ001", # ignore datetime.utcnow() in tests
+                    "B010" # ignore setattr in tests
 ]
 
 [tool.pytest.ini_options]
