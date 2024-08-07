@@ -8,7 +8,7 @@ class ResumeSettingsBase:
                 setattr(self, key, value)
 
 
-class ResumePersonalSettings:
+class ResumePersonalSettings(ResumeSettingsBase):
     """Control what parts of a resume's personal section are rendered."""
 
     def __init__(self):
@@ -21,7 +21,7 @@ class ResumePersonalSettings:
         self.note = True
 
 
-class ResumeEducationSettings:
+class ResumeEducationSettings(ResumeSettingsBase):
     """Control what parts of a resume's education section are rendered."""
 
     def __init__(self):
@@ -30,7 +30,7 @@ class ResumeEducationSettings:
         self.degrees = True
 
 
-class ResumeCertificationsSettings:
+class ResumeCertificationsSettings(ResumeSettingsBase):
     """Control what parts of a resume's certifications section are rendered."""
 
     def __init__(self):
@@ -39,7 +39,7 @@ class ResumeCertificationsSettings:
         self.include_expires = True
 
 
-class ResumeRolesSettings:
+class ResumeRolesSettings(ResumeSettingsBase):
     """Control what parts of a resume's roles section are rendered."""
 
     def __init__(self) -> None:
