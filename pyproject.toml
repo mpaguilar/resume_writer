@@ -1,3 +1,9 @@
+[project]
+name = "resume_writer"
+version = "0.1.0"
+license = { file = "LICENSE" }
+
+
 [tool.poetry]
 name = "resume-writer"
 version = "0.1.0"
