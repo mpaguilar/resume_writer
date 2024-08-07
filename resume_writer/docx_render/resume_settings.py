@@ -1,3 +1,13 @@
+class ResumeSettingsBase:
+    """Base class for resume settings."""
+
+    def update_from_dict(self, data_dict : dict) -> None:
+        """Update the settings from a dictionary."""
+        for key, value in data_dict.items():
+            if hasattr(self, key):
+                setattr(self, key, value)
+
+
 class ResumePersonalSettings:
     """Control what parts of a resume's personal section are rendered."""
 
@@ -40,9 +50,13 @@ class ResumeRolesSettings:
         self.responsibilities = True
         self.accomplishments = True
         self.reason_for_leaving = True
+        self.location = True
+        self.job_category = True
+        self.employment_type = True
+        self.agency_name = True
 
 
-class ResumeSettings:
+class ResumeSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""
 
     def __init__(self):
@@ -59,22 +73,3 @@ class ResumeSettings:
 
         self.roles = ResumeRolesSettings()
         self.render_roles = True
-
-    def update(self, settings: dict) -> None:
-        """Update the settings with the given dictionary."""
-
-        _render_personal = settings.get("render_personal")
-        if _render_personal is not None:
-            self.render_personal = _render_personal
-
-        _render_eduction = settings.get("render_education")
-        if _render_eduction is not None:
-            self.render_education = _render_eduction
-
-        _render_certifications = settings.get("render_certifications")
-        if _render_certifications is not None:
-            self.render_certifications = _render_certifications
-
-        _roles = settings.get("render_roles")
-        if _roles is not None:
-            self.render_roles = _roles

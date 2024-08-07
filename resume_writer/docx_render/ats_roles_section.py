@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx_render.docx_render_base import DocxRender
 from docx_render.resume_settings import ResumeRolesSettings
 from models.resume import Resume
 from models.roles import RoleBasics, RoleSkills
@@ -9,7 +10,11 @@ from models.roles import RoleBasics, RoleSkills
 log = logging.getLogger(__name__)
 
 
-class ATSRolesSection:
+class ATSRolesRenderError(Exception):
+    """Exception raised for errors in the input."""
+
+
+class ATSRolesSection(DocxRender):
     """Render roles section to a document."""
 
     def __init__(
@@ -19,6 +24,8 @@ class ATSRolesSection:
         settings: ResumeRolesSettings,
     ):
         """Initialize the roles section."""
+
+        super().__init__(self)
         assert isinstance(resume, Resume)
         assert isinstance(document, docx.document.Document)
         assert isinstance(settings, ResumeRolesSettings)
@@ -27,7 +34,7 @@ class ATSRolesSection:
         self.document = document
         self.settings = settings
 
-    def basics(self, basics: RoleBasics) -> None: # noqa: C901
+    def basics(self, basics: RoleBasics) -> None:  # noqa: C901
         """Render role basics to the document."""
 
         assert isinstance(basics, RoleBasics)
@@ -38,31 +45,37 @@ class ATSRolesSection:
 
         # company name is required
         if not basics.company:
-            raise ValueError("Company name is required")
+            _msg = "Company name is required"
+            self.errors.append(_msg)
+            log.warning(_msg)
 
         _paragraph_lines.append(f"Company: {basics.company}")
 
         # Title is rendered by calling function
         if not basics.title:
-            raise ValueError("Title is required")
+            _msg = "Title is required"
+            self.errors.append(_msg)
+            log.warning(_msg)
 
         _paragraph_lines.append(f"Title: {basics.title}")
 
-        if basics.job_category:
+        if basics.job_category and self.settings.job_category:
             _paragraph_lines.append(f"Job Category: {basics.job_category}")
 
-        if basics.location:
+        if basics.location and self.settings.location:
             _paragraph_lines.append(f"Location: {basics.location}")
 
-        if basics.agency_name:
+        if basics.agency_name and self.settings.accomplishments:
             _paragraph_lines.append(f"Agency: {basics.agency_name}")
 
-        if basics.employment_type:
+        if basics.employment_type and self.settings.employment_type:
             _paragraph_lines.append(f"Employment Type: {basics.employment_type}")
 
         # Start date
         if not basics.start_date:
-            raise ValueError("Start date is required")
+            _msg = "Start date is required"
+            self.errors.append(_msg)
+            log.warning(_msg)
 
         _value = datetime.strftime(basics.start_date, "%B %Y")
         _paragraph_lines.append(f"Start Date: {_value}")
@@ -82,6 +95,7 @@ class ATSRolesSection:
         if len(_paragraph_lines) > 0:
             self.document.add_paragraph("\n".join(_paragraph_lines))
 
+
     def skills(self, skills: RoleSkills) -> None:
         """Render role skills to the document."""
 
@@ -90,7 +104,9 @@ class ATSRolesSection:
         log.debug("Rendering role skills")
 
         if len(skills) == 0:
-            log.info("No skills to render")
+            _msg = "No skills to render"
+            self.warnings.append(_msg)
+            log.info(_msg)
             return
 
         _skill_text = ", ".join(skills)
@@ -105,7 +121,7 @@ class ATSRolesSection:
 
         for _role in self.resume.roles:
             if not _role.basics.title:
-                raise ValueError("Role title is required")
+                self.errors.append("Role title is required")
 
             self.document.add_heading(_role.basics.title, 2)
             self.basics(_role.basics)
@@ -122,7 +138,9 @@ class ATSRolesSection:
     def render(self) -> None:
         """Render the section to the document."""
         if len(self.resume.roles) == 0:
-            log.info("No roles to render")
+            _msg = "No roles to render"
+            log.info(_msg)
+            self.warnings.append(_msg)
             return
 
         self.roles()

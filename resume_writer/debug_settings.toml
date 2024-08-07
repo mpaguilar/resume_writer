@@ -1,0 +1,13 @@
+[resume.render.roles]
+render_education = true
+
+[resume.render.roles.basics]
+summary = true
+skills = true
+responsibilities = true
+accomplishments = true
+reason_for_leaving = true
+location = true
+job_category = true
+employment_type = true
+agency_name = true
