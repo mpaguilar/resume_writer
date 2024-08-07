@@ -1,8 +1,12 @@
 class ResumeSettingsBase:
     """Base class for resume settings."""
 
-    def update_from_dict(self, data_dict : dict) -> None:
+    def update_from_dict(self, data_dict : dict | None = None) -> None:
         """Update the settings from a dictionary."""
+
+        if data_dict is None:
+            return
+
         for key, value in data_dict.items():
             if hasattr(self, key):
                 setattr(self, key, value)
@@ -45,15 +49,19 @@ class ResumeRolesSettings(ResumeSettingsBase):
     def __init__(self) -> None:
         """Initialize everything to True."""
 
+        # title is required
         self.summary = True
         self.skills = True
         self.responsibilities = True
+        # basics
         self.accomplishments = True
         self.reason_for_leaving = True
         self.location = True
         self.job_category = True
         self.employment_type = True
         self.agency_name = True
+        self.start_date = True
+        self.end_date = True
 
 
 class ResumeSettings(ResumeSettingsBase):
@@ -62,14 +70,14 @@ class ResumeSettings(ResumeSettingsBase):
     def __init__(self):
         """Initialize all settings with appropriate objects."""
 
-        self.personal = ResumePersonalSettings()
-        self.render_personal = True
+        self.personal_settings = ResumePersonalSettings()
+        self.personal = True
 
-        self.education = ResumeEducationSettings()
-        self.render_education = True
+        self.education_settings = ResumeEducationSettings()
+        self.education = True
 
-        self.certifications = ResumeCertificationsSettings()
-        self.render_certifications = True
+        self.certifications_settings = ResumeCertificationsSettings()
+        self.certifications = True
 
-        self.roles = ResumeRolesSettings()
-        self.render_roles = True
+        self.roles_settings = ResumeRolesSettings()
+        self.roles = True

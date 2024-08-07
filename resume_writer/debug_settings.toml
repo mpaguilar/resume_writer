@@ -1,13 +1,35 @@
-[resume.render.roles]
-render_education = true
 
-[resume.render.roles.basics]
+[resume]
+[resume.render.general]
+personal = true
+education = true
+roles = true
+certifications = true
+
+[resume.render.personal]
+contact_info = true
+banner = true
+visa_status = true
+websites = true
+note = true
+
+[resume.render.roles]
+# title is required
 summary = true
-skills = true
 responsibilities = true
+skills = true
+# basics
+start_date = true
+end_end = true
 accomplishments = true
 reason_for_leaving = true
 location = true
 job_category = true
 employment_type = true
 agency_name = true
+
+[resume.render.certifications]
+include_expires = true
+
+[resume.render.education]
+degrees = true

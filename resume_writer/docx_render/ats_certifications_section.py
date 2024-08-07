@@ -61,5 +61,4 @@ class ATSCertificationsSection:
 
     def render(self) -> None:
         """Render certifications section."""
-
         self.certifications()

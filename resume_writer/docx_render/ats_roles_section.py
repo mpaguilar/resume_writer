@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx_render.docx_render_base import DocxRender
+from docx_render.docx_render_base import DocxRenderBase
 from docx_render.resume_settings import ResumeRolesSettings
 from models.resume import Resume
 from models.roles import RoleBasics, RoleSkills
@@ -10,11 +10,7 @@ from models.roles import RoleBasics, RoleSkills
 log = logging.getLogger(__name__)
 
 
-class ATSRolesRenderError(Exception):
-    """Exception raised for errors in the input."""
-
-
-class ATSRolesSection(DocxRender):
+class ATSRolesSection(DocxRenderBase):
     """Render roles section to a document."""
 
     def __init__(
@@ -25,7 +21,7 @@ class ATSRolesSection(DocxRender):
     ):
         """Initialize the roles section."""
 
-        super().__init__(self)
+        super().__init__()
         assert isinstance(resume, Resume)
         assert isinstance(document, docx.document.Document)
         assert isinstance(settings, ResumeRolesSettings)

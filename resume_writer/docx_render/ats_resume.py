@@ -39,24 +39,33 @@ class ATSResume:
 
         log.info(f"Rendering ATS friendly Word document to {path.as_posix()}")
 
-        ATSPersonalSection(self.document, self.resume, self.settings.personal).render()
+        if self.settings.personal:
+            ATSPersonalSection(
+                self.document,
+                self.resume,
+                self.settings.personal_settings,
+            ).render()
 
-        if self.settings.render_education:
+        if self.settings.education:
             ATSEducationSection(
                 self.document,
                 self.resume,
-                self.settings.education,
+                self.settings.education_settings,
             ).render()
 
-        if self.settings.render_certifications:
+        if self.settings.certifications:
             ATSCertificationsSection(
                 self.document,
                 self.resume,
-                self.settings.certifications,
+                self.settings.certifications_settings,
             ).render()
 
-        if self.settings.render_roles:
-            ATSRolesSection(self.document, self.resume, self.settings.roles).render()
+        if self.settings.roles:
+            ATSRolesSection(
+                self.document,
+                self.resume,
+                self.settings.roles_settings,
+            ).render()
 
         _path = Path(path)
         self.save(_path)

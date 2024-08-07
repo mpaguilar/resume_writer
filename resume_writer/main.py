@@ -51,9 +51,15 @@ def resume_settings(settings_file: str) -> ResumeSettings:
         _toml = tomli.load(_f)
         rich.print(_toml)
 
-    _settings = _toml.get("resume")
+    _settings = _toml.get("resume", {}).get("render")
     if _settings is not None:
-        _resume_settings.update(_settings)
+        _resume_settings.update_from_dict(_settings.get("general"))
+        _resume_settings.roles_settings.update_from_dict(_settings.get("roles"))
+        _resume_settings.education_settings.update_from_dict(_settings.get("education"))
+        _resume_settings.certifications_settings.update_from_dict(
+            _settings.get("certifications"),
+        )
+        _resume_settings.personal_settings.update_from_dict(_settings.get("personal"))
 
     return _resume_settings
 

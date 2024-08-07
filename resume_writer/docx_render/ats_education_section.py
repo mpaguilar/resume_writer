@@ -65,4 +65,5 @@ class ATSEducationSection:
         """Render the education section."""
 
         self.document.add_heading("Education", 1)
-        self.degrees()
+        if self.settings.degrees:
+            self.degrees()
