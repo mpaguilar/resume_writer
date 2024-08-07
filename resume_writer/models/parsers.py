@@ -48,8 +48,10 @@ class TextBlockParse:
     @classmethod
     def parse(cls: T, block_lines: list[str]) -> T:
         """Parse the block of lines into an object."""
-
-        return cls("\n".join(block_lines))
+        _lines = "\n".join(block_lines)
+        # remove trailing newlines
+        _lines = _lines.rstrip()
+        return cls(_lines)
 
 
 class LabelBlockParse:

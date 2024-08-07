@@ -27,7 +27,7 @@ class ATSRolesSection:
         self.document = document
         self.settings = settings
 
-    def basics(self, basics: RoleBasics) -> None:
+    def basics(self, basics: RoleBasics) -> None: # noqa: C901
         """Render role basics to the document."""
 
         assert isinstance(basics, RoleBasics)
@@ -48,6 +48,18 @@ class ATSRolesSection:
 
         _paragraph_lines.append(f"Title: {basics.title}")
 
+        if basics.job_category:
+            _paragraph_lines.append(f"Job Category: {basics.job_category}")
+
+        if basics.location:
+            _paragraph_lines.append(f"Location: {basics.location}")
+
+        if basics.agency_name:
+            _paragraph_lines.append(f"Agency: {basics.agency_name}")
+
+        if basics.employment_type:
+            _paragraph_lines.append(f"Employment Type: {basics.employment_type}")
+
         # Start date
         if not basics.start_date:
             raise ValueError("Start date is required")
@@ -59,6 +71,9 @@ class ATSRolesSection:
         if basics.end_date:
             _value = datetime.strftime(basics.end_date, "%B %Y")
             _paragraph_lines.append(f"End Date: {_value}")
+
+        if basics.location:
+            _paragraph_lines.append(f"Location: {basics.location}")
 
         # Reason for change
         if basics.reason_for_change and self.settings.reason_for_leaving:

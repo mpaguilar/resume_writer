@@ -7,6 +7,7 @@ from resume_writer.models.parsers import (
     LabelBlockParse,
     ListBlockParse,
     MultiBlockParse,
+    ParseError,
     TextBlockParse,
 )
 
@@ -14,6 +15,10 @@ T = TypeVar("T")
 
 
 log = logging.getLogger(__name__)
+
+
+class ParseRoleError(ParseError):
+    """Error parsing a role."""
 
 
 class RoleSummary(TextBlockParse):
@@ -30,10 +35,10 @@ class RoleResponsibilities(TextBlockParse):
 
     def __init__(self, responsibilities: str):
         """Initialize the object."""
-        assert isinstance(responsibilities, str), "Responsibilities must be a string"
+
+        if not isinstance(responsibilities, str):
+            raise ParseRoleError("Responsibilities must be a string")
         self.text = responsibilities
-
-
 
 
 class RoleSkills(ListBlockParse):
@@ -53,7 +58,7 @@ class RoleSkills(ListBlockParse):
         """Return the number of skills."""
         return len(self.skills)
 
-    def __getitem__(self, index : int):
+    def __getitem__(self, index: int):
         """Return the skill at the given index."""
         return self.skills[index]
 
@@ -61,24 +66,38 @@ class RoleSkills(ListBlockParse):
 class RoleBasics(LabelBlockParse):
     """Relevant basics for a resume."""
 
-    def __init__(
+    def __init__( #noqa: PLR0913
         self,
         company: str,
         start_date: str | datetime,
         end_date: str | datetime | None,
         reason_for_change: str | None,
         title: str,
+        location: str | None = None,
+        job_category : str | None = None,
+        employment_type : str | None = None,
+        agency_name : str | None = None,
+
     ):
         """Initialize the object."""
 
-        assert isinstance(company, str), "Company name must be a string"
-        assert isinstance(title, str), "Job title must be a string"
+        if not isinstance(company, str):
+            raise ParseRoleError("Company name must be a string")
+
+        if not isinstance(title, str):
+            raise ParseRoleError("Job title must be a string")
+
         assert isinstance(
             start_date,
             (datetime | str),
-        ), "Start date must be a datetime object"
+        ), "Start date must be a datetime object or string"
+
         assert isinstance(end_date, (datetime, str, type(None)))
         assert isinstance(reason_for_change, (str, type(None)))
+        assert isinstance(location, (str, type(None)))
+        assert isinstance(job_category, (str, type(None)))
+        assert isinstance(employment_type, (str, type(None)))
+        assert isinstance(agency_name, (str, type(None)))
 
         self.company = company
         if isinstance(start_date, str):
@@ -89,6 +108,10 @@ class RoleBasics(LabelBlockParse):
         self.end_date = end_date
         self.title = title
         self.reason_for_change = reason_for_change
+        self.location = location
+        self.job_category = job_category
+        self.employment_type = employment_type
+        self.agency_name = agency_name
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -99,6 +122,10 @@ class RoleBasics(LabelBlockParse):
             "end date": "end_date",
             "reason for change": "reason_for_change",
             "title": "title",
+            "location": "location",
+            "job category": "job_category",
+            "employment type": "employment_type",
+            "agency": "agency_name",
         }
 
 

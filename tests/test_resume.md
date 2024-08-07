@@ -63,6 +63,9 @@ Expires: 04/2025
 
 ### Basics
 Company: Another Company
+Agency: High-end 3rd party 
+Job category: Worker
+Employment type: Contract
 Start date: 01/2023
 End date: 01/2024
 Title: Senior Worker
@@ -85,6 +88,8 @@ Also did other things as required.
 
 ### Basics
 Company: Example Company
+Employment type: Full-time
+Job category: Worker
 
 Start date: 06/2020
 
