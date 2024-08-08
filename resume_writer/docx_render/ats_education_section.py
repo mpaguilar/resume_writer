@@ -26,7 +26,7 @@ class ATSEducationSection:
         self.resume = resume
         self.settings = settings
 
-    def degrees(self) -> None:
+    def degrees(self) -> None: #noqa: C901
         """Add Degrees section to document."""
 
         if not self.settings.degrees:
@@ -57,6 +57,12 @@ class ATSEducationSection:
             if _degree.end_date:
                 _date_text = datetime.strftime(_degree.end_date, "%B %Y")
                 _paragraph_lines.append(f"End date: {_date_text}")
+
+            if _degree.major:
+                _paragraph_lines.append(f"Major: {_degree.major}")
+
+            if _degree.gpa:
+                _paragraph_lines.append(f"GPA: {_degree.gpa}")
 
             if len(_paragraph_lines) > 0:
                 self.document.add_paragraph("\n".join(_paragraph_lines))

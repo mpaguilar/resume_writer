@@ -33,3 +33,5 @@ include_expires = true
 
 [resume.render.education]
 degrees = true
+gpa = true
+major = true

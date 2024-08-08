@@ -26,14 +26,14 @@ def test_update_from_dict_non_existing_key(base_settings):
 
 
 def test_resume_settings_initialization(resume_settings):
-    assert hasattr(resume_settings, "render_personal")
-    assert hasattr(resume_settings, "render_education")
-    assert hasattr(resume_settings, "render_certifications")
-    assert hasattr(resume_settings, "render_roles")
+    assert hasattr(resume_settings, "personal")
+    assert hasattr(resume_settings, "education")
+    assert hasattr(resume_settings, "certifications")
+    assert hasattr(resume_settings, "roles")
 
 
 def test_resume_settings_update_from_dict(resume_settings):
-    data_dict = {"render_personal": False, "render_education": False}
+    data_dict = {"personal": False, "education": False}
     resume_settings.update_from_dict(data_dict)
-    assert resume_settings.render_personal is False
-    assert resume_settings.render_education is False
+    assert resume_settings.personal is False
+    assert resume_settings.education is False

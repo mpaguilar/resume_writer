@@ -35,12 +35,16 @@ School: University of Example
 Degree: Impressive Degree
 Start date: 08/1990
 End date: 05/1994
+Major: Example Major
+GPA: 3.5
 
 ### Degree
 School: University of College
 Degree: Less Impressive Degree
 Start date: 08/1986
 End date: 05/1989
+Major: Example Major
+GPA: 4.0
 
 # Certifications
 

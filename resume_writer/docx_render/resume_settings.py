@@ -32,6 +32,8 @@ class ResumeEducationSettings(ResumeSettingsBase):
         """Initialize everything to True."""
 
         self.degrees = True
+        self.gpa = True
+        self.major = True
 
 
 class ResumeCertificationsSettings(ResumeSettingsBase):

@@ -1,7 +1,5 @@
 from datetime import datetime
 
-import pytest
-
 from resume_writer.models.roles import (
     Role,
     Roles,
@@ -87,11 +85,6 @@ def _block_lines():
     return return_lines
 
 
-@pytest.fixture()
-def block_lines():
-    return _block_lines()
-
-
 def _deindenter(lines):
     _lines = []
     for _line in lines:
@@ -108,6 +101,8 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
     _data_end = last_line_number - test_data_start_line
     _lines = _block_lines()[_data_start:_data_end]
     return _lines
+
+#### End of common functions
 
 
 def test_role_basics_block():

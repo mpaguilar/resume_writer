@@ -9,18 +9,22 @@ log = logging.getLogger(__name__)
 class Degree(LabelBlockParse):
     """Details of a specific degree."""
 
-    def __init__(
+    def __init__( #noqa: PLR0913
         self,
         school: str,
         degree: str | None,
         start_date: str | datetime | None,
         end_date: str | datetime | None,
+        major: str | None = None,
+        gpa : str | None = None,
     ):
         """Initialize the object."""
         assert isinstance(school, str)
         assert isinstance(degree, (str, type(None)))
         assert isinstance(start_date, (str, datetime, type(None)))
         assert isinstance(end_date, (str, datetime, type(None)))
+        assert isinstance(major, (str, type(None)))
+        assert isinstance(gpa, (str, type(None)))
 
         if school:
             log.debug(f"Creating degree object for {school}.")
@@ -40,6 +44,8 @@ class Degree(LabelBlockParse):
 
         self.start_date = start_date
         self.end_date = end_date
+        self.major = major
+        self.gpa = gpa
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -49,6 +55,8 @@ class Degree(LabelBlockParse):
             "degree": "degree",
             "start date": "start_date",
             "end date": "end_date",
+            "major": "major",
+            "gpa": "gpa",
         }
 
 
