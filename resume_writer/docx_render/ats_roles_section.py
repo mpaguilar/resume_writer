@@ -4,8 +4,8 @@ from datetime import datetime
 import docx.document
 from docx_render.docx_render_base import DocxRenderBase
 from docx_render.resume_settings import ResumeRolesSettings
+from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
-from models.roles import RoleBasics, RoleSkills
 
 log = logging.getLogger(__name__)
 
@@ -113,9 +113,9 @@ class ATSRolesSection(DocxRenderBase):
         """Render roles to the document."""
 
         log.debug("Rendering roles")
-        self.document.add_heading("Work History", 1)
+        self.document.add_heading("Experience", 1)
 
-        for _role in self.resume.roles:
+        for _role in self.resume.experience:
             if not _role.basics.title:
                 self.errors.append("Role title is required")
 
@@ -133,7 +133,7 @@ class ATSRolesSection(DocxRenderBase):
 
     def render(self) -> None:
         """Render the section to the document."""
-        if len(self.resume.roles) == 0:
+        if len(self.resume.experience) == 0:
             _msg = "No roles to render"
             log.info(_msg)
             self.warnings.append(_msg)

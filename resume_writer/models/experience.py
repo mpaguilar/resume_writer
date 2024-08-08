@@ -184,23 +184,23 @@ class Role(BasicBlockParse):
         }
 
 
-class Roles(MultiBlockParse):
-    """Details of work history."""
+class Experience(MultiBlockParse):
+    """Details of experience."""
 
     def __init__(
         self,
-        roles: list[Role],
+        experience: list[Role],
     ):
         """Initialize with a list of Role objects."""
 
-        assert isinstance(roles, list), "Roles must be a list"
+        assert isinstance(experience, list), "Roles must be a list"
         assert all(
-            isinstance(role, Role) for role in roles
+            isinstance(role, Role) for role in experience
         ), "Roles must be Role objects"
 
-        log.info(f"Creating Roles object with {len(roles)} roles.")
+        log.info(f"Creating Roles object with {len(experience)} roles.")
 
-        self.roles = roles
+        self.roles = experience
 
     def __iter__(self):
         """Iterate over the roles."""

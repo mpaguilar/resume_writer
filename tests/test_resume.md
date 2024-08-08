@@ -61,7 +61,7 @@ Name: BigCorp Certified Thing Expert
 Issued: 04/2020
 Expires: 04/2025
 
-# Work history
+# Experience
 
 ## Role
 

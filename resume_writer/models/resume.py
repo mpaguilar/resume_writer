@@ -2,9 +2,9 @@ import logging
 
 from models.certifications import Certifications
 from models.education import Education
+from models.experience import Experience
 from models.parsers import BasicBlockParse
 from models.personal import Personal
-from models.roles import Roles
 
 log = logging.getLogger(__name__)
 
@@ -16,19 +16,19 @@ class Resume(BasicBlockParse):
         self,
         personal: Personal | None,
         education: Education | None,
-        roles: Roles | None,
+        experience: Experience | None,
         certifications: Certifications | None,
     ):
         """Initialize the object."""
 
         assert isinstance(personal, (Personal, type(None)))
         assert isinstance(education, (Education, type(None)))
-        assert isinstance(roles, (Roles, type(None)))
+        assert isinstance(experience, (Experience, type(None)))
         assert isinstance(certifications, (Certifications, type(None)))
 
         self.personal = personal
         self.education = education
-        self.roles = roles
+        self.experience = experience
         self.certifications = certifications
 
     @staticmethod
@@ -38,7 +38,7 @@ class Resume(BasicBlockParse):
         return {
             "personal": "personal",
             "education": "education",
-            "work history": "roles",
+            "experience": "experience",
             "certifications": "certifications",
         }
 
@@ -49,6 +49,6 @@ class Resume(BasicBlockParse):
         return {
             "personal": Personal,
             "education": Education,
-            "work history": Roles,
+            "experience": Experience,
             "certifications": Certifications,
         }

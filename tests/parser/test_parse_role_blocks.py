@@ -1,8 +1,8 @@
 from datetime import datetime
 
-from resume_writer.models.roles import (
+from resume_writer.models.experience import (
     Role,
-    Roles,
+    Experience,
     RoleBasics,
     RoleSummary,
     RoleSkills,
@@ -167,8 +167,8 @@ def test_role_block():
 def test_roles_block():
     """Test multiple roles."""
     _lines = _deindenter(get_data_lines(15, 70))
-    _roles = Roles.parse(_lines)
-    assert isinstance(_roles, Roles)
+    _roles = Experience.parse(_lines)
+    assert isinstance(_roles, Experience)
     assert len(_roles) == 2
     assert isinstance(_roles[0], Role)
     assert isinstance(_roles[1], Role)

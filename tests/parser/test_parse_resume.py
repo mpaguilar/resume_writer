@@ -4,7 +4,7 @@ from models.resume import Resume
 from models.personal import ContactInfo, Websites, VisaStatus, Banner, Note
 from models.education import Degrees, Education
 from models.certifications import Certifications
-from models.roles import Roles
+from models.experience import Experience
 
 
 test_data = """
@@ -67,7 +67,7 @@ Name: BigCorp Certified Thing Expert
 Issued: 04/2020
 Expires: 04/2025
 
-# Work history
+# Experience
 
 ## Role
 
@@ -151,5 +151,5 @@ def test_parse_resume_complete(block_lines):
     assert isinstance(resume.education.degrees, Degrees)
     assert len(resume.education.degrees) == 2
 
-    assert isinstance(resume.roles, Roles)
-    assert len(resume.roles) == 2
+    assert isinstance(resume.experience, Experience)
+    assert len(resume.experience) == 2
