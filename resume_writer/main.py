@@ -75,8 +75,9 @@ def export_ats_document(
     assert isinstance(output_file, str)
     assert isinstance(resume_settings, ResumeSettings)
 
-    _docx = ATSResume(resume, resume_settings)
-    _docx.render(Path(output_file))
+    _docx = ATSResume(resume=resume, settings=resume_settings)
+    _docx.render()
+    _docx.save(Path(output_file))
 
 
 @click.command()

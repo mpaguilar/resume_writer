@@ -1,30 +1,25 @@
 import logging
 
-import docx.document
+from docx import Document
+from docx_render.docx_render_base import DocxPersonalBase
 from docx_render.resume_settings import ResumePersonalSettings
 from models.resume import Resume
 
 log = logging.getLogger(__name__)
 
 
-class ATSPersonalSection:
+class ATSPersonalSection(DocxPersonalBase):
     """Represent and render personal section."""
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: Document,
         resume: Resume,
         settings: ResumePersonalSettings,
     ):
         """Initialize the object."""
 
-        assert isinstance(document, docx.document.Document)
-        assert isinstance(resume, Resume)
-        assert isinstance(settings, ResumePersonalSettings)
-
-        self.settings = settings
-        self.document = document
-        self.resume = resume
+        super().__init__(document=document, resume=resume, settings=settings)
 
     def contact_info(self) -> None:
         """Add contact information to the document."""
@@ -161,4 +156,3 @@ class ATSPersonalSection:
 
         self.website_info()
         self.visa_status()
-

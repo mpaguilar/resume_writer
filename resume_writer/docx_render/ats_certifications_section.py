@@ -2,13 +2,14 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx_render.docx_render_base import DocxCertificationsBase
 from docx_render.resume_settings import ResumeCertificationsSettings
 from models.resume import Resume
 
 log = logging.getLogger(__name__)
 
 
-class ATSCertificationsSection:
+class ATSCertificationsSection(DocxCertificationsBase):
     """Represent and render certifications section."""
 
     def __init__(
@@ -23,9 +24,7 @@ class ATSCertificationsSection:
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeCertificationsSettings)
 
-        self.document = document
-        self.settings = settings
-        self.resume = resume
+        super().__init__(document=document, resume=resume, settings=settings)
 
     def certifications(self) -> None:
         """Render certifications section."""

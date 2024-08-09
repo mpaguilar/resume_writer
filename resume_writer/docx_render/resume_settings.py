@@ -45,7 +45,7 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
         self.include_expires = True
 
 
-class ResumeRolesSettings(ResumeSettingsBase):
+class ResumeExperienceSettings(ResumeSettingsBase):
     """Control what parts of a resume's roles section are rendered."""
 
     def __init__(self) -> None:
@@ -81,5 +81,5 @@ class ResumeSettings(ResumeSettingsBase):
         self.certifications_settings = ResumeCertificationsSettings()
         self.certifications = True
 
-        self.roles_settings = ResumeRolesSettings()
+        self.roles_settings = ResumeExperienceSettings()
         self.roles = True

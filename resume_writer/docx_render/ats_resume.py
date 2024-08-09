@@ -1,75 +1,53 @@
 import logging
-from pathlib import Path
 
-from docx import Document
 from docx_render.ats_certifications_section import ATSCertificationsSection
 from docx_render.ats_education_section import ATSEducationSection
+from docx_render.ats_experience_section import ATSExperienceSection
 from docx_render.ats_personal_section import ATSPersonalSection
-from docx_render.ats_roles_section import ATSRolesSection
-from docx_render.resume_settings import (
-    ResumeSettings,
-)
+from docx_render.docx_render_base import DocxResumeBase
+from docx_render.resume_settings import ResumeSettings
 from models.resume import Resume
 
 log = logging.getLogger(__name__)
 
 
-class ATSResume:
+class ATSResume(DocxResumeBase):
     """Represent and render an ATS-friendly Word resume."""
 
     def __init__(self, resume: Resume, settings: ResumeSettings | None):
         """Initialize a blank ATS-friendly Word document."""
 
-        assert isinstance(resume, Resume)
-        assert isinstance(settings, ResumeSettings) or settings is None
+        super().__init__(resume=resume, settings=settings)
 
-        if settings is None:
-            settings = ResumeSettings()
-
-        ## end of settings
-
-        self.settings = settings
-        self.resume = resume
-        self.document = Document()
-
-    def render(self, path: Path) -> None:
+    def render(self) -> None:
         """Render an ATS-friendly Word document."""
 
-        assert isinstance(path, Path)
-
-        log.info(f"Rendering ATS friendly Word document to {path.as_posix()}")
+        log.info("Rendering ATS friendly Word document")
 
         if self.settings.personal:
             ATSPersonalSection(
-                self.document,
-                self.resume,
-                self.settings.personal_settings,
+                document=self.document,
+                resume=self.resume,
+                settings=self.settings.personal_settings,
             ).render()
 
         if self.settings.education:
             ATSEducationSection(
-                self.document,
-                self.resume,
-                self.settings.education_settings,
+                document=self.document,
+                resume=self.resume,
+                settings=self.settings.education_settings,
             ).render()
 
         if self.settings.certifications:
             ATSCertificationsSection(
-                self.document,
-                self.resume,
-                self.settings.certifications_settings,
+                document=self.document,
+                resume=self.resume,
+                settings=self.settings.certifications_settings,
             ).render()
 
         if self.settings.roles:
-            ATSRolesSection(
-                self.document,
-                self.resume,
-                self.settings.roles_settings,
+            ATSExperienceSection(
+                document=self.document,
+                resume=self.resume,
+                settings=self.settings.roles_settings,
             ).render()
-
-        _path = Path(path)
-        self.save(_path)
-
-    def save(self, path: Path) -> None:
-        """Save the document to a file."""
-        self.document.save(path)

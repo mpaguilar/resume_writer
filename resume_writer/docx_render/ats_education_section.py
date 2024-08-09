@@ -2,13 +2,14 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx_render.docx_render_base import DocxEducationBase
 from docx_render.resume_settings import ResumeEducationSettings
 from models.resume import Resume
 
 log = logging.getLogger(__name__)
 
 
-class ATSEducationSection:
+class ATSEducationSection(DocxEducationBase):
     """Renders the education section of a resume."""
 
     def __init__(
@@ -22,11 +23,9 @@ class ATSEducationSection:
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeEducationSettings)
 
-        self.document = document
-        self.resume = resume
-        self.settings = settings
+        super().__init__(document=document, resume=resume, settings=settings)
 
-    def degrees(self) -> None: #noqa: C901
+    def degrees(self) -> None:  # noqa: C901
         """Add Degrees section to document."""
 
         if not self.settings.degrees:

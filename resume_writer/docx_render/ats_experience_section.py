@@ -2,33 +2,26 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx_render.docx_render_base import DocxRenderBase
-from docx_render.resume_settings import ResumeRolesSettings
+from docx_render.docx_render_base import DocxExperienceBase
+from docx_render.resume_settings import ResumeExperienceSettings
 from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
 
 log = logging.getLogger(__name__)
 
 
-class ATSRolesSection(DocxRenderBase):
+class ATSExperienceSection(DocxExperienceBase):
     """Render roles section to a document."""
 
     def __init__(
         self,
         document: docx.document.Document,
         resume: Resume,
-        settings: ResumeRolesSettings,
+        settings: ResumeExperienceSettings,
     ):
         """Initialize the roles section."""
 
-        super().__init__()
-        assert isinstance(resume, Resume)
-        assert isinstance(document, docx.document.Document)
-        assert isinstance(settings, ResumeRolesSettings)
-
-        self.resume = resume
-        self.document = document
-        self.settings = settings
+        super().__init__(document=document, resume=resume, settings=settings)
 
     def basics(self, basics: RoleBasics) -> None:  # noqa: C901
         """Render role basics to the document."""
