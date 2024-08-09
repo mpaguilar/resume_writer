@@ -46,7 +46,7 @@ class DocxResumeBase(DocxRenderBase):
 
     def render(self) -> None:
         """Render Word document interface."""
-        return NotImplemented
+        raise NotImplementedError
 
     def save(self, path: Path) -> None:
         """Save the document to a file."""
@@ -76,27 +76,27 @@ class DocxPersonalBase(DocxRenderBase):
 
     def contact_info(self) -> None:
         """Render contact information."""
-        return NotImplemented
+        raise NotImplementedError
 
     def website_info(self) -> None:
         """Render website information."""
-        return NotImplemented
+        raise NotImplementedError
 
     def visa_status(self) -> None:
         """Render visa status."""
-        return NotImplemented
+        raise NotImplementedError
 
     def banner(self) -> None:
         """Render banner."""
-        return NotImplemented
+        raise NotImplementedError
 
     def note(self) -> None:
         """Render note."""
-        return NotImplemented
+        raise NotImplementedError
 
     def render(self) -> None:
         """Render personal section."""
-        return NotImplemented
+        raise NotImplementedError
 
 
 class DocxExperienceBase(DocxRenderBase):
@@ -119,22 +119,21 @@ class DocxExperienceBase(DocxRenderBase):
         self.document = document
         self.settings = settings
 
-    # TODO: is there a better way to do this so the noqa isn't necessary?
-    def basics(self, basics: RoleBasics) -> None:  # noqa: ARG002
+    def basics(self, basics: RoleBasics) -> None:
         """Render basic section of experience."""
-        return NotImplemented
+        raise NotImplementedError
 
-    def skills(self, skills: RoleSkills) -> None:  # noqa: ARG002
+    def skills(self, skills: RoleSkills) -> None:
         """Render skills section of experience."""
-        return NotImplemented
+        raise NotImplementedError
 
     def roles(self) -> None:
         """Render roles section of experience."""
-        return NotImplemented
+        raise NotImplementedError
 
     def render(self) -> None:
         """Render experience section."""
-        return NotImplemented
+        raise NotImplementedError
 
 
 class DocxEducationBase(DocxRenderBase):
@@ -157,11 +156,11 @@ class DocxEducationBase(DocxRenderBase):
 
     def degrees(self) -> None:
         """Render degrees section of education."""
-        return NotImplemented
+        raise NotImplementedError
 
     def render(self) -> None:
         """Render education section."""
-        return NotImplemented
+        raise NotImplementedError
 
 
 class DocxCertificationsBase(DocxRenderBase):
@@ -185,8 +184,8 @@ class DocxCertificationsBase(DocxRenderBase):
 
     def certifications(self) -> None:
         """Render certifications section of resume."""
-        return NotImplemented
+        raise NotImplementedError
 
     def render(self) -> None:
         """Render certifications section."""
-        return NotImplemented
+        raise NotImplementedError

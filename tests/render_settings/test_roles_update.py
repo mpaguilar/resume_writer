@@ -1,11 +1,11 @@
 from resume_writer.docx_render.resume_settings import (
-    ResumeRolesSettings,
+    ResumeExperienceSettings,
 )
 
 
-class TestResumeRolesSettings:
+class TestResumeExperienceSettings:
     def setup_method(self):
-        self.settings = ResumeRolesSettings()
+        self.settings = ResumeExperienceSettings()
 
     def test_update_from_dict(self):
         data_dict = {"summary": False, "skills": False}
