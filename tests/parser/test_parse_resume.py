@@ -116,18 +116,6 @@ Performed routine activities associated with a junor role.
 * Skill 4
 """
 
-
-def _deindenter(lines):
-    _lines = []
-    for _line in lines:
-        if _line.startswith("##"):
-            _line = _line[1:]
-            _lines.append(_line)
-        else:
-            _lines.append(_line)
-    return _lines
-
-
 @pytest.fixture()
 def block_lines():
     lines = test_data.split("\n")
