@@ -51,6 +51,9 @@ class TextBlockParse:
         _lines = "\n".join(block_lines)
         # remove trailing newlines
         _lines = _lines.rstrip()
+
+        # remove leading newlines
+        _lines = _lines.lstrip()
         return cls(_lines)
 
 
