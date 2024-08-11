@@ -5,13 +5,13 @@ from resume_render.ats.ats_certifications_section import ATSCertificationsSectio
 from resume_render.ats.ats_education_section import ATSEducationSection
 from resume_render.ats.ats_experience_section import ATSExperienceSection
 from resume_render.ats.ats_personal_section import ATSPersonalSection
-from resume_render.docx_render_base import DocxResumeBase
+from resume_render.docx_render_base import ResumeRenderBase
 from resume_render.render_settings import ResumeSettings
 
 log = logging.getLogger(__name__)
 
 
-class ATSResume(DocxResumeBase):
+class ATSResume(ResumeRenderBase):
     """Represent and render an ATS-friendly Word resume."""
 
     def __init__(self, resume: Resume, settings: ResumeSettings | None):

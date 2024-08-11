@@ -4,13 +4,13 @@ from datetime import datetime
 import docx.document
 from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
-from resume_render.docx_render_base import DocxExperienceBase, DocxRenderBase
+from resume_render.docx_render_base import RenderBase, ResumeRenderExperienceBase
 from resume_render.render_settings import ResumeExperienceSettings
 
 log = logging.getLogger(__name__)
 
 
-class ATSRenderExperienceSkillsSection(DocxRenderBase):
+class ATSRenderExperienceSkillsSection(RenderBase):
     """Render skills section to a document."""
 
     def __init__(
@@ -41,7 +41,7 @@ class ATSRenderExperienceSkillsSection(DocxRenderBase):
         self.document.add_paragraph(f"Skills: {_skill_text}")
 
 
-class ATSRenderExperienceRoleBasicsSection(DocxRenderBase):
+class ATSRenderExperienceRoleBasicsSection(RenderBase):
     """Render role basics section to a document."""
 
     def __init__(
@@ -123,7 +123,7 @@ class ATSRenderExperienceRoleBasicsSection(DocxRenderBase):
             self.document.add_paragraph("\n".join(_paragraph_lines))
 
 
-class ATSExperienceSection(DocxExperienceBase):
+class ATSExperienceSection(ResumeRenderExperienceBase):
     """Render roles section to a document."""
 
     def __init__(

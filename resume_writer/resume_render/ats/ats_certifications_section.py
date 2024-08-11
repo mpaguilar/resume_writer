@@ -3,13 +3,13 @@ from datetime import datetime
 
 import docx.document
 from models.resume import Resume
-from resume_render.docx_render_base import DocxCertificationsBase
+from resume_render.docx_render_base import ResumeRenderCertificationsBase
 from resume_render.render_settings import ResumeCertificationsSettings
 
 log = logging.getLogger(__name__)
 
 
-class ATSCertificationsSection(DocxCertificationsBase):
+class ATSCertificationsSection(ResumeRenderCertificationsBase):
     """Represent and render certifications section."""
 
     def __init__(

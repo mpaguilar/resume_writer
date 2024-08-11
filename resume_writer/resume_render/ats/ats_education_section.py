@@ -3,13 +3,13 @@ from datetime import datetime
 
 import docx.document
 from models.resume import Resume
-from resume_render.docx_render_base import DocxEducationBase
+from resume_render.docx_render_base import ResumeRenderEducationBase
 from resume_render.render_settings import ResumeEducationSettings
 
 log = logging.getLogger(__name__)
 
 
-class ATSEducationSection(DocxEducationBase):
+class ATSEducationSection(ResumeRenderEducationBase):
     """Renders the education section of a resume."""
 
     def __init__(

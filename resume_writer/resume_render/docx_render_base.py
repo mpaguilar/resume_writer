@@ -13,7 +13,7 @@ from resume_render.render_settings import (
 )
 
 
-class DocxRenderBase:
+class RenderBase:
     """Base class for rendering docx files.
 
     Used for common functionality between the different renderers,
@@ -27,7 +27,7 @@ class DocxRenderBase:
         self.warnings = []
 
 
-class DocxResumeBase(DocxRenderBase):
+class ResumeRenderBase(RenderBase):
     """Base class for rendering resumes."""
 
     def __init__(self, resume: Resume, settings: ResumeSettings | None):
@@ -53,7 +53,7 @@ class DocxResumeBase(DocxRenderBase):
         self.document.save(path)
 
 
-class DocxPersonalBase(DocxRenderBase):
+class ResumeRenderPersonalBase(RenderBase):
     """Base class for rendering resume personal section."""
 
     def __init__(
@@ -99,7 +99,7 @@ class DocxPersonalBase(DocxRenderBase):
         raise NotImplementedError
 
 
-class DocxExperienceBase(DocxRenderBase):
+class ResumeRenderExperienceBase(RenderBase):
     """Base class for rendering resume experience section."""
 
     def __init__(
@@ -136,7 +136,7 @@ class DocxExperienceBase(DocxRenderBase):
         raise NotImplementedError
 
 
-class DocxEducationBase(DocxRenderBase):
+class ResumeRenderEducationBase(RenderBase):
     """Base class for rendering resume education section."""
 
     def __init__(
@@ -163,7 +163,7 @@ class DocxEducationBase(DocxRenderBase):
         raise NotImplementedError
 
 
-class DocxCertificationsBase(DocxRenderBase):
+class ResumeRenderCertificationsBase(RenderBase):
     """Base class for rendering resume certifications section."""
 
     def __init__(

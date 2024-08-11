@@ -2,13 +2,13 @@ import logging
 
 from docx import Document
 from models.resume import Resume
-from resume_render.docx_render_base import DocxPersonalBase
+from resume_render.docx_render_base import ResumeRenderPersonalBase
 from resume_render.render_settings import ResumePersonalSettings
 
 log = logging.getLogger(__name__)
 
 
-class ATSPersonalSection(DocxPersonalBase):
+class ATSPersonalSection(ResumeRenderPersonalBase):
     """Represent and render personal section."""
 
     def __init__(
