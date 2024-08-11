@@ -61,7 +61,7 @@ class ResumeRenderPersonalBase(RenderBase):
 
     def __init__(
         self,
-        document: Document | list[str],
+        document: docx.document.Document | list[str],
         resume: Resume,
         settings: ResumePersonalSettings,
     ):
