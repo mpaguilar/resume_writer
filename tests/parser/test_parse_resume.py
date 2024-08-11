@@ -33,7 +33,7 @@ Experienced Widget Expert with a lot of experience in the field.
 
 ## Note
 
-Proficent in the skills employers look for.
+Proficient in the skills employers look for.
 Lots of experience.
 
 # Education
@@ -43,14 +43,18 @@ Lots of experience.
 ### Degree
 School: University of Example
 Degree: Impressive Degree
-Started: 08/1990
-Ended: 05/1994
+Start date: 08/1990
+End date: 05/1994
+Major: Example Major
+GPA: 3.5
 
 ### Degree
 School: University of College
 Degree: Less Impressive Degree
-Started: 08/1986
-Ended: 05/1989
+Start date: 08/1986
+End date: 05/1989
+Major: Example Major
+GPA: 4.0
 
 # Certifications
 
@@ -69,31 +73,82 @@ Expires: 04/2025
 
 # Experience
 
-## Role
+## Projects
+### Project
 
-### Basics
+#### Overview
+Title: A Useful project
+Url: https://example.com/useful1
+Url Description: A Useful Project
+Start date: 01/2020
+End date: 01/2021
+
+#### Description
+
+This should still be pretty short, 2-3 sentences.
+Multiple lines are fine.
+
+So are multiple paragraphs.
+
+#### Skills
+* Skill 1
+* Skill 2
+* Skill 5
+
+### Project
+
+#### Overview
+Title: Another Useful project
+Url: https://example.com/useful2
+Url Description: Another Useful Project
+Start date: 02/2020
+End date: 02/2021
+
+#### Description
+
+This should still be pretty short, 2-3 sentences.
+Multiple lines are fine.
+
+So are multiple paragraphs.
+
+#### Skills
+* Skill 3
+* Skill 4
+* Skill 5
+
+## Roles
+
+### Role
+
+#### Basics
 Company: Another Company
+Agency: High-end 3rd party 
+Job category: Worker
+Employment type: Contract
 Start date: 01/2023
 End date: 01/2024
 Title: Senior Worker
-
 Reason for change: Searching for new opportunities
+Location: remote
 
-### Summary
+#### Summary
 Performed senior tasks
 
-### Responsibilities
+#### Responsibilities
 Performed activities associated with a senior role.
+Also did other things as required.
 
-### Skills
+#### Skills
 * Skill 1
 * Skill 2
 * Skill 3
 
-## Role
+### Role
 
-### Basics
+#### Basics
 Company: Example Company
+Employment type: Full-time
+Job category: Worker
 
 Start date: 06/2020
 
@@ -103,18 +158,24 @@ Title: Junior Worker
 
 Reason for change: Laid off
 
-### Summary
+Location: Somewhere, USA
+
+#### Summary
 Performed junior tasks.
 
-### Responsibilities
-Performed routine activities associated with a junor role.
+#### Responsibilities
+Performed routine activities associated with a junior role.
+Other things were done as required.
+* a thing
+* another thing
 
-### Skills
+#### Skills
 
 * Skill 1
 * Skill 2
 * Skill 4
-"""
+""" #noqa: W291
+
 
 @pytest.fixture()
 def block_lines():
@@ -140,4 +201,6 @@ def test_parse_resume_complete(block_lines):
     assert len(resume.education.degrees) == 2
 
     assert isinstance(resume.experience, Experience)
-    assert len(resume.experience) == 2
+    _experience = resume.experience
+    assert len(_experience.roles) == 2
+    assert len(_experience.projects) == 2

@@ -2,7 +2,7 @@ from datetime import datetime
 
 from resume_writer.models.experience import (
     Role,
-    Experience,
+    Roles,
     RoleBasics,
     RoleSummary,
     RoleSkills,
@@ -10,9 +10,11 @@ from resume_writer.models.experience import (
 )
 
 test_data = """
-## Role
+## Roles
 
-### Basics
+### Role
+
+#### Basics
 Company: Another Company
 Agency: High-end 3rd party
 Job category: Worker
@@ -23,21 +25,21 @@ Title: Senior Worker
 Reason for change: Searching for new opportunities
 Location: remote
 
-### Summary
+#### Summary
 Performed senior tasks
 
-### Responsibilities
+#### Responsibilities
 Performed activities associated with a senior role.
 Also did other things as required.
 
-### Skills
+#### Skills
 * Skill 1
 * Skill 2
 * Skill 3
 
-## Role
+### Role
 
-### Basics
+#### Basics
 Company: Example Company
 Employment type: Full-time
 Job category: Worker
@@ -52,16 +54,16 @@ Reason for change: Laid off
 
 Location: Somewhere, USA
 
-### Summary
+#### Summary
 Performed junior tasks.
 
-### Responsibilities
+#### Responsibilities
 Performed routine activities associated with a junior role.
 Other things were done as required.
 * a thing
 * another thing
 
-### Skills
+#### Skills
 
 * Skill 1
 * Skill 2
@@ -69,7 +71,9 @@ Other things were done as required.
 """
 
 # subtract one to the line number to account for zero index
-test_data_start_line = 14 - 1
+test_data_start_line = 12
+
+# TODO: breaking up the test data is still a mess
 
 
 def _block_lines():
@@ -85,29 +89,38 @@ def _block_lines():
     return return_lines
 
 
-def _deindenter(lines):
+def _deindenter(lines, count: int = 1):
+    """Remove leading '#' from sub-blocks."""
+
     _lines = []
-    for _line in lines:
-        if _line.startswith("##"):
-            _line = _line[1:]
-            _lines.append(_line)
-        else:
-            _lines.append(_line)
+    for _ in range(count):
+        _lines.clear()
+        for _line in lines:
+            if _line.startswith("##"):
+                _line = _line[1:]
+                _lines.append(_line)
+            else:
+                _lines.append(_line)
+        lines = _lines.copy()
+
     return _lines
 
 
 def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
-    _data_start = (first_line_number - 1) - test_data_start_line
+
+    _data_start = first_line_number - test_data_start_line
     _data_end = last_line_number - test_data_start_line
-    _lines = _block_lines()[_data_start:_data_end]
+    _lines = _block_lines()
+    _lines = _lines[_data_start:_data_end + 1] # add one to include the last line
     return _lines
+
 
 #### End of common functions
 
 
 def test_role_basics_block():
-    _lines = get_data_lines(18, 38)
-    _lines = _deindenter(_lines)
+    _lines = get_data_lines(18, 26)
+
     _basics = RoleBasics.parse(_lines)
 
     assert isinstance(_basics, RoleBasics)
@@ -124,7 +137,6 @@ def test_role_basics_block():
 
 def test_summary_block():
     _lines = get_data_lines(29, 30)
-    _lines = _deindenter(_lines)
     _summary = RoleSummary.parse(_lines)
     assert isinstance(_summary, RoleSummary)
     assert _summary.summary == "Performed senior tasks"
@@ -132,7 +144,6 @@ def test_summary_block():
 
 def test_responsibilities_block():
     _lines = get_data_lines(32, 33)
-    _lines = _deindenter(_lines)
     _responsibilities = RoleResponsibilities.parse(_lines)
     assert isinstance(_responsibilities, RoleResponsibilities)
     assert (
@@ -152,9 +163,8 @@ def test_skills_block():
 
 def test_role_block():
     """Test one role."""
-    _lines = _deindenter(get_data_lines(41, 70))
-    # de-indent twice
-    _block_lines = _deindenter(_lines)
+    _lines = get_data_lines(41, 70)
+    _block_lines = _deindenter(_lines, 3)
 
     _role = Role.parse(_block_lines)
     assert isinstance(_role, Role)
@@ -166,9 +176,10 @@ def test_role_block():
 
 def test_roles_block():
     """Test multiple roles."""
-    _lines = _deindenter(get_data_lines(15, 70))
-    _roles = Experience.parse(_lines)
-    assert isinstance(_roles, Experience)
+    _lines = get_data_lines(15, 72)
+    _lines = _deindenter(_lines, 2)
+    _roles = Roles.parse(_lines)
+    assert isinstance(_roles, Roles)
     assert len(_roles) == 2
     assert isinstance(_roles[0], Role)
     assert isinstance(_roles[1], Role)

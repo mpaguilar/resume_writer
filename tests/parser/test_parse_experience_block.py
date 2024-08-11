@@ -1,67 +1,8 @@
-# Personal
+from resume_writer.models.experience import (
+    Experience,
+)
 
-## Contact Information
-Name: John Doe
-Email: johndoe@example.com
-Phone: 123-456-7890
-Location: Somewhere, USA
-
-## Websites
-GitHub: https://github.com/example
-LinkedIn: https://www.linkedin.com/in/example
-Website: https://www.example.com
-Twitter: https://twitter.com/example
-
-## Visa Status
-Work Authorization: US Citizen
-Require sponsorship: No
-
-
-## Banner
-
-Experienced Widget Expert with a lot of experience in the field.
-
-## Note
-
-Proficient in the skills employers look for.
-Lots of experience.
-
-# Education
-
-## Degrees
-
-### Degree
-School: University of Example
-Degree: Impressive Degree
-Start date: 08/1990
-End date: 05/1994
-Major: Example Major
-GPA: 3.5
-
-### Degree
-School: University of College
-Degree: Less Impressive Degree
-Start date: 08/1986
-End date: 05/1989
-Major: Example Major
-GPA: 4.0
-
-# Certifications
-
-## Certification
-
-Issuer: BigCorp
-Name: BigCorp Certified Widget Expert
-Issued: 03/2020
-Expires: 03/2025
-
-## Certification
-Issuer: BigCorp
-Name: BigCorp Certified Thing Expert
-Issued: 04/2020
-Expires: 04/2025
-
-# Experience
+test_data = """
 
 ## Projects
 ### Project
@@ -112,7 +53,7 @@ So are multiple paragraphs.
 
 #### Basics
 Company: Another Company
-Agency: High-end 3rd party 
+Agency: High-end 3rd party
 Job category: Worker
 Employment type: Contract
 Start date: 01/2023
@@ -164,3 +105,52 @@ Other things were done as required.
 * Skill 1
 * Skill 2
 * Skill 4
+
+"""
+
+test_data_start_line = 10
+
+
+def _block_lines():
+    lines = test_data.split("\n")
+
+    return_lines = []
+    for line in lines:
+        if line.startswith("# "):
+            return_lines.append(line[1:])
+        else:
+            return_lines.append(line)
+
+    return return_lines
+
+
+def _deindenter(lines, count: int = 1):
+    """Remove leading '#' from sub-blocks."""
+
+    _lines = []
+    for _ in range(count):
+        _lines.clear()
+        for _line in lines:
+            if _line.startswith("##"):
+                _line = _line[1:]
+                _lines.append(_line)
+            else:
+                _lines.append(_line)
+        lines = _lines.copy()
+
+    return _lines
+
+
+def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
+    _data_start = first_line_number - test_data_start_line
+    _data_end = last_line_number - test_data_start_line
+    _lines = _block_lines()
+    _lines = _lines[_data_start : _data_end + 1]  # add one to include the last line
+    return _lines
+
+
+def test_basic_project():
+    _lines = get_data_lines(10, 112)
+    _lines = _deindenter(_lines, 1)
+    _experience = Experience.parse(_lines)
+    assert isinstance(_experience, Experience)
