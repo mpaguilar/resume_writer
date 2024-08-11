@@ -2,7 +2,7 @@ import pytest
 
 from unittest.mock import Mock
 from docx.document import Document
-from resume_writer.docx_render.docx_render_base import (
+from resume_writer.resume_render.resume_render_base import (
     DocxResumeBase,
     DocxPersonalBase,
     DocxExperienceBase,
@@ -10,7 +10,8 @@ from resume_writer.docx_render.docx_render_base import (
     DocxCertificationsBase,
 )
 from models.resume import Resume
-from docx_render.resume_settings import (
+
+from resume_writer.resume_render.render_settings import (
     ResumeSettings,
     ResumePersonalSettings,
     ResumeExperienceSettings,

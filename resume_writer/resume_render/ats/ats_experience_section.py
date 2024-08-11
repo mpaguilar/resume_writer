@@ -4,8 +4,8 @@ from datetime import datetime
 import docx.document
 from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
-from resume_render.docx_render_base import RenderBase, ResumeRenderExperienceBase
 from resume_render.render_settings import ResumeExperienceSettings
+from resume_render.resume_render_base import RenderBase, ResumeRenderExperienceBase
 
 log = logging.getLogger(__name__)
 

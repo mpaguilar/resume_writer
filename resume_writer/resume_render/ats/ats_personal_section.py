@@ -2,8 +2,8 @@ import logging
 
 from docx import Document
 from models.resume import Resume
-from resume_render.docx_render_base import ResumeRenderPersonalBase
 from resume_render.render_settings import ResumePersonalSettings
+from resume_render.resume_render_base import ResumeRenderPersonalBase
 
 log = logging.getLogger(__name__)
 

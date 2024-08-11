@@ -3,8 +3,8 @@ from datetime import datetime
 
 import docx.document
 from models.resume import Resume
-from resume_render.docx_render_base import ResumeRenderCertificationsBase
 from resume_render.render_settings import ResumeCertificationsSettings
+from resume_render.resume_render_base import ResumeRenderCertificationsBase
 
 log = logging.getLogger(__name__)
 

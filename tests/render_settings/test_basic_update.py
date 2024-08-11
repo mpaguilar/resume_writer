@@ -1,5 +1,5 @@
 import pytest
-from resume_writer.docx_render.resume_settings import ResumeSettingsBase
+from resume_writer.resume_render.render_settings import ResumeSettingsBase
 
 class SettingsTestClass(ResumeSettingsBase):
     def __init__(self):

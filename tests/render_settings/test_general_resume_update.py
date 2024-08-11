@@ -1,5 +1,8 @@
 import pytest
-from resume_writer.docx_render.resume_settings import ResumeSettingsBase, ResumeSettings
+from resume_writer.resume_render.render_settings import (
+    ResumeSettingsBase,
+    ResumeSettings,
+)
 
 
 @pytest.fixture()
