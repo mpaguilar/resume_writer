@@ -1,12 +1,12 @@
 import logging
 
-from docx_render.ats_certifications_section import ATSCertificationsSection
-from docx_render.ats_education_section import ATSEducationSection
-from docx_render.ats_experience_section import ATSExperienceSection
-from docx_render.ats_personal_section import ATSPersonalSection
-from docx_render.docx_render_base import DocxResumeBase
-from docx_render.resume_settings import ResumeSettings
 from models.resume import Resume
+from resume_render.ats.ats_certifications_section import ATSCertificationsSection
+from resume_render.ats.ats_education_section import ATSEducationSection
+from resume_render.ats.ats_experience_section import ATSExperienceSection
+from resume_render.ats.ats_personal_section import ATSPersonalSection
+from resume_render.docx_render_base import DocxResumeBase
+from resume_render.render_settings import ResumeSettings
 
 log = logging.getLogger(__name__)
 

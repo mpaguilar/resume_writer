@@ -4,10 +4,10 @@ from pathlib import Path
 import click
 import rich
 import tomli
-from docx_render.ats_resume import ATSResume
-from docx_render.resume_settings import ResumeSettings
 from models.personal import Personal
 from models.resume import Resume
+from resume_render.ats.ats_resume import ATSResume
+from resume_render.render_settings import ResumeSettings
 from utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)

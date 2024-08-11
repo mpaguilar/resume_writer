@@ -2,15 +2,15 @@ from pathlib import Path
 
 import docx.document
 from docx import Document
-from docx_render.resume_settings import (
+from models.experience import RoleBasics, RoleSkills
+from models.resume import Resume
+from resume_render.render_settings import (
     ResumeCertificationsSettings,
     ResumeEducationSettings,
     ResumeExperienceSettings,
     ResumePersonalSettings,
     ResumeSettings,
 )
-from models.experience import RoleBasics, RoleSkills
-from models.resume import Resume
 
 
 class DocxRenderBase:

@@ -2,9 +2,9 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx_render.docx_render_base import DocxCertificationsBase
-from docx_render.resume_settings import ResumeCertificationsSettings
 from models.resume import Resume
+from resume_render.docx_render_base import DocxCertificationsBase
+from resume_render.render_settings import ResumeCertificationsSettings
 
 log = logging.getLogger(__name__)
 

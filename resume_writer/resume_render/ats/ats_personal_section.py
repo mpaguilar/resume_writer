@@ -1,9 +1,9 @@
 import logging
 
 from docx import Document
-from docx_render.docx_render_base import DocxPersonalBase
-from docx_render.resume_settings import ResumePersonalSettings
 from models.resume import Resume
+from resume_render.docx_render_base import DocxPersonalBase
+from resume_render.render_settings import ResumePersonalSettings
 
 log = logging.getLogger(__name__)
 
