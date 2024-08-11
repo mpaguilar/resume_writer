@@ -54,17 +54,22 @@ class ResumeRenderBase(RenderBase):
 
 
 class ResumeRenderPersonalBase(RenderBase):
-    """Base class for rendering resume personal section."""
+    """Base class for rendering resume personal section.
+
+    Document : a python-docx Document object or a list of strings
+    """
 
     def __init__(
         self,
-        document: Document,
+        document: Document | list[str],
         resume: Resume,
         settings: ResumePersonalSettings,
     ):
         """Initialize personal renderer."""
 
-        assert isinstance(document, docx.document.Document)
+        assert isinstance(document, (docx.document.Document, list))
+        if isinstance(document, list):
+            assert all(isinstance(item, str) for item in document)
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumePersonalSettings)
 
