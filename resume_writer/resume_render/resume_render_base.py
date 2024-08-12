@@ -2,7 +2,13 @@ from pathlib import Path
 
 import docx.document
 from docx import Document
-from models.experience import RoleBasics, RoleSkills
+from models.experience import (
+    Experience,
+    Project,
+    Projects,
+    Role,
+    Roles,
+)
 from models.resume import Resume
 
 from resume_writer.resume_render.render_settings import (
@@ -10,6 +16,8 @@ from resume_writer.resume_render.render_settings import (
     ResumeEducationSettings,
     ResumeExperienceSettings,
     ResumePersonalSettings,
+    ResumeProjectsSettings,
+    ResumeRolesSettings,
     ResumeSettings,
 )
 
@@ -105,41 +113,107 @@ class ResumeRenderPersonalBase(RenderBase):
         raise NotImplementedError
 
 
+class ResumeRenderRolesBase(RenderBase):
+    """Base class for rendering resume roles section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        roles: Roles,
+        settings: ResumeRolesSettings,
+    ):
+        """Initialize the roles section."""
+
+        super().__init__()
+
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(roles, Roles)
+        assert isinstance(settings, ResumeRolesSettings)
+
+        self.document = document
+        self.roles = roles
+        self.settings = settings
+
+
+class ResumeRenderRoleBase(RenderBase):
+    """Base class for rendering resume role section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        role: Role,
+        settings: ResumeRolesSettings,
+    ):
+        """Initialize the role section."""
+        super().__init__()
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(role, Role)
+        assert isinstance(settings, ResumeRolesSettings)
+
+        self.document = document
+        self.role = role
+        self.settings = settings
+
+
+class ResumeRenderProjectsBase(RenderBase):
+    """Base class for rendering resume projects section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        projects: Projects,
+        settings: ResumeProjectsSettings,
+    ):
+        """Initialize the projects section."""
+        super().__init__()
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(projects, Projects)
+        assert isinstance(settings, ResumeProjectsSettings)
+
+        self.document = document
+        self.projects = projects
+        self.settings = settings
+
+
+class ResumeRenderProjectBase(RenderBase):
+    """Base class for rendering resume project section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        project: Project,
+        settings: ResumeProjectsSettings,
+    ):
+        """Initialize the project section."""
+        super().__init__()
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(project, Project)
+        assert isinstance(settings, ResumeProjectsSettings)
+
+        self.document = document
+        self.project = project
+        self.settings = settings
+
+
 class ResumeRenderExperienceBase(RenderBase):
     """Base class for rendering resume experience section."""
 
     def __init__(
         self,
         document: docx.document.Document,
-        resume: Resume,
-        settings: ResumeExperienceSettings,
+        experience: Experience,
+        settings: ResumeRolesSettings,
     ):
         """Initialize the roles section."""
 
         super().__init__()
-        assert isinstance(resume, Resume)
+        assert isinstance(experience, Experience)
         assert isinstance(document, docx.document.Document)
         assert isinstance(settings, ResumeExperienceSettings)
 
-        self.resume = resume
+        self.experience = experience
         self.document = document
         self.settings = settings
-
-    def basics(self, basics: RoleBasics) -> None:
-        """Render basic section of experience."""
-        raise NotImplementedError
-
-    def skills(self, skills: RoleSkills) -> None:
-        """Render skills section of experience."""
-        raise NotImplementedError
-
-    def roles(self) -> None:
-        """Render roles section of experience."""
-        raise NotImplementedError
-
-    def render(self) -> None:
-        """Render experience section."""
-        raise NotImplementedError
 
 
 class ResumeRenderEducationBase(RenderBase):

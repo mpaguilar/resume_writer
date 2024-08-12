@@ -44,8 +44,24 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
 
         self.include_expires = True
 
+class ResumeProjectsSettings(ResumeSettingsBase):
+    """Control what parts of a resume's projects section are rendered."""
 
-class ResumeExperienceSettings(ResumeSettingsBase):
+    def __init__(self):
+        """Initialize everything to True."""
+
+        self.overview = True
+        self.description = True
+        self.skills = True
+
+        self.title = True
+        self.url = True
+        self.url_description = True
+        self.start_date = True
+        self.end_date = True
+
+
+class ResumeRolesSettings(ResumeSettingsBase):
     """Control what parts of a resume's roles section are rendered."""
 
     def __init__(self) -> None:
@@ -57,7 +73,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.responsibilities = True
         # basics
         self.accomplishments = True
-        self.reason_for_leaving = True
+        self.reason_for_change = True
         self.location = True
         self.job_category = True
         self.employment_type = True
@@ -65,6 +81,16 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.start_date = True
         self.end_date = True
 
+class ResumeExperienceSettings(ResumeSettingsBase):
+    """Control what parts of a resume's experience section are rendered."""
+
+    def __init__(self) -> None:
+        """Initialize everything to True."""
+
+        self.roles = True
+        self.roles_settings = ResumeRolesSettings()
+        self.projects = True
+        self.projects_settings = ResumeProjectsSettings()
 
 class ResumeSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""
@@ -81,5 +107,5 @@ class ResumeSettings(ResumeSettingsBase):
         self.certifications_settings = ResumeCertificationsSettings()
         self.certifications = True
 
-        self.roles_settings = ResumeExperienceSettings()
+        self.roles_settings = ResumeRolesSettings()
         self.roles = True

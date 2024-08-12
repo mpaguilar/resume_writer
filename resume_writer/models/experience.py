@@ -27,6 +27,7 @@ class RoleSummary(TextBlockParse):
     def __init__(self, summary: str):
         """Initialize the object."""
         assert isinstance(summary, str), "Summary must be a string"
+        # TODO: rename this to `text`
         self.summary = summary
 
 
@@ -373,11 +374,7 @@ class Projects(MultiBlockParse):
 class Experience(BasicBlockParse):
     """Details of experience."""
 
-    def __init__(
-        self,
-        roles: Roles,
-        projects: Projects,
-    ):
+    def __init__(self, roles: Roles, projects: Projects):
         """Initialize with a list of Role objects."""
 
         assert isinstance(roles, Roles), "Roles must be a Roles object"
