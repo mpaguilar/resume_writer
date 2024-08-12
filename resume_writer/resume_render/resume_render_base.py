@@ -4,7 +4,8 @@ import docx.document
 from docx import Document
 from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
-from resume_render.render_settings import (
+
+from resume_writer.resume_render.render_settings import (
     ResumeCertificationsSettings,
     ResumeEducationSettings,
     ResumeExperienceSettings,
