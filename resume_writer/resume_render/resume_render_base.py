@@ -1,7 +1,6 @@
 from pathlib import Path
 
 import docx.document
-from docx import Document
 
 from resume_writer.models.certifications import Certifications
 from resume_writer.models.education import Degree, Education
@@ -42,7 +41,12 @@ class RenderBase:
 class ResumeRenderBase(RenderBase):
     """Base class for rendering resumes."""
 
-    def __init__(self, resume: Resume, settings: ResumeSettings | None):
+    def __init__(
+        self,
+        document: docx.document.Document,
+        resume: Resume,
+        settings: ResumeSettings | None,
+    ):
         """Initialize superclass."""
 
         assert isinstance(resume, Resume)
@@ -54,7 +58,7 @@ class ResumeRenderBase(RenderBase):
 
         self.settings = settings
         self.resume = resume
-        self.document = Document()
+        self.document = document
 
     def render(self) -> None:
         """Render Word document interface."""

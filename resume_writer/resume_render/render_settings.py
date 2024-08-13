@@ -131,5 +131,5 @@ class ResumeSettings(ResumeSettingsBase):
         self.certifications_settings = ResumeCertificationsSettings()
         self.certifications = True
 
-        self.roles_settings = ResumeRolesSettings()
-        self.roles = True
+        self.experience_settings = ResumeRolesSettings()
+        self.experience = True
