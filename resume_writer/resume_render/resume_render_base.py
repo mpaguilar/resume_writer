@@ -9,8 +9,9 @@ from models.experience import (
     Role,
     Roles,
 )
-from models.resume import Resume
 
+from resume_writer.models.personal import Personal
+from resume_writer.models.resume import Resume
 from resume_writer.resume_render.render_settings import (
     ResumeCertificationsSettings,
     ResumeEducationSettings,
@@ -71,7 +72,7 @@ class ResumeRenderPersonalBase(RenderBase):
     def __init__(
         self,
         document: docx.document.Document | list[str],
-        resume: Resume,
+        personal: Personal,
         settings: ResumePersonalSettings,
     ):
         """Initialize personal renderer."""
@@ -79,38 +80,14 @@ class ResumeRenderPersonalBase(RenderBase):
         assert isinstance(document, (docx.document.Document, list))
         if isinstance(document, list):
             assert all(isinstance(item, str) for item in document)
-        assert isinstance(resume, Resume)
+        assert isinstance(personal, Personal)
         assert isinstance(settings, ResumePersonalSettings)
 
         super().__init__()
 
         self.settings = settings
         self.document = document
-        self.resume = resume
-
-    def contact_info(self) -> None:
-        """Render contact information."""
-        raise NotImplementedError
-
-    def website_info(self) -> None:
-        """Render website information."""
-        raise NotImplementedError
-
-    def visa_status(self) -> None:
-        """Render visa status."""
-        raise NotImplementedError
-
-    def banner(self) -> None:
-        """Render banner."""
-        raise NotImplementedError
-
-    def note(self) -> None:
-        """Render note."""
-        raise NotImplementedError
-
-    def render(self) -> None:
-        """Render personal section."""
-        raise NotImplementedError
+        self.personal = personal
 
 
 class ResumeRenderRolesBase(RenderBase):

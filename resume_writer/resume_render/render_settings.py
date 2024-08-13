@@ -24,6 +24,22 @@ class ResumePersonalSettings(ResumeSettingsBase):
         self.websites = True
         self.note = True
 
+        # contact info
+        self.name = True
+        self.email = True
+        self.phone = True
+        self.location = True
+
+        # websites
+        self.linkedin = True
+        self.github = True
+        self.website = True
+        self.twitter = True
+
+        # visa status
+        self.require_sponsorship = True
+        self.work_authorization = True
+
 
 class ResumeEducationSettings(ResumeSettingsBase):
     """Control what parts of a resume's education section are rendered."""
