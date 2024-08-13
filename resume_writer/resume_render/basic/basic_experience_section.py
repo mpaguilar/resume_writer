@@ -36,10 +36,13 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
     ):
         """Initialize roles render object."""
 
+        log.debug("Initializing roles render object.")
         super().__init__(document=document, role=role, settings=settings)
 
     def _skills(self) -> list[str]:
         """Render role skills section."""
+
+        log.debug("Rendering role skills.")
         _paragraph_lines = []
         if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
             _skills_str = ", ".join(self.role.skills)
@@ -49,6 +52,7 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
 
     def _details(self) -> list[str]:
         """Render role details section."""
+        log.debug("Rendering role details.")
         _paragraph_lines = []
         # job category
         if self.role.job_category and self.settings.job_category:
@@ -68,6 +72,7 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
     def _dates(self) -> list[str]:
         """Render role dates section."""
 
+        log.debug("Rendering role dates.")
         _paragraph_lines = []
 
         # Start date
@@ -158,10 +163,14 @@ class BasicRenderProjectSection(ResumeRenderProjectBase):
         settings: ResumeProjectsSettings,
     ):
         """Initialize project render object."""
+        log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
 
     def _overview(self) -> list[str]:
         """Render project overview section."""
+
+        log.debug("Rendering project overview.")
+
         _paragraph_lines = []
         _overview = self.project.overview
 
@@ -188,6 +197,8 @@ class BasicRenderProjectSection(ResumeRenderProjectBase):
     def _skills(self) -> list[str]:
         """Render project skills section."""
 
+        log.debug("Rendering project skills.")
+
         _paragraph_lines = []
 
         _skills = ", ".join(self.project.skills)
@@ -197,6 +208,8 @@ class BasicRenderProjectSection(ResumeRenderProjectBase):
 
     def render(self) -> None:
         """Render project section."""
+
+        log.debug("Rendering project section.")
 
         _paragraph_lines = []
 
@@ -224,6 +237,8 @@ class BasicRenderProjectsSection(ResumeRenderProjectsBase):
     ):
         """Initialize projects render object."""
 
+        log.debug("Initializing projects render object.")
+
         super().__init__(document=document, projects=projects, settings=settings)
 
     def render(self) -> None:
@@ -250,10 +265,13 @@ class BasicRenderExperienceSection(ResumeRenderExperienceBase):
     ) -> None:
         """Initialize experience render object."""
 
+        log.debug("Initializing experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
         """Render experience section."""
+
+        log.debug("Rendering experience section.")
 
         if self.settings.roles and self.experience.roles:
             BasicRenderRolesSection(
