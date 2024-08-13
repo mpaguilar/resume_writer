@@ -58,7 +58,10 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
     def __init__(self):
         """Initialize everything to True."""
 
-        self.include_expires = True
+        self.name = True
+        self.issuer = True
+        self.issued = True
+        self.expires = True
 
 class ResumeProjectsSettings(ResumeSettingsBase):
     """Control what parts of a resume's projects section are rendered."""

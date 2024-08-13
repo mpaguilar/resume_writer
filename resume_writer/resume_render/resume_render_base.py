@@ -2,14 +2,15 @@ from pathlib import Path
 
 import docx.document
 from docx import Document
-from models.experience import (
+
+from resume_writer.models.certifications import Certifications
+from resume_writer.models.experience import (
     Experience,
     Project,
     Projects,
     Role,
     Roles,
 )
-
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.render_settings import (
@@ -226,23 +227,16 @@ class ResumeRenderCertificationsBase(RenderBase):
     def __init__(
         self,
         document: docx.document.Document,
-        resume: Resume,
+        certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
         """Initialize certification renderer."""
 
         assert isinstance(document, docx.document.Document)
-        assert isinstance(resume, Resume)
+        assert isinstance(certifications, Certifications)
         assert isinstance(settings, ResumeCertificationsSettings)
 
         self.document = document
         self.settings = settings
-        self.resume = resume
+        self.certifications = certifications
 
-    def certifications(self) -> None:
-        """Render certifications section of resume."""
-        raise NotImplementedError
-
-    def render(self) -> None:
-        """Render certifications section."""
-        raise NotImplementedError

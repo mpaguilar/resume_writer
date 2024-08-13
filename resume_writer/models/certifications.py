@@ -32,10 +32,10 @@ class Certification(LabelBlockParse):
         if isinstance(expires, str):
             expires = datetime.strptime(expires, "%m/%Y")  # noqa: DTZ007
 
-        self.issuer = issuer
-        self.name = name
-        self.issued = issued
-        self.expires = expires
+        self.issuer : str | None = issuer
+        self.name : str = name
+        self.issued : datetime | None = issued
+        self.expires : datetime | None = expires
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
