@@ -51,7 +51,6 @@ def settings():
     _settings.location = True
     _settings.agency_name = True
     _settings.employment_type = True
-    _settings.accomplishments = True  # is this used anywhere?
     _settings.end_date = True
     _settings.start_date = True
     _settings.reason_for_change = True

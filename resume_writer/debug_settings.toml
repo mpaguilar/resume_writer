@@ -1,19 +1,18 @@
 
-[resume]
-[resume.render.general]
+[resume.render]
 personal = true
 education = true
 roles = true
 certifications = true
 
-[resume.render.personal]
+[resume.render.section.personal]
 contact_info = true
 banner = true
 visa_status = true
 websites = true
 note = true
 
-[resume.render.roles]
+[resume.render.section.experience]
 # title is required
 summary = true
 responsibilities = true
@@ -21,17 +20,16 @@ skills = true
 # basics
 start_date = true
 end_end = true
-accomplishments = true
 reason_for_change = true
 location = true
 job_category = true
 employment_type = true
 agency_name = true
 
-[resume.render.certifications]
+[resume.render.section.certifications]
 include_expires = true
 
-[resume.render.education]
+[resume.render.section.education]
 degrees = true
 gpa = true
 major = true

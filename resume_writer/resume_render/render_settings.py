@@ -96,7 +96,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.skills = True
         self.responsibilities = True
         # basics
-        self.accomplishments = True
+
         self.reason_for_change = True
         self.location = True
         self.job_category = True
