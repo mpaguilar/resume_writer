@@ -4,6 +4,7 @@ import docx.document
 from docx import Document
 
 from resume_writer.models.certifications import Certifications
+from resume_writer.models.education import Degree, Education
 from resume_writer.models.experience import (
     Experience,
     Project,
@@ -194,22 +195,41 @@ class ResumeRenderExperienceBase(RenderBase):
         self.settings = settings
 
 
+class ResumeRenderDegreeBase(RenderBase):
+    """Base class for rendering a single degree."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        degree: Degree,
+        settings: ResumeEducationSettings,
+    ):
+        """Initialize the degree section."""
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(degree, Degree)
+        assert isinstance(settings, ResumeEducationSettings)
+
+        self.degree = degree
+        self.document = document
+        self.settings = settings
+
+
 class ResumeRenderEducationBase(RenderBase):
     """Base class for rendering resume education section."""
 
     def __init__(
         self,
         document: docx.document.Document,
-        resume: Resume,
+        education: Education,
         settings: ResumeEducationSettings,
     ):
         """Initialize the education rendering section."""
         assert isinstance(document, docx.document.Document)
-        assert isinstance(resume, Resume)
+        assert isinstance(education, Education)
         assert isinstance(settings, ResumeEducationSettings)
 
         self.document = document
-        self.resume = resume
+        self.education = education
         self.settings = settings
 
     def degrees(self) -> None:
@@ -239,4 +259,3 @@ class ResumeRenderCertificationsBase(RenderBase):
         self.document = document
         self.settings = settings
         self.certifications = certifications
-

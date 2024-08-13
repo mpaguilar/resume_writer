@@ -47,7 +47,12 @@ class ResumeEducationSettings(ResumeSettingsBase):
     def __init__(self):
         """Initialize everything to True."""
 
-        self.degrees = True
+        self.degrees = True # render all degrees
+
+        self.school = True
+        self.degree = True # render degree name
+        self.start_date = True
+        self.end_date = True
         self.gpa = True
         self.major = True
 
