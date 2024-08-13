@@ -4,7 +4,7 @@ from datetime import datetime
 import docx.document
 from models.experience import RoleBasics, RoleSkills
 from models.resume import Resume
-from resume_render.render_settings import ResumeExperienceSettings
+from resume_render.render_settings import ResumeRolesSettings
 from resume_render.resume_render_base import RenderBase, ResumeRenderExperienceBase
 
 log = logging.getLogger(__name__)
@@ -48,7 +48,7 @@ class ATSRenderExperienceRoleBasicsSection(RenderBase):
         self,
         document: docx.document.Document,
         basics: RoleBasics,
-        settings: ResumeExperienceSettings,
+        settings: ResumeRolesSettings,
     ):
         """Initialize the role basics section."""
 
@@ -130,7 +130,7 @@ class ATSExperienceSection(ResumeRenderExperienceBase):
         self,
         document: docx.document.Document,
         resume: Resume,
-        settings: ResumeExperienceSettings,
+        settings: ResumeRolesSettings,
     ):
         """Initialize the roles section."""
 
