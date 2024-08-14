@@ -106,7 +106,10 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
     def render(self) -> None:
         """Render the personal section."""
 
-        _font_size = 9
+        if self.document.styles["Normal"].font.size:
+            _font_size = self.document.styles["Normal"].font.size.pt
+        else:
+            raise ValueError("Normal style font size not set.")
 
         log.debug("Rendering personal section")
         _contact_lines = []
@@ -122,7 +125,6 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
             _banner_lines.append(self.personal.banner.text)
 
         if self.personal.note and self.settings.note and self.personal.note.text:
-            _note = self.personal.note.text
             _banner_lines.append(self.personal.note.text)
 
         _paragraph = None
@@ -132,13 +134,13 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
 
         if len(_contact_lines) > 0:
             _run = _paragraph.add_run("\n".join(_contact_lines))
-            _run.font.size = Pt(_font_size - 1)
+            _run.font.size = Pt(_font_size - 2)
 
         if len(_banner_lines) > 0:
             _txt = "\n\n" if len(_contact_lines) > 0 else ""
             _txt = _txt + "\n".join(_banner_lines)
             _run = _paragraph.add_run(_txt)
-            _run.font.size = Pt(_font_size)
+            _run.font.size = Pt(_font_size - 2)
 
         if self.personal.visa_status and self.settings.visa_status:
             self._visa_status()
