@@ -3,3 +3,12 @@ personal = true
 education = false
 certifications = true
 experience = true
+
+[resume.render.section.personal]
+visa_status = false
+
+[resume.render.section.certifications]
+name = true
+issuer = false
+issued = false
+expires = false

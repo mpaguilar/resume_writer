@@ -8,8 +8,8 @@ import tomli
 
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
-from resume_writer.resume_render.basic.basic_resume import BasicRenderResume
 from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.resume_render.simple.simple_resume import BasicRenderResume
 from resume_writer.utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)
@@ -67,7 +67,7 @@ def main(input_file: str, output_file: str, settings_file: str) -> None:
 
     _settings = load_settings(settings_file)
     _render_settings = ResumeSettings()
-    _render_settings.update_from_dict(_settings)
+    _render_settings.update_from_dict(_settings["resume"]["render"])
 
     with open(input_file) as _f:
         _resume_text = _f.read()
@@ -82,6 +82,7 @@ def main(input_file: str, output_file: str, settings_file: str) -> None:
     )
     _renderer.render()
     _docx_doc.save(output_file)
+    log.info(f"Saved resume to {output_file}")
 
     rich.print(_resume)
 
