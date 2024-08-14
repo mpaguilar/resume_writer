@@ -267,7 +267,6 @@ class MultiBlockParse:
         _section_header = None
 
         for _line in block_lines:
-            # _line = _line.strip()
 
             # skip empty lines
             if not _line:
