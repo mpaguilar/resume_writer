@@ -5,7 +5,7 @@ import pytest
 from unittest.mock import Mock, MagicMock
 import docx.document
 
-from models.experience import (
+from resume_writer.models.experience import (
     Experience,
     ProjectDescription,
     ProjectOverview,

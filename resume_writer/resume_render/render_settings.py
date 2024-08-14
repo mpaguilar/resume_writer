@@ -1,13 +1,15 @@
 class ResumeSettingsBase:
     """Base class for resume settings."""
 
-    def update_from_dict(self, data_dict : dict | None = None) -> None:
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update the settings from a dictionary."""
 
         if data_dict is None:
             return
 
         for key, value in data_dict.items():
+            if key == "section":
+                continue
             if hasattr(self, key):
                 setattr(self, key, value)
 
@@ -47,10 +49,10 @@ class ResumeEducationSettings(ResumeSettingsBase):
     def __init__(self):
         """Initialize everything to True."""
 
-        self.degrees = True # render all degrees
+        self.degrees = True  # render all degrees
 
         self.school = True
-        self.degree = True # render degree name
+        self.degree = True  # render degree name
         self.start_date = True
         self.end_date = True
         self.gpa = True
@@ -67,6 +69,7 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
         self.issuer = True
         self.issued = True
         self.expires = True
+
 
 class ResumeProjectsSettings(ResumeSettingsBase):
     """Control what parts of a resume's projects section are rendered."""
@@ -105,6 +108,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.start_date = True
         self.end_date = True
 
+
 class ResumeExperienceSettings(ResumeSettingsBase):
     """Control what parts of a resume's experience section are rendered."""
 
@@ -115,6 +119,18 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.roles_settings = ResumeRolesSettings()
         self.projects = True
         self.projects_settings = ResumeProjectsSettings()
+
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
+        """Update settings for experience and subsections."""
+        super().update_from_dict(data_dict)
+        _section = data_dict.get("section")
+        if _section is None:
+            return
+        if "projects" in _section:
+            self.projects_settings.update_from_dict(_section["projects"])
+        if "roles" in _section:
+            self.roles_settings.update_from_dict(_section["roles"])
+
 
 class ResumeSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""
@@ -131,5 +147,26 @@ class ResumeSettings(ResumeSettingsBase):
         self.certifications_settings = ResumeCertificationsSettings()
         self.certifications = True
 
-        self.experience_settings = ResumeRolesSettings()
+        self.experience_settings = ResumeExperienceSettings()
         self.experience = True
+
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
+        """Update settings for resume and subsections."""
+        super().update_from_dict(data_dict)
+        _section = data_dict.get("section")
+        if _section is None:
+            return
+
+        if "personal" in _section:
+            self.personal_settings.update_from_dict(_section["personal"])
+
+        if "education" in _section:
+            self.education_settings.update_from_dict(_section["education"])
+
+        if "certifications" in _section:
+            self.certifications_settings.update_from_dict(_section["certifications"])
+
+        if "experience" in _section:
+            self.experience_settings.update_from_dict(_section["experience"])
+
+    # this is the top-level, and has no section name

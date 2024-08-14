@@ -4,7 +4,7 @@ from datetime import datetime
 from unittest.mock import Mock
 import docx.document
 
-from models.experience import Role, Roles, RoleSkills
+from resume_writer.models.experience import Role, Roles, RoleSkills
 
 from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,

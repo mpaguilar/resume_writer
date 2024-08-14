@@ -1,9 +1,8 @@
-
 [resume.render]
 personal = true
 education = true
-roles = true
 certifications = true
+experience = true
 
 [resume.render.section.personal]
 contact_info = true
@@ -11,25 +10,50 @@ banner = true
 visa_status = true
 websites = true
 note = true
+name = true
+email = true
+phone = true
+location = true
+linkedin = true
+github = true
+website = true
+twitter = true
+require_sponsorship = true
+work_authorization = true
 
-[resume.render.section.experience]
-# title is required
-summary = true
-responsibilities = true
+[resume.render.section.experience.section.projects]
+overview = true
+description = true
 skills = true
-# basics
+title = true
+url = true
+url_description = true
 start_date = true
-end_end = true
+end_date = true
+
+[resume.render.section.experience.section.roles]
+summary = true
+skills = true
+responsibilities = true
 reason_for_change = true
 location = true
 job_category = true
 employment_type = true
 agency_name = true
+start_date = true
+end_date = true
 
 [resume.render.section.certifications]
-include_expires = true
+name = true
+issuer = true
+issued = true
+expires = true
 
 [resume.render.section.education]
 degrees = true
+school = true
+degree = true
+start_date = true
+end_date = true
 gpa = true
 major = true

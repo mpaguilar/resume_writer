@@ -2,13 +2,6 @@ import logging
 from datetime import datetime
 
 import docx.document
-from models.experience import (
-    Experience,
-    Project,
-    Projects,
-    Role,
-    Roles,
-)
 from resume_render.render_settings import (
     ResumeExperienceSettings,
     ResumeProjectsSettings,
@@ -20,6 +13,14 @@ from resume_render.resume_render_base import (
     ResumeRenderProjectsBase,
     ResumeRenderRoleBase,
     ResumeRenderRolesBase,
+)
+
+from resume_writer.models.experience import (
+    Experience,
+    Project,
+    Projects,
+    Role,
+    Roles,
 )
 
 log = logging.getLogger(__name__)

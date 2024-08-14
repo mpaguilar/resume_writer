@@ -4,8 +4,8 @@ from datetime import datetime
 from unittest.mock import Mock
 import docx.document
 
-from models.resume import Resume
-from models.experience import (
+from resume_writer.models.resume import Resume
+from resume_writer.models.experience import (
     Project,
     Projects,
     ProjectSkills,
