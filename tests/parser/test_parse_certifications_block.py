@@ -1,7 +1,7 @@
 from datetime import datetime
 
 import pytest
-from models.certifications import Certification
+from resume_writer.models.certifications import Certification
 
 test_data = """
 ## Certification

@@ -1,7 +1,11 @@
 import logging
 from datetime import datetime
 
-from models.parsers import BasicBlockParse, LabelBlockParse, MultiBlockParse
+from resume_writer.models.parsers import (
+    BasicBlockParse,
+    LabelBlockParse,
+    MultiBlockParse,
+)
 
 log = logging.getLogger(__name__)
 
@@ -9,14 +13,14 @@ log = logging.getLogger(__name__)
 class Degree(LabelBlockParse):
     """Details of a specific degree."""
 
-    def __init__( #noqa: PLR0913
+    def __init__(  # noqa: PLR0913
         self,
         school: str,
         degree: str | None,
         start_date: str | datetime | None,
         end_date: str | datetime | None,
         major: str | None = None,
-        gpa : str | None = None,
+        gpa: str | None = None,
     ):
         """Initialize the object."""
         assert isinstance(school, str)

@@ -4,7 +4,14 @@ from datetime import datetime
 from unittest.mock import Mock
 import docx.document
 
-from resume_writer.models.experience import Role, Roles, RoleSkills
+from resume_writer.models.experience import (
+    Role,
+    Roles,
+    RoleSkills,
+    RoleBasics,
+    RoleSummary,
+    RoleResponsibilities,
+)
 
 from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
@@ -24,17 +31,27 @@ def document():
 @pytest.fixture()
 def role():
     role: Role = Mock(spec=Role)
-    role.company = "Company 1"
-    role.title = "Title 1"
-    role.location = "Location 1"
-    role.start_date = datetime.strptime("2020-01-01", "%Y-%m-%d")  # noqa: DTZ007
-    role.end_date = datetime.strptime("2021-01-01", "%Y-%m-%d")  # noqa: DTZ007
-    role.description = "Description 1"
-    role.responsibilities = "Responsibility 1"
-    role.job_category = "Job Category 1"
-    role.agency_name = "Agency Name 1"
-    role.employment_type = "Employment Type 1"
+    role.summary = Mock(spec=RoleSummary)
+    role.summary.summary = "test summary"
+
+    role.responsibilities = Mock(spec=RoleResponsibilities)
+    role.responsibilities.text = "Responsibility 1"
+
     role.skills = RoleSkills(skills=["Skill 1", "Skill 2"])
+
+    _basics = Mock(spec=RoleBasics)
+    _basics.company = "Company 1"
+    _basics.title = "Title 1"
+    _basics.location = "Location 1"
+    _basics.start_date = datetime.strptime("2020-01-01", "%Y-%m-%d")  # noqa: DTZ007
+    _basics.end_date = datetime.strptime("2021-01-01", "%Y-%m-%d")  # noqa: DTZ007
+    _basics.description = "Description 1"
+
+    _basics.job_category = "Job Category 1"
+    _basics.agency_name = "Agency Name 1"
+    _basics.employment_type = "Employment Type 1"
+
+    role.basics = _basics
     return role
 
 

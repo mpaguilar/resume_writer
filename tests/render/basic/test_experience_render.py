@@ -52,7 +52,7 @@ def role():
     _role.responsibilities = Mock(spec=RoleResponsibilities)
     _role.responsibilities.text = "test"
 
-    _role.skills = Mock(spec=RoleSkills)
+    _role.skills = MagicMock(spec=RoleSkills)
     _role.skills.skills = ["test"]
 
     return _role

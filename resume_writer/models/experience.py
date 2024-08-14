@@ -374,14 +374,16 @@ class Projects(MultiBlockParse):
 class Experience(BasicBlockParse):
     """Details of experience."""
 
-    def __init__(self, roles: Roles, projects: Projects):
+    def __init__(self, roles: Roles | None, projects: Projects | None):
         """Initialize with a list of Role objects."""
 
-        assert isinstance(roles, Roles), "Roles must be a Roles object"
-        assert isinstance(projects, Projects), "Projects must be a Projects object"
+        assert isinstance(roles, (Roles, type(None))), "Roles must be a Roles object"
+        assert isinstance(
+            projects,
+            (Projects, type(None)),
+        ), "Projects must be a Projects object"
 
-        log.info(f"Creating Experience object with {len(roles)} roles \
-                 and {len(projects)} projects.")
+        log.info("Creating Experience object.")
 
         self.roles = roles
         self.projects = projects

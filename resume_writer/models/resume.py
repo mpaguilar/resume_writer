@@ -1,10 +1,10 @@
 import logging
 
-from models.certifications import Certifications
-from models.education import Education
-from models.experience import Experience
-from models.parsers import BasicBlockParse
-from models.personal import Personal
+from resume_writer.models.certifications import Certifications
+from resume_writer.models.education import Education
+from resume_writer.models.experience import Experience
+from resume_writer.models.parsers import BasicBlockParse
+from resume_writer.models.personal import Personal
 
 log = logging.getLogger(__name__)
 

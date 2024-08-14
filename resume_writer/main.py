@@ -2,12 +2,15 @@ import logging
 from pathlib import Path
 
 import click
+import docx
 import rich
 import tomli
-from models.personal import Personal
-from models.resume import Resume
-from resume_render.render_settings import ResumeSettings
-from utils.resume_stats import DateStats
+
+from resume_writer.models.personal import Personal
+from resume_writer.models.resume import Resume
+from resume_writer.resume_render.basic.basic_resume import BasicRenderResume
+from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -40,13 +43,16 @@ def dump_resume(resume: Resume) -> None:
     print_personal(_personal)
     career_years_of_experience(resume)
 
+
 def load_settings(settings_file: str) -> dict:
+    """Load settings from TOML and return a dict."""
     _settings_file = Path(settings_file)
 
     with _settings_file.open("rb") as _f:
         _toml = tomli.load(_f)
         rich.print(_toml)
     return _toml
+
 
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
@@ -56,12 +62,28 @@ def load_settings(settings_file: str) -> dict:
     type=click.Path(exists=True),
     default="resume_settings.toml",
 )
-def main(input_file: str, output_file: str, settings_file: str) -> None:  # noqa: FBT001
+def main(input_file: str, output_file: str, settings_file: str) -> None:
     """Convert a text resume to a .docx file."""
 
     _settings = load_settings(settings_file)
-    rich.print(_settings)
+    _render_settings = ResumeSettings()
+    _render_settings.update_from_dict(_settings)
 
+    with open(input_file) as _f:
+        _resume_text = _f.read()
+        _resume_lines = _resume_text.splitlines(keepends=True)
+
+    _resume = Resume.parse(_resume_lines)
+    _docx_doc = docx.Document()
+    _renderer = BasicRenderResume(
+        document=_docx_doc,
+        settings=_render_settings,
+        resume=_resume,
+    )
+    _renderer.render()
+    _docx_doc.save(output_file)
+
+    rich.print(_resume)
 
 
 if __name__ == "__main__":

@@ -2,7 +2,7 @@ from pathlib import Path
 
 import docx.document
 
-from resume_writer.models.certifications import Certifications
+from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.models.education import Degree, Education
 from resume_writer.models.experience import (
     Experience,
@@ -244,6 +244,23 @@ class ResumeRenderEducationBase(RenderBase):
         """Render education section."""
         raise NotImplementedError
 
+class ResumeRenderCertificationBase(RenderBase):
+    """Base class for rendering a single certification."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        certification: Certification,
+        settings: ResumeCertificationsSettings,
+    ):
+        """Initialize the certification section."""
+        assert isinstance(document, docx.document.Document)
+        assert isinstance(certification, Certification)
+        assert isinstance(settings, ResumeCertificationsSettings)
+
+        self.document = document
+        self.certification = certification
+        self.settings = settings
 
 class ResumeRenderCertificationsBase(RenderBase):
     """Base class for rendering resume certifications section."""

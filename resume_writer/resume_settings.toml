@@ -1,2 +1,5 @@
-[resume]
-render_education = false
+[resume.render]
+personal = true
+education = false
+certifications = true
+experience = true

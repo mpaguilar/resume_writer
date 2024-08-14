@@ -56,17 +56,18 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
         log.debug("Rendering role details.")
         _paragraph_lines = []
         # job category
-        if self.role.job_category and self.settings.job_category:
-            _paragraph_lines.append(f"Job Category: {self.role.job_category}")
+        _basics = self.role.basics
+        if _basics.job_category and self.settings.job_category:
+            _paragraph_lines.append(f"Job Category: {_basics.job_category}")
 
-        if self.role.location and self.settings.location:
-            _paragraph_lines.append(f"Location: {self.role.location}")
+        if _basics.location and self.settings.location:
+            _paragraph_lines.append(f"Location: {_basics.location}")
 
-        if self.role.agency_name and self.settings.agency_name:
-            _paragraph_lines.append(f"Agency: {self.role.agency_name}")
+        if _basics.agency_name and self.settings.agency_name:
+            _paragraph_lines.append(f"Agency: {_basics.agency_name}")
 
-        if self.role.employment_type and self.settings.employment_type:
-            _paragraph_lines.append(f"Employment Type: {self.role.employment_type}")
+        if _basics.employment_type and self.settings.employment_type:
+            _paragraph_lines.append(f"Employment Type: {_basics.employment_type}")
 
         return _paragraph_lines
 
@@ -76,18 +77,19 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
         log.debug("Rendering role dates.")
         _paragraph_lines = []
 
+        _basics = self.role.basics
         # Start date
-        if not self.role.start_date:
+        if not _basics.start_date:
             _msg = "Start date is required"
             self.errors.append(_msg)
             log.warning(_msg)
 
-        _value = datetime.strftime(self.role.start_date, "%B %Y")
+        _value = datetime.strftime(_basics.start_date, "%B %Y")
         _paragraph_lines.append(f"Start Date: {_value}")
 
         # End date
-        if self.role.end_date:
-            _value = datetime.strftime(self.role.end_date, "%B %Y")
+        if _basics.end_date:
+            _value = datetime.strftime(_basics.end_date, "%B %Y")
             _paragraph_lines.append(f"End Date: {_value}")
 
         return _paragraph_lines
@@ -98,20 +100,21 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
         _paragraph_lines = []
 
         log.debug("Rendering roles section.")
+        _basics = self.role.basics
         # company name is required
-        if not self.role.company:
+        if not _basics.company:
             _msg = "Company name is required"
             self.errors.append(_msg)
             log.warning(_msg)
 
-        _paragraph_lines.append(f"Company: {self.role.company}")
+        _paragraph_lines.append(f"Company: {_basics.company}")
 
-        if not self.role.title:
+        if not _basics.title:
             _msg = "Title is required"
             self.errors.append(_msg)
             log.warning(_msg)
 
-        _paragraph_lines.append(f"Title: {self.role.title}")
+        _paragraph_lines.append(f"Title: {_basics.title}")
 
         _detail_lines = self._details()
         if len(_detail_lines) > 0:
@@ -120,6 +123,12 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
         _date_lines = self._dates()
         if len(_date_lines) > 0:
             _paragraph_lines.extend(_date_lines)
+
+        if self.role.summary and self.settings.summary:
+            self.document.add_paragraph(self.role.summary.summary)
+
+        if self.role.responsibilities and self.settings.responsibilities:
+            self.document.add_paragraph(self.role.responsibilities.text)
 
         _skills_lines = self._skills()
         if len(_skills_lines) > 0:
@@ -145,13 +154,18 @@ class BasicRenderRolesSection(ResumeRenderRolesBase):
     def render(self) -> None:
         """Render roles section."""
         log.debug("Rendering roles section.")
-        for _role in self.roles:
+        if len(self.roles) > 0:
             self.document.add_heading("Work History", level=2)
-            _role_render = BasicRenderRoleSection(
+        else:
+            log.info("No roles found")
+            return
+
+        for _role in self.roles:
+            BasicRenderRoleSection(
                 document=self.document,
                 role=_role,
                 settings=self.settings,
-            )
+            ).render()
 
 
 class BasicRenderProjectSection(ResumeRenderProjectBase):
@@ -246,8 +260,9 @@ class BasicRenderProjectsSection(ResumeRenderProjectsBase):
         """Render projects section."""
 
         log.debug("Rendering projects section.")
-        for _project in self.projects:
+        if len(self.projects) > 0:
             self.document.add_heading("Projects", level=2)
+        for _project in self.projects:
             _project_render = BasicRenderProjectSection(
                 document=self.document,
                 project=_project,

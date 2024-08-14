@@ -1,6 +1,10 @@
 import logging
 
-from models.parsers import BasicBlockParse, LabelBlockParse, TextBlockParse
+from resume_writer.models.parsers import (
+    BasicBlockParse,
+    LabelBlockParse,
+    TextBlockParse,
+)
 
 log = logging.getLogger(__name__)
 

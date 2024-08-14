@@ -40,26 +40,26 @@ class BasicRenderResume(ResumeRenderBase):
             BasicRenderPersonalSection(
                 self.document,
                 self.resume.personal,
-                self.settings,
+                self.settings.personal_settings,
             ).render()
 
         if self.resume.education and self.settings.education:
             BasicRenderEducationSection(
                 self.document,
                 self.resume.education,
-                self.settings,
+                self.settings.education_settings,
             ).render()
 
         if self.resume.certifications and self.settings.certifications:
             BasicRenderCertificationsSection(
                 self.document,
                 self.resume.certifications,
-                self.settings,
+                self.settings.certifications_settings,
             ).render()
 
         if self.resume.experience and self.settings.experience:
             BasicRenderExperienceSection(
                 self.document,
                 self.resume.experience,
-                self.settings,
+                self.settings.experience_settings,
             ).render()

@@ -1,10 +1,16 @@
 import pytest
 
-from models.resume import Resume
-from models.personal import ContactInfo, Websites, VisaStatus, Banner, Note
-from models.education import Degrees, Education
-from models.certifications import Certifications
-from models.experience import Experience
+from resume_writer.models.resume import Resume
+from resume_writer.models.personal import (
+    ContactInfo,
+    Websites,
+    VisaStatus,
+    Banner,
+    Note,
+)
+from resume_writer.models.education import Degrees, Education
+from resume_writer.models.certifications import Certifications
+from resume_writer.models.experience import Experience
 
 
 test_data = """
@@ -174,7 +180,7 @@ Other things were done as required.
 * Skill 1
 * Skill 2
 * Skill 4
-""" #noqa: W291
+"""  # noqa: W291
 
 
 @pytest.fixture()

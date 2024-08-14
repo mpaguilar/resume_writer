@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from models.parsers import (
+from resume_writer.models.parsers import (
     LabelBlockParse,
     MultiBlockParse,
 )
