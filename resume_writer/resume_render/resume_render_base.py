@@ -1,6 +1,7 @@
 from pathlib import Path
 
 import docx.document
+from docx.shared import Pt
 
 from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.models.education import Degree, Education
@@ -32,10 +33,22 @@ class RenderBase:
 
     """
 
-    def __init__(self):
+    def __init__(self, document: docx.document.Document):
         """Initialize superclass."""
+
+        assert isinstance(document, docx.document.Document)
+
         self.errors = []
         self.warnings = []
+
+        _normal = self.document.styles["Normal"]
+        _font = _normal.font
+        _font.size = Pt(10)
+
+        if self.document.styles["Normal"].font.size:
+            self.font_size = self.document.styles["Normal"].font.size.pt
+        else:
+            raise ValueError("Normal style font size not set.")
 
 
 class ResumeRenderBase(RenderBase):
