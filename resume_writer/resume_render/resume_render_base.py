@@ -1,7 +1,10 @@
 from pathlib import Path
 
 import docx.document
-from docx.shared import Pt
+from docx.oxml import OxmlElement
+from docx.oxml.ns import qn
+from docx.shared import Inches, Pt
+from docx.text.paragraph import Paragraph
 
 from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.models.education import Degree, Education
@@ -36,19 +39,42 @@ class RenderBase:
     def __init__(self, document: docx.document.Document):
         """Initialize superclass."""
 
-        assert isinstance(document, docx.document.Document)
-
         self.errors = []
         self.warnings = []
+
+        self.document = document
 
         _normal = self.document.styles["Normal"]
         _font = _normal.font
         _font.size = Pt(10)
 
-        if self.document.styles["Normal"].font.size:
-            self.font_size = self.document.styles["Normal"].font.size.pt
+        _section = self.document.sections[0]
+        _section.left_margin = Inches(0.5)
+        _section.right_margin = Inches(0.5)
+
+        _normal.paragraph_format.space_before = Pt(0)
+        _normal.paragraph_format.space_after = Pt(0)
+
+        if _normal.font.size:
+            self.font_size = _normal.font.size.pt
         else:
             raise ValueError("Normal style font size not set.")
+
+    def add_horizontal_line(self, paragraph : Paragraph, offset : int = 0) -> None:
+        """Add a horizontal line to a document."""
+
+        p = paragraph._element  # noqa: SLF001
+        p_pr = p.get_or_add_pPr()
+        p_borders = OxmlElement("w:pBdr")
+        bottom = OxmlElement("w:bottom")
+        bottom.set(qn("w:val"), "single")
+        bottom.set(qn("w:sz"), "6")
+        bottom.set(qn("w:space"), "1")
+        bottom.set(qn("w:color"), "auto")
+        p_borders.append(bottom)
+        p_pr.append(p_borders)
+        paragraph.paragraph_format.left_indent = Inches(offset)
+        paragraph.paragraph_format.right_indent = Inches(offset)
 
 
 class ResumeRenderBase(RenderBase):
@@ -64,14 +90,14 @@ class ResumeRenderBase(RenderBase):
 
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeSettings) or settings is None
+
         if settings is None:
             settings = ResumeSettings()
 
-        super().__init__()
+        super().__init__(document=document)
 
         self.settings = settings
         self.resume = resume
-        self.document = document
 
     def render(self) -> None:
         """Render Word document interface."""
@@ -102,10 +128,9 @@ class ResumeRenderPersonalBase(RenderBase):
         assert isinstance(personal, Personal)
         assert isinstance(settings, ResumePersonalSettings)
 
-        super().__init__()
+        super().__init__(document=document)
 
         self.settings = settings
-        self.document = document
         self.personal = personal
 
 
@@ -120,13 +145,11 @@ class ResumeRenderRolesBase(RenderBase):
     ):
         """Initialize the roles section."""
 
-        super().__init__()
+        super().__init__(document=document)
 
-        assert isinstance(document, docx.document.Document)
         assert isinstance(roles, Roles)
         assert isinstance(settings, ResumeRolesSettings)
 
-        self.document = document
         self.roles = roles
         self.settings = settings
 
@@ -141,12 +164,10 @@ class ResumeRenderRoleBase(RenderBase):
         settings: ResumeRolesSettings,
     ):
         """Initialize the role section."""
-        super().__init__()
-        assert isinstance(document, docx.document.Document)
+        super().__init__(document=document)
         assert isinstance(role, Role)
         assert isinstance(settings, ResumeRolesSettings)
 
-        self.document = document
         self.role = role
         self.settings = settings
 
@@ -161,8 +182,7 @@ class ResumeRenderProjectsBase(RenderBase):
         settings: ResumeProjectsSettings,
     ):
         """Initialize the projects section."""
-        super().__init__()
-        assert isinstance(document, docx.document.Document)
+        super().__init__(document=document)
         assert isinstance(projects, Projects)
         assert isinstance(settings, ResumeProjectsSettings)
 
@@ -181,8 +201,7 @@ class ResumeRenderProjectBase(RenderBase):
         settings: ResumeProjectsSettings,
     ):
         """Initialize the project section."""
-        super().__init__()
-        assert isinstance(document, docx.document.Document)
+        super().__init__(document=document)
         assert isinstance(project, Project)
         assert isinstance(settings, ResumeProjectsSettings)
 
@@ -202,9 +221,8 @@ class ResumeRenderExperienceBase(RenderBase):
     ):
         """Initialize the roles section."""
 
-        super().__init__()
+        super().__init__(document=document)
         assert isinstance(experience, Experience)
-        assert isinstance(document, docx.document.Document)
         assert isinstance(settings, ResumeExperienceSettings)
 
         self.experience = experience
@@ -222,12 +240,12 @@ class ResumeRenderDegreeBase(RenderBase):
         settings: ResumeEducationSettings,
     ):
         """Initialize the degree section."""
-        assert isinstance(document, docx.document.Document)
         assert isinstance(degree, Degree)
         assert isinstance(settings, ResumeEducationSettings)
 
+        super().__init__(document=document)
+
         self.degree = degree
-        self.document = document
         self.settings = settings
 
 
@@ -241,11 +259,12 @@ class ResumeRenderEducationBase(RenderBase):
         settings: ResumeEducationSettings,
     ):
         """Initialize the education rendering section."""
-        assert isinstance(document, docx.document.Document)
+
+        super().__init__(document=document)
+
         assert isinstance(education, Education)
         assert isinstance(settings, ResumeEducationSettings)
 
-        self.document = document
         self.education = education
         self.settings = settings
 
@@ -257,6 +276,7 @@ class ResumeRenderEducationBase(RenderBase):
         """Render education section."""
         raise NotImplementedError
 
+
 class ResumeRenderCertificationBase(RenderBase):
     """Base class for rendering a single certification."""
 
@@ -267,13 +287,15 @@ class ResumeRenderCertificationBase(RenderBase):
         settings: ResumeCertificationsSettings,
     ):
         """Initialize the certification section."""
-        assert isinstance(document, docx.document.Document)
+
+        super().__init__(document=document)
+
         assert isinstance(certification, Certification)
         assert isinstance(settings, ResumeCertificationsSettings)
 
-        self.document = document
         self.certification = certification
         self.settings = settings
+
 
 class ResumeRenderCertificationsBase(RenderBase):
     """Base class for rendering resume certifications section."""
@@ -286,10 +308,10 @@ class ResumeRenderCertificationsBase(RenderBase):
     ):
         """Initialize certification renderer."""
 
-        assert isinstance(document, docx.document.Document)
+        super().__init__(document=document)
+
         assert isinstance(certifications, Certifications)
         assert isinstance(settings, ResumeCertificationsSettings)
 
-        self.document = document
         self.settings = settings
         self.certifications = certifications
