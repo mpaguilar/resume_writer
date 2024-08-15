@@ -222,7 +222,7 @@ class ProjectSkills(ListBlockParse):
         assert all(
             isinstance(skill, str) for skill in skills
         ), "Skills must be a list of strings"
-        self.skills = skills
+        self.skills = [s.strip() for s in skills]
 
     def __iter__(self):
         """Iterate over the skills."""
@@ -303,7 +303,7 @@ class Project(BasicBlockParse):
         self,
         overview: ProjectOverview,
         description: ProjectDescription,
-        skills: ProjectSkills,
+        skills: ProjectSkills | None,
     ):
         """Initialize the object."""
         assert isinstance(
@@ -316,8 +316,8 @@ class Project(BasicBlockParse):
         ), "Description must be a ProjectDescription object"
         assert isinstance(
             skills,
-            ProjectSkills,
-        ), "Skills must be a ProjectSkills object"
+            (ProjectSkills, type(None)),
+        ), "Skills must be a ProjectSkills object or None"
 
         self.overview = overview
         self.description = description
