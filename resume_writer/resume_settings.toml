@@ -1,11 +1,12 @@
 [resume.render]
 personal = true
 education = false
-certifications = true
-experience = true
+certifications = false
+
 
 [resume.render.section.personal]
 visa_status = false
+note = false
 
 [resume.render.section.certifications]
 name = true

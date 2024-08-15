@@ -29,7 +29,6 @@ class BasicRenderCertificationSection(ResumeRenderCertificationBase):
     def render(
         self,
         doc_paragraph: docx.text.paragraph.Paragraph,
-        font_size: int,
     ) -> None:
         """Render the certification section."""
         _paragraph_text = ""
@@ -41,7 +40,7 @@ class BasicRenderCertificationSection(ResumeRenderCertificationBase):
 
         if _paragraph_text:
             _run = doc_paragraph.add_run(_paragraph_text)
-            _run.font.size = Pt(font_size)
+            _run.font.size = Pt(self.font_size - 1)
 
 
 class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
@@ -59,10 +58,8 @@ class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
     def render(self) -> None:
         """Render the certifications section."""
 
-        if self.document.styles["Normal"].font.size:
-            _font_size = self.document.styles["Normal"].font.size.pt
-        else:
-            raise ValueError("Normal style font size not set.")
+        log.info("Rendering Certifications section.")
+
 
         _doc_paragraph = self.document.add_paragraph()
         _doc_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
@@ -72,4 +69,4 @@ class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
                 self.document,
                 _certification,
                 self.settings,
-            ).render(_doc_paragraph, font_size=_font_size - 2)
+            ).render(_doc_paragraph)

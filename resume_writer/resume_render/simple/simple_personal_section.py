@@ -83,25 +83,25 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
     def _visa_status(self) -> None:
         """Render the visa status section."""
 
-        _paragraph_lines = []
-
         _visa_status = self.personal.visa_status
+        _work_auth_text = ""
 
         if _visa_status.work_authorization and self.settings.work_authorization:
-            _paragraph_lines.append(
-                f"Work Authorization: {_visa_status.work_authorization}",
-            )
+            _work_auth_text += f"{_visa_status.work_authorization}"
 
         if (
             _visa_status.require_sponsorship is not None
-            and self.settings.require_sponsorship
+            and _visa_status.require_sponsorship
         ):
-            _value = "Yes" if _visa_status.require_sponsorship else "No"
-            _paragraph_lines.append(f"Require Sponsorship: {_value}")
+            _value = "Requires sponsorship"
+            if _work_auth_text:
+                _work_auth_text += f" | {_value}"
 
-        if len(_paragraph_lines) > 0:
-            self.document.add_heading("Visa Status", level=3)
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+        if _work_auth_text:
+            _work_auth_paragraph = self.document.add_paragraph()
+            _work_auth_run = _work_auth_paragraph.add_run(_work_auth_text)
+            _work_auth_run.font.size = Pt(self.font_size - 2)
+            _work_auth_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
     def render(self) -> None:
         """Render the personal section."""
@@ -127,20 +127,20 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
         if self.personal.note and self.settings.note and self.personal.note.text:
             _banner_lines.append(self.personal.note.text)
 
-        _paragraph = None
-        if len(_banner_lines) > 0 or len(_contact_lines) > 0:
-            _paragraph = self.document.add_paragraph()
-            _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
         if len(_contact_lines) > 0:
-            _run = _paragraph.add_run("\n".join(_contact_lines))
+            _contact_paragraph = self.document.add_paragraph()
+            _contact_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _run = _contact_paragraph.add_run("\n".join(_contact_lines))
             _run.font.size = Pt(_font_size - 2)
 
         if len(_banner_lines) > 0:
-            _txt = "\n\n" if len(_contact_lines) > 0 else ""
-            _txt = _txt + "\n".join(_banner_lines)
-            _run = _paragraph.add_run(_txt)
-            _run.font.size = Pt(_font_size - 2)
+            _banner_paragraph = self.document.add_paragraph()
+
+            _txt = "\n".join(_banner_lines)
+            _run = _banner_paragraph.add_run(_txt)
+            _banner_paragraph.paragraph_format.space_after = Pt(0)
+            _banner_paragraph.paragraph_format.space_before = Pt(4)
+            _banner_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         if self.personal.visa_status and self.settings.visa_status:
             self._visa_status()

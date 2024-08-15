@@ -39,7 +39,7 @@ Major: Example Major
 GPA: 3.5
 
 ### Degree
-School: University of College
+School: College of Education
 Degree: Less Impressive Degree
 Start date: 08/1986
 End date: 05/1989
