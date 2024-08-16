@@ -157,7 +157,7 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
         # calculate space
         _tstops = _p.paragraph_format.tab_stops
         _pw = self.document.sections[0].page_width
-        _tstops.add_tab_stop(int(_pw - (_pw / 6)), WD_TAB_ALIGNMENT.RIGHT)
+        _tstops.add_tab_stop(int(_pw - (_pw / 8)), WD_TAB_ALIGNMENT.RIGHT)
 
         _p.add_run("\t")
 
