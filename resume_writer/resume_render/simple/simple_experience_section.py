@@ -154,12 +154,9 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
             log.warning(_msg)
             return
 
-        # calculate space
-        _tstops = _p.paragraph_format.tab_stops
-        _pw = self.document.sections[0].page_width
-        _tstops.add_tab_stop(int(_pw - (_pw / 8)), WD_TAB_ALIGNMENT.RIGHT)
 
-        _p.add_run("\t")
+        # add a line break to the previous run
+        _run.add_break()
 
         _run = _p.add_run(f"{_basics.company}")
         _run.font.size = Pt(self.font_size + 1)
