@@ -1,7 +1,7 @@
 import pytest
 from datetime import datetime
 
-from unittest.mock import Mock
+from unittest.mock import Mock, MagicMock
 import docx.document
 
 from resume_writer.models.certifications import Certification, Certifications
@@ -18,7 +18,14 @@ from resume_writer.resume_render.basic.basic_certifications_section import (
 
 @pytest.fixture()
 def document():
-    return Mock(spec=docx.document.Document)
+    _doc = Mock(spec=docx.document.Document)
+    _doc.styles = MagicMock()
+    _doc.styles["Normal"] = MagicMock()
+    _doc.sections = MagicMock()
+    _doc.sections[0] = MagicMock()
+
+
+    return _doc
 
 
 @pytest.fixture()

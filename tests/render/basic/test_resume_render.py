@@ -1,6 +1,6 @@
 import pytest
 
-from unittest.mock import Mock, patch
+from unittest.mock import Mock, MagicMock, patch
 import docx.document
 
 from resume_render.basic.basic_personal_section import BasicRenderPersonalSection
@@ -18,7 +18,14 @@ from resume_writer.resume_render.basic.basic_resume import BasicRenderResume
 
 @pytest.fixture()
 def document():
-    return Mock(spec=docx.document.Document)
+    _doc = Mock(spec=docx.document.Document)
+    _doc.styles = MagicMock()
+    _doc.styles["Normal"] = MagicMock()
+    _doc.sections = MagicMock()
+    _doc.sections[0] = MagicMock()
+
+
+    return _doc
 
 
 @pytest.fixture()
