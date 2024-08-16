@@ -2,7 +2,6 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx.enum.text import WD_TAB_ALIGNMENT
 from docx.shared import Pt
 from resume_render.render_settings import (
     ResumeExperienceSettings,
