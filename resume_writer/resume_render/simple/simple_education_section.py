@@ -24,15 +24,31 @@ class BasicRenderDegreeSection(ResumeRenderDegreeBase):
         """Initialize the basic degree renderer."""
         super().__init__(document=document, degree=degree, settings=settings)
 
-    def render(self) -> None:
-        """Render a single degree."""
+    def _first_line(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+        """Render the first line of the education section in a resume.
 
-        log.debug("Rendering degree section.")
+        Parameters
+        ----------
+        paragraph : docx.text.paragraph.Paragraph
+            The paragraph object to add the education text to.
 
-        _paragraph_lines = []
+        Returns
+        -------
+        None
 
-        _education_paragraph = self.document.add_paragraph()
-        _education_run = _education_paragraph.add_run()
+        Notes
+        -----
+        This function adds a new run to the provided paragraph and initializes
+        an empty string for the education text.
+        If a degree school is present and enabled, it is appended to the text.
+        If a degree start date is present and enabled, it is appended to the text.
+        If a degree end date is present and enabled, it is appended to the text.
+        If no end date is present but enabled, "Present" or "Current"
+        is appended to the text.
+        Finally, the education text is added to the run and made bold.
+
+        """
+        _education_run = paragraph.add_run()
 
         _education_text = ""
 
@@ -60,9 +76,30 @@ class BasicRenderDegreeSection(ResumeRenderDegreeBase):
         _education_run.add_text(_education_text)
         _education_run.font.bold = True
 
-        # second line
+    def _second_line(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+        """Render the second line of the education section in a resume.
 
-        _second_line = "\r" # TODO: why does '\r' work, and '\n' doesn't?
+        Parameters
+        ----------
+        paragraph : docx.text.paragraph.Paragraph
+            The paragraph to which the second line will be added.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        This function initializes an empty string for the second line of the section.
+        If a degree is present and enabled in settings,
+        it appends it to the second line.
+        If a major is present and enabled in settings, it appends it to the second line.
+        If a GPA is present and enabled in settings, it appends it to the second line.
+        If the second line is not empty, it adds it to the provided paragraph.
+
+        """
+        # TODO: why does '\r' work, and '\n' doesn't? (use run.add_break())
+        _second_line = "\r"
 
         if self.degree.degree and self.settings.degree:
             _second_line += f"Degree: {self.degree.degree}"
@@ -74,8 +111,37 @@ class BasicRenderDegreeSection(ResumeRenderDegreeBase):
             _second_line += f", GPA: {self.degree.gpa}"
 
         if _second_line != "\r":
-            _second_line_run = _education_paragraph.add_run()
+            _second_line_run = paragraph.add_run()
             _second_line_run.add_text(_second_line)
+
+    def render(self) -> None:
+        """Render a single degree section in a resume.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        1. Adds a new paragraph to the document.
+        2. Renders the first line of the degree section.
+        3. Renders the second line of the degree section.
+
+        """
+
+        log.debug("Rendering degree section.")
+
+        _education_paragraph = self.document.add_paragraph()
+
+        # first line
+        self._first_line(_education_paragraph)
+
+        # second line
+        self._second_line(_education_paragraph)
 
 
 class BasicRenderEducationSection(ResumeRenderEducationBase):
@@ -91,7 +157,21 @@ class BasicRenderEducationSection(ResumeRenderEducationBase):
         super().__init__(document, education, settings)
 
     def render(self) -> None:
-        """Render the education section."""
+        """Render the education section of a resume.
+
+        1. Check if there are any degrees to render. If not, return.
+        2. Add a heading for the education section.
+        3. For each degree, create a BasicRenderDegreeSection object and render it.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        """
 
         log.debug("Rendering education section.")
 
