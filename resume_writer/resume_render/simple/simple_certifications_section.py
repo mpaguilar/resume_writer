@@ -30,7 +30,27 @@ class BasicRenderCertificationSection(ResumeRenderCertificationBase):
         self,
         doc_paragraph: docx.text.paragraph.Paragraph,
     ) -> None:
-        """Render the certification section."""
+        """Render the certification section.
+
+        Parameters
+        ----------
+        doc_paragraph : docx.text.paragraph.Paragraph
+            The document paragraph to which the certification section will be added.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        1. Initialize an empty string for the paragraph text.
+        2. Get the certification object.
+        3. If the certification name and settings name are both available,
+        append the name to the paragraph text.
+        4. If the paragraph text is not empty, add it to the document paragraph
+        and adjust the font size.
+
+        """
         _paragraph_text = ""
 
         _certification = self.certification
@@ -56,10 +76,35 @@ class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
         super().__init__(document, certifications, settings)
 
     def render(self) -> None:
-        """Render the certifications section."""
+        """Render the certifications section of a document.
+
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing the method.
+
+        Returns
+        -------
+        None
+            The method does not return any value but modifies the document in-place.
+
+        Notes
+        -----
+        This method performs the following steps:
+
+        1. Logs an info message indicating the start of rendering the
+        Certifications section.
+        2. Adds a new paragraph to the document and centers it.
+        3. Iterates over each certification in the list of certifications.
+        4. For each certification, creates an instance of
+        BasicRenderCertificationSection with the document,
+        certification, and settings as arguments.
+        5. Calls the render method of the BasicRenderCertificationSection instance,
+        passing the centered paragraph as an argument.
+
+        """
 
         log.info("Rendering Certifications section.")
-
 
         _doc_paragraph = self.document.add_paragraph()
         _doc_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
