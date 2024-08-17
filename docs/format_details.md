@@ -1,6 +1,3 @@
-# A note about date formats
-Updating date parsing is a high priority, but for now, dates should be in the format of `MM/YYYY`. You will receive an error if this format isn't followed.
-
 # Types of sections
 
 There are four types of sections, primary sections, key/value sections, list sections, and text sections. Section types are not mixed, for example, a section is either text or a list, but not both.
