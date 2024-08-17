@@ -243,13 +243,7 @@ class BasicRenderPersonalSection(ResumeRenderPersonalBase):
 
         if self.personal.note and self.settings.note and self.personal.note.text:
             _banner_lines.append(self.personal.note.text)
-        """
-        if len(_contact_lines) > 0:
-            _contact_paragraph = self.document.add_paragraph()
-            _contact_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-            _run = _contact_paragraph.add_run("\n".join(_contact_lines))
-            _run.font.size = Pt(self.font_size - 2)
-        """
+
         if len(_banner_lines) > 0:
             _banner_paragraph = self.document.add_paragraph()
 
