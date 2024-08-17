@@ -92,13 +92,15 @@ class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
         -----
         This method performs the following steps:
 
-        1. Logs an info message indicating the start of rendering the Certifications section.
+        1. Logs an info message indicating the start of rendering the
+        Certifications section.
         2. Adds a new paragraph to the document and centers it.
         3. Iterates over each certification in the list of certifications.
-        4. For each certification, creates an instance of BasicRenderCertificationSection with the document,
+        4. For each certification, creates an instance of
+        BasicRenderCertificationSection with the document,
         certification, and settings as arguments.
-        5. Calls the render method of the BasicRenderCertificationSection instance, passing the
-        centered paragraph as an argument.
+        5. Calls the render method of the BasicRenderCertificationSection instance,
+        passing the centered paragraph as an argument.
 
         """
 
