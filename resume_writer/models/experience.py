@@ -1,6 +1,7 @@
 import logging
 from datetime import datetime
-from typing import TypeVar
+
+import dateparser
 
 from resume_writer.models.parsers import (
     BasicBlockParse,
@@ -10,9 +11,6 @@ from resume_writer.models.parsers import (
     ParseError,
     TextBlockParse,
 )
-
-T = TypeVar("T")
-
 
 log = logging.getLogger(__name__)
 
@@ -101,9 +99,14 @@ class RoleBasics(LabelBlockParse):
 
         self.company = company
         if isinstance(start_date, str):
-            start_date = datetime.strptime(start_date, "%m/%Y")  # noqa: DTZ007
+            start_date = dateparser.parse(start_date, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
         if isinstance(end_date, str):
-            end_date = datetime.strptime(end_date, "%m/%Y")  # noqa: DTZ007
+            end_date = dateparser.parse(end_date, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
+
         self.start_date = start_date
         self.end_date = end_date
         self.title = title
@@ -269,9 +272,13 @@ class ProjectOverview(LabelBlockParse):
         self.url = url
         self.url_description = url_description
         if isinstance(start_date, str):
-            start_date = datetime.strptime(start_date, "%m/%Y")  # noqa: DTZ007
+            start_date = dateparser.parse(start_date, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
         if isinstance(end_date, str):
-            end_date = datetime.strptime(end_date, "%m/%Y")  # noqa: DTZ007
+            end_date = dateparser.parse(end_date, settings={
+            "PREFER_DAY_OF_MONTH": "first",
+            })
         self.start_date = start_date
         self.end_date = end_date
 
