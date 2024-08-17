@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+import dateparser
+
 from resume_writer.models.parsers import (
     BasicBlockParse,
     LabelBlockParse,
@@ -39,9 +41,13 @@ class Degree(LabelBlockParse):
         self.school = school
         self.degree = degree
         if isinstance(start_date, str):
-            start_date = datetime.strptime(start_date, "%m/%Y")  # noqa: DTZ007
+            start_date = dateparser.parse(start_date, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
         if isinstance(end_date, str):
-            end_date = datetime.strptime(end_date, "%m/%Y")  # noqa: DTZ007
+            end_date = dateparser.parse(end_date, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
 
         if start_date and end_date and start_date > end_date:
             raise ValueError("Start date is after end date.")

@@ -1,6 +1,8 @@
 import logging
 from datetime import datetime
 
+import dateparser
+
 from resume_writer.models.parsers import (
     LabelBlockParse,
     MultiBlockParse,
@@ -27,10 +29,14 @@ class Certification(LabelBlockParse):
 
         # If the issued date is a string, convert it to a datetime object
         if isinstance(issued, str):
-            issued = datetime.strptime(issued, "%m/%Y")  # noqa: DTZ007
+            issued = dateparser.parse(issued, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
 
         if isinstance(expires, str):
-            expires = datetime.strptime(expires, "%m/%Y")  # noqa: DTZ007
+            expires = dateparser.parse(expires, settings={
+                "PREFER_DAY_OF_MONTH": "first",
+            })
 
         self.issuer : str | None = issuer
         self.name : str = name
