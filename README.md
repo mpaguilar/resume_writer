@@ -10,7 +10,9 @@ For recruiters receving generated applications, it's easier for them to add and 
 
 I've recently been looking for a job, and this particular market is pretty tough. That means applying a _lot_.
 
-A common problem are web forms that require a resume to be uploaded to be parsed. Most of the time, the parsing fails miserably. 
+A common problem are web forms that require a resume to be uploaded to be parsed. Most of the time, the parsing fails miserably.
+
+AI isn't really much of solution, yet. Details about that can be found [here](./docs/AI_Resume_Parsing.md).
 
 # Using the app
 
