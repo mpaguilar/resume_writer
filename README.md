@@ -43,9 +43,6 @@ The settings file is a TOML file. Entries are completely optional. [These settin
 
 The input file is _data_, not a document. Even though it is text, it is structured. Heading indentation must be respected, and the heading names must be correct. No formatting should be added, any text will be added to the document as-is. For example, adding `*bold*` to the text will add "*bold*" to the document. The text will not be bolded. This is true of tables, extra tabs, etc.
 
-> [!NOTE]
-> Date format is very picky, and must be in the format `MM/YYYY`. Improving date parsing is a very high priority. 
-
 ## Running the app
 
 This is a command-line app. A web-interface is beyond the current scope of the project, even though I'd really like to add one.
