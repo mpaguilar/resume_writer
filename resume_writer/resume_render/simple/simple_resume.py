@@ -20,6 +20,7 @@ from resume_writer.resume_render.simple.simple_personal_section import (
 
 log = logging.getLogger(__name__)
 
+
 class BasicRenderResume(ResumeRenderBase):
     """Render a resume in basic format."""
 
@@ -33,7 +34,26 @@ class BasicRenderResume(ResumeRenderBase):
         super().__init__(document, resume, settings)
 
     def render(self) -> None:
-        """Render the resume."""
+        """Render the resume by adding different sections based on settings.
+
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing resume and settings.
+
+        Steps
+        -----
+        1. Render personal section if personal data exists and settings allow.
+        2. Render certifications section if certifications data exists
+        and settings allow.
+        3. Render education section if education data exists and settings allow.
+        4. Render experience section if experience data exists and settings allow.
+
+        Returns
+        -------
+        None
+
+        """
 
         if self.resume.personal and self.settings.personal:
             BasicRenderPersonalSection(
