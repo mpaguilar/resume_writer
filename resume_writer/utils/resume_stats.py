@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
 log = logging.getLogger(__name__)
 
@@ -58,8 +58,6 @@ class DateStats:
     def days_of_experience(self) -> int:
         """Return the number of years of experience."""
 
-        _total_duration = timedelta()
-
         _merged_ranges = self.merge_date_ranges()
 
         _total_days = 0
@@ -73,7 +71,18 @@ class DateStats:
     @property
     def years_of_experience(self) -> float:
         """Return the number of years of experience."""
-
-        _total_duration = timedelta()
         _yoe = self.days_of_experience / 365.25
         return round(_yoe, 1)
+
+    @property
+    def span_of_experience(self) -> float:
+        """Return the span of experience, from first time used to last."""
+
+        _merged_ranges = self.merge_date_ranges()
+
+        _first_date = _merged_ranges[0][0]
+        _last_date = _merged_ranges[-1][1]
+
+        _span = _last_date - _first_date
+        _yoe = _span.days / 365.25
+        return round(float(_yoe), 1)
