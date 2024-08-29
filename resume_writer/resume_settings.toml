@@ -1,7 +1,7 @@
 [resume.render]
 personal = true
-education = false
-certifications = false
+education = true
+certifications = true
 
 [resume.render.section.personal]
 visa_status = false
@@ -13,4 +13,4 @@ issued = false
 expires = false
 
 [resume.render.section.experience.section.roles]
-summary = false
+summary = true

@@ -54,6 +54,39 @@ def load_settings(settings_file: str) -> dict:
     return _toml
 
 
+def simple_render(
+    docx_doc: docx.document.Document,
+    resume: Resume,
+    settings: ResumeSettings,
+) -> None:
+    """Render the resume using the simple renderer."""
+
+    assert isinstance(docx_doc, docx.document.Document)
+    assert isinstance(resume, Resume)
+    assert isinstance(settings, ResumeSettings)
+
+    log.info("Rendering simple resume")
+    _renderer = BasicRenderResume(document=docx_doc, resume=resume, settings=settings)
+    _renderer.render()
+    log.info("Render of simple resume complete")
+
+
+def functional_render(
+    docx_doc: docx.document.Document,
+    resume: Resume,
+    settings: ResumeSettings,
+) -> None:
+    """Render the resume using the functional renderer."""
+
+    assert isinstance(docx_doc, docx.document.Document)
+    assert isinstance(resume, Resume)
+    assert isinstance(settings, ResumeSettings)
+
+    log.info("Rendering functional resume")
+
+    log.info("Render of functional resume complete")
+
+
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
 @click.option("--output-file", type=click.Path(), default="data/resume.docx")
@@ -62,7 +95,17 @@ def load_settings(settings_file: str) -> dict:
     type=click.Path(exists=True),
     default="resume_settings.toml",
 )
-def main(input_file: str, output_file: str, settings_file: str) -> None:
+@click.option(
+    "--resume-type",
+    type=click.Choice(["simple", "functional"]),
+    default="simple",
+)
+def main(
+    input_file: str,
+    output_file: str,
+    settings_file: str,
+    resume_type: str,
+) -> None:
     """Convert a text resume to a .docx file."""
 
     _settings = load_settings(settings_file)
@@ -75,12 +118,13 @@ def main(input_file: str, output_file: str, settings_file: str) -> None:
 
     _resume = Resume.parse(_resume_lines)
     _docx_doc = docx.Document()
-    _renderer = BasicRenderResume(
-        document=_docx_doc,
-        settings=_render_settings,
-        resume=_resume,
-    )
-    _renderer.render()
+
+    if resume_type == "simple":
+        simple_render(_docx_doc, _resume, _render_settings)
+    elif resume_type == "functional":
+        functional_render(_docx_doc, _resume, _render_settings)
+    else:
+        raise ValueError(f"Unknown resume type: {resume_type}")
     _docx_doc.save(output_file)
     log.info(f"Saved resume to {output_file}")
 
