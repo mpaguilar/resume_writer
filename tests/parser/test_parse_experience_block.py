@@ -108,7 +108,7 @@ Other things were done as required.
 
 """
 
-test_data_start_line = 10
+test_data_start_line = 5
 
 
 def _block_lines():
@@ -149,8 +149,8 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
     return _lines
 
 
-def test_basic_project():
-    _lines = get_data_lines(10, 112)
+def test_basic_experience():
+    _lines = get_data_lines(10, 107)
     _lines = _deindenter(_lines, 1)
     _experience = Experience.parse(_lines)
     assert isinstance(_experience, Experience)
