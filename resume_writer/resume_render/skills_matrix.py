@@ -60,7 +60,6 @@ def skill_experience(roles: Roles, skill: str) -> float:
 
     return _date_stats.years_of_experience
 
-
 def skills_experience(roles: Roles) -> dict:
     """Return a dictionary of skills and years of experience."""
 

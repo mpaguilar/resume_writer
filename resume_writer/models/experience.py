@@ -47,7 +47,7 @@ class RoleSkills(ListBlockParse):
         """Initialize the object."""
         assert isinstance(skills, list), "Skills must be a list"
         assert all(isinstance(skill, str) for skill in skills), "Skills must be strings"
-        self.skills = skills
+        self.skills = [skill.strip() for skill in skills if skill.strip() != ""]
 
     def __iter__(self):
         """Iterate over the skills."""

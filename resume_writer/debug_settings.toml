@@ -45,6 +45,7 @@ end_date = true
 
 [resume.render.section.experience.section.functional]
 # disable these by setting them to "" or omit them entirely
+
 categories = """
 Category1
 Category2

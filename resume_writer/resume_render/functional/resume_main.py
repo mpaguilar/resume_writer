@@ -1,6 +1,7 @@
 import logging
 
 import docx.document
+from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.functional.certifications_section import (
@@ -10,13 +11,17 @@ from resume_writer.resume_render.functional.education_section import (
     BasicRenderEducationSection,
 )
 from resume_writer.resume_render.functional.experience_section import (
-    BasicRenderExperienceSection,
+    FunctionalRenderExperienceSection,
+    FunctionalRenderSkillsSection,
 )
 from resume_writer.resume_render.functional.personal_section import (
     BasicRenderPersonalSection,
 )
 from resume_writer.resume_render.render_settings import ResumeSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderBase
+from resume_writer.resume_render.simple.simple_experience_section import (
+    BasicRenderExperienceSection,
+)
 
 log = logging.getLogger(__name__)
 
@@ -43,6 +48,16 @@ class BasicRenderResume(ResumeRenderBase):
                 self.settings.personal_settings,
             ).render()
 
+        if self.resume.certifications and self.settings.certifications:
+            BasicRenderCertificationsSection(
+                self.document,
+                self.resume.certifications,
+                self.settings.certifications_settings,
+            ).render()
+
+        _heading = self.document.add_heading("Executive Summary", 2)
+        _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
         if self.resume.education and self.settings.education:
             BasicRenderEducationSection(
                 self.document,
@@ -50,11 +65,18 @@ class BasicRenderResume(ResumeRenderBase):
                 self.settings.education_settings,
             ).render()
 
-        if self.resume.certifications and self.settings.certifications:
-            BasicRenderCertificationsSection(
+        if self.resume.experience and self.settings.experience:
+            FunctionalRenderExperienceSection(
                 self.document,
-                self.resume.certifications,
-                self.settings.certifications_settings,
+                self.resume.experience,
+                self.settings.experience_settings,
+            ).render()
+
+        if self.resume.experience and self.settings.experience:
+            FunctionalRenderSkillsSection(
+                self.document,
+                self.resume.experience,
+                self.settings.experience_settings,
             ).render()
 
         if self.resume.experience and self.settings.experience:
@@ -63,3 +85,4 @@ class BasicRenderResume(ResumeRenderBase):
                 self.resume.experience,
                 self.settings.experience_settings,
             ).render()
+

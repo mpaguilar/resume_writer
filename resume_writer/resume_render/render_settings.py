@@ -126,6 +126,8 @@ class ResumeFunctionalSettings(ResumeSettingsBase):
             self.categories = self.categories.split("\n")
         if self.skills:
             self.skills = self.skills.split("\n")
+            # remove empty strings
+            self.skills = [skill for skill in self.skills if skill]
 
 
 class ResumeExperienceSettings(ResumeSettingsBase):
