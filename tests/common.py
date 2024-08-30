@@ -34,7 +34,9 @@ def get_data_lines(
     first_line_number: int,
     last_line_number: int,
 ) -> list[str]:
-    """Get the lines of data from the test data block. Calculates based on line numbers of the test.
+    """Get the lines of data from the test data block.
+
+    Calculates based on line numbers of the test.
 
     test_data: The test data block.
 

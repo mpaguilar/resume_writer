@@ -109,6 +109,25 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.end_date = True
 
 
+class ResumeFunctionalSettings(ResumeSettingsBase):
+    """Control what parts of a resume's functional section are rendered."""
+
+    def __init__(self) -> None:
+        """Initialize everything to True."""
+        self.categories: list[str] = ""
+        self.skills: list[str] = ""
+
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
+        """Control what skills and categories are rendered."""
+
+        # categories and skills are kept as a single string, so we need to split them
+        super().update_from_dict(data_dict)
+        if self.categories:
+            self.categories = self.categories.split("\n")
+        if self.skills:
+            self.skills = self.skills.split("\n")
+
+
 class ResumeExperienceSettings(ResumeSettingsBase):
     """Control what parts of a resume's experience section are rendered."""
 
@@ -119,6 +138,8 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.roles_settings = ResumeRolesSettings()
         self.projects = True
         self.projects_settings = ResumeProjectsSettings()
+        self.functional = True
+        self.functional_settings = ResumeFunctionalSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for experience and subsections."""
@@ -130,6 +151,8 @@ class ResumeExperienceSettings(ResumeSettingsBase):
             self.projects_settings.update_from_dict(_section["projects"])
         if "roles" in _section:
             self.roles_settings.update_from_dict(_section["roles"])
+        if "functional" in _section:
+            self.functional_settings.update_from_dict(_section["functional"])
 
 
 class ResumeSettings(ResumeSettingsBase):
