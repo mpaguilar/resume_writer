@@ -11,7 +11,7 @@ from resume_writer.resume_render.render_settings import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def test_dict():
     _settings_dict = {
         "resume": {
@@ -63,6 +63,10 @@ def test_dict():
                                 "agency_name": False,
                                 "start_date": False,
                                 "end_date": False,
+                            },
+                            "functional": {
+                                "categories": "Category1\nCategory2",
+                                "skills": "Skill1\nSkill2",
                             },
                         },
                     },
@@ -228,3 +232,7 @@ def test_experience_settings(test_dict):
     _role_settings = _experience_settings.roles_settings
     assert _role_settings.summary is False
     assert _role_settings.skills is False
+
+    _functional_settings = _experience_settings.functional_settings
+    assert _functional_settings.categories == ["Category1", "Category2"]
+    assert _functional_settings.skills == ["Skill1", "Skill2"]

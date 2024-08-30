@@ -43,6 +43,18 @@ agency_name = true
 start_date = true
 end_date = true
 
+[resume.render.section.experience.section.functional]
+# disable these by setting them to "" or omit them entirely
+categories = """
+Category1
+Category2
+"""
+
+skills = """
+Skill1
+Skill2
+"""
+
 [resume.render.section.certifications]
 name = true
 issuer = true
