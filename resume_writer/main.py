@@ -87,6 +87,13 @@ def functional_render(
 
     log.info("Rendering functional resume")
 
+    _renderer = FunctionalRenderResume(
+        document=docx_doc,
+        resume=resume,
+        settings=settings,
+    )
+    _renderer.render()
+
     log.info("Render of functional resume complete")
 
 

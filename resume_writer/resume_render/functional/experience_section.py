@@ -2,6 +2,8 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx.enum.table import WD_ALIGN_VERTICAL
+from docx.shared import Inches
 from resume_render.render_settings import (
     ResumeExperienceSettings,
     ResumeProjectsSettings,
@@ -21,6 +23,9 @@ from resume_writer.models.experience import (
     Projects,
     Role,
     Roles,
+)
+from resume_writer.resume_render.skills_matrix import (
+    skills_experience,
 )
 
 log = logging.getLogger(__name__)
@@ -302,3 +307,165 @@ class BasicRenderExperienceSection(ResumeRenderExperienceBase):
                 projects=self.experience.projects,
                 settings=self.settings.projects_settings,
             ).render()
+
+
+class FunctionalRenderSkillsSection(ResumeRenderExperienceBase):
+    """Render skills for a functional resume."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        experience: Experience,
+        settings: ResumeExperienceSettings,
+    ):
+        """Initialize skills render object."""
+        log.debug("Initializing functional skills render object.")
+        super().__init__(document=document, experience=experience, settings=settings)
+
+    def find_skill_date_range(self, skill: str) -> tuple[datetime, datetime]:
+        """Find the earliest job with a skill."""
+
+        _earliest = None
+        # collect the start dates for each role with this skill
+        _start_dates = [
+            role.basics.start_date
+            for role in self.experience.roles
+            if skill in role.skills
+        ]
+        # collect the end dates for each role with this skill
+        _end_dates = [
+            role.basics.end_date
+            for role in self.experience.roles
+            if skill in role.skills
+        ]
+        # find the earliest start date
+        if len(_start_dates) > 0:
+            _earliest_start_date = min(_start_dates)
+            _last_end_date = max(_end_dates)
+
+        return _earliest_start_date, _last_end_date
+
+    def render(self) -> None:
+        """Render skills section for functional resume."""
+
+        log.debug("Rendering functional skills section.")
+
+        if not self.experience.roles:
+            raise ValueError("Experience must have roles for a functional resume.")
+
+        _roles = self.experience.roles
+
+        # use only skills specified in the settings
+        _settings_skills = self.settings.functional_settings.skills
+
+        # get a dict of all skills and yoe
+        _all_skills_yoe = skills_experience(_roles)
+
+        _skills_yoe = {}
+        # filter out skills not in the settings
+        for _setting_skill in _settings_skills:
+            _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0)
+
+        # sort skills by yoe
+        _skills_yoe = dict(
+            sorted(_skills_yoe.items(), key=lambda item: item[1], reverse=True),
+        )
+
+        _num_rows = len(_skills_yoe) / 2
+        _num_rows = int(_num_rows)
+
+        _skills_yoe_items = list(_skills_yoe.items())
+
+        _table = self.document.add_table(rows=_num_rows, cols=4, style="Table Grid")
+
+        # TODO: This will not scale with the font as-is
+        _row_size = Inches(0.2)
+
+        for x in range(_num_rows):
+            _table.rows[x].height = _row_size
+
+            _cell1 = _table.cell(x, 0)
+            _cell1.text = _skills_yoe_items[x][0]
+            _cell1.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+            _cell2_text = str(_skills_yoe_items[x][1])
+            _first_date, _last_date = self.find_skill_date_range(
+                _skills_yoe_items[x][0],
+            )
+
+            _first_date_str = _first_date.strftime("%Y")
+            _last_date_str = _last_date.strftime("%Y")
+            _cell2_text = _cell2_text + f" / ({_first_date_str} - {_last_date_str})"
+
+            _cell2 = _table.cell(x, 1)
+            _cell2.text = str(_cell2_text)
+            _cell2.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+        for x in range(_num_rows, len(_skills_yoe_items)):
+            # add skill name to first column
+            _cell1 = _table.cell(x - _num_rows, 2)
+            _cell1.text = _skills_yoe_items[x][0]
+            _cell1.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+            _cell2_text = str(_skills_yoe_items[x][1])
+
+            _first_date, _last_date = self.find_skill_date_range(
+                _skills_yoe_items[x][0],
+            )
+
+            _first_date_str = _first_date.strftime("%Y")
+            _last_date_str = _last_date.strftime("%Y")
+            _cell2_text = _cell2_text + f"  / ({_first_date_str} - {_last_date_str})"
+
+            _cell2 = _table.cell(x - _num_rows, 3)
+            _cell2.text = _cell2_text
+            _cell2.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
+
+        _table.autofit = True
+
+
+class FunctionalRenderExperienceSection(ResumeRenderExperienceBase):
+    """Render experience for a functional resume."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        experience: Experience,
+        settings: ResumeExperienceSettings,
+    ) -> None:
+        """Initialize experience render object."""
+        log.debug("Initializing functional experience render object.")
+        super().__init__(document=document, experience=experience, settings=settings)
+
+    def render(self) -> None:
+        """Render experience section for functional resume."""
+
+        log.debug("Rendering functional experience section.")
+
+        if not self.experience.roles:
+            raise ValueError("Experience must have roles for a functional resume.")
+
+        # collect all job categories
+        _roles = self.experience.roles
+        _job_categories = set()
+
+        # collect roles for each job category
+        for _role in _roles:
+            if _role.basics.job_category:
+                _job_categories.add(_role.basics.job_category)
+
+        # render each job category with roles
+
+        for _category in self.settings.functional_settings.categories:
+            _category_roles = [
+                _role for _role in _roles if _role.basics.job_category == _category
+            ]
+            self.document.add_heading(_category, level=4)
+
+            for _role in _category_roles:
+                _paragraph = self.document.add_paragraph()
+
+                _paragraph.style = "List Bullet"
+                _paragraph.add_run(f"{_role.summary.summary}")
+                _run = _paragraph.add_run(f" ({_role.basics.company})")
+                _run.italic = True

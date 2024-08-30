@@ -1,6 +1,6 @@
 [resume.render]
 personal = true
-education = true
+education = false
 certifications = true
 
 [resume.render.section.personal]
@@ -14,3 +14,26 @@ expires = false
 
 [resume.render.section.experience.section.roles]
 summary = true
+
+[resume.render.section.experience.section.functional]
+# disable these by setting them to "" or omit them entirely
+categories = """
+Architecture
+Development
+DevOps
+"""
+
+skills = """
+Python
+AWS
+Docker
+Kubernetes
+Terraform
+Ansible
+JavaScript
+NIST
+CI/CD
+Security (general)
+SQL (general)
+Team lead
+"""
