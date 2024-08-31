@@ -14,7 +14,7 @@ from resume_writer.models.certifications import Certification, Certifications
 log = logging.getLogger(__name__)
 
 
-class BasicRenderCertificationSection(ResumeRenderCertificationBase):
+class RenderCertificationSection(ResumeRenderCertificationBase):
     """Render Certification Section."""
 
     def __init__(
@@ -64,7 +64,7 @@ class BasicRenderCertificationSection(ResumeRenderCertificationBase):
             _run.font.size = Pt(self.font_size - 1)
 
 
-class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
+class RenderCertificationsSection(ResumeRenderCertificationsBase):
     """Render Certifications Section."""
 
     def __init__(

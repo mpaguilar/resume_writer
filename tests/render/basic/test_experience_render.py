@@ -22,8 +22,8 @@ from resume_writer.models.experience import (
 
 from resume_writer.resume_render.render_settings import ResumeExperienceSettings
 
-from resume_writer.resume_render.basic.basic_experience_section import (
-    BasicRenderExperienceSection,
+from resume_writer.resume_render.basic.experience_section import (
+    RenderExperienceSection,
 )
 
 
@@ -117,5 +117,5 @@ def settings():
 
 
 def test_render_experience(document, experience, settings):
-    section = BasicRenderExperienceSection(document, experience, settings)
+    section = RenderExperienceSection(document, experience, settings)
     section.render()

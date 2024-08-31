@@ -9,7 +9,7 @@ from resume_writer.models.personal import ContactInfo, Personal
 log = logging.getLogger(__name__)
 
 
-class BasicRenderPersonalSection(ResumeRenderPersonalBase):
+class RenderPersonalSection(ResumeRenderPersonalBase):
     """Render personal contact info section."""
 
     def __init__(

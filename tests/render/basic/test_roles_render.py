@@ -17,9 +17,9 @@ from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
 )
 
-from resume_writer.resume_render.basic.basic_experience_section import (
-    BasicRenderRoleSection,
-    BasicRenderRolesSection,
+from resume_writer.resume_render.basic.experience_section import (
+    RenderRoleSection,
+    RenderRolesSection,
 )
 
 
@@ -82,11 +82,11 @@ def settings():
 
 
 def test_basic_role_section(document, role, settings):
-    section = BasicRenderRoleSection(document=document, role=role, settings=settings)
+    section = RenderRoleSection(document=document, role=role, settings=settings)
     section.render()
 
 
 def test_basic_roles_section(document, role, settings):
     roles = Roles([role])
-    section = BasicRenderRolesSection(document=document, roles=roles, settings=settings)
+    section = RenderRolesSection(document=document, roles=roles, settings=settings)
     section.render()

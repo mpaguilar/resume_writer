@@ -17,9 +17,9 @@ from resume_writer.resume_render.render_settings import (
     ResumeProjectsSettings,
 )
 
-from resume_writer.resume_render.basic.basic_experience_section import (
-    BasicRenderProjectSection,
-    BasicRenderProjectsSection,
+from resume_writer.resume_render.basic.experience_section import (
+    RenderProjectSection,
+    RenderProjectsSection,
 )
 
 
@@ -60,10 +60,10 @@ def settings():
 
 
 def test_render_project_section(document, project, settings):
-    section = BasicRenderProjectSection(document, project, settings)
+    section = RenderProjectSection(document, project, settings)
     section.render()
 
 
 def test_render_projects_section(document, project, settings):
-    section = BasicRenderProjectsSection(document, Projects([project]), settings)
+    section = RenderProjectsSection(document, Projects([project]), settings)
     section.render()

@@ -31,7 +31,7 @@ from resume_writer.resume_render.skills_matrix import (
 log = logging.getLogger(__name__)
 
 
-class BasicRenderRoleSection(ResumeRenderRoleBase):
+class RenderRoleSection(ResumeRenderRoleBase):
     """Render experience roles section."""
 
     def __init__(
@@ -143,7 +143,7 @@ class BasicRenderRoleSection(ResumeRenderRoleBase):
             self.document.add_paragraph("\n".join(_paragraph_lines))
 
 
-class BasicRenderRolesSection(ResumeRenderRolesBase):
+class RenderRolesSection(ResumeRenderRolesBase):
     """Render experience roles section."""
 
     def __init__(
@@ -166,14 +166,14 @@ class BasicRenderRolesSection(ResumeRenderRolesBase):
             return
 
         for _role in self.roles:
-            BasicRenderRoleSection(
+            RenderRoleSection(
                 document=self.document,
                 role=_role,
                 settings=self.settings,
             ).render()
 
 
-class BasicRenderProjectSection(ResumeRenderProjectBase):
+class RenderProjectSection(ResumeRenderProjectBase):
     """Render experience project section."""
 
     def __init__(
@@ -246,7 +246,7 @@ class BasicRenderProjectSection(ResumeRenderProjectBase):
             self.document.add_paragraph("\n".join(_paragraph_lines))
 
 
-class BasicRenderProjectsSection(ResumeRenderProjectsBase):
+class RenderProjectsSection(ResumeRenderProjectsBase):
     """Render experience projects section."""
 
     def __init__(
@@ -268,14 +268,14 @@ class BasicRenderProjectsSection(ResumeRenderProjectsBase):
         if len(self.projects) > 0:
             self.document.add_heading("Projects", level=2)
         for _project in self.projects:
-            _project_render = BasicRenderProjectSection(
+            _project_render = RenderProjectSection(
                 document=self.document,
                 project=_project,
                 settings=self.settings,
             ).render()
 
 
-class BasicRenderExperienceSection(ResumeRenderExperienceBase):
+class RenderExperienceSection(ResumeRenderExperienceBase):
     """Render experience section."""
 
     def __init__(
@@ -295,21 +295,21 @@ class BasicRenderExperienceSection(ResumeRenderExperienceBase):
         log.debug("Rendering experience section.")
 
         if self.settings.roles and self.experience.roles:
-            BasicRenderRolesSection(
+            RenderRolesSection(
                 document=self.document,
                 roles=self.experience.roles,
                 settings=self.settings.roles_settings,
             ).render()
 
         if self.settings.projects and self.experience.projects:
-            BasicRenderProjectsSection(
+            RenderProjectsSection(
                 document=self.document,
                 projects=self.experience.projects,
                 settings=self.settings.projects_settings,
             ).render()
 
 
-class FunctionalRenderSkillsSection(ResumeRenderExperienceBase):
+class RenderExecutiveSummarySkillsSection(ResumeRenderExperienceBase):
     """Render skills for a functional resume."""
 
     def __init__(
@@ -424,7 +424,7 @@ class FunctionalRenderSkillsSection(ResumeRenderExperienceBase):
         _table.autofit = True
 
 
-class FunctionalRenderExperienceSection(ResumeRenderExperienceBase):
+class RenderExecutiveSummaryExperienceSection(ResumeRenderExperienceBase):
     """Render experience for a functional resume."""
 
     def __init__(

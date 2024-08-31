@@ -69,7 +69,7 @@ def test_dict():
                                 "start_date": False,
                                 "end_date": False,
                             },
-                            "functional": {
+                            "executive_summary": {
                                 "categories": "Category1\nCategory2",
                                 "skills": "Skill1\nSkill2",
                             },
@@ -241,6 +241,6 @@ def test_experience_settings(test_dict):
     assert _role_settings.summary is False
     assert _role_settings.skills is False
 
-    _functional_settings = _experience_settings.functional_settings
-    assert _functional_settings.categories == ["Category1", "Category2"]
-    assert _functional_settings.skills == ["Skill1", "Skill2"]
+    _executive_summary_settings = _experience_settings.executive_summary_settings
+    assert _executive_summary_settings.categories == ["Category1", "Category2"]
+    assert _executive_summary_settings.skills == ["Skill1", "Skill2"]
