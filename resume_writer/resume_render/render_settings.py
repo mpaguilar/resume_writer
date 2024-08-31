@@ -109,7 +109,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.end_date = True
 
 
-class ResumeFunctionalSettings(ResumeSettingsBase):
+class ResumeExecutiveSummarySettings(ResumeSettingsBase):
     """Control what parts of a resume's functional section are rendered."""
 
     def __init__(self) -> None:
@@ -141,7 +141,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.projects = True
         self.projects_settings = ResumeProjectsSettings()
         self.executive_summary = True
-        self.executive_summary_settings = ResumeFunctionalSettings()
+        self.executive_summary_settings = ResumeExecutiveSummarySettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for experience and subsections."""
@@ -153,8 +153,8 @@ class ResumeExperienceSettings(ResumeSettingsBase):
             self.projects_settings.update_from_dict(_section["projects"])
         if "roles" in _section:
             self.roles_settings.update_from_dict(_section["roles"])
-        if "functional" in _section:
-            self.executive_summary_settings.update_from_dict(_section["functional"])
+        if "executive_summary" in _section:
+            self.executive_summary_settings.update_from_dict(_section["executive_summary"])
 
 
 class ResumeSettings(ResumeSettingsBase):

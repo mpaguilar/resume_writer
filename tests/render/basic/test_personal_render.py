@@ -3,8 +3,8 @@ import pytest
 from unittest.mock import Mock, MagicMock
 import docx.document
 
-from resume_writer.resume_render.basic.basic_personal_section import (
-    BasicRenderPersonalSection,
+from resume_writer.resume_render.basic.personal_section import (
+    RenderPersonalSection,
 )
 
 from resume_writer.models.personal import (
@@ -92,7 +92,7 @@ def settings():
 
 
 def test_render_personal_section(document, personal, settings):
-    section = BasicRenderPersonalSection(
+    section = RenderPersonalSection(
         document=document,
         personal=personal,
         settings=settings,

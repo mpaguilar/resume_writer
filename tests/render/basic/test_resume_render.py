@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock, MagicMock, patch
 import docx.document
 
-from resume_render.basic.basic_personal_section import BasicRenderPersonalSection
+from resume_render.basic.personal_section import RenderPersonalSection
 from resume_writer.models.resume import Resume
 from resume_writer.models.personal import Personal
 from resume_writer.models.education import Education
@@ -13,7 +13,7 @@ from resume_writer.models.certifications import Certifications
 
 from resume_writer.resume_render.render_settings import ResumeSettings
 
-from resume_writer.resume_render.basic.resume_main import BasicRenderResume
+from resume_writer.resume_render.basic.resume_main import RenderResume
 
 
 @pytest.fixture
@@ -44,36 +44,36 @@ def resume():
 
 
 @patch(
-    "resume_writer.resume_render.basic.basic_personal_section.BasicRenderPersonalSection.__init__",
+    "resume_writer.resume_render.basic.personal_section.RenderPersonalSection.__init__",
     return_value=None,
-    spec=BasicRenderPersonalSection,
+    spec=RenderPersonalSection,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_personal_section.BasicRenderPersonalSection.render",
-    return_value=None,
-)
-@patch(
-    "resume_writer.resume_render.basic.basic_education_section.BasicRenderEducationSection.__init__",
+    "resume_writer.resume_render.basic.personal_section.RenderPersonalSection.render",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_education_section.BasicRenderEducationSection.render",
+    "resume_writer.resume_render.basic.education_section.RenderEducationSection.__init__",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_experience_section.BasicRenderExperienceSection.__init__",
+    "resume_writer.resume_render.basic.education_section.RenderEducationSection.render",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_experience_section.BasicRenderExperienceSection.render",
+    "resume_writer.resume_render.basic.experience_section.RenderExperienceSection.__init__",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_certifications_section.BasicRenderCertificationsSection.__init__",
+    "resume_writer.resume_render.basic.experience_section.RenderExperienceSection.render",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.basic_certifications_section.BasicRenderCertificationsSection.render",
+    "resume_writer.resume_render.basic.certifications_section.RenderCertificationsSection.__init__",
+    return_value=None,
+)
+@patch(
+    "resume_writer.resume_render.basic.certifications_section.RenderCertificationsSection.render",
     return_value=None,
 )
 def test_render_resume(  # noqa: PLR0913
@@ -89,5 +89,5 @@ def test_render_resume(  # noqa: PLR0913
     resume,
     settings,
 ):
-    _resume = BasicRenderResume(document, resume, settings)
+    _resume = RenderResume(document, resume, settings)
     _resume.render()

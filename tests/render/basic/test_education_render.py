@@ -12,8 +12,8 @@ from resume_writer.resume_render.render_settings import (
 )
 
 
-from resume_writer.resume_render.basic.basic_education_section import (
-    BasicRenderEducationSection,
+from resume_writer.resume_render.basic.education_section import (
+    RenderEducationSection,
 )
 
 
@@ -47,5 +47,5 @@ def education():
 
 
 def test_render_education_section(document, education, settings):
-    section = BasicRenderEducationSection(document, education, settings)
+    section = RenderEducationSection(document, education, settings)
     section.render()

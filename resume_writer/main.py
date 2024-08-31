@@ -9,7 +9,7 @@ import tomli
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.functional.resume_main import (
-    BasicRenderResume as FunctionalRenderResume,
+    RenderResume as FunctionalRenderResume,
 )
 from resume_writer.resume_render.render_settings import ResumeSettings
 from resume_writer.resume_render.simple.simple_resume import BasicRenderResume

@@ -13,7 +13,7 @@ from resume_writer.models.certifications import Certification, Certifications
 log = logging.getLogger(__name__)
 
 
-class BasicRenderCertificationSection(ResumeRenderCertificationBase):
+class RenderCertificationSection(ResumeRenderCertificationBase):
     """Render Certification Section."""
 
     def __init__(
@@ -46,7 +46,7 @@ class BasicRenderCertificationSection(ResumeRenderCertificationBase):
             self.document.add_paragraph(_paragraph_text)
 
 
-class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
+class RenderCertificationsSection(ResumeRenderCertificationsBase):
     """Render Certifications Section."""
 
     def __init__(
@@ -65,7 +65,7 @@ class BasicRenderCertificationsSection(ResumeRenderCertificationsBase):
             self.document.add_heading("Certifications", level=3)
 
         for _certification in self.certifications:
-            BasicRenderCertificationSection(
+            RenderCertificationSection(
                 self.document,
                 _certification,
                 self.settings,

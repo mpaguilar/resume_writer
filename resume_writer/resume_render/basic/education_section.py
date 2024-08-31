@@ -12,7 +12,7 @@ from resume_writer.models.education import Degree, Education
 log = logging.getLogger(__name__)
 
 
-class BasicRenderDegreeSection(ResumeRenderDegreeBase):
+class RenderDegreeSection(ResumeRenderDegreeBase):
     """Render Degree Section."""
 
     def __init__(
@@ -55,7 +55,7 @@ class BasicRenderDegreeSection(ResumeRenderDegreeBase):
             self.document.add_paragraph("\n".join(_paragraph_lines))
 
 
-class BasicRenderEducationSection(ResumeRenderEducationBase):
+class RenderEducationSection(ResumeRenderEducationBase):
     """Render Education Section."""
 
     def __init__(
@@ -77,7 +77,7 @@ class BasicRenderEducationSection(ResumeRenderEducationBase):
 
         self.document.add_heading("Education", level=3)
         for _degree in self.education.degrees:
-            BasicRenderDegreeSection(
+            RenderDegreeSection(
                 document=self.document,
                 degree=_degree,
                 settings=self.settings,

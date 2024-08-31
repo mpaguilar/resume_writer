@@ -5,17 +5,17 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.functional.certifications_section import (
-    BasicRenderCertificationsSection,
+    RenderCertificationsSection,
 )
 from resume_writer.resume_render.functional.education_section import (
-    BasicRenderEducationSection,
+    RenderEducationSection,
 )
 from resume_writer.resume_render.functional.experience_section import (
-    FunctionalRenderExperienceSection,
-    FunctionalRenderSkillsSection,
+    RenderExecutiveSummaryExperienceSection,
+    RenderExecutiveSummarySkillsSection,
 )
 from resume_writer.resume_render.functional.personal_section import (
-    BasicRenderPersonalSection,
+    RenderPersonalSection,
 )
 from resume_writer.resume_render.render_settings import ResumeSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderBase
@@ -26,7 +26,7 @@ from resume_writer.resume_render.simple.simple_experience_section import (
 log = logging.getLogger(__name__)
 
 
-class BasicRenderResume(ResumeRenderBase):
+class RenderResume(ResumeRenderBase):
     """Render a resume in basic format."""
 
     def __init__(
@@ -42,14 +42,14 @@ class BasicRenderResume(ResumeRenderBase):
         """Render the resume."""
 
         if self.resume.personal and self.settings.personal:
-            BasicRenderPersonalSection(
+            RenderPersonalSection(
                 self.document,
                 self.resume.personal,
                 self.settings.personal_settings,
             ).render()
 
         if self.resume.certifications and self.settings.certifications:
-            BasicRenderCertificationsSection(
+            RenderCertificationsSection(
                 self.document,
                 self.resume.certifications,
                 self.settings.certifications_settings,
@@ -59,21 +59,21 @@ class BasicRenderResume(ResumeRenderBase):
         _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         if self.resume.education and self.settings.education:
-            BasicRenderEducationSection(
+            RenderEducationSection(
                 self.document,
                 self.resume.education,
                 self.settings.education_settings,
             ).render()
 
         if self.resume.experience and self.settings.experience:
-            FunctionalRenderExperienceSection(
+            RenderExecutiveSummaryExperienceSection(
                 self.document,
                 self.resume.experience,
                 self.settings.experience_settings,
             ).render()
 
         if self.resume.experience and self.settings.experience:
-            FunctionalRenderSkillsSection(
+            RenderExecutiveSummarySkillsSection(
                 self.document,
                 self.resume.experience,
                 self.settings.experience_settings,

@@ -11,8 +11,8 @@ from resume_writer.resume_render.render_settings import (
     ResumeCertificationsSettings,
 )
 
-from resume_writer.resume_render.basic.basic_certifications_section import (
-    BasicRenderCertificationsSection,
+from resume_writer.resume_render.basic.certifications_section import (
+    RenderCertificationsSection,
 )
 
 
@@ -46,7 +46,7 @@ def certifications():
 
 
 def test_render_certifications_section(document, settings, certifications):
-    section = BasicRenderCertificationsSection(
+    section = RenderCertificationsSection(
         document=document,
         certifications=certifications,
         settings=settings,
