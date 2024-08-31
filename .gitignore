@@ -27,6 +27,9 @@ envVars.txt
 # Project data
 resume_writer/data
 
+# Personal data
+resume_writer/personal_data
+
 # garage data
 infra/export/var/lib/garage/data
 infra/export/var/lib/garage/meta
