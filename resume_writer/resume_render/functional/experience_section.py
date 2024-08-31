@@ -372,7 +372,7 @@ class FunctionalRenderSkillsSection(ResumeRenderExperienceBase):
         )
 
         _num_rows = len(_skills_yoe) / 2
-        _num_rows = int(_num_rows)
+        _num_rows = int(_num_rows) + 1 if _num_rows % 1 > 0 else int(_num_rows)
 
         _skills_yoe_items = list(_skills_yoe.items())
 
