@@ -20,6 +20,11 @@ def test_dict():
                 "education": False,
                 "certifications": False,
                 "experience": False,
+                "font_size": 20,
+                "margin_width": 100,
+                "executive_summary": False,
+                "skills_matrix": False,
+
                 "section": {
                     "personal": {
                         "contact_info": False,
@@ -100,6 +105,9 @@ def test_resume_settings(test_dict):
     assert _resume_settings.education is False
     assert _resume_settings.certifications is False
     assert _resume_settings.experience is False
+    assert _resume_settings.font_size == 20
+    assert _resume_settings.margin_width == 100
+    assert _resume_settings.executive_summary is False
 
     # test the subsections
     _personal = _resume_settings.personal_settings

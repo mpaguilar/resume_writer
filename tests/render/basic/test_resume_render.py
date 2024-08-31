@@ -13,10 +13,10 @@ from resume_writer.models.certifications import Certifications
 
 from resume_writer.resume_render.render_settings import ResumeSettings
 
-from resume_writer.resume_render.basic.basic_resume import BasicRenderResume
+from resume_writer.resume_render.basic.resume_main import BasicRenderResume
 
 
-@pytest.fixture()
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -24,16 +24,15 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     return ResumeSettings()
 
 
-@pytest.fixture()
+@pytest.fixture
 def resume():
     _resume = Mock(spec=Resume)
 
@@ -77,16 +76,15 @@ def resume():
     "resume_writer.resume_render.basic.basic_certifications_section.BasicRenderCertificationsSection.render",
     return_value=None,
 )
-def test_render_resume( # noqa: PLR0913
-
-    personal_init, #noqa: ARG001
-    personal_render, #noqa: ARG001
-    education_init, #noqa: ARG001
-    education_render, #noqa: ARG001
-    experience_init, #noqa: ARG001
-    experience_render, #noqa: ARG001
-    certifications_init, #noqa: ARG001
-    certifications_render, #noqa: ARG001
+def test_render_resume(  # noqa: PLR0913
+    personal_init,  # noqa: ARG001
+    personal_render,  # noqa: ARG001
+    education_init,  # noqa: ARG001
+    education_render,  # noqa: ARG001
+    experience_init,  # noqa: ARG001
+    experience_render,  # noqa: ARG001
+    certifications_init,  # noqa: ARG001
+    certifications_render,  # noqa: ARG001
     document,
     resume,
     settings,

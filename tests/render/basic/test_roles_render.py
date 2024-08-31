@@ -22,7 +22,8 @@ from resume_writer.resume_render.basic.basic_experience_section import (
     BasicRenderRolesSection,
 )
 
-@pytest.fixture()
+
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -30,11 +31,10 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def role():
     role: Role = Mock(spec=Role)
     role.summary = Mock(spec=RoleSummary)
@@ -61,7 +61,7 @@ def role():
     return role
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     # TODO: does this really need to be mock'd?
     _settings = Mock(spec=ResumeRolesSettings)

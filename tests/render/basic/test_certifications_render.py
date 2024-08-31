@@ -16,7 +16,7 @@ from resume_writer.resume_render.basic.basic_certifications_section import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -24,16 +24,15 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     return ResumeCertificationsSettings()
 
 
-@pytest.fixture()
+@pytest.fixture
 def certifications():
     _certification = Mock(spec=Certification)
     _certification.name = "Certification Name"
