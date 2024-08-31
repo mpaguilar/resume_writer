@@ -11,7 +11,7 @@ from resume_writer.models.resume import Resume
 from resume_writer.resume_render.functional.resume_main import (
     RenderResume as FunctionalRenderResume,
 )
-from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.simple.simple_resume import BasicRenderResume
 from resume_writer.utils.resume_stats import DateStats
 
@@ -60,13 +60,13 @@ def load_settings(settings_file: str) -> dict:
 def simple_render(
     docx_doc: docx.document.Document,
     resume: Resume,
-    settings: ResumeSettings,
+    settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the simple renderer."""
 
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
-    assert isinstance(settings, ResumeSettings)
+    assert isinstance(settings, ResumeRenderSettings)
 
     log.info("Rendering simple resume")
     _renderer = BasicRenderResume(document=docx_doc, resume=resume, settings=settings)
@@ -77,13 +77,13 @@ def simple_render(
 def functional_render(
     docx_doc: docx.document.Document,
     resume: Resume,
-    settings: ResumeSettings,
+    settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the functional renderer."""
 
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
-    assert isinstance(settings, ResumeSettings)
+    assert isinstance(settings, ResumeRenderSettings)
 
     log.info("Rendering functional resume")
 
@@ -119,7 +119,7 @@ def main(
     """Convert a text resume to a .docx file."""
 
     _settings = load_settings(settings_file)
-    _render_settings = ResumeSettings()
+    _render_settings = ResumeRenderSettings()
     _render_settings.update_from_dict(_settings["resume"]["render"])
 
     with open(input_file) as _f:
