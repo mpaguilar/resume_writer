@@ -19,7 +19,7 @@ from resume_writer.models.personal import (
 from resume_writer.resume_render.render_settings import ResumePersonalSettings
 
 
-@pytest.fixture()
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -27,11 +27,10 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def contact_info():
     _contact_info = Mock(spec=ContactInfo)
     _contact_info.name = "John Doe"
@@ -42,14 +41,14 @@ def contact_info():
     return _contact_info
 
 
-@pytest.fixture()
+@pytest.fixture
 def banner():
     _banner = Mock(spec=Banner)
     _banner.text = "test"
     return _banner
 
 
-@pytest.fixture()
+@pytest.fixture
 def visa_status():
     _visa_status = Mock(spec=VisaStatus)
     _visa_status.work_authorization = "test"
@@ -57,7 +56,7 @@ def visa_status():
     return _visa_status
 
 
-@pytest.fixture()
+@pytest.fixture
 def websites():
     _websites = Mock(spec=Websites)
     _websites.github = "github"
@@ -68,14 +67,14 @@ def websites():
     return _websites
 
 
-@pytest.fixture()
+@pytest.fixture
 def note():
     _note = Mock(spec=Note)
     _note.text = "test"
     return _note
 
 
-@pytest.fixture()
+@pytest.fixture
 def personal(contact_info, banner, visa_status, websites, note):
     _personal = Mock(spec=Personal)
     _personal.contact_info = contact_info
@@ -87,7 +86,7 @@ def personal(contact_info, banner, visa_status, websites, note):
     return _personal
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     return ResumePersonalSettings()
 

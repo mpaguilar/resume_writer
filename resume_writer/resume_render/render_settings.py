@@ -175,6 +175,15 @@ class ResumeSettings(ResumeSettingsBase):
         self.experience_settings = ResumeExperienceSettings()
         self.experience = True
 
+        # font-size in points
+        self.font_size = 12
+
+        # margin-width in inches
+        self.margin_width = 0.5
+
+        self.executive_summary = True
+
+
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for resume and subsections."""
         super().update_from_dict(data_dict)

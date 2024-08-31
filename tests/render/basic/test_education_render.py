@@ -17,7 +17,7 @@ from resume_writer.resume_render.basic.basic_education_section import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -25,16 +25,15 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     return ResumeEducationSettings()
 
 
-@pytest.fixture()
+@pytest.fixture
 def education():
     _degree = Mock(spec=Degree)
     _degree.school = "test school"

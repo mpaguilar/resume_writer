@@ -23,7 +23,7 @@ from resume_writer.resume_render.basic.basic_experience_section import (
 )
 
 
-@pytest.fixture()
+@pytest.fixture
 def document():
     _doc = Mock(spec=docx.document.Document)
     _doc.styles = MagicMock()
@@ -31,16 +31,15 @@ def document():
     _doc.sections = MagicMock()
     _doc.sections[0] = MagicMock()
 
-
     return _doc
 
 
-@pytest.fixture()
+@pytest.fixture
 def resume():
     return Mock(spec=Resume)
 
 
-@pytest.fixture()
+@pytest.fixture
 def project():
     project: Project = Mock(spec=Project)
     project.overview = ProjectOverview(
@@ -55,7 +54,7 @@ def project():
     return project
 
 
-@pytest.fixture()
+@pytest.fixture
 def settings():
     return ResumeProjectsSettings()
 

@@ -3,6 +3,10 @@ personal = true
 education = true
 certifications = true
 experience = true
+font_size = 10
+margin_width = 0.5
+executive_summary = true
+skills_matrix = true
 
 [resume.render.section.personal]
 contact_info = true
@@ -43,7 +47,7 @@ agency_name = true
 start_date = true
 end_date = true
 
-[resume.render.section.experience.section.functional]
+[resume.render.section.experience.section.executive_summary]
 # disable these by setting them to "" or omit them entirely
 
 categories = """
