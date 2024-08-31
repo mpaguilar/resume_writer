@@ -140,8 +140,8 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.roles_settings = ResumeRolesSettings()
         self.projects = True
         self.projects_settings = ResumeProjectsSettings()
-        self.functional = True
-        self.functional_settings = ResumeFunctionalSettings()
+        self.executive_summary = True
+        self.executive_summary_settings = ResumeFunctionalSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for experience and subsections."""
@@ -154,7 +154,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         if "roles" in _section:
             self.roles_settings.update_from_dict(_section["roles"])
         if "functional" in _section:
-            self.functional_settings.update_from_dict(_section["functional"])
+            self.executive_summary_settings.update_from_dict(_section["functional"])
 
 
 class ResumeSettings(ResumeSettingsBase):
