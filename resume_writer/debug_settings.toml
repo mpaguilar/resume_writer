@@ -5,6 +5,8 @@ certifications = true
 experience = true
 font_size = 10
 margin_width = 0.5
+top_margin = 0.5
+bottom_margin = 0.5
 executive_summary = true
 skills_matrix = true
 
@@ -50,6 +52,7 @@ end_date = true
 [resume.render.section.experience.section.executive_summary]
 # disable these by setting them to "" or omit them entirely
 
+# Categories are displayed in this order
 categories = """
 Category1
 Category2

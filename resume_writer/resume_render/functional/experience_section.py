@@ -356,7 +356,7 @@ class FunctionalRenderSkillsSection(ResumeRenderExperienceBase):
         _roles = self.experience.roles
 
         # use only skills specified in the settings
-        _settings_skills = self.settings.functional_settings.skills
+        _settings_skills = self.settings.executive_summary_settings.skills
 
         # get a dict of all skills and yoe
         _all_skills_yoe = skills_experience(_roles)
@@ -456,7 +456,7 @@ class FunctionalRenderExperienceSection(ResumeRenderExperienceBase):
 
         # render each job category with roles
 
-        for _category in self.settings.functional_settings.categories:
+        for _category in self.settings.executive_summary_settings.categories:
             _category_roles = [
                 _role for _role in _roles if _role.basics.job_category == _category
             ]
