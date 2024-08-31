@@ -15,7 +15,7 @@ from resume_writer.resume_render.basic.experience_section import (
 from resume_writer.resume_render.basic.personal_section import (
     RenderPersonalSection,
 )
-from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderBase
 
 log = logging.getLogger(__name__)
@@ -28,7 +28,7 @@ class RenderResume(ResumeRenderBase):
         self,
         document: docx.document.Document,
         resume: Resume,
-        settings: ResumeSettings,
+        settings: ResumeRenderSettings,
     ):
         """Initialize basic resume renderer."""
         super().__init__(document, resume, settings)

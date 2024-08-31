@@ -11,7 +11,7 @@ from resume_writer.models.experience import Experience
 from resume_writer.models.certifications import Certifications
 
 
-from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.resume_render.render_settings import ResumeRenderSettings
 
 from resume_writer.resume_render.basic.resume_main import RenderResume
 
@@ -29,7 +29,7 @@ def document():
 
 @pytest.fixture
 def settings():
-    return ResumeSettings()
+    return ResumeRenderSettings()
 
 
 @pytest.fixture

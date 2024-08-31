@@ -7,7 +7,7 @@ from resume_writer.resume_render.render_settings import (
     ResumeProjectsSettings,
     ResumeRolesSettings,
     ResumePersonalSettings,
-    ResumeSettings,
+    ResumeRenderSettings,
 )
 
 
@@ -99,7 +99,7 @@ def test_dict():
 
 
 def test_resume_settings(test_dict):
-    _resume_settings = ResumeSettings()
+    _resume_settings = ResumeRenderSettings()
     _resume_settings.update_from_dict(test_dict["resume"]["render"])
     assert _resume_settings.personal is False
     assert _resume_settings.education is False

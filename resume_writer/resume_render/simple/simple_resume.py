@@ -3,7 +3,7 @@ import logging
 import docx.document
 
 from resume_writer.models.resume import Resume
-from resume_writer.resume_render.render_settings import ResumeSettings
+from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderBase
 from resume_writer.resume_render.simple.simple_certifications_section import (
     BasicRenderCertificationsSection,
@@ -28,7 +28,7 @@ class BasicRenderResume(ResumeRenderBase):
         self,
         document: docx.document.Document,
         resume: Resume,
-        settings: ResumeSettings,
+        settings: ResumeRenderSettings,
     ):
         """Initialize basic resume renderer."""
         super().__init__(document, resume, settings)

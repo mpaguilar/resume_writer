@@ -1,12 +1,15 @@
+[resume.global]
+# these are passed to the base class
+font_size = 10
+margin_width = 0.5
+top_margin = 0.5
+bottom_margin = 0.5
+
 [resume.render]
 personal = true
 education = true
 certifications = true
 experience = true
-font_size = 10
-margin_width = 0.5
-top_margin = 0.5
-bottom_margin = 0.5
 executive_summary = true
 skills_matrix = true
 

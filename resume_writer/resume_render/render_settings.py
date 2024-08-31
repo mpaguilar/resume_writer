@@ -157,7 +157,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
             self.executive_summary_settings.update_from_dict(_section["executive_summary"])
 
 
-class ResumeSettings(ResumeSettingsBase):
+class ResumeRenderSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""
 
     def __init__(self):
@@ -175,11 +175,17 @@ class ResumeSettings(ResumeSettingsBase):
         self.experience_settings = ResumeExperienceSettings()
         self.experience = True
 
+        # these are passed up to RenderBase
+        # they should probably be moved to their own class
+        # but I don't really have time for it
         # font-size in points
         self.font_size = 12
 
         # margin-width in inches
         self.margin_width = 0.5
+
+        self.top_margin = 0.5
+        self.bottom_margin = 0.5
 
         self.executive_summary = True
 

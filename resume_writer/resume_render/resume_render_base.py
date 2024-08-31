@@ -23,8 +23,8 @@ from resume_writer.resume_render.render_settings import (
     ResumeExperienceSettings,
     ResumePersonalSettings,
     ResumeProjectsSettings,
+    ResumeRenderSettings,
     ResumeRolesSettings,
-    ResumeSettings,
 )
 
 
@@ -46,11 +46,25 @@ class RenderBase:
 
         _normal = self.document.styles["Normal"]
         _font = _normal.font
+
+        # the font size should always be set
+        # because the font size is used for other calculations
+        # if it isn't set, then querying the font size will return None
         _font.size = Pt(10)
+        # if self.settings.font_size:
+        #    _font.size = Pt(self.settings.font_size)
 
         _section = self.document.sections[0]
-        _section.left_margin = Inches(0.5)
-        _section.right_margin = Inches(0.5)
+
+        # if self.settings.margin_width:
+        #     _section.left_margin = Inches(self.settings.margin_width)
+        #     _section.right_margin = Inches(self.settings.margin_width)
+
+        # if self.settings.bottom_margin:
+        #     _section.bottom_margin = Inches(self.settings.bottom_margin)
+
+        # if self.settings.top_margin:
+        #     _section.top_margin = Inches(self.settings.top_margin)
 
         _normal.paragraph_format.space_before = Pt(0)
         _normal.paragraph_format.space_after = Pt(0)
@@ -60,7 +74,7 @@ class RenderBase:
         else:
             raise ValueError("Normal style font size not set.")
 
-    def add_horizontal_line(self, paragraph : Paragraph, offset : int = 0) -> None:
+    def add_horizontal_line(self, paragraph: Paragraph, offset: int = 0) -> None:
         """Add a horizontal line to a document."""
 
         p = paragraph._element  # noqa: SLF001
@@ -84,15 +98,15 @@ class ResumeRenderBase(RenderBase):
         self,
         document: docx.document.Document,
         resume: Resume,
-        settings: ResumeSettings | None,
+        settings: ResumeRenderSettings | None,
     ):
         """Initialize superclass."""
 
         assert isinstance(resume, Resume)
-        assert isinstance(settings, ResumeSettings) or settings is None
+        assert isinstance(settings, ResumeRenderSettings) or settings is None
 
         if settings is None:
-            settings = ResumeSettings()
+            settings = ResumeRenderSettings()
 
         super().__init__(document=document)
 
