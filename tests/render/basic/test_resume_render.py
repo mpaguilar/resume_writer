@@ -69,6 +69,22 @@ def resume():
     return_value=None,
 )
 @patch(
+    "resume_writer.resume_render.basic.executive_summary_section.RenderExecutiveSummarySection.__init__",
+    return_value=None,
+)
+@patch(
+    "resume_writer.resume_render.basic.executive_summary_section.RenderExecutiveSummarySection.render",
+    return_value=None,
+)
+@patch(
+    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsSection.__init__",
+    return_value=None,
+)
+@patch(
+    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsSection.render",
+    return_value=None,
+)
+@patch(
     "resume_writer.resume_render.basic.certifications_section.RenderCertificationsSection.__init__",
     return_value=None,
 )
@@ -83,6 +99,10 @@ def test_render_resume(  # noqa: PLR0913
     education_render,  # noqa: ARG001
     experience_init,  # noqa: ARG001
     experience_render,  # noqa: ARG001
+    executive_summary_experience_init,  # noqa: ARG001
+    executive_summary_experience_render,  # noqa: ARG001
+    skills_matrix_render,  # noqa: ARG001
+    skills_matrix_init,  # noqa: ARG001
     certifications_init,  # noqa: ARG001
     certifications_render,  # noqa: ARG001
     document,

@@ -50,15 +50,14 @@ agency_name = true
 start_date = true
 end_date = true
 
-[resume.render.section.experience.section.executive_summary]
-# disable these by setting them to "" or omit them entirely
-
+[resume.render.section.executive_summary]
 # Categories are displayed in this order
 categories = """
 Category1
 Category2
 """
 
+[resume.render.section.skills_matrix]
 skills = """
 Skill1
 Skill2
