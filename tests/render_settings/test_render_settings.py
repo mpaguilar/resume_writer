@@ -8,6 +8,8 @@ from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
     ResumePersonalSettings,
     ResumeRenderSettings,
+    ResumeExecutiveSummarySettings,
+    ResumeSkillsMatrixSettings,
 )
 
 
@@ -24,7 +26,6 @@ def test_dict():
                 "margin_width": 100,
                 "executive_summary": False,
                 "skills_matrix": False,
-
                 "section": {
                     "personal": {
                         "contact_info": False,
@@ -69,10 +70,6 @@ def test_dict():
                                 "start_date": False,
                                 "end_date": False,
                             },
-                            "executive_summary": {
-                                "categories": "Category1\nCategory2",
-                                "skills": "Skill1\nSkill2",
-                            },
                         },
                     },
                     "certifications": {
@@ -89,6 +86,12 @@ def test_dict():
                         "end_date": False,
                         "gpa": False,
                         "major": False,
+                    },
+                    "executive_summary": {
+                        "categories": "Category1\nCategory2",
+                    },
+                    "skills_matrix": {
+                        "skills": "Skill1\nSkill2",
                     },
                 },
             },
@@ -241,6 +244,21 @@ def test_experience_settings(test_dict):
     assert _role_settings.summary is False
     assert _role_settings.skills is False
 
-    _executive_summary_settings = _experience_settings.executive_summary_settings
+
+def test_executive_summary_settings(test_dict):
+    _executive_summary_settings = ResumeExecutiveSummarySettings()
+    _executive_summary_settings.update_from_dict(
+        test_dict["resume"]["render"]["section"]["executive_summary"],
+    )
     assert _executive_summary_settings.categories == ["Category1", "Category2"]
-    assert _executive_summary_settings.skills == ["Skill1", "Skill2"]
+
+    assert _executive_summary_settings.categories == ["Category1", "Category2"]
+
+
+def test_skills_matrix_settings(test_dict):
+    _skills_matrix_settings = ResumeSkillsMatrixSettings()
+    _skills_matrix_settings.update_from_dict(
+        test_dict["resume"]["render"]["section"]["skills_matrix"],
+    )
+
+    assert _skills_matrix_settings.skills == ["Skill1", "Skill2"]

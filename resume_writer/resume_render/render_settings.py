@@ -108,28 +108,6 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.start_date = True
         self.end_date = True
 
-
-class ResumeExecutiveSummarySettings(ResumeSettingsBase):
-    """Control what parts of a resume's functional section are rendered."""
-
-    def __init__(self) -> None:
-        """Initialize everything to True."""
-        self.categories: list[str] = ""
-        self.skills: list[str] = ""
-
-    def update_from_dict(self, data_dict: dict | None = None) -> None:
-        """Control what skills and categories are rendered."""
-
-        # categories and skills are kept as a single string, so we need to split them
-        super().update_from_dict(data_dict)
-        if self.categories:
-            self.categories = self.categories.split("\n")
-        if self.skills:
-            self.skills = self.skills.split("\n")
-            # remove empty strings
-            self.skills = [skill for skill in self.skills if skill]
-
-
 class ResumeExperienceSettings(ResumeSettingsBase):
     """Control what parts of a resume's experience section are rendered."""
 
@@ -142,6 +120,8 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.projects_settings = ResumeProjectsSettings()
         self.executive_summary = True
         self.executive_summary_settings = ResumeExecutiveSummarySettings()
+        self.skills_matrix = True
+        self.skills_matrix_settings = ResumeSkillsMatrixSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for experience and subsections."""
@@ -154,8 +134,40 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         if "roles" in _section:
             self.roles_settings.update_from_dict(_section["roles"])
         if "executive_summary" in _section:
-            self.executive_summary_settings.update_from_dict(_section["executive_summary"])
+            self.executive_summary_settings.update_from_dict(
+                _section["executive_summary"],
+            )
+        if "skills_matrix" in _section:
+            self.skills_matrix_settings.update_from_dict(_section["skills_matrix"])
 
+class ResumeExecutiveSummarySettings(ResumeSettingsBase):
+    """Control what parts of a resume's executive summary section are rendered."""
+
+    def __init__(self) -> None:
+        """Initialize everything to True."""
+        self.categories: list[str] = ""
+
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
+        """Control what categories are rendered."""
+        # categories and skills are kept as a single string, so we need to split them
+        super().update_from_dict(data_dict)
+        if self.categories:
+            self.categories = self.categories.split("\n")
+
+
+class ResumeSkillsMatrixSettings(ResumeSettingsBase):
+    """Control what parts of a resume's skills matrix section are rendered."""
+
+    def __init__(self) -> None:
+        """Initialize everything to True."""
+        self.skills: list[str] = ""
+
+    def update_from_dict(self, data_dict: dict | None = None) -> None:
+        """Control what skills are rendered."""
+        # categories and skills are kept as a single string, so we need to split them
+        super().update_from_dict(data_dict)
+        if self.skills:
+            self.skills = self.skills.split("\n")
 
 class ResumeRenderSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""
@@ -175,6 +187,12 @@ class ResumeRenderSettings(ResumeSettingsBase):
         self.experience_settings = ResumeExperienceSettings()
         self.experience = True
 
+        self.skills_matrix = True
+        self.skills_matrix_settings = ResumeSkillsMatrixSettings()
+
+        self.executive_summary = True
+        self.executive_summary_settings = ResumeExecutiveSummarySettings()
+
         # these are passed up to RenderBase
         # they should probably be moved to their own class
         # but I don't really have time for it
@@ -188,7 +206,6 @@ class ResumeRenderSettings(ResumeSettingsBase):
         self.bottom_margin = 0.5
 
         self.executive_summary = True
-
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for resume and subsections."""
@@ -208,5 +225,13 @@ class ResumeRenderSettings(ResumeSettingsBase):
 
         if "experience" in _section:
             self.experience_settings.update_from_dict(_section["experience"])
+
+        if "skills_matrix" in _section:
+            self.skills_matrix_settings.update_from_dict(_section["skills_matrix"])
+
+        if "executive_summary" in _section:
+            self.executive_summary_settings.update_from_dict(
+                _section["executive_summary"],
+            )
 
     # this is the top-level, and has no section name
