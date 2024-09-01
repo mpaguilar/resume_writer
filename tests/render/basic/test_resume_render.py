@@ -3,7 +3,7 @@ import pytest
 from unittest.mock import Mock, MagicMock, patch
 import docx.document
 
-from resume_render.basic.personal_section import RenderPersonalSection
+from resume_writer.resume_render.basic.personal_section import RenderPersonalSection
 from resume_writer.models.resume import Resume
 from resume_writer.models.personal import Personal
 from resume_writer.models.education import Education
