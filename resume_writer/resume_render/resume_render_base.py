@@ -47,28 +47,12 @@ class RenderBase:
         _normal = self.document.styles["Normal"]
         _font = _normal.font
 
-        # the font size should always be set
-        # because the font size is used for other calculations
-        # if it isn't set, then querying the font size will return None
-        _font.size = Pt(10)
-        # if self.settings.font_size:
-        #    _font.size = Pt(self.settings.font_size)
+        # font size should always be set. Other classes use it for scaling.
+        # If it isn't set, the other classes will fail.
+        if not _font.size:
+            _font.size = Pt(12)
 
-        _section = self.document.sections[0]
-
-        # if self.settings.margin_width:
-        #     _section.left_margin = Inches(self.settings.margin_width)
-        #     _section.right_margin = Inches(self.settings.margin_width)
-
-        # if self.settings.bottom_margin:
-        #     _section.bottom_margin = Inches(self.settings.bottom_margin)
-
-        # if self.settings.top_margin:
-        #     _section.top_margin = Inches(self.settings.top_margin)
-
-        _normal.paragraph_format.space_before = Pt(0)
-        _normal.paragraph_format.space_after = Pt(0)
-
+        # put the font-size into the class, so subclasses easily use it
         if _normal.font.size:
             self.font_size = _normal.font.size.pt
         else:
@@ -113,9 +97,28 @@ class ResumeRenderBase(RenderBase):
         self.settings = settings
         self.resume = resume
 
-    def render(self) -> None:
-        """Render Word document interface."""
-        raise NotImplementedError
+        _normal = self.document.styles["Normal"]
+
+        _normal.paragraph_format.space_before = Pt(0)
+        _normal.paragraph_format.space_after = Pt(0)
+
+        _font = _normal.font
+
+        if self.settings.font_size:
+           _font.size = Pt(self.settings.font_size)
+
+        # margins are set per-section
+        _section = self.document.sections[0]
+
+        if self.settings.margin_width:
+            _section.left_margin = Inches(self.settings.margin_width)
+            _section.right_margin = Inches(self.settings.margin_width)
+
+        if self.settings.bottom_margin:
+            _section.bottom_margin = Inches(self.settings.bottom_margin)
+
+        if self.settings.top_margin:
+            _section.top_margin = Inches(self.settings.top_margin)
 
     def save(self, path: Path) -> None:
         """Save the document to a file."""
