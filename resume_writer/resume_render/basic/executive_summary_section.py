@@ -6,23 +6,23 @@ from resume_writer.models.experience import (
     Experience,
 )
 from resume_writer.resume_render.render_settings import (
-    ResumeExperienceSettings,
+    ResumeExecutiveSummarySettings,
 )
 from resume_writer.resume_render.resume_render_base import (
-    ResumeRenderExperienceBase,
+    ResumeRenderExecutiveSummaryBase,
 )
 
 log = logging.getLogger(__name__)
 
 
-class RenderExecutiveSummarySection(ResumeRenderExperienceBase):
+class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
     """Render experience for a functional resume."""
 
     def __init__(
         self,
         document: docx.document.Document,
         experience: Experience,
-        settings: ResumeExperienceSettings,
+        settings: ResumeExecutiveSummarySettings,
     ) -> None:
         """Initialize experience render object."""
         log.debug("Initializing functional experience render object.")
@@ -47,7 +47,7 @@ class RenderExecutiveSummarySection(ResumeRenderExperienceBase):
 
         # render each job category with roles
 
-        for _category in self.settings.executive_summary_settings.categories:
+        for _category in self.settings.categories:
             _category_roles = [
                 _role for _role in _roles if _role.basics.job_category == _category
             ]

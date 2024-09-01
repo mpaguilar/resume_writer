@@ -20,11 +20,13 @@ from resume_writer.models.resume import Resume
 from resume_writer.resume_render.render_settings import (
     ResumeCertificationsSettings,
     ResumeEducationSettings,
+    ResumeExecutiveSummarySettings,
     ResumeExperienceSettings,
     ResumePersonalSettings,
     ResumeProjectsSettings,
     ResumeRenderSettings,
     ResumeRolesSettings,
+    ResumeSkillsMatrixSettings,
 )
 
 
@@ -105,7 +107,7 @@ class ResumeRenderBase(RenderBase):
         _font = _normal.font
 
         if self.settings.font_size:
-           _font.size = Pt(self.settings.font_size)
+            _font.size = Pt(self.settings.font_size)
 
         # margins are set per-section
         _section = self.document.sections[0]
@@ -332,3 +334,41 @@ class ResumeRenderCertificationsBase(RenderBase):
 
         self.settings = settings
         self.certifications = certifications
+
+
+class ResumeRenderExecutiveSummaryBase(RenderBase):
+    """Base class for rendering resume executive summary section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        experience: Experience,
+        settings: ResumeExecutiveSummarySettings,
+    ) -> None:
+        """Initialize the executive summary section."""
+
+        super().__init__(document=document)
+        assert isinstance(experience, Experience)
+        assert isinstance(settings, ResumeExecutiveSummarySettings)
+        self.experience = experience
+        self.document = document
+        self.settings = settings
+
+
+class ResumeRenderSkillsMatrixBase(RenderBase):
+    """Base class for rendering resume skills matrix section."""
+
+    def __init__(
+        self,
+        document: docx.document.Document,
+        experience : Experience,
+        settings: ResumeSkillsMatrixSettings,
+    ) -> None:
+        """Initialize the skills matrix section."""
+
+        super().__init__(document=document)
+        assert isinstance(experience, Experience)
+        assert isinstance(settings, ResumeSkillsMatrixSettings)
+        self.experience = experience
+        self.document = document
+        self.settings = settings
