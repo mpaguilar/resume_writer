@@ -14,6 +14,7 @@ class SkillsMatrix:
 
         assert isinstance(roles, Roles)
         assert all(isinstance(role, Role) for role in roles)
+        self.roles = roles
 
     def career_experience_total(self) -> float:
         """Return statistics about job experience."""

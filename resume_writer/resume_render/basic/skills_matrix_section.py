@@ -9,33 +9,38 @@ from resume_writer.models.experience import (
     Experience,
 )
 from resume_writer.resume_render.render_settings import (
-    ResumeExperienceSettings,
+    ResumeSkillsMatrixSettings,
 )
 from resume_writer.resume_render.resume_render_base import (
-    ResumeRenderExperienceBase,
+    ResumeRenderSkillsMatrixBase,
 )
 from resume_writer.resume_render.skills_matrix import SkillsMatrix
 
 log = logging.getLogger(__name__)
 
 
-class RenderSkillsSection(ResumeRenderExperienceBase):
+class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
     """Render skills for a functional resume."""
 
     def __init__(
         self,
         document: docx.document.Document,
         experience: Experience,
-        settings: ResumeExperienceSettings,
+        settings: ResumeSkillsMatrixSettings,
     ):
         """Initialize skills render object."""
         log.debug("Initializing functional skills render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
-    def find_skill_date_range(self, skill: str) -> tuple[datetime, datetime]:
+    def find_skill_date_range(
+        self,
+        skill: str,
+    ) -> tuple[datetime | None, datetime | None]:
         """Find the earliest job with a skill."""
 
-        _earliest = None
+        _earliest_start_date = None
+        _last_end_date = None
+
         # collect the start dates for each role with this skill
         _start_dates = [
             role.basics.start_date
@@ -48,6 +53,7 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
             for role in self.experience.roles
             if skill in role.skills
         ]
+
         # find the earliest start date
         if len(_start_dates) > 0:
             _earliest_start_date = min(_start_dates)
@@ -60,7 +66,7 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
         _roles = self.experience.roles
 
         # use only skills specified in the settings
-        _settings_skills = self.settings.executive_summary_settings.skills
+        _settings_skills = self.settings.skills
 
         # get a dict of all skills and yoe
         _skills_matrix = SkillsMatrix(_roles)
@@ -69,7 +75,7 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
         _skills_yoe = {}
         # filter out skills not in the settings
         for _setting_skill in _settings_skills:
-            _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0)
+            _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0.0)
 
         # sort skills by yoe
         _skills_yoe = dict(
@@ -104,6 +110,7 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
         for x in range(_num_rows):
             _table.rows[x].height = _row_size
 
+            # years of OTJ experience
             _cell1 = _table.cell(x, 0)
             _cell1.text = _skills_yoe_items[x][0]
             _cell1.vertical_alignment = WD_ALIGN_VERTICAL.CENTER
@@ -113,8 +120,10 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
                 _skills_yoe_items[x][0],
             )
 
-            _first_date_str = _first_date.strftime("%Y")
-            _last_date_str = _last_date.strftime("%Y")
+            # add first and last used dates
+            _first_date_str = _first_date.strftime("%Y") if _first_date else "N/A"
+            _last_date_str = _last_date.strftime("%Y") if _last_date else "N/A"
+
             _cell2_text = _cell2_text + f" / ({_first_date_str} - {_last_date_str})"
 
             _cell2 = _table.cell(x, 1)
@@ -133,8 +142,8 @@ class RenderSkillsSection(ResumeRenderExperienceBase):
                 _skills_yoe_items[x][0],
             )
 
-            _first_date_str = _first_date.strftime("%Y")
-            _last_date_str = _last_date.strftime("%Y")
+            _first_date_str = _first_date.strftime("%Y") if _first_date else "N/A"
+            _last_date_str = _last_date.strftime("%Y") if _last_date else "N/A"
             _cell2_text = _cell2_text + f"  / ({_first_date_str} - {_last_date_str})"
 
             _cell2 = _table.cell(x - _num_rows, 3)

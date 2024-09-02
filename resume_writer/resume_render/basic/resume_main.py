@@ -19,7 +19,9 @@ from resume_writer.resume_render.basic.experience_section import (
 from resume_writer.resume_render.basic.personal_section import (
     RenderPersonalSection,
 )
-from resume_writer.resume_render.basic.skills_matrix_section import RenderSkillsSection
+from resume_writer.resume_render.basic.skills_matrix_section import (
+    RenderSkillsMatrixSection,
+)
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderBase
 
@@ -75,7 +77,7 @@ class RenderResume(ResumeRenderBase):
 
         # the skills section is built from experience, so it has to exist
         if self.resume.experience and self.settings.skills_matrix:
-            RenderSkillsSection(
+            RenderSkillsMatrixSection(
                 self.document,
                 self.resume.experience,
                 self.settings.experience_settings,
