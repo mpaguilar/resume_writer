@@ -53,8 +53,7 @@ end_date = true
 [resume.render.section.executive_summary]
 # Categories are displayed in this order
 categories = """
-Category1
-Category2
+Worker
 """
 
 [resume.render.section.skills_matrix]

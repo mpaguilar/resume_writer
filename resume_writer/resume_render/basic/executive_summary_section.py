@@ -51,9 +51,23 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
             _category_roles = [
                 _role for _role in _roles if _role.basics.job_category == _category
             ]
+            if len(_category_roles) == 0:
+                _msg = f"No roles available for category {_category}"
+                log.warning(_msg)
+                continue
             self.document.add_heading(_category, level=4)
 
             for _role in _category_roles:
+                if not _role.summary.summary:
+                    _msg = f"No summary available for {_role.basics.title}"
+                    log.warning(_msg)
+                    continue
+
+                if not _role.basics.company:
+                    _msg = f"No company available for {_role.basics.title}"
+                    log.warning(_msg)
+                    continue
+
                 _paragraph = self.document.add_paragraph()
 
                 _paragraph.style = "List Bullet"
