@@ -58,8 +58,8 @@ Worker
 
 [resume.render.section.skills_matrix]
 skills = """
-Skill1
-Skill2
+Skill 1
+Skill 2
 """
 
 [resume.render.section.certifications]
