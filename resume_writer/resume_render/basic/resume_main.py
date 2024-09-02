@@ -72,7 +72,7 @@ class RenderResume(ResumeRenderBase):
             RenderExecutiveSummarySection(
                 self.document,
                 self.resume.experience,
-                self.settings.experience_settings,
+                self.settings.executive_summary_settings,
             ).render()
 
         # the skills section is built from experience, so it has to exist
@@ -80,7 +80,7 @@ class RenderResume(ResumeRenderBase):
             RenderSkillsMatrixSection(
                 self.document,
                 self.resume.experience,
-                self.settings.experience_settings,
+                self.settings.skills_matrix_settings,
             ).render()
 
         # render all the roles
