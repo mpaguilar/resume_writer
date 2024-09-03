@@ -68,6 +68,9 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         # use only skills specified in the settings
         _settings_skills = self.settings.skills
 
+        # remove blank lines from skills
+        _settings_skills = [x for x in _settings_skills if x]
+
         # get a dict of all skills and yoe
         _skills_matrix = SkillsMatrix(_roles)
         _all_skills_yoe = _skills_matrix.skills_experience()
@@ -76,6 +79,7 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         # filter out skills not in the settings
         for _setting_skill in _settings_skills:
             _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0.0)
+
 
         # sort skills by yoe
         _skills_yoe = dict(
