@@ -77,11 +77,11 @@ def resume():
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsSection.__init__",
+    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsMatrixSection.__init__",
     return_value=None,
 )
 @patch(
-    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsSection.render",
+    "resume_writer.resume_render.basic.skills_matrix_section.RenderSkillsMatrixSection.render",
     return_value=None,
 )
 @patch(
