@@ -110,30 +110,70 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             self.document.add_heading("Note", level=3)
             self.document.add_paragraph(_note.text)
 
-    def _websites(self) -> None:
-        """Render the websites section."""
+    def _websites(self) -> str | None:
+        """Render the websites section of a resume.
+
+        This function adds a paragraph to the resume document containing
+        hyperlinks to the user's GitHub, LinkedIn, website, and Twitter profiles,
+        based on the settings provided.
+
+        Steps:
+        1. Log a debug message indicating that the websites section is being rendered.
+        2. Retrieve the user's websites from the personal object.
+        3. Initialize an empty string for the paragraph text and a new paragraph object.
+        4. Check if the user's GitHub profile is provided and if the GitHub
+        setting is enabled. If so, add a hyperlink to the GitHub profile to the
+        paragraph and set the has_content flag to True.
+        5. Repeat step 4 for the LinkedIn, website, and Twitter profiles.
+        6. If the paragraph has content, set its alignment to center.
+        7. Return None.
+
+        Parameters
+        ----------
+        None
+
+        Returns
+        -------
+        None
+
+        """
+
+        # TODO: This runs over one line if all the sites are populated
 
         log.debug("Rendering websites section")
 
-        _paragraph_lines = []
-
         _websites = self.personal.websites
 
+        _paragraph_text = ""
+        _paragraph = self.document.add_paragraph()
+
+        _has_content = False
+
         if _websites.github and self.settings.github:
-            _paragraph_lines.append(f"GitHub: {_websites.github}")
+            add_hyperlink(_paragraph, "GitHub", _websites.github)
+            _has_content = True
 
         if _websites.linkedin and self.settings.linkedin:
-            _paragraph_lines.append(f"LinkedIn: {_websites.linkedin}")
+            if _has_content:
+                _paragraph.add_run(" | ")
+            add_hyperlink(_paragraph, "LinkedIn", _websites.linkedin)
+            _has_content = True
 
         if _websites.website and self.settings.website:
-            _paragraph_lines.append(f"Website: {_websites.website}")
+            if _has_content:
+                _paragraph.add_run(" | ")
+            add_hyperlink(_paragraph, "Website", _websites.website)
+            _has_content = True
 
         if _websites.twitter and self.settings.twitter:
-            _paragraph_lines.append(f"Twitter: {_websites.twitter}")
+            if _has_content:
+                _paragraph.add_run(" | ")
+            add_hyperlink(_paragraph, "X/Twitter", _websites.twitter)
 
-        if len(_paragraph_lines) > 0:
-            self.document.add_heading("Websites", level=3)
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+        if _has_content:
+            _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+
+        return None
 
     def _visa_status(self) -> None:
         """Render the visa status section."""

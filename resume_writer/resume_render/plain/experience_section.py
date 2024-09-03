@@ -2,6 +2,20 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx.enum.table import WD_ALIGN_VERTICAL
+from docx.shared import Inches
+from resume_render.render_settings import (
+    ResumeExperienceSettings,
+    ResumeProjectsSettings,
+    ResumeRolesSettings,
+)
+from resume_render.resume_render_base import (
+    ResumeRenderExperienceBase,
+    ResumeRenderProjectBase,
+    ResumeRenderProjectsBase,
+    ResumeRenderRoleBase,
+    ResumeRenderRolesBase,
+)
 
 from resume_writer.models.experience import (
     Experience,
@@ -9,18 +23,6 @@ from resume_writer.models.experience import (
     Projects,
     Role,
     Roles,
-)
-from resume_writer.resume_render.render_settings import (
-    ResumeExperienceSettings,
-    ResumeProjectsSettings,
-    ResumeRolesSettings,
-)
-from resume_writer.resume_render.resume_render_base import (
-    ResumeRenderExperienceBase,
-    ResumeRenderProjectBase,
-    ResumeRenderProjectsBase,
-    ResumeRenderRoleBase,
-    ResumeRenderRolesBase,
 )
 
 log = logging.getLogger(__name__)
