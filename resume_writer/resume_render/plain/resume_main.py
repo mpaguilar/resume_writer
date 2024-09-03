@@ -50,18 +50,18 @@ class RenderResume(ResumeRenderBase):
                 self.settings.personal_settings,
             ).render()
 
-        if self.resume.education and self.settings.education:
-            RenderEducationSection(
-                self.document,
-                self.resume.education,
-                self.settings.education_settings,
-            ).render()
-
         if self.resume.certifications and self.settings.certifications:
             RenderCertificationsSection(
                 self.document,
                 self.resume.certifications,
                 self.settings.certifications_settings,
+            ).render()
+
+        if self.resume.education and self.settings.education:
+            RenderEducationSection(
+                self.document,
+                self.resume.education,
+                self.settings.education_settings,
             ).render()
 
         # the executive summary is built from experience, so it has to exist
