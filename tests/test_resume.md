@@ -136,7 +136,7 @@ Also did other things as required.
 ### Role
 
 #### Basics
-Company: Example Company
+Company: A Company
 Employment type: Full-time
 Job category: Worker
 
