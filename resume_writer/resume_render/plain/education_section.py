@@ -1,6 +1,8 @@
 import logging
 
 import docx.document
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.shared import Inches
 from resume_render.render_settings import ResumeEducationSettings
 from resume_render.resume_render_base import (
     ResumeRenderDegreeBase,
@@ -29,30 +31,42 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
 
         log.debug("Rendering degree section.")
 
-        _paragraph_lines = []
+        _paragraph = self.document.add_paragraph()
 
+        # add tab stops to format title, company, dates, and location neatly
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _paragraph.paragraph_format.tab_stops
+
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
+
+        # School
         if self.degree.school and self.settings.school:
-            _paragraph_lines.append(f"School: {self.degree.school}")
+            _school_run = _paragraph.add_run(f"{self.degree.school}")
+            _school_run.bold = True
+            _school_run.font.size = self.font_size + 2
 
         if self.degree.degree and self.settings.degree:
-            _paragraph_lines.append(f"Degree: {self.degree.degree}")
+            _degree_run = _paragraph.add_run()
+            _degree_run.add_text(f"\t{self.degree.degree}")
+            _degree_run.bold = True
+            _degree_run.add_break()
 
         if self.degree.start_date and self.settings.start_date:
             _value = self.degree.start_date.strftime("%B %Y")
-            _paragraph_lines.append(f"Start Date: {_value}")
+            _start_date_run = _paragraph.add_run()
+            _start_date_run.add_text(f"{_value}")
 
         if self.degree.end_date and self.settings.end_date:
             _value = self.degree.end_date.strftime("%B %Y")
-            _paragraph_lines.append(f"End Date: {_value}")
-
-        if self.degree.major and self.settings.major:
-            _paragraph_lines.append(f"Major: {self.degree.major}")
+            _end_date_run = _paragraph.add_run()
+            _end_date_run.add_text(f" - {_value}")
 
         if self.degree.gpa and self.settings.gpa:
-            _paragraph_lines.append(f"GPA: {self.degree.gpa}")
-
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+            _degree_run = _paragraph.add_run(f"\tGPA: {self.degree.gpa}")
 
 
 class RenderEducationSection(ResumeRenderEducationBase):
@@ -75,10 +89,13 @@ class RenderEducationSection(ResumeRenderEducationBase):
         if not self.settings.degrees:
             return
 
-        self.document.add_heading("Education", level=3)
+        _heading = self.document.add_heading("Education", level=2)
+        _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
         for _degree in self.education.degrees:
             RenderDegreeSection(
                 document=self.document,
                 degree=_degree,
                 settings=self.settings,
             ).render()
+            # add a blank line between degrees
+            self.document.add_paragraph()

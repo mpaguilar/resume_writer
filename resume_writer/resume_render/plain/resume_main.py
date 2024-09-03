@@ -76,12 +76,19 @@ class RenderResume(ResumeRenderBase):
             ).render()
 
         # the skills section is built from experience, so it has to exist
-        if self.resume.experience and self.settings.skills_matrix:
+        # Only render the skills matrix if we have an executive summary
+        if (
+            self.resume.experience
+            and self.settings.skills_matrix
+            and self.settings.executive_summary
+        ):
             RenderSkillsMatrixSection(
                 self.document,
                 self.resume.experience,
                 self.settings.skills_matrix_settings,
             ).render()
+
+            self.document.add_page_break()
 
         # render all the roles
         if self.resume.experience and self.settings.experience:
