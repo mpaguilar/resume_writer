@@ -14,6 +14,9 @@ from resume_writer.resume_render.basic.resume_main import (
 from resume_writer.resume_render.functional.resume_main import (
     RenderResume as FunctionalRenderResume,
 )
+from resume_writer.resume_render.plain.resume_main import (
+    RenderResume as PlainRenderResume,
+)
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.simple.simple_resume import (
     BasicRenderResume as SimpleRenderResume,
@@ -116,6 +119,27 @@ def functional_render(
 
     log.info("Render of functional resume complete")
 
+def plain_render(
+    docx_doc: docx.document.Document,
+    resume: Resume,
+    settings: ResumeRenderSettings,
+) -> None:
+    """Render the resume using the plain renderer."""
+
+    assert isinstance(docx_doc, docx.document.Document)
+    assert isinstance(resume, Resume)
+    assert isinstance(settings, ResumeRenderSettings)
+
+    log.info("Rendering plain resume")
+
+    _renderer = PlainRenderResume(
+        document=docx_doc,
+        resume=resume,
+        settings=settings,
+    )
+    _renderer.render()
+
+    log.info("Render of plain resume complete")
 
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
@@ -127,7 +151,7 @@ def functional_render(
 )
 @click.option(
     "--resume-type",
-    type=click.Choice(["simple", "functional", "basic"]),
+    type=click.Choice(["simple", "functional", "basic", "plain"]),
     default="simple",
 )
 def main(
@@ -155,6 +179,8 @@ def main(
         functional_render(_docx_doc, _resume, _render_settings)
     elif resume_type == "basic":
         basic_render(_docx_doc, _resume, _render_settings)
+    elif resume_type == "plain":
+        plain_render(_docx_doc, _resume, _render_settings)
     else:
         raise ValueError(f"Unknown resume type: {resume_type}")
     _docx_doc.save(output_file)
