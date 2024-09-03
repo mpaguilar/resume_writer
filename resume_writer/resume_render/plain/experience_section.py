@@ -2,8 +2,8 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx.enum.table import WD_ALIGN_VERTICAL
-from docx.shared import Inches
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.shared import Inches, Pt
 from resume_render.render_settings import (
     ResumeExperienceSettings,
     ResumeProjectsSettings,
@@ -57,6 +57,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render role details section."""
         log.debug("Rendering role details.")
         _paragraph_lines = []
+
         # job category
         _basics = self.role.basics
         if _basics.job_category and self.settings.job_category:
@@ -73,13 +74,51 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         return _paragraph_lines
 
-    def _dates(self) -> list[str]:
+    def _title_and_company(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+        """Render role title and company section."""
+
+        log.debug("Rendering role title and company.")
+
+        _basics = self.role.basics
+
+        # title is required
+        if not _basics.title:
+            _msg = "Title is required"
+            self.errors.append(_msg)
+            log.error(_msg)
+            raise ValueError(_msg)
+
+        _title_run = paragraph.add_run()
+        _title_run.add_text(f"{_basics.title}")
+        _title_run.bold = True
+        _title_run.underline = True
+        _title_run.font.size = self.font_size + 2
+
+        # company name is required
+        if not _basics.company:
+            _msg = "Company name is required"
+            self.errors.append(_msg)
+            log.error(_msg)
+            raise ValueError(_msg)
+
+        _company_run = paragraph.add_run(f"\t{_basics.company}")
+        _company_run.bold = True
+        _company_run.font.size = self.font_size + 2
+
+        _company_run.add_break()
+
+    def _dates_and_location(
+        self,
+        paragraph: docx.text.paragraph.Paragraph,
+    ) -> list[str]:
         """Render role dates section."""
 
         log.debug("Rendering role dates.")
-        _paragraph_lines = []
 
         _basics = self.role.basics
+
+        _date_run = paragraph.add_run()
+
         # Start date
         if not _basics.start_date:
             _msg = "Start date is required"
@@ -87,51 +126,52 @@ class RenderRoleSection(ResumeRenderRoleBase):
             log.warning(_msg)
 
         _value = datetime.strftime(_basics.start_date, "%B %Y")
-        _paragraph_lines.append(f"Start Date: {_value}")
+        _date_run.add_text(f"{_value}")
 
         # End date
         if _basics.end_date:
             _value = datetime.strftime(_basics.end_date, "%B %Y")
-            _paragraph_lines.append(f"End Date: {_value}")
+            _date_run.add_text(f"- {_value}")
+        else:
+            _date_run.add_text(" - Present")
 
-        return _paragraph_lines
+        if _basics.location and self.settings.location:
+            paragraph.add_run(f"\t{_basics.location}")
 
-    def render(self) -> None:
-        """Render role overview/basics section."""
-
-        _paragraph_lines = []
-
-        log.debug("Rendering roles section.")
-        _basics = self.role.basics
-        # company name is required
-        if not _basics.company:
-            _msg = "Company name is required"
-            self.errors.append(_msg)
-            log.warning(_msg)
-
-        _paragraph_lines.append(f"Company: {_basics.company}")
-
-        if not _basics.title:
-            _msg = "Title is required"
-            self.errors.append(_msg)
-            log.warning(_msg)
-
-        _paragraph_lines.append(f"Title: {_basics.title}")
-
-        _detail_lines = self._details()
-        if len(_detail_lines) > 0:
-            _paragraph_lines.extend(_detail_lines)
-
-        _date_lines = self._dates()
-        if len(_date_lines) > 0:
-            _paragraph_lines.extend(_date_lines)
-
+    def _description(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+        """Render role summary and details section."""
+        _run = paragraph.add_run()
         if self.role.summary and self.settings.summary:
             self.document.add_paragraph(self.role.summary.summary)
 
         if self.role.responsibilities and self.settings.responsibilities:
             self.document.add_paragraph(self.role.responsibilities.text)
 
+    def render(self) -> None:
+        """Render role overview/basics section."""
+
+        log.debug("Rendering roles section.")
+
+        _paragraph = self.document.add_paragraph()
+
+        # add tab stops to format title, company, dates, and location neatly
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _paragraph.paragraph_format.tab_stops
+
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
+
+        self._title_and_company(_paragraph)
+        self._dates_and_location(_paragraph)
+
+        _paragraph_lines = []
+        _description_paragraph = self.document.add_paragraph()
+        self._description(_description_paragraph)
+
+        ###################
         _skills_lines = self._skills()
         if len(_skills_lines) > 0:
             _paragraph_lines.extend(_skills_lines)
@@ -157,7 +197,8 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render roles section."""
         log.debug("Rendering roles section.")
         if len(self.roles) > 0:
-            self.document.add_heading("Work History", level=2)
+            _heading = self.document.add_heading("Work History", level=2)
+            _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
         else:
             log.info("No roles found")
             return
@@ -168,6 +209,11 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 role=_role,
                 settings=self.settings,
             ).render()
+
+            _paragraph = self.document.add_paragraph()
+            _paragraph.paragraph_format.space_after = Pt(12)
+
+            self.add_horizontal_line(_paragraph, 2)
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
