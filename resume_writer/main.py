@@ -78,7 +78,7 @@ def basic_render(
     log.info("Rendering simple resume")
     _renderer = BasicRenderResume(document=docx_doc, resume=resume, settings=settings)
     _renderer.render()
-    log.info("Render of simple resume complete")
+    log.info("Render of basic resume complete")
 
 def simple_render(
     docx_doc: docx.document.Document,
