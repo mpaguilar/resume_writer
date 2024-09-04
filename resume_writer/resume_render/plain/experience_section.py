@@ -47,12 +47,12 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render role skills section."""
 
         log.debug("Rendering role skills.")
-        _paragraph_lines = []
+
+        _paragraph = self.document.add_paragraph()
+
         if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
             _skills_str = ", ".join(self.role.skills)
-            _paragraph_lines.append(f"Skills: {_skills_str}")
-
-        return _paragraph_lines
+            _skills_run = _paragraph.add_run(f"Skills: {_skills_str}")
 
     def _details(self) -> list[str]:
         """Render role details section."""
@@ -139,14 +139,22 @@ class RenderRoleSection(ResumeRenderRoleBase):
         if _basics.location and self.settings.location:
             paragraph.add_run(f"\t{_basics.location}")
 
-    def _description(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+    def _description(self) -> None:
         """Render role summary and details section."""
-        _run = paragraph.add_run()
+
         if self.role.summary and self.settings.summary:
-            self.document.add_paragraph(self.role.summary.summary)
+            self.document.add_paragraph(self.role.summary.summary.strip())
+
+        _responsibilites_paragraph = self.document.add_paragraph()
+        _responsibilites_paragraph.paragraph_format.space_after = Pt(6)
+        _responsibilities_run = _responsibilites_paragraph.add_run()
 
         if self.role.responsibilities and self.settings.responsibilities:
-            self.document.add_paragraph(self.role.responsibilities.text)
+            for _line in self.role.responsibilities.text.split("\n"):
+                _line = _line.strip()
+                if _line:
+                    _responsibilities_run.add_text(f"{_line}")
+                    _responsibilities_run.add_break()
 
     def render(self) -> None:
         """Render role overview/basics section."""
@@ -168,17 +176,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
         self._title_and_company(_paragraph)
         self._dates_and_location(_paragraph)
 
-        _paragraph_lines = []
-        _description_paragraph = self.document.add_paragraph()
-        self._description(_description_paragraph)
-
-        ###################
-        _skills_lines = self._skills()
-        if len(_skills_lines) > 0:
-            _paragraph_lines.extend(_skills_lines)
-
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+        self.document.add_paragraph()
+        self._description()
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
