@@ -84,15 +84,17 @@ class RenderRoleSection(ResumeRenderRoleBase):
             self.errors.append(_msg)
             log.warning(_msg)
 
-        _value = datetime.strftime(_basics.start_date, "%B %Y")
-        _paragraph_lines.append(f"Start Date: {_value}")
+        _value = datetime.strftime(_basics.start_date, "%m-%Y")
+        _start_and_end = f"{_value}"
 
         # End date
         if _basics.end_date:
-            _value = datetime.strftime(_basics.end_date, "%B %Y")
-            _paragraph_lines.append(f"End Date: {_value}")
+            _value = datetime.strftime(_basics.end_date, "%m-%Y")
+            _start_and_end += f" - {_value}"
+        else:
+            _start_and_end += " - Present"
 
-        return _paragraph_lines
+        return [_start_and_end]
 
     def render(self) -> None:
         """Render role overview/basics section."""
@@ -109,6 +111,10 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         _paragraph_lines.append(f"Company: {_basics.company}")
 
+        _date_lines = self._dates()
+        if len(_date_lines) > 0:
+            _paragraph_lines.extend(_date_lines)
+
         if not _basics.title:
             _msg = "Title is required"
             self.errors.append(_msg)
@@ -120,22 +126,26 @@ class RenderRoleSection(ResumeRenderRoleBase):
         if len(_detail_lines) > 0:
             _paragraph_lines.extend(_detail_lines)
 
-        _date_lines = self._dates()
-        if len(_date_lines) > 0:
-            _paragraph_lines.extend(_date_lines)
+
+        _clean_lines = [_line.replace("\n\n", "\n") for _line in _paragraph_lines]
+
+        if len(_paragraph_lines) > 0:
+            self.document.add_paragraph("\n".join(_clean_lines))
 
         if self.role.summary and self.settings.summary:
             self.document.add_paragraph(self.role.summary.summary)
 
         if self.role.responsibilities and self.settings.responsibilities:
-            self.document.add_paragraph(self.role.responsibilities.text)
+            _responsibilities_text = self.role.responsibilities.text.replace(
+                "\n\n",
+                "\n",
+            )
+            self.document.add_paragraph(_responsibilities_text)
 
         _skills_lines = self._skills()
         if len(_skills_lines) > 0:
-            _paragraph_lines.extend(_skills_lines)
-
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+            _skills_paragraph = self.document.add_paragraph()
+            _skills_paragraph.add_run("\n".join(_skills_lines))
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
@@ -166,6 +176,11 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 role=_role,
                 settings=self.settings,
             ).render()
+
+            # add two blank lines between roles
+            if _role != self.roles[-1]:
+                self.document.add_paragraph()
+                self.document.add_paragraph()
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
