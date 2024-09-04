@@ -145,18 +145,26 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render role summary and details section."""
 
         if self.role.summary and self.settings.summary:
-            self.document.add_paragraph(self.role.summary.summary.strip())
+            _summary_paragraph = self.document.add_paragraph()
+            _summary_run = _summary_paragraph.add_run()
+            _summary_run.add_text(self.role.summary.summary.strip())
+            _summary_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+            _summary_paragraph.paragraph_format.space_before = Pt(0)
 
         _responsibilites_paragraph = self.document.add_paragraph()
+        _responsibilites_paragraph.paragraph_format.space_before = Pt(0)
         _responsibilites_paragraph.paragraph_format.space_after = Pt(6)
         _responsibilities_run = _responsibilites_paragraph.add_run()
 
         if self.role.responsibilities and self.settings.responsibilities:
-            for _line in self.role.responsibilities.text.split("\n"):
-                _line = _line.strip()
-                if _line:
-                    _responsibilities_run.add_text(f"{_line}")
-                    _responsibilities_run.add_break()
+            _responsibilities_lines = self.role.responsibilities.text.replace(
+                "\n\n",
+                "\n",
+            ).split("\n")
+
+            for _line in _responsibilities_lines:
+                _responsibilities_run.add_text(_line)
+                _responsibilities_run.add_break()
 
     def render(self) -> None:
         """Render role overview/basics section."""
@@ -177,6 +185,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         self._title_and_company(_paragraph)
         self._dates_and_location(_paragraph)
+        _paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
 
         self.document.add_paragraph()
         self._description()
@@ -244,7 +253,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         _title_run.bold = True
 
         paragraph.add_run("\t")
-        paragraph.paragraph_format.space_after = Pt(5)
+        paragraph.paragraph_format.space_after = Pt(6)
 
         add_hyperlink(paragraph, f"Website: {_overview.url_description}", _overview.url)
 
