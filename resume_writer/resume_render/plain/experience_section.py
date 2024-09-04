@@ -53,6 +53,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
         if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
             _skills_str = ", ".join(self.role.skills)
             _skills_run = _paragraph.add_run(f"Skills: {_skills_str}")
+            _skills_run.font.size = Pt(self.font_size - 2)
+            _skills_run.font.italic = True
 
     def _details(self) -> list[str]:
         """Render role details section."""
@@ -178,6 +180,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         self.document.add_paragraph()
         self._description()
+        self._skills()
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
