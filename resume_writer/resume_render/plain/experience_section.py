@@ -108,8 +108,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _company_run.bold = True
         _company_run.font.size = self.font_size + 2
 
-        _company_run.add_break()
-
     def _dates_and_location(
         self,
         paragraph: docx.text.paragraph.Paragraph,
@@ -148,7 +146,9 @@ class RenderRoleSection(ResumeRenderRoleBase):
             _summary_paragraph = self.document.add_paragraph()
             _summary_run = _summary_paragraph.add_run()
             _summary_run.add_text(self.role.summary.summary.strip())
-            _summary_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+            _summary_run.font.italic = True
+            _summary_run.font.bold = True
+            _summary_paragraph.paragraph_format.space_after = Pt(self.font_size)
             _summary_paragraph.paragraph_format.space_before = Pt(0)
 
         _responsibilites_paragraph = self.document.add_paragraph()
@@ -171,11 +171,13 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         log.debug("Rendering roles section.")
 
-        _paragraph = self.document.add_paragraph()
+        _basics_paragraph = self.document.add_paragraph()
+        _basics_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+        self._title_and_company(_basics_paragraph)
 
         # add tab stops to format title, company, dates, and location neatly
         _tab_stop_right = Inches(7.4)
-        _tab_stops = _paragraph.paragraph_format.tab_stops
+        _tab_stops = _basics_paragraph.paragraph_format.tab_stops
 
         _tab_stops.add_tab_stop(
             _tab_stop_right,
@@ -183,11 +185,20 @@ class RenderRoleSection(ResumeRenderRoleBase):
             WD_TAB_LEADER.SPACES,
         )
 
-        self._title_and_company(_paragraph)
-        self._dates_and_location(_paragraph)
-        _paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+        _dates_paragraph = self.document.add_paragraph()
+        # add tab stops to format title, company, dates, and location neatly
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _dates_paragraph.paragraph_format.tab_stops
 
-        self.document.add_paragraph()
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
+
+        self._dates_and_location(_dates_paragraph)
+        _dates_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+
         self._description()
         self._skills()
 
