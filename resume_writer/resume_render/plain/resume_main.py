@@ -82,6 +82,8 @@ class RenderResume(ResumeRenderBase):
             and self.settings.skills_matrix
             and self.settings.executive_summary
         ):
+            # add a blank line
+            self.document.add_paragraph()
             RenderSkillsMatrixSection(
                 self.document,
                 self.resume.experience,
