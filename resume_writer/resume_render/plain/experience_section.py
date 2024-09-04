@@ -24,6 +24,7 @@ from resume_writer.models.experience import (
     Role,
     Roles,
 )
+from resume_writer.resume_render.docx_hyperlink import add_hyperlink
 
 log = logging.getLogger(__name__)
 
@@ -229,64 +230,72 @@ class RenderProjectSection(ResumeRenderProjectBase):
         log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
 
-    def _overview(self) -> list[str]:
+    def _overview(self, paragraph: docx.text.paragraph.Paragraph) -> None:
         """Render project overview section."""
 
         log.debug("Rendering project overview.")
 
-        _paragraph_lines = []
         _overview = self.project.overview
 
-        _url_line = ""
-        if self.settings.url_description and _overview.url_description:
-            _url_line = f"{_overview.url_description} "
-        if self.settings.url and _overview.url:
-            _url_line += f" ({_overview.url})"
+        _title_run = paragraph.add_run()
+        _title_run.add_text(_overview.title)
+        _title_run.bold = True
 
-        _url_line = _url_line.strip()
-        if _url_line:
-            _paragraph_lines.append(_url_line)
+        paragraph.add_run("\t")
+        paragraph.paragraph_format.space_after = Pt(5)
 
-        if self.settings.start_date and _overview.start_date:
-            _start_date = datetime.strftime(_overview.start_date, "%B %Y")
-            _paragraph_lines.append(f"Start Date: {_start_date}")
+        add_hyperlink(paragraph, f"Website: {_overview.url_description}", _overview.url)
 
-        if self.settings.end_date and _overview.end_date:
-            _end_date = datetime.strftime(_overview.end_date, "%B %Y")
-            _paragraph_lines.append(f"End Date: {_end_date}")
-
-        return _paragraph_lines
-
-    def _skills(self) -> list[str]:
+    def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
         """Render project skills section."""
 
         log.debug("Rendering project skills.")
 
-        _paragraph_lines = []
-
         _skills = ", ".join(self.project.skills)
-        _paragraph_lines.append(f"Skills: {_skills}")
+        _skills_run = paragraph.add_run()
 
-        return _paragraph_lines
+        _skills_run.add_text(f"Skills: {_skills}")
+        _skills_run.italic = True
 
     def render(self) -> None:
         """Render project section."""
 
         log.debug("Rendering project section.")
 
-        _paragraph_lines = []
+        _paragraph = self.document.add_paragraph()
+        # add tab stops to format title, company, dates, and location neatly
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _paragraph.paragraph_format.tab_stops
+
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
 
         if self.settings.overview and self.project.overview:
-            _paragraph_lines.extend(self._overview())
+            self._overview(_paragraph)
+
+        _paragraph.paragraph_format.space_after = Pt(6)
 
         if self.settings.description and self.project.description:
-            _paragraph_lines.append(self.project.description.text)
+            _description_paragraph = self.document.add_paragraph()
+            _description_run = _description_paragraph.add_run()
+            _description_lines = self.project.description.text.split("\n")
+            for _line in _description_lines:
+                _line = _line.strip()
+                if _line:
+                    _description_run.add_text(_line)
+                    _description_run.add_break()
 
-        if self.settings.skills and len(self.project.skills) > 0:
-            _paragraph_lines.extend(self._skills())
+            _description_paragraph.paragraph_format.space_before = Pt(0)
+            _description_paragraph.paragraph_format.space_after = Pt(0)
 
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+        if self.settings.skills and self.project.skills:
+            _skills_paragraph = self.document.add_paragraph()
+            self._skills(_skills_paragraph)
+            _skills_paragraph.paragraph_format.space_before = Pt(0)
+            _skills_paragraph.paragraph_format.space_after = Pt(6)
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
