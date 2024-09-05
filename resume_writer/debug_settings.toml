@@ -11,6 +11,7 @@ margin_width = 0.5
 top_margin = 0.2
 bottom_margin = 0.2
 
+
 [resume.render.section.personal]
 contact_info = true
 banner = true
