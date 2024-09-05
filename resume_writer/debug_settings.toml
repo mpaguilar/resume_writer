@@ -28,6 +28,10 @@ twitter = true
 require_sponsorship = true
 work_authorization = true
 
+[resume.render.section.experience]
+roles = true
+projects = true
+
 [resume.render.section.experience.section.projects]
 overview = true
 description = true
