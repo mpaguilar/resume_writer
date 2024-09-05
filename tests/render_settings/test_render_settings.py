@@ -26,7 +26,6 @@ def test_dict():
                 "skills_matrix": False,
                 "font_size": 20,
                 "margin_width": 100,
-                "projects" : False,
                 "section": {
                     "personal": {
                         "contact_info": False,
