@@ -28,7 +28,7 @@ envVars.txt
 resume_writer/data
 
 # Personal data
-resume_writer/personal_data
+personal_data
 
 # garage data
 infra/export/var/lib/garage/data
