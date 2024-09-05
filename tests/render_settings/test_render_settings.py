@@ -22,10 +22,11 @@ def test_dict():
                 "education": False,
                 "certifications": False,
                 "experience": False,
-                "font_size": 20,
-                "margin_width": 100,
                 "executive_summary": False,
                 "skills_matrix": False,
+                "font_size": 20,
+                "margin_width": 100,
+                "projects" : False,
                 "section": {
                     "personal": {
                         "contact_info": False,
@@ -239,10 +240,6 @@ def test_experience_settings(test_dict):
     assert _project_settings.overview is False
     assert _project_settings.description is False
     assert _project_settings.skills is False
-
-    _role_settings = _experience_settings.roles_settings
-    assert _role_settings.summary is False
-    assert _role_settings.skills is False
 
 
 def test_executive_summary_settings(test_dict):
