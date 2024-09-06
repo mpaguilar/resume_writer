@@ -111,6 +111,7 @@ def test_resume_settings(test_dict):
     assert _resume_settings.font_size == 20
     assert _resume_settings.margin_width == 100
     assert _resume_settings.executive_summary is False
+    assert _resume_settings.skills_matrix is False
 
     # test the subsections
     _personal = _resume_settings.personal_settings
