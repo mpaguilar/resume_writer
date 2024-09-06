@@ -8,19 +8,16 @@ import tomli
 
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
+from resume_writer.resume_render.ats.resume_main import (
+    RenderResume as AtsRenderResume,
+)
 from resume_writer.resume_render.basic.resume_main import (
     RenderResume as BasicRenderResume,
-)
-from resume_writer.resume_render.functional.resume_main import (
-    RenderResume as FunctionalRenderResume,
 )
 from resume_writer.resume_render.plain.resume_main import (
     RenderResume as PlainRenderResume,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
-from resume_writer.resume_render.simple.simple_resume import (
-    BasicRenderResume as SimpleRenderResume,
-)
 from resume_writer.utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)
@@ -80,44 +77,21 @@ def basic_render(
     _renderer.render()
     log.info("Render of basic resume complete")
 
-def simple_render(
+def ats_render(
     docx_doc: docx.document.Document,
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the simple renderer."""
+    """Render the resume using the ats renderer."""
 
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
     log.info("Rendering simple resume")
-    _renderer = SimpleRenderResume(document=docx_doc, resume=resume, settings=settings)
+    _renderer = AtsRenderResume(document=docx_doc, resume=resume, settings=settings)
     _renderer.render()
     log.info("Render of simple resume complete")
-
-
-def functional_render(
-    docx_doc: docx.document.Document,
-    resume: Resume,
-    settings: ResumeRenderSettings,
-) -> None:
-    """Render the resume using the functional renderer."""
-
-    assert isinstance(docx_doc, docx.document.Document)
-    assert isinstance(resume, Resume)
-    assert isinstance(settings, ResumeRenderSettings)
-
-    log.info("Rendering functional resume")
-
-    _renderer = FunctionalRenderResume(
-        document=docx_doc,
-        resume=resume,
-        settings=settings,
-    )
-    _renderer.render()
-
-    log.info("Render of functional resume complete")
 
 def plain_render(
     docx_doc: docx.document.Document,
@@ -151,7 +125,7 @@ def plain_render(
 )
 @click.option(
     "--resume-type",
-    type=click.Choice(["simple", "functional", "basic", "plain"]),
+    type=click.Choice(["ats", "basic", "plain"]),
     default="simple",
 )
 def main(
@@ -173,11 +147,7 @@ def main(
     _resume = Resume.parse(_resume_lines)
     _docx_doc = docx.Document()
 
-    if resume_type == "simple":
-        simple_render(_docx_doc, _resume, _render_settings)
-    elif resume_type == "functional":
-        functional_render(_docx_doc, _resume, _render_settings)
-    elif resume_type == "basic":
+    if resume_type == "basic":
         basic_render(_docx_doc, _resume, _render_settings)
     elif resume_type == "plain":
         plain_render(_docx_doc, _resume, _render_settings)
