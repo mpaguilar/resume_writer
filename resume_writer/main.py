@@ -151,6 +151,8 @@ def main(
         basic_render(_docx_doc, _resume, _render_settings)
     elif resume_type == "plain":
         plain_render(_docx_doc, _resume, _render_settings)
+    elif resume_type == "ats":
+        ats_render(_docx_doc, _resume, _render_settings)
     else:
         raise ValueError(f"Unknown resume type: {resume_type}")
     _docx_doc.save(output_file)
