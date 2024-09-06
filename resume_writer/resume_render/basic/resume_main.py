@@ -1,7 +1,6 @@
 import logging
 
 import docx.document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.basic.certifications_section import (
@@ -66,8 +65,7 @@ class RenderResume(ResumeRenderBase):
 
         # the executive summary is built from experience, so it has to exist
         if self.resume.experience and self.settings.executive_summary:
-            _heading = self.document.add_heading("Executive Summary", 2)
-            _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            self.document.add_heading("Executive Summary", 2)
 
             RenderExecutiveSummarySection(
                 self.document,
