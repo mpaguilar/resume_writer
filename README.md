@@ -4,9 +4,9 @@ This is a simple resume writer that takes a text file and converts into a Word d
 
 - The "plain" format is better for human readers. It isn't fancy, but it is easy to read and understand. Engineering managers seem to prefer it. If you're applying for a more sophisticated job (CxO, Graphic Designer, FAANG), this is _not_ the resume you'll want to use. It's a good starting point for those.
 
-- The "plain" format also has optional "Executive Summary" and "Skills Matrix" sections. They are enabled by default, and are very useful if you're having trouble fitting everything into one or two pages, for example, you have a long job history. It can be used as part of a cover letter, as well.
+- The "plain" format also has an optional "Executive Summary" and "Skills Matrix" sections. These are enabled using the `settings_full_resume.toml` (includes it on the first page), and `settings_summary_resume` (only outputs the summary). They are very useful if you're having trouble fitting everything into one or two pages, for example, if you have a long job history. It can be used as part of a cover letter, as well.
 
-- The "ats" format is similar to the basic format, but is well-suited for ATS. There are no columns, tables, or bullet points, as these are all things that can trip up ATS parsing.
+- The "ats" format is similar to the basic format, but is well-suited for ATS parsing. There are no columns, tables, or bullet points, as these are all things that can trip up ATS parsing.
 
 - The "basic" format is meant for testing and debugging. Neither humans nor machines will really like it.
 
@@ -14,9 +14,9 @@ This is a simple resume writer that takes a text file and converts into a Word d
 
 A common problem for applicants are web forms that require a resume to be uploaded for parsing. Many times, the parsing fails miserably. This leads to the candidate filling in a bunch of little text boxes. This is tedious and time-consuming, especially when the candidate is applying for muliple positions.
 
-AI isn't really much of solution, yet. Details about that can be found [here](./docs/AI_Resume_Parsing.md). I'm sure that someone will eventually figure it out, but it will be awhile before it percolates through the hiring ecosystem. Changing or upgrading an ATS isn't as easy as it sounds.
+AI isn't really much of solution, yet. Details about that can be found [here](./docs/AI_Resume_Parsing.md). I'm sure that someone will eventually figure it out, but it will be awhile before an AI solution percolates through the hiring ecosystem. Changing or upgrading an ATS isn't as easy as it sounds.
 
-At the same time, recruiters will ask candidates for something more interesting or easier to read. They may ask for certain details to be changed, added, or removed. For short simple resumes, this isn't a big deal, but as a resume becomes more complex
+At the same time, recruiters will ask candidates for something more interesting or easier to read. They may ask for certain details to be changed, added, or removed. For short simple resumes, this isn't a big deal, but as a resume becomes more complex and more detailed, it is very cumbersome.
 
 The preferred usage with this app is to generate two resumes: one in the "plain" format and another in the "ats". Most, if not all, online applications will ask you if you want to upload any additional files, or even give an opportunity to replace the resume you already uploaded.
 
@@ -28,9 +28,9 @@ This app is a command line app. If time allows a web front-end will be developed
 
 ## Sample input
 
-The test file is the best way to see how the input should be formatted. It's in the source code [here](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/tests/test_resume.md)
+The test file is the best way to see how the input should be formatted. It's in the source code [here](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/tests/test_resume.md).
 
-Details about section types and each section can be found [here](./docs/format_details.md)
+Details about section types and each section can be found [here](./docs/format_details.md).
 
 The parser is rather unforgiving at the moment. The error messages are pretty good, but it means understanding enough about both Python and the format to understand the problem. Updating this deficiency is a priority.
 
