@@ -90,6 +90,8 @@ class RenderResume(ResumeRenderBase):
                 self.settings.skills_matrix_settings,
             ).render()
 
+        # don't add a page break if we're rendering only the summary
+        if self.settings.experience and self.settings.executive_summary:
             self.document.add_page_break()
 
         # render all the roles

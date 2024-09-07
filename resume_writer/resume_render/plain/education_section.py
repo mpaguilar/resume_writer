@@ -2,7 +2,7 @@ import logging
 
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
-from docx.shared import Inches
+from docx.shared import Inches, Pt
 from resume_render.render_settings import ResumeEducationSettings
 from resume_render.resume_render_base import (
     ResumeRenderDegreeBase,
@@ -47,7 +47,7 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         if self.degree.school and self.settings.school:
             _school_run = _paragraph.add_run(f"{self.degree.school}")
             _school_run.bold = True
-            _school_run.font.size = self.font_size + 2
+            _school_run.font.size = Pt(self.font_size + 2)
 
         if self.degree.degree and self.settings.degree:
             _degree_run = _paragraph.add_run()
