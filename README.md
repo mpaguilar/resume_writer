@@ -76,8 +76,12 @@ The settings file is a TOML file. Entries are completely optional. [This is a fu
 
 ### Sample settings files
 
-- [No summary](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/settings_nosummary_resume.toml). Omits the "summary" section, including only roles and projects.
-- [Executive summary](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/resume_writer/settings_summary_resume.toml). Includes the Executive Summary and Skills Matrix sections, only.
+- [No summary](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/settings_nosummary_resume.toml). Omits the "summary" section, including only roles and projects. Best for resumes that already fit on one or two pages.
+
+- [Executive summary](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/resume_writer/settings_summary_resume.toml). Includes the Executive Summary and Skills Matrix sections, only. Useful for cover letters.
+
+- [Full resume](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/resume_writer/settings_full_resume.toml). Includes the executive summary on the first page. Used for very long resumes, e.g., the candidate has had several roles across a decade or more.
+
 - [ATS](https://raw.githubusercontent.com/mpaguilar/resume_writer/main/resume_writer/settings_ats_resume.toml). Used for ATS-friendly parsing.
 
 ## Running the app
