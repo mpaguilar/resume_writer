@@ -2,7 +2,7 @@
 personal = true
 education = true
 certifications = true
-experience = false
+experience = true
 executive_summary = true
 skills_matrix = true
 
