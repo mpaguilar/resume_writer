@@ -68,7 +68,7 @@ It does use markdown-style headings, but it is not markdown. The heading format 
 
 ## Controlling the output
 
-Almost everything can be controlled by a settings file. By default, everything is output. This isn't recommended. It results in a rather cluttered resume, especially the headings like "work authorization", "banner", "note", etc.
+The output can be adjusted by using settings file in TOML format. Some recommened settings are included in the project.
 
 ### Settings file
 
