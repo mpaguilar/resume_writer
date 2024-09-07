@@ -178,28 +178,27 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
     def _visa_status(self) -> None:
         """Render the visa status section."""
 
-        _paragraph_lines = []
+        _paragraph = self.document.add_paragraph()
+        _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         _visa_status = self.personal.visa_status
 
-        if (
-            _visa_status.work_authorization
-            and self.settings.work_authorization
-        ):
-            _paragraph_lines.append(
-                f"Work Authorization: {_visa_status.work_authorization}",
-            )
+        if _visa_status.work_authorization and self.settings.work_authorization:
+            _work_authorization = _visa_status.work_authorization
+            _paragraph.add_run(_work_authorization)
 
-        if (
-            _visa_status.require_sponsorship is not None
-            and self.settings.require_sponsorship
-        ):
+        if _visa_status.require_sponsorship and self.settings.require_sponsorship:
+            # handle the case where the value is simply "yes",
+            # otherwise use the verbatim value
             _value = "Yes" if _visa_status.require_sponsorship else "No"
-            _paragraph_lines.append(f"Require Sponsorship: {_value}")
+            _sponsorship_run = _paragraph.add_run()
+            _sponsorship_run.add_text(f"Requires Sponsorship: {_value}")
 
-        if len(_paragraph_lines) > 0:
-            self.document.add_heading("Visa Status", level=3)
-            self.document.add_paragraph("\n".join(_paragraph_lines))
+            # if work authorization was rendered, add a space.
+            if _visa_status.work_authorization and self.settings.work_authorization:
+                _sponsorship_run.add_text(" | ")
+
+            _sponsorship_run.add_text(_value)
 
     def render(self) -> None:
         """Render the personal section of a document.
