@@ -70,4 +70,3 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
                 _certification,
                 self.settings,
             ).render()
-            self.document.add_paragraph()
