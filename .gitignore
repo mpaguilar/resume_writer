@@ -24,9 +24,6 @@ envVars.txt
 .vscode-test/
 .venv*/
 
-# Project data
-resume_writer/data
-
 # Personal data
 personal_data
 
