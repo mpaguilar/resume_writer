@@ -76,8 +76,8 @@ python main.py ./tests/test_resume.md --output-file test_resume.docx --settings-
 
 `resume_render/basic` has a full test suite. To create a new style of resume:
 - copy the `basic` folder
-- rename the file prefix from `basic_` to `<your_style>_`
-- update the imports in `resume_render/<your_style>/<your_style>_resume.py`
+- update `main.py`
+- update the imports in `resume_render/<your_style>/resume_main.py`
 - hack away
 
 ## Making changes to `resume_render/basic`
