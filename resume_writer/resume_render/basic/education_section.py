@@ -88,7 +88,7 @@ class RenderEducationSection(ResumeRenderEducationBase):
         if not self.settings.degrees:
             return
 
-        self.document.add_heading("Education", level=3)
+        self.document.add_heading("Education", level=2)
         for _degree in self.education.degrees:
             RenderDegreeSection(
                 document=self.document,

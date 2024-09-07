@@ -62,7 +62,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Render the certifications section."""
 
         if len(self.certifications) > 0:
-            self.document.add_heading("Certifications", level=3)
+            self.document.add_heading("Certifications", level=2)
 
         for _certification in self.certifications:
             RenderCertificationSection(
