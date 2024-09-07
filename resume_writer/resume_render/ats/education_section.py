@@ -82,3 +82,4 @@ class RenderEducationSection(ResumeRenderEducationBase):
                 degree=_degree,
                 settings=self.settings,
             ).render()
+            self.document.add_paragraph()

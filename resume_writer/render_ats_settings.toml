@@ -1,0 +1,31 @@
+[resume.render]
+executive_summary = false
+skills_matrix = false
+
+font_size = 10
+margin_width = 0.5
+top_margin = 0.2
+bottom_margin = 0.2
+
+[resume.render.section.personal]
+banner = false
+visa_status = false
+websites = false
+note = false
+require_sponsorship = false
+work_authorization = false
+
+[resume.render.section.certifications]
+issuer = false
+issued = false
+expires = false
+
+[resume.render.section.experience.section.roles]
+summary = false
+reason_for_change = false
+job_category = false
+employment_type = false
+agency_name = false
+
+[resume.render.section.experience]
+projects = false

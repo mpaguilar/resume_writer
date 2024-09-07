@@ -33,7 +33,7 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         if _certification.name and self.settings.name:
             _paragraph_lines.append(f"{_certification.name}")
         if _certification.issuer and self.settings.issuer:
-            _paragraph_lines.append(f"{_certification.issuer}")
+            _paragraph_lines.append(f"Issued by: {_certification.issuer}")
         if _certification.issued and self.settings.issued:
             _value = datetime.strftime(_certification.issued, "%B %Y")
             _paragraph_lines.append(f"Issued: {_value}")
@@ -70,3 +70,4 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
                 _certification,
                 self.settings,
             ).render()
+            self.document.add_paragraph()
