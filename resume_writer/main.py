@@ -121,7 +121,6 @@ def plain_render(
 @click.option(
     "--settings-file",
     type=click.Path(exists=True),
-    default="resume_settings.toml",
 )
 @click.option(
     "--resume-type",
