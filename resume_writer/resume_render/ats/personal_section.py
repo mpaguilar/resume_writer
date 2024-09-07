@@ -32,16 +32,16 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         _info: ContactInfo = self.personal.contact_info
         if _info.name and self.settings.name:
-            _paragraph_lines.append(f"Name: {_info.name}")
+            _paragraph_lines.append(f"{_info.name}")
 
         if _info.email and self.settings.email:
-            _paragraph_lines.append(f"Email: {_info.email}")
+            _paragraph_lines.append(f"{_info.email}")
 
         if _info.phone and self.settings.phone:
-            _paragraph_lines.append(f"Phone: {_info.phone}")
+            _paragraph_lines.append(f"{_info.phone}")
 
         if _info.location and self.settings.location:
-            _paragraph_lines.append(f"Location: {_info.location}")
+            _paragraph_lines.append(f"{_info.location}")
 
         if len(_paragraph_lines) > 0:
             self.document.add_paragraph("\n".join(_paragraph_lines))

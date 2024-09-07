@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 import docx.document
+from docx.shared import Pt
 
 from resume_writer.models.experience import (
     Experience,
@@ -58,24 +59,23 @@ class RenderRoleSection(ResumeRenderRoleBase):
         # job category
         _basics = self.role.basics
         if _basics.job_category and self.settings.job_category:
-            _paragraph_lines.append(f"Job Category: {_basics.job_category}")
+            _paragraph_lines.append(f"{_basics.job_category}")
 
         if _basics.location and self.settings.location:
-            _paragraph_lines.append(f"Location: {_basics.location}")
+            _paragraph_lines.append(f"{_basics.location}")
 
         if _basics.agency_name and self.settings.agency_name:
-            _paragraph_lines.append(f"Agency: {_basics.agency_name}")
+            _paragraph_lines.append(f"{_basics.agency_name}")
 
         if _basics.employment_type and self.settings.employment_type:
-            _paragraph_lines.append(f"Employment Type: {_basics.employment_type}")
+            _paragraph_lines.append(f"{_basics.employment_type}")
 
         return _paragraph_lines
 
-    def _dates(self) -> list[str]:
-        """Render role dates section."""
+    def _dates(self) -> str:
+        """Generate dates string for role."""
 
         log.debug("Rendering role dates.")
-        _paragraph_lines = []
 
         _basics = self.role.basics
         # Start date
@@ -94,53 +94,85 @@ class RenderRoleSection(ResumeRenderRoleBase):
         else:
             _start_and_end += " - Present"
 
-        return [_start_and_end]
+        return _start_and_end
 
     def render(self) -> None:
         """Render role overview/basics section."""
 
         _paragraph_lines = []
 
+        _basics_paragraph = self.document.add_paragraph()
+
         log.debug("Rendering roles section.")
         _basics = self.role.basics
+
+        # Add the company name
         # company name is required
         if not _basics.company:
             _msg = "Company name is required"
             self.errors.append(_msg)
-            log.warning(_msg)
+            log.error(_msg)
 
-        _paragraph_lines.append(f"Company: {_basics.company}")
+        _company_run = _basics_paragraph.add_run(f"{_basics.company}")
+        _company_run.bold = True
+        _company_run.underline = True
+        _company_run.font.size = Pt(self.font_size + 2)
 
-        _date_lines = self._dates()
-        if len(_date_lines) > 0:
-            _paragraph_lines.extend(_date_lines)
+        # move to next line
+        _basics_paragraph.add_run().add_break()
 
+        # Add the title
         if not _basics.title:
             _msg = "Title is required"
             self.errors.append(_msg)
-            log.warning(_msg)
+            log.error(_msg)
 
-        _paragraph_lines.append(f"Title: {_basics.title}")
+        _title_run = _basics_paragraph.add_run(f"{_basics.title}")
+        _title_run.bold = True
+
+        # move to next line
+        _basics_paragraph.add_run().add_break()
+
+        # add the dates
+        _date_line = self._dates()
+        _basics_paragraph.add_run(f"{_date_line}")
+
+        # add the details section such as job category, agency, etc.
+        _details_paragraph = self.document.add_paragraph()
 
         _detail_lines = self._details()
         if len(_detail_lines) > 0:
             _paragraph_lines.extend(_detail_lines)
 
-
         _clean_lines = [_line.replace("\n\n", "\n") for _line in _paragraph_lines]
 
         if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_clean_lines))
+            _details_paragraph.add_run("\n".join(_clean_lines))
 
+        # add the summary section
         if self.role.summary and self.settings.summary:
-            self.document.add_paragraph(self.role.summary.summary)
+            _summary_paragraph = self.document.add_paragraph()
+            _summary_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+            _summary_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
+            _summary_run = _summary_paragraph.add_run(self.role.summary.text)
+            _summary_run.italic = True
 
+        # add the responsibilities section
         if self.role.responsibilities and self.settings.responsibilities:
             _responsibilities_text = self.role.responsibilities.text.replace(
                 "\n\n",
                 "\n",
             )
-            self.document.add_paragraph(_responsibilities_text)
+            _responsibilites_paragraph = self.document.add_paragraph()
+            _responsibilities_run = _responsibilites_paragraph.add_run(
+                _responsibilities_text,
+            )
+            _responsibilites_paragraph.paragraph_format.space_after = Pt(
+                self.font_size / 2,
+            )
+            _responsibilites_paragraph.paragraph_format.space_before = Pt(
+                self.font_size / 2,
+            )
 
         _skills_lines = self._skills()
         if len(_skills_lines) > 0:

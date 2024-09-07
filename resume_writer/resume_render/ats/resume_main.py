@@ -3,22 +3,22 @@ import logging
 import docx.document
 
 from resume_writer.models.resume import Resume
-from resume_writer.resume_render.basic.certifications_section import (
+from resume_writer.resume_render.ats.certifications_section import (
     RenderCertificationsSection,
 )
-from resume_writer.resume_render.basic.education_section import (
+from resume_writer.resume_render.ats.education_section import (
     RenderEducationSection,
 )
-from resume_writer.resume_render.basic.executive_summary_section import (
+from resume_writer.resume_render.ats.executive_summary_section import (
     RenderExecutiveSummarySection,
 )
-from resume_writer.resume_render.basic.experience_section import (
+from resume_writer.resume_render.ats.experience_section import (
     RenderExperienceSection,
 )
-from resume_writer.resume_render.basic.personal_section import (
+from resume_writer.resume_render.ats.personal_section import (
     RenderPersonalSection,
 )
-from resume_writer.resume_render.basic.skills_matrix_section import (
+from resume_writer.resume_render.ats.skills_matrix_section import (
     RenderSkillsMatrixSection,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
