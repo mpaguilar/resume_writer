@@ -66,7 +66,6 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
 
         if self.degree.gpa and self.settings.gpa:
             _gpa_run = _paragraph.add_run(f"GPA: {self.degree.gpa}")
-            _gpa_run.add_break()
 
 class RenderEducationSection(ResumeRenderEducationBase):
     """Render Education Section."""
@@ -88,10 +87,13 @@ class RenderEducationSection(ResumeRenderEducationBase):
         if not self.settings.degrees:
             return
 
-        self.document.add_heading("Education", level=3)
-        for _degree in self.education.degrees:
+        self.document.add_heading("Education", level=2)
+        for _ndx, _degree in enumerate(self.education.degrees):
             RenderDegreeSection(
                 document=self.document,
                 degree=_degree,
                 settings=self.settings,
             ).render()
+
+            if _ndx < len(self.education.degrees) - 1:
+                 self.document.add_paragraph()
