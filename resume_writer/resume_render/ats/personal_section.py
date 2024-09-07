@@ -1,6 +1,7 @@
 import logging
 
 import docx.document
+from docx.shared import Pt
 from resume_render.render_settings import ResumePersonalSettings
 from resume_render.resume_render_base import ResumeRenderPersonalBase
 
@@ -28,23 +29,27 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         log.debug("Rendering contact info section")
 
-        _paragraph_lines = []
+        _paragraph = self.document.add_paragraph()
 
         _info: ContactInfo = self.personal.contact_info
         if _info.name and self.settings.name:
-            _paragraph_lines.append(f"{_info.name}")
+            _name_run = _paragraph.add_run(f"{_info.name}")
+            _name_run.bold = True
+            _name_run.font.size = Pt(self.font_size + 2)
+            _name_run.add_break()
 
         if _info.email and self.settings.email:
-            _paragraph_lines.append(f"{_info.email}")
+            _email_run = _paragraph.add_run(f"{_info.email}")
+            _email_run.add_break()
 
         if _info.phone and self.settings.phone:
-            _paragraph_lines.append(f"{_info.phone}")
+            _phone_run = _paragraph.add_run(f"{_info.phone}")
+            _phone_run.add_break()
 
         if _info.location and self.settings.location:
-            _paragraph_lines.append(f"{_info.location}")
+            _location_run = _paragraph.add_run(f"{_info.location}")
+            _location_run.add_break()
 
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_paragraph_lines))
 
     def _banner(self) -> None:
         """Render the banner section."""
