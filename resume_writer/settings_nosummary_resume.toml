@@ -1,0 +1,8 @@
+[resume.render]
+executive_summary = false
+skills_matrix = false
+
+font_size = 10
+margin_width = 0.5
+top_margin = 0.2
+bottom_margin = 0.2
