@@ -95,7 +95,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _title_run.add_text(f"{_basics.title}")
         _title_run.bold = True
         _title_run.underline = True
-        _title_run.font.size = self.font_size + 2
+        _title_run.font.size = Pt(self.font_size + 2)
 
         # company name is required
         if not _basics.company:
@@ -106,7 +106,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
         _company_run = paragraph.add_run(f"\t{_basics.company}")
         _company_run.bold = True
-        _company_run.font.size = self.font_size + 2
+        _company_run.font.size = Pt(self.font_size + 2)
 
     def _dates_and_location(
         self,
