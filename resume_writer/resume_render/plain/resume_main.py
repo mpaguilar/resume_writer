@@ -80,7 +80,7 @@ class RenderResume(ResumeRenderBase):
         if (
             self.resume.experience
             and self.settings.skills_matrix
-            and self.settings.executive_summary
+            # and self.settings.executive_summary
         ):
             # add a blank line
             self.document.add_paragraph()

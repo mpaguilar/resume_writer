@@ -77,8 +77,11 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
 
         _skills_yoe = {}
         # filter out skills not in the settings
-        for _setting_skill in _settings_skills:
-            _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0.0)
+        if not self.settings.all_skills:
+            for _setting_skill in _settings_skills:
+                _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0.0)
+        else:
+            _skills_yoe = _all_skills_yoe
 
 
         # sort skills by yoe
