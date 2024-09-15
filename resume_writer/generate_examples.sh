@@ -61,3 +61,13 @@ python main.py \
 --resume-type plain \
 --settings-file settings_debug.toml \
 ../tests/test_resume.md
+
+echo '#########################'
+echo
+echo "Skills only, for debugging"
+echo
+python main.py \
+--output-file data/basic_test_skils_matrix.docx \
+--resume-type basic \
+--settings-file settings_skills_matrix.toml \
+../tests/test_resume.md

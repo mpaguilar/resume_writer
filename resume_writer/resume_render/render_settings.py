@@ -108,6 +108,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.start_date = True
         self.end_date = True
 
+
 class ResumeExperienceSettings(ResumeSettingsBase):
     """Control what parts of a resume's experience section are rendered."""
 
@@ -140,6 +141,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         if "skills_matrix" in _section:
             self.skills_matrix_settings.update_from_dict(_section["skills_matrix"])
 
+
 class ResumeExecutiveSummarySettings(ResumeSettingsBase):
     """Control what parts of a resume's executive summary section are rendered."""
 
@@ -159,8 +161,13 @@ class ResumeSkillsMatrixSettings(ResumeSettingsBase):
     """Control what parts of a resume's skills matrix section are rendered."""
 
     def __init__(self) -> None:
-        """Initialize everything to True."""
+        """Initialize everything.
+
+        Set all_skills to False, because we don't usually want that.
+        """
+
         self.skills: list[str] = ""
+        self.all_skills: bool = False
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Control what skills are rendered."""
@@ -168,6 +175,7 @@ class ResumeSkillsMatrixSettings(ResumeSettingsBase):
         super().update_from_dict(data_dict)
         if self.skills:
             self.skills = self.skills.split("\n")
+
 
 class ResumeRenderSettings(ResumeSettingsBase):
     """Control what parts of a resume are rendered."""

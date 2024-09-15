@@ -91,6 +91,7 @@ def test_dict():
                         "categories": "Category1\nCategory2",
                     },
                     "skills_matrix": {
+                        "all_skills": True, # default is False
                         "skills": "Skill1\nSkill2",
                     },
                 },
@@ -259,3 +260,4 @@ def test_skills_matrix_settings(test_dict):
     )
 
     assert _skills_matrix_settings.skills == ["Skill1", "Skill2"]
+    assert _skills_matrix_settings.all_skills is True
