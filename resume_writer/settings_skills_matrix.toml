@@ -1,0 +1,21 @@
+[resume.render]
+personal = true
+education = true
+certifications = true
+experience = false
+executive_summary = false
+skills_matrix = true
+
+font_size = 10
+margin_width = 0.5
+top_margin = 0.2
+bottom_margin = 0.2
+
+[resume.render.section.executive_summary]
+# Categories are displayed in this order
+categories = """
+Worker
+"""
+
+[resume.render.section.skills_matrix]
+all_skills = true
