@@ -36,5 +36,5 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         _rendered = self.template.render(settings=self.settings, personal=self.personal)
 
-        self.document.text = _rendered
+        self.document.add_text(_rendered)
 

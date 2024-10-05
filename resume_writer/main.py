@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from pathlib import Path
 
 import click
@@ -129,16 +130,22 @@ def html_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the html renderer."""
-    # Create a new document
+
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
     log.info("Rendering HTML resume")
 
+    def date_filter(date : datetime, date_format : str = "%B %Y") -> str:
+        """Format dates in jinja template."""
+        return date.strftime(date_format)
+
+
     jinja_env = Environment(
         loader=PackageLoader("resume_render.html"),
         autoescape=select_autoescape(),
     )
+    jinja_env.filters["date"] = date_filter
 
     _document: HtmlDoc = HtmlDoc()
     _renderer = HtmlRenderResume(
