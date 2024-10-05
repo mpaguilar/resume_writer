@@ -1,5 +1,7 @@
 <div id='personal'>
+    <h1>Personal</h1>
 {% if settings.contact_info and personal.contact_info %}
+<h2>Contact Info</h2>
 <div id='contact_info'>
 
 {% if settings.name and personal.contact_info.name %}
@@ -28,6 +30,7 @@
 </div>
 {% endif %} <!--- contact_info -->
 
+<h2>Banner and note</h2>
 {% if settings.banner and personal.banner.text %}
 <div class="banner">
     {{ personal.banner.text }}
@@ -42,6 +45,7 @@
 
 {% if settings.websites and personal.websites %}
 <div class="websites">
+<h2>Websites</h2>
 {% if settings.github and personal.websites.github %}
 <div class='website'>
     <a href='{{ personal.websites.github }}'>GitHub</a>
@@ -70,6 +74,7 @@
 
 {% if settings.visa_status and personal.visa_status %}
 <div class='visa_status'>
+<h2>Visa Status</h2>
 {% if settings.work_authorization and personal.visa_status.work_authorization %}
 <div class='work_authorization'>
     Work Authorization: {{ personal.visa_status.work_authorization }}
