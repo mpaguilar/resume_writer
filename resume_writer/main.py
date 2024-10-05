@@ -5,6 +5,7 @@ import click
 import docx
 import rich
 import tomli
+from jinja2 import Environment, PackageLoader, select_autoescape
 
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
@@ -14,10 +15,14 @@ from resume_writer.resume_render.ats.resume_main import (
 from resume_writer.resume_render.basic.resume_main import (
     RenderResume as BasicRenderResume,
 )
+from resume_writer.resume_render.html.resume_main import (
+    RenderResume as HtmlRenderResume,
+)
 from resume_writer.resume_render.plain.resume_main import (
     RenderResume as PlainRenderResume,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
+from resume_writer.resume_render.resume_render_html_base import HtmlDoc
 from resume_writer.utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)
@@ -61,10 +66,11 @@ def load_settings(settings_file: str) -> dict:
         rich.print(_toml)
     return _toml
 
+
 def basic_render(
-        docx_doc: docx.document.Document,
-        resume: Resume,
-        settings: ResumeRenderSettings,
+    docx_doc: docx.document.Document,
+    resume: Resume,
+    settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the basic renderer."""
 
@@ -76,6 +82,7 @@ def basic_render(
     _renderer = BasicRenderResume(document=docx_doc, resume=resume, settings=settings)
     _renderer.render()
     log.info("Render of basic resume complete")
+
 
 def ats_render(
     docx_doc: docx.document.Document,
@@ -92,6 +99,7 @@ def ats_render(
     _renderer = AtsRenderResume(document=docx_doc, resume=resume, settings=settings)
     _renderer.render()
     log.info("Render of simple resume complete")
+
 
 def plain_render(
     docx_doc: docx.document.Document,
@@ -115,6 +123,37 @@ def plain_render(
 
     log.info("Render of plain resume complete")
 
+
+def html_render(
+    resume: Resume,
+    settings: ResumeRenderSettings,
+) -> None:
+    """Render the resume using the html renderer."""
+    # Create a new document
+    assert isinstance(resume, Resume)
+    assert isinstance(settings, ResumeRenderSettings)
+
+    log.info("Rendering HTML resume")
+
+    jinja_env = Environment(
+        loader=PackageLoader("resume_render.html"),
+        autoescape=select_autoescape(),
+    )
+
+    _document: HtmlDoc = HtmlDoc()
+    _renderer = HtmlRenderResume(
+        document=_document,
+        jinja_env=jinja_env,
+        resume=resume,
+        settings=settings,
+    )
+
+    _renderer.render()
+    _renderer.save(Path("data/html_resume.html"))
+
+    log.info("Render of HTML resume complete.")
+
+
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
 @click.option("--output-file", type=click.Path(), default="data/resume.docx")
@@ -124,7 +163,7 @@ def plain_render(
 )
 @click.option(
     "--resume-type",
-    type=click.Choice(["ats", "basic", "plain"]),
+    type=click.Choice(["ats", "basic", "plain", "html"]),
     default="simple",
 )
 def main(
@@ -144,17 +183,24 @@ def main(
         _resume_lines = _resume_text.splitlines(keepends=True)
 
     _resume = Resume.parse(_resume_lines)
-    _docx_doc = docx.Document()
 
     if resume_type == "basic":
+        _docx_doc = docx.Document()
         basic_render(_docx_doc, _resume, _render_settings)
+        _docx_doc.save(output_file)
     elif resume_type == "plain":
+        _docx_doc = docx.Document()
         plain_render(_docx_doc, _resume, _render_settings)
+        _docx_doc.save(output_file)
     elif resume_type == "ats":
+        _docx_doc = docx.Document()
         ats_render(_docx_doc, _resume, _render_settings)
+        _docx_doc.save(output_file)
+    elif resume_type == "html":
+        html_render(_resume, _render_settings)
     else:
         raise ValueError(f"Unknown resume type: {resume_type}")
-    _docx_doc.save(output_file)
+
     log.info(f"Saved resume to {output_file}")
 
     rich.print(_resume)

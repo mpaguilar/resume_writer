@@ -1,4 +1,8 @@
+import logging
 from pathlib import Path
+
+from jinja2 import Environment
+from utils.html_doc import HtmlDoc
 
 from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.models.education import Degree, Education
@@ -23,30 +27,41 @@ from resume_writer.resume_render.render_settings import (
     ResumeSkillsMatrixSettings,
 )
 
+log = logging.getLogger(__name__)
 
-class RenderHtmlBase:
-    """Base class for rendering html files.
+
+class RenderBase:
+    """Base class for rendering HTML files.
 
     Used for common functionality between the different renderers,
     primarily error and warning collection.
 
     """
 
-    def __init__(self, document: str):
+    def __init__(self, document: HtmlDoc, jinja_env : Environment):
         """Initialize superclass."""
 
         self.errors = []
         self.warnings = []
 
+        assert isinstance(document, HtmlDoc)
+        assert isinstance(jinja_env, Environment)
+
         self.document = document
+        self.jinja_env = jinja_env
 
+    def save(self, path: Path) -> None:
+        """Save the document to the given path."""
+        with path.open("w") as f:
+            f.write(self.document.text)
 
-class ResumeRenderHtmlBase(RenderHtmlBase):
+class ResumeRenderBase(RenderBase):
     """Base class for rendering resumes."""
 
     def __init__(
         self,
-        document: str,
+        document: HtmlDoc,
+        jinja_env : Environment,
         resume: Resume,
         settings: ResumeRenderSettings | None,
     ):
@@ -54,23 +69,21 @@ class ResumeRenderHtmlBase(RenderHtmlBase):
 
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings) or settings is None
+        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
+        assert isinstance(jinja_env, Environment)
 
         if settings is None:
             settings = ResumeRenderSettings()
 
-        super().__init__(document=document)
+        super().__init__(document=document, jinja_env=jinja_env)
 
         self.settings = settings
         self.resume = resume
 
-    def save(self, path: Path) -> None:
-        """Save the document to a file."""
-
-        with path.open("w") as f:
-            f.write(self.document)
 
 
-class ResumeRenderPersonalHtmlBase(RenderHtmlBase):
+
+class ResumeRenderPersonalBase(RenderBase):
     """Base class for rendering resume personal section.
 
     Document : a python-docx Document object or a list of strings
@@ -78,23 +91,27 @@ class ResumeRenderPersonalHtmlBase(RenderHtmlBase):
 
     def __init__(
         self,
-        document: str,
+        document: HtmlDoc,
+        jinja_env : Environment,
         personal: Personal,
+        template_name: str,
         settings: ResumePersonalSettings,
     ):
         """Initialize personal renderer."""
 
-        assert isinstance(document, str)
+        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
         assert isinstance(personal, Personal)
         assert isinstance(settings, ResumePersonalSettings)
+        assert isinstance(template_name, str)
 
-        super().__init__(document=document)
+        super().__init__(document=document, jinja_env=jinja_env)
 
         self.settings = settings
         self.personal = personal
+        self.template = jinja_env.get_template(template_name)
 
 
-class ResumeRenderRolesHtmlBase(RenderHtmlBase):
+class ResumeRenderRolesBase(RenderBase):
     """Base class for rendering resume roles section."""
 
     def __init__(
@@ -114,7 +131,7 @@ class ResumeRenderRolesHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderRoleHtmlBase(RenderHtmlBase):
+class ResumeRenderRoleBase(RenderBase):
     """Base class for rendering resume role section."""
 
     def __init__(
@@ -132,7 +149,7 @@ class ResumeRenderRoleHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderProjectsHtmlBase(RenderHtmlBase):
+class ResumeRenderProjectsBase(RenderBase):
     """Base class for rendering resume projects section."""
 
     def __init__(
@@ -151,7 +168,7 @@ class ResumeRenderProjectsHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderProjectHtmlBase(RenderHtmlBase):
+class ResumeRenderProjectBase(RenderBase):
     """Base class for rendering resume project section."""
 
     def __init__(
@@ -170,7 +187,7 @@ class ResumeRenderProjectHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderExperienceHtmlBase(RenderHtmlBase):
+class ResumeRenderExperienceBase(RenderBase):
     """Base class for rendering resume experience section."""
 
     def __init__(
@@ -190,7 +207,7 @@ class ResumeRenderExperienceHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderDegreeHtmlBase(RenderHtmlBase):
+class ResumeRenderDegreeBase(RenderBase):
     """Base class for rendering a single degree."""
 
     def __init__(
@@ -209,7 +226,7 @@ class ResumeRenderDegreeHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderEducationHtmlBase(RenderHtmlBase):
+class ResumeRenderEducationBase(RenderBase):
     """Base class for rendering resume education section."""
 
     def __init__(
@@ -237,7 +254,7 @@ class ResumeRenderEducationHtmlBase(RenderHtmlBase):
         raise NotImplementedError
 
 
-class ResumeRenderCertificationHtmlBase(RenderHtmlBase):
+class ResumeRenderCertificationBase(RenderBase):
     """Base class for rendering a single certification."""
 
     def __init__(
@@ -257,7 +274,7 @@ class ResumeRenderCertificationHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderCertificationsHtmlBase(RenderHtmlBase):
+class ResumeRenderCertificationsBase(RenderBase):
     """Base class for rendering resume certifications section."""
 
     def __init__(
@@ -277,7 +294,7 @@ class ResumeRenderCertificationsHtmlBase(RenderHtmlBase):
         self.certifications = certifications
 
 
-class ResumeRenderExecutiveSummaryHtmlBase(RenderHtmlBase):
+class ResumeRenderExecutiveSummaryBase(RenderBase):
     """Base class for rendering resume executive summary section."""
 
     def __init__(
@@ -296,7 +313,7 @@ class ResumeRenderExecutiveSummaryHtmlBase(RenderHtmlBase):
         self.settings = settings
 
 
-class ResumeRenderSkillsMatrixHtmlBase(RenderHtmlBase):
+class ResumeRenderSkillsMatrixBase(RenderBase):
     """Base class for rendering resume skills matrix section."""
 
     def __init__(
