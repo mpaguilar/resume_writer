@@ -6,6 +6,7 @@ import docx
 import rich
 import tomli
 from jinja2 import Environment, PackageLoader, select_autoescape
+from resume_render.resume_render_text_base import HtmlDoc
 
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
@@ -22,7 +23,6 @@ from resume_writer.resume_render.plain.resume_main import (
     RenderResume as PlainRenderResume,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
-from resume_writer.resume_render.resume_render_html_base import HtmlDoc
 from resume_writer.utils.resume_stats import DateStats
 
 logging.basicConfig(level=logging.DEBUG)
