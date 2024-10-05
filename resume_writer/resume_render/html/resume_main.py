@@ -2,6 +2,7 @@ import logging
 from pathlib import Path
 
 from jinja2 import Environment, PackageLoader, select_autoescape
+from utils.html_doc import HtmlDoc
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.html.certifications_section import (
@@ -24,7 +25,6 @@ from resume_writer.resume_render.html.skills_matrix_section import (
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_html_base import (
-    HtmlDoc,
     ResumeRenderBase,
 )
 
