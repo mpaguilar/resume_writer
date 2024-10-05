@@ -5,7 +5,7 @@ from jinja2 import Environment
 from utils.html_doc import HtmlDoc
 
 from resume_writer.models.certifications import Certification, Certifications
-from resume_writer.models.education import Degree, Education
+from resume_writer.models.education import Education
 from resume_writer.models.experience import (
     Experience,
     Project,
@@ -207,43 +207,29 @@ class ResumeRenderExperienceBase(RenderBase):
         self.settings = settings
 
 
-class ResumeRenderDegreeBase(RenderBase):
-    """Base class for rendering a single degree."""
-
-    def __init__(
-        self,
-        document: str,
-        degree: Degree,
-        settings: ResumeEducationSettings,
-    ):
-        """Initialize the degree section."""
-        assert isinstance(degree, Degree)
-        assert isinstance(settings, ResumeEducationSettings)
-
-        super().__init__(document=document)
-
-        self.degree = degree
-        self.settings = settings
-
-
 class ResumeRenderEducationBase(RenderBase):
     """Base class for rendering resume education section."""
 
     def __init__(
         self,
-        document: str,
+        document: HtmlDoc,
+        jinja_env : Environment,
         education: Education,
+        template_name: str,
         settings: ResumeEducationSettings,
     ):
         """Initialize the education rendering section."""
 
-        super().__init__(document=document)
+        super().__init__(document=document, jinja_env=jinja_env)
 
         assert isinstance(education, Education)
         assert isinstance(settings, ResumeEducationSettings)
+        assert isinstance(template_name, str)
+        assert isinstance(jinja_env, Environment)
 
         self.education = education
         self.settings = settings
+        self.template = jinja_env.get_template(template_name)
 
     def degrees(self) -> None:
         """Render degrees section of education."""

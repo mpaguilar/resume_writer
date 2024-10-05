@@ -58,17 +58,14 @@ class RenderResume(ResumeRenderBase):
                 settings=self.settings.personal_settings,
             ).render()
 
-
-
-
-"""
         if self.resume.education and self.settings.education:
             RenderEducationSection(
-                self.document,
-                self.resume.education,
-                self.settings.education_settings,
+                document=self.document,
+                jinja_env=self.jinja_env,
+                education=self.resume.education,
+                settings=self.settings.education_settings,
             ).render()
-
+"""
         if self.resume.certifications and self.settings.certifications:
             RenderCertificationsSection(
                 self.document,
