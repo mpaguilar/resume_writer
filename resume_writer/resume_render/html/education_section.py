@@ -33,10 +33,11 @@ class RenderEducationSection(ResumeRenderEducationBase):
     def render(self) -> None:
         """Render the education section."""
 
-        log.debug("Rendering education section.")
-
         if not self.settings.degrees:
+            log.debug("No degrees to render.")
             return
+
+        log.debug("Rendering education section.")
 
         _rendered = self.template.render(
             settings=self.settings, education=self.education,
