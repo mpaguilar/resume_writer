@@ -1,0 +1,82 @@
+<h2>Roles</h2>
+{% for role in roles %}
+
+<h3>Basics</h3>
+<div class="role-company">
+Company: {{ role.basics.company }}
+</div>
+<div class="role-title">
+Title:  {{ role.basics.title }}
+</div>
+
+{% if role.basics.start_date %}
+<div class="role-start-date">
+Start Date:  {{ role.basics.start_date|date }}
+</div>
+{% endif %}
+
+<div class="role-end-date">
+{% if role.basics.end_date %}
+End Date:  {{ role.basics.end_date|date }}
+{% else %}
+End Date:  Present
+{% endif %}
+</div>
+
+{% if role.basics.employment_type %}
+<div class="role-employment-type">
+Employment Type:  {{ role.basics.employment_type }}
+</div>
+{% endif %}
+
+{% if role.basics.location %}
+<div class="role-location">
+Location:  {{ role.basics.location }}
+</div>
+{% endif %}
+
+{% if role.basics.summary %}
+<div class="role-summary">
+Summary:  {{ role.basics.summary }}
+</div>
+{% endif %}
+
+{% if role.basics.reason_for_change %}
+<div class="role-reason-for-change">
+Reason for Change:  {{ role.basics.reason_for_change }}
+</div>
+{% endif %}
+
+{% if role.basics.agency_name %}
+<div class="role-agency-name">
+Agency Name:  {{ role.basics.agency_name }}
+</div>
+{% endif %}
+
+<h3>Description</h3>
+
+{% if settings.summary and role.summary.summary %}
+<div class="role-summary">
+<h4>Summary</h4>
+{{ role.summary.summary|lf_to_br }}
+</div>
+{% endif %}
+
+{% if settings.responsibilities and role.responsibilities %}
+<h4>Responsibilities</h4>
+<div class="role-responsibility">
+{{ role.responsibilities.text|lf_to_br }}
+</div>
+
+{% endif %}
+
+{% if settings.skills and role.skills %}
+<h4>Skills</h4>
+<div class="role-skills">
+{% for skill in role.skills["skills"] %}
+* {{ skill }}<br/>
+{% endfor %}
+</div>
+{% endif %}
+
+{% endfor %}
