@@ -4,13 +4,11 @@ from pathlib import Path
 from jinja2 import Environment
 from utils.html_doc import HtmlDoc
 
-from resume_writer.models.certifications import Certification, Certifications
+from resume_writer.models.certifications import Certifications
 from resume_writer.models.education import Education
 from resume_writer.models.experience import (
     Experience,
-    Project,
     Projects,
-    Role,
     Roles,
 )
 from resume_writer.models.personal import Personal
@@ -142,30 +140,6 @@ class ResumeRenderRolesBase(RenderBase):
         self.template = jinja_env.get_template(template_name)
 
 
-class ResumeRenderRoleBase(RenderBase):
-    """Base class for rendering resume role section."""
-
-    def __init__(
-        self,
-        document: HtmlDoc,
-        jinja_env: Environment,
-        role: Role,
-        template_name: str,
-        settings: ResumeRolesSettings,
-    ):
-        """Initialize the role section."""
-        super().__init__(document=document)
-        assert isinstance(role, Role)
-        assert isinstance(settings, ResumeRolesSettings)
-        assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
-        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
-
-        self.role = role
-        self.settings = settings
-        self.template = jinja_env.get_template(template_name)
-
-
 class ResumeRenderProjectsBase(RenderBase):
     """Base class for rendering resume projects section."""
 
@@ -187,27 +161,6 @@ class ResumeRenderProjectsBase(RenderBase):
         self.projects = projects
         self.settings = settings
         self.template = jinja_env.get_template(template_name)
-
-
-class ResumeRenderProjectBase(RenderBase):
-    """Base class for rendering resume project section."""
-
-    def __init__(
-        self,
-        document: str,
-        jinja_env: Environment,
-        project: Project,
-        settings: ResumeProjectsSettings,
-    ):
-        """Initialize the project section."""
-        super().__init__(document=document)
-        assert isinstance(project, Project)
-        assert isinstance(settings, ResumeProjectsSettings)
-        assert isinstance(jinja_env, Environment)
-
-        self.document = document
-        self.project = project
-        self.settings = settings
 
 
 class ResumeRenderExperienceBase(RenderBase):
@@ -265,31 +218,6 @@ class ResumeRenderEducationBase(RenderBase):
     def render(self) -> None:
         """Render education section."""
         raise NotImplementedError
-
-
-class ResumeRenderCertificationBase(RenderBase):
-    """Base class for rendering a single certification."""
-
-    def __init__(
-        self,
-        document: HtmlDoc,
-        jinja_env: Environment,
-        certification: Certification,
-        template_name: str,
-        settings: ResumeCertificationsSettings,
-    ):
-        """Initialize the certification section."""
-
-        super().__init__(document=document)
-
-        assert isinstance(certification, Certification)
-        assert isinstance(settings, ResumeCertificationsSettings)
-        assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
-
-        self.certification = certification
-        self.settings = settings
-        self.template = jinja_env.get_template(template_name)
 
 
 class ResumeRenderCertificationsBase(RenderBase):
