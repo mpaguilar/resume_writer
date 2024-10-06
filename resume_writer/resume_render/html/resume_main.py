@@ -65,14 +65,15 @@ class RenderResume(ResumeRenderBase):
                 education=self.resume.education,
                 settings=self.settings.education_settings,
             ).render()
-"""
+
         if self.resume.certifications and self.settings.certifications:
             RenderCertificationsSection(
-                self.document,
-                self.resume.certifications,
-                self.settings.certifications_settings,
+                document=self.document,
+                jinja_env=self.jinja_env,
+                certifications=self.resume.certifications,
+                settings=self.settings.certifications_settings,
             ).render()
-
+"""
         # the executive summary is built from experience, so it has to exist
         if self.resume.experience and self.settings.executive_summary:
             self.document.add_heading("Executive Summary", 2)

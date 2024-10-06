@@ -1,49 +1,15 @@
 import logging
-from datetime import datetime
 
-import docx.document
+from jinja2 import Environment
 from resume_render.render_settings import ResumeCertificationsSettings
-from resume_render.resume_render_base import (
-    ResumeRenderCertificationBase,
+from resume_render.resume_render_text_base import (
     ResumeRenderCertificationsBase,
 )
+from utils.html_doc import HtmlDoc
 
-from resume_writer.models.certifications import Certification, Certifications
+from resume_writer.models.certifications import Certifications
 
 log = logging.getLogger(__name__)
-
-
-class RenderCertificationSection(ResumeRenderCertificationBase):
-    """Render Certification Section."""
-
-    def __init__(
-        self,
-        document: docx.document.Document,
-        certification: Certification,
-        settings: ResumeCertificationsSettings,
-    ):
-        """Initialize the basic certification renderer."""
-        super().__init__(document, certification, settings)
-
-    def render(self) -> None:
-        """Render the certification section."""
-        _paragraph_lines = []
-        _certification = self.certification
-
-        if _certification.name and self.settings.name:
-            _paragraph_lines.append(f"{_certification.name}")
-        if _certification.issuer and self.settings.issuer:
-            _paragraph_lines.append(f"{_certification.issuer}")
-        if _certification.issued and self.settings.issued:
-            _value = datetime.strftime(_certification.issued, "%B %Y")
-            _paragraph_lines.append(f"Issued: {_value}")
-        if _certification.expires and self.settings.expires:
-            _value = datetime.strftime(_certification.expires, "%B %Y")
-            _paragraph_lines.append(f"Expires: {_value}")
-
-        if len(_paragraph_lines) > 0:
-            _paragraph_text = "\n".join(_paragraph_lines)
-            self.document.add_paragraph(_paragraph_text)
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
@@ -51,22 +17,32 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: HtmlDoc,
+        jinja_env: Environment,
         certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
         """Initialize the basic certifications renderer."""
-        super().__init__(document, certifications, settings)
+        super().__init__(
+            document=document,
+            jinja_env=jinja_env,
+            certifications=certifications,
+            template_name="certifications.j2",
+            settings=settings,
+        )
 
     def render(self) -> None:
         """Render the certifications section."""
 
-        if len(self.certifications) > 0:
-            self.document.add_heading("Certifications", level=2)
+        if not self.certifications:
+            log.debug("No certifications to render.")
+            return
 
-        for _certification in self.certifications:
-            RenderCertificationSection(
-                self.document,
-                _certification,
-                self.settings,
-            ).render()
+        log.debug("Rendering certifications.")
+
+        _rendered = self.template.render(
+            settings=self.settings,
+            certifications=self.certifications,
+        )
+
+        self.document.add_text(_rendered)

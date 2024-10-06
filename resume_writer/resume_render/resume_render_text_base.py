@@ -245,8 +245,10 @@ class ResumeRenderCertificationBase(RenderBase):
 
     def __init__(
         self,
-        document: str,
+        document: HtmlDoc,
+        jinja_env : Environment,
         certification: Certification,
+        template_name: str,
         settings: ResumeCertificationsSettings,
     ):
         """Initialize the certification section."""
@@ -255,9 +257,13 @@ class ResumeRenderCertificationBase(RenderBase):
 
         assert isinstance(certification, Certification)
         assert isinstance(settings, ResumeCertificationsSettings)
+        assert isinstance(template_name, str)
+        assert isinstance(jinja_env, Environment)
+
 
         self.certification = certification
         self.settings = settings
+        self.template = jinja_env.get_template(template_name)
 
 
 class ResumeRenderCertificationsBase(RenderBase):
@@ -267,17 +273,22 @@ class ResumeRenderCertificationsBase(RenderBase):
         self,
         document: str,
         certifications: Certifications,
+        jinja_env : Environment,
+        template_name: str,
         settings: ResumeCertificationsSettings,
     ):
         """Initialize certification renderer."""
 
-        super().__init__(document=document)
+        super().__init__(document=document, jinja_env=jinja_env)
 
         assert isinstance(certifications, Certifications)
         assert isinstance(settings, ResumeCertificationsSettings)
+        assert isinstance(template_name, str)
+        assert isinstance(jinja_env, Environment)
 
         self.settings = settings
         self.certifications = certifications
+        self.template = jinja_env.get_template(template_name)
 
 
 class ResumeRenderExecutiveSummaryBase(RenderBase):
