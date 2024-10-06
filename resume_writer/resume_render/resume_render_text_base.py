@@ -132,7 +132,6 @@ class ResumeRenderRolesBase(RenderBase):
         """Initialize the roles section."""
 
         super().__init__(document=document, jinja_env=jinja_env)
-
         assert isinstance(roles, Roles)
         assert isinstance(settings, ResumeRolesSettings)
         assert isinstance(template_name, str)
@@ -172,18 +171,22 @@ class ResumeRenderProjectsBase(RenderBase):
 
     def __init__(
         self,
-        document: str,
+        document: HtmlDoc,
+        jinja_env: Environment,
         projects: Projects,
+        template_name: str,
         settings: ResumeProjectsSettings,
     ):
         """Initialize the projects section."""
-        super().__init__(document=document)
+        super().__init__(document=document, jinja_env=jinja_env)
         assert isinstance(projects, Projects)
         assert isinstance(settings, ResumeProjectsSettings)
+        assert isinstance(template_name, str)
+        assert isinstance(jinja_env, Environment)
 
-        self.document = document
         self.projects = projects
         self.settings = settings
+        self.template = jinja_env.get_template(template_name)
 
 
 class ResumeRenderProjectBase(RenderBase):
@@ -192,6 +195,7 @@ class ResumeRenderProjectBase(RenderBase):
     def __init__(
         self,
         document: str,
+        jinja_env: Environment,
         project: Project,
         settings: ResumeProjectsSettings,
     ):
@@ -199,6 +203,7 @@ class ResumeRenderProjectBase(RenderBase):
         super().__init__(document=document)
         assert isinstance(project, Project)
         assert isinstance(settings, ResumeProjectsSettings)
+        assert isinstance(jinja_env, Environment)
 
         self.document = document
         self.project = project

@@ -24,6 +24,7 @@ from resume_writer.resume_render.resume_render_text_base import (
 
 log = logging.getLogger(__name__)
 
+
 class RenderRolesSection(ResumeRenderRolesBase):
     """Render experience roles section."""
 
@@ -136,6 +137,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
     def __init__(
         self,
         document: HtmlDoc,
+        jinja_env: Environment,
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
@@ -143,20 +145,25 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
         log.debug("Initializing projects render object.")
 
-        super().__init__(document=document, projects=projects, settings=settings)
+        super().__init__(
+            document=document,
+            jinja_env=jinja_env,
+            projects=projects,
+            template_name="projects.j2",
+            settings=settings,
+        )
 
     def render(self) -> None:
         """Render projects section."""
 
+        if len(self.projects) == 0:
+            log.debug("No projects to render.")
+            return
+
         log.debug("Rendering projects section.")
-        if len(self.projects) > 0:
-            self.document.add_heading("Projects", level=2)
-        for _project in self.projects:
-            _project_render = RenderProjectSection(
-                document=self.document,
-                project=_project,
-                settings=self.settings,
-            ).render()
+        _rendered = self.template.render(settings=self.settings, projects=self.projects)
+
+        self.document.add_text(_rendered)
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
@@ -194,10 +201,10 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
                 settings=self.settings.roles_settings,
             ).render()
 
-
-#        if self.settings.projects and self.experience.projects:
-#            RenderProjectsSection(
-#                document=self.document,
-#                projects=self.experience.projects,
-#                settings=self.settings.projects_settings,
-#            ).render()
+        if self.settings.projects and self.experience.projects:
+            RenderProjectsSection(
+                document=self.document,
+                jinja_env=self.jinja_env,
+                projects=self.experience.projects,
+                settings=self.settings.projects_settings,
+            ).render()
