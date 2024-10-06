@@ -13,21 +13,16 @@ from resume_writer.resume_render.html.certifications_section import (
 from resume_writer.resume_render.html.education_section import (
     RenderEducationSection,
 )
-from resume_writer.resume_render.html.executive_summary_section import (
-    RenderExecutiveSummarySection,
-)
 from resume_writer.resume_render.html.experience_section import (
     RenderExperienceSection,
 )
 from resume_writer.resume_render.html.personal_section import (
     RenderPersonalSection,
 )
-from resume_writer.resume_render.html.skills_matrix_section import (
-    RenderSkillsMatrixSection,
-)
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
 
 log = logging.getLogger(__name__)
+
 
 class RenderResume(ResumeRenderBase):
     """Render a resume in basic format."""
@@ -73,6 +68,16 @@ class RenderResume(ResumeRenderBase):
                 certifications=self.resume.certifications,
                 settings=self.settings.certifications_settings,
             ).render()
+
+        if self.resume.experience and self.settings.experience:
+            RenderExperienceSection(
+                document=self.document,
+                jinja_env=self.jinja_env,
+                experience=self.resume.experience,
+                settings=self.settings.experience_settings,
+            ).render()
+
+
 """
         # the executive summary is built from experience, so it has to exist
         if self.resume.experience and self.settings.executive_summary:
@@ -90,13 +95,5 @@ class RenderResume(ResumeRenderBase):
                 self.document,
                 self.resume.experience,
                 self.settings.skills_matrix_settings,
-            ).render()
-
-        # render all the roles
-        if self.resume.experience and self.settings.experience:
-            RenderExperienceSection(
-                self.document,
-                self.resume.experience,
-                self.settings.experience_settings,
             ).render()
 """

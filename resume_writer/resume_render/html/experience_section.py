@@ -1,13 +1,13 @@
 import logging
 from datetime import datetime
 
-import docx.document
+from jinja2 import Environment
+from utils.html_doc import HtmlDoc
 
 from resume_writer.models.experience import (
     Experience,
     Project,
     Projects,
-    Role,
     Roles,
 )
 from resume_writer.resume_render.render_settings import (
@@ -15,172 +15,46 @@ from resume_writer.resume_render.render_settings import (
     ResumeProjectsSettings,
     ResumeRolesSettings,
 )
-from resume_writer.resume_render.resume_render_base import (
+from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderExperienceBase,
     ResumeRenderProjectBase,
     ResumeRenderProjectsBase,
-    ResumeRenderRoleBase,
     ResumeRenderRolesBase,
 )
 
 log = logging.getLogger(__name__)
-
-
-class RenderRoleSection(ResumeRenderRoleBase):
-    """Render experience roles section."""
-
-    def __init__(
-        self,
-        document: docx.document.Document,
-        role: Role,
-        settings: ResumeRolesSettings,
-    ):
-        """Initialize roles render object."""
-
-        log.debug("Initializing roles render object.")
-        super().__init__(document=document, role=role, settings=settings)
-
-    def _skills(self) -> list[str]:
-        """Render role skills section."""
-
-        log.debug("Rendering role skills.")
-        _paragraph_lines = []
-        if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
-            _skills_str = ", ".join(self.role.skills)
-            _paragraph_lines.append(f"Skills: {_skills_str}")
-
-        return _paragraph_lines
-
-    def _details(self) -> list[str]:
-        """Render role details section."""
-        log.debug("Rendering role details.")
-        _paragraph_lines = []
-        # job category
-        _basics = self.role.basics
-        if _basics.job_category and self.settings.job_category:
-            _paragraph_lines.append(f"Job Category: {_basics.job_category}")
-
-        if _basics.location and self.settings.location:
-            _paragraph_lines.append(f"Location: {_basics.location}")
-
-        if _basics.agency_name and self.settings.agency_name:
-            _paragraph_lines.append(f"Agency: {_basics.agency_name}")
-
-        if _basics.employment_type and self.settings.employment_type:
-            _paragraph_lines.append(f"Employment Type: {_basics.employment_type}")
-
-        return _paragraph_lines
-
-    def _dates(self) -> list[str]:
-        """Render role dates section."""
-
-        log.debug("Rendering role dates.")
-        _paragraph_lines = []
-
-        _basics = self.role.basics
-        # Start date
-        if not _basics.start_date:
-            _msg = "Start date is required"
-            self.errors.append(_msg)
-            log.warning(_msg)
-
-        _value = datetime.strftime(_basics.start_date, "%m-%Y")
-        _start_and_end = f"{_value}"
-
-        # End date
-        if _basics.end_date:
-            _value = datetime.strftime(_basics.end_date, "%m-%Y")
-            _start_and_end += f" - {_value}"
-        else:
-            _start_and_end += " - Present"
-
-        return [_start_and_end]
-
-    def render(self) -> None:
-        """Render role overview/basics section."""
-
-        _paragraph_lines = []
-
-        log.debug("Rendering roles section.")
-        _basics = self.role.basics
-        # company name is required
-        if not _basics.company:
-            _msg = "Company name is required"
-            self.errors.append(_msg)
-            log.warning(_msg)
-
-        _paragraph_lines.append(f"Company: {_basics.company}")
-
-        _date_lines = self._dates()
-        if len(_date_lines) > 0:
-            _paragraph_lines.extend(_date_lines)
-
-        if not _basics.title:
-            _msg = "Title is required"
-            self.errors.append(_msg)
-            log.warning(_msg)
-
-        _paragraph_lines.append(f"Title: {_basics.title}")
-
-        _detail_lines = self._details()
-        if len(_detail_lines) > 0:
-            _paragraph_lines.extend(_detail_lines)
-
-
-        _clean_lines = [_line.replace("\n\n", "\n") for _line in _paragraph_lines]
-
-        if len(_paragraph_lines) > 0:
-            self.document.add_paragraph("\n".join(_clean_lines))
-
-        if self.role.summary and self.settings.summary:
-            self.document.add_paragraph(self.role.summary.summary)
-
-        if self.role.responsibilities and self.settings.responsibilities:
-            _responsibilities_text = self.role.responsibilities.text.replace(
-                "\n\n",
-                "\n",
-            )
-            self.document.add_paragraph(_responsibilities_text)
-
-        _skills_lines = self._skills()
-        if len(_skills_lines) > 0:
-            _skills_paragraph = self.document.add_paragraph()
-            _skills_paragraph.add_run("\n".join(_skills_lines))
-
 
 class RenderRolesSection(ResumeRenderRolesBase):
     """Render experience roles section."""
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: HtmlDoc,
+        jinja_env: Environment,
         roles: Roles,
         settings: ResumeRolesSettings,
     ):
         """Initialize roles render object."""
 
-        super().__init__(document=document, roles=roles, settings=settings)
+        super().__init__(
+            document=document,
+            jinja_env=jinja_env,
+            roles=roles,
+            template_name="roles.j2",
+            settings=settings,
+        )
 
     def render(self) -> None:
         """Render roles section."""
+
+        if not self.roles:
+            log.debug("No roles to render.")
+
         log.debug("Rendering roles section.")
-        if len(self.roles) > 0:
-            self.document.add_heading("Work History", level=2)
-        else:
-            log.info("No roles found")
-            return
 
-        for _role in self.roles:
-            RenderRoleSection(
-                document=self.document,
-                role=_role,
-                settings=self.settings,
-            ).render()
+        _rendered = self.template.render(settings=self.settings, roles=self.roles)
 
-            # add two blank lines between roles
-            if _role != self.roles[-1]:
-                self.document.add_paragraph()
-                self.document.add_paragraph()
+        self.document.add_text(_rendered)
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
@@ -188,7 +62,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: HtmlDoc,
         project: Project,
         settings: ResumeProjectsSettings,
     ):
@@ -261,7 +135,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: HtmlDoc,
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
@@ -290,30 +164,40 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
     def __init__(
         self,
-        document: docx.document.Document,
+        document: HtmlDoc,
+        jinja_env: Environment,
         experience: Experience,
         settings: ResumeExperienceSettings,
     ) -> None:
         """Initialize experience render object."""
 
         log.debug("Initializing experience render object.")
-        super().__init__(document=document, experience=experience, settings=settings)
+        super().__init__(
+            document=document,
+            jinja_env=jinja_env,
+            experience=experience,
+            settings=settings,
+        )
 
     def render(self) -> None:
         """Render experience section."""
 
         log.debug("Rendering experience section.")
 
+        self.document.add_text("<h1>Experience</h1>")
+
         if self.settings.roles and self.experience.roles:
             RenderRolesSection(
                 document=self.document,
+                jinja_env=self.jinja_env,
                 roles=self.experience.roles,
                 settings=self.settings.roles_settings,
             ).render()
 
-        if self.settings.projects and self.experience.projects:
-            RenderProjectsSection(
-                document=self.document,
-                projects=self.experience.projects,
-                settings=self.settings.projects_settings,
-            ).render()
+
+#        if self.settings.projects and self.experience.projects:
+#            RenderProjectsSection(
+#                document=self.document,
+#                projects=self.experience.projects,
+#                settings=self.settings.projects_settings,
+#            ).render()
