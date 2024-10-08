@@ -5,9 +5,7 @@ from pathlib import Path
 from jinja2 import Environment, PackageLoader, select_autoescape
 
 from resume_writer.models.resume import Resume
-from resume_writer.resume_render.html.resume_main import (
-    RenderResume,
-)
+from resume_writer.resume_render.html.resume_main import RenderResume
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_text_base import HtmlDoc
 
@@ -141,7 +139,7 @@ class RenderResumeHtml:
             return len(lst)
 
         jinja_env = Environment(
-            loader=PackageLoader("resume_render.html"),
+            loader=PackageLoader("resume_writer.resume_render.html"),
             autoescape=select_autoescape(),
         )
         jinja_env.filters["date"] = date_filter
