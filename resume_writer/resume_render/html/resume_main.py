@@ -1,10 +1,6 @@
 import logging
 
 from jinja2 import Environment
-from resume_render.resume_render_text_base import (
-    ResumeRenderBase,
-)
-from utils.html_doc import HtmlDoc
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.html.certifications_section import (
@@ -20,6 +16,10 @@ from resume_writer.resume_render.html.personal_section import (
     RenderPersonalSection,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
+from resume_writer.resume_render.resume_render_text_base import (
+    ResumeRenderBase,
+)
+from resume_writer.utils.html_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 

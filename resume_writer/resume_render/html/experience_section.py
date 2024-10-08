@@ -1,7 +1,6 @@
 import logging
 
 from jinja2 import Environment
-from utils.html_doc import HtmlDoc
 
 from resume_writer.models.experience import (
     Experience,
@@ -18,6 +17,7 @@ from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderProjectsBase,
     ResumeRenderRolesBase,
 )
+from resume_writer.utils.html_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 

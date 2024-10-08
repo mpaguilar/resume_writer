@@ -2,7 +2,6 @@ import logging
 from pathlib import Path
 
 from jinja2 import Environment
-from utils.html_doc import HtmlDoc
 
 from resume_writer.models.certifications import Certifications
 from resume_writer.models.education import Education
@@ -24,6 +23,7 @@ from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
     ResumeSkillsMatrixSettings,
 )
+from resume_writer.utils.html_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 

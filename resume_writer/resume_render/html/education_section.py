@@ -1,13 +1,13 @@
 import logging
 
 from jinja2 import Environment
-from resume_render.render_settings import ResumeEducationSettings
-from resume_render.resume_render_text_base import (
-    ResumeRenderEducationBase,
-)
-from utils.html_doc import HtmlDoc
 
 from resume_writer.models.education import Education
+from resume_writer.resume_render.render_settings import ResumeEducationSettings
+from resume_writer.resume_render.resume_render_text_base import (
+    ResumeRenderEducationBase,
+)
+from resume_writer.utils.html_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 
