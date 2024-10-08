@@ -1,12 +1,12 @@
 import logging
 
 from jinja2 import Environment
-from resume_writer.resume_render.resume_render_text_base import (
-    ResumeRenderCertificationsBase,
-)
 
 from resume_writer.models.certifications import Certifications
 from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
+from resume_writer.resume_render.resume_render_text_base import (
+    ResumeRenderCertificationsBase,
+)
 from resume_writer.utils.html_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
