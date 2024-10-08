@@ -1,24 +1,19 @@
 import logging
-from datetime import datetime
 from pathlib import Path
 
 import click
 import docx
 import rich
 import tomli
-from jinja2 import Environment, PackageLoader, select_autoescape
-from resume_render.resume_render_text_base import HtmlDoc
 
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
+from resume_writer.renderers.html_renderer import RenderResumeHtml
 from resume_writer.resume_render.ats.resume_main import (
     RenderResume as AtsRenderResume,
 )
 from resume_writer.resume_render.basic.resume_main import (
     RenderResume as BasicRenderResume,
-)
-from resume_writer.resume_render.html.resume_main import (
-    RenderResume as HtmlRenderResume,
 )
 from resume_writer.resume_render.plain.resume_main import (
     RenderResume as PlainRenderResume,
@@ -136,47 +131,12 @@ def html_render(
 
     log.info("Rendering HTML resume")
 
-    def date_filter(resdate: datetime | None, date_format: str = "%B %Y") -> str:
-        """Format dates in jinja template. Returns 'present' if passed None."""
-        assert isinstance(resdate, (datetime, type(None))), "Invalid datetime"
-        assert isinstance(date_format, str), "Invalid date format"
-
-        if resdate is None:
-            return "Present"
-
-        return resdate.strftime(date_format)
-
-    def lf_to_br(text: str) -> str:
-        """Convert line feeds to html breaks."""
-        assert isinstance(text, str)
-        _txt = text.replace("\r\n", "\n")
-        _txt = _txt.replace("\n\n", "\n")
-        _txt = _txt.replace("\n", "<br>")
-        return _txt
-
-    def list_len(lst: list) -> int:
-        """Return the length of a list."""
-        assert isinstance(lst, list)
-        return len(lst)
-
-    jinja_env = Environment(
-        loader=PackageLoader("resume_render.html"),
-        autoescape=select_autoescape(),
-    )
-    jinja_env.filters["date"] = date_filter
-    jinja_env.filters["lf_to_br"] = lf_to_br
-    jinja_env.filters["list_len"] = list_len
-
-    _document: HtmlDoc = HtmlDoc()
-    _renderer = HtmlRenderResume(
-        document=_document,
-        jinja_env=jinja_env,
+    _html_renderer = RenderResumeHtml(
         resume=resume,
         settings=settings,
     )
-
-    _renderer.render()
-    _renderer.save(Path("data/html_resume.html"))
+    _html_renderer.render()
+    _html_renderer.save(Path("data/html_resume.html"))
 
     log.info("Render of HTML resume complete.")
 
