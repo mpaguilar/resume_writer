@@ -115,6 +115,9 @@ def skills_list(roles: Roles) -> list:
     _skills = []
 
     for role in roles:
+        if not role.skills:
+            continue
+
         for skill in role.skills:
             if skill not in _skills:
                 _skills.append(skill)
@@ -128,6 +131,8 @@ def skill_experience(roles: Roles, skill: str) -> float:
 
     _date_stats = DateStats()
     for role in roles:
+        if not role.skills:
+            continue
         if skill in role.skills:
             _date_stats.add_date_range(role.basics.start_date, role.basics.end_date)
 
