@@ -130,3 +130,94 @@ def settings():
 def test_render_skills_matrix_section(document, experience, settings):
     section = RenderSkillsMatrixSection(document, experience, settings)
     section.render()
+
+
+## test a role without skills
+
+
+@pytest.fixture
+def role_with_skills():
+    _role = Mock(spec=Role)
+
+    _role.basics = Mock(spec=RoleBasics)
+    _role.basics.company = "test"
+    _role.basics.start_date = datetime.strptime("01/2020", "%m/%Y")  # noqa: DTZ007
+    _role.basics.end_date = datetime.strptime("01/2021", "%m/%Y")  # noqa: DTZ007
+    _role.basics.title = "test"
+    _role.basics.location = "test"
+    _role.basics.job_category = "test"
+    _role.basics.employment_type = "test"
+    _role.basics.agency_name = "test"
+
+    _role.summary = Mock(spec=RoleSummary)
+    _role.summary.summary = "test"
+
+    _role.responsibilities = Mock(spec=RoleResponsibilities)
+    _role.responsibilities.text = "test"
+
+    _role.skills = MagicMock(spec=RoleSkills)
+    _role.skills.skills = ["test1"]  # Role with skills
+
+    return _role
+
+
+@pytest.fixture
+def role_no_skills():
+    _role = Mock(spec=Role)
+
+    _role.basics = Mock(spec=RoleBasics)
+    _role.basics.company = "test"
+    _role.basics.start_date = datetime.strptime("01/2020", "%m/%Y")  # noqa: DTZ007
+    _role.basics.end_date = datetime.strptime("01/2021", "%m/%Y")  # noqa: DTZ007
+    _role.basics.title = "test"
+    _role.basics.location = "test"
+    _role.basics.job_category = "test"
+    _role.basics.employment_type = "test"
+    _role.basics.agency_name = "test"
+
+    _role.summary = Mock(spec=RoleSummary)
+    _role.summary.summary = "test"
+
+    _role.responsibilities = Mock(spec=RoleResponsibilities)
+    _role.responsibilities.text = "test"
+
+    _role.skills = MagicMock(spec=RoleSkills)
+    _role.skills.skills = None  # No skills
+
+    return _role
+
+
+@pytest.fixture
+def roles_with_one_no_skills(role_no_skills, role_with_skills):
+    _roles = MagicMock(spec=Roles)
+    _roles.roles = Roles([role_with_skills, role_no_skills])  # One role with no skills
+    _roles.__len__.return_value = 2
+    _roles.__iter__.return_value = iter(_roles.roles)
+
+    return _roles
+
+
+@pytest.fixture
+def experience_with_one_no_skills(projects, roles_with_one_no_skills):
+    return Experience(
+        roles=roles_with_one_no_skills,
+        projects=projects,
+    )
+
+
+@patch(
+    "resume_writer.resume_render.skills_matrix.skills_experience",
+    return_value={"test1": 0.5},  # Skills from the role with skills
+)
+def test_render_skills_matrix_section_one_no_skills(
+    document,
+    experience_with_one_no_skills,
+    settings,
+):
+    section = RenderSkillsMatrixSection(
+        document,
+        experience_with_one_no_skills,
+        settings,
+    )
+
+    section.render()

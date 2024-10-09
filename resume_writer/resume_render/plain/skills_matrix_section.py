@@ -5,9 +5,7 @@ import docx.document
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.shared import Inches
 
-from resume_writer.models.experience import (
-    Experience,
-)
+from resume_writer.models.experience import Experience, Roles
 from resume_writer.resume_render.render_settings import (
     ResumeSkillsMatrixSettings,
 )
@@ -35,22 +33,26 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
     def find_skill_date_range(
         self,
         skill: str,
-    ) -> tuple[datetime | None, datetime | None]:
+    ) -> tuple[datetime | None, datetime | None] | None:
         """Find the earliest job with a skill."""
 
         _earliest_start_date = None
         _last_end_date = None
 
+        # collect roles with skills
+        _roles = [ role for role in self.experience.roles if role.skills ]
+
         # collect the start dates for each role with this skill
+
         _start_dates = [
             role.basics.start_date
-            for role in self.experience.roles
+            for role in _roles
             if skill in role.skills
         ]
         # collect the end dates for each role with this skill
         _end_dates = [
             role.basics.end_date
-            for role in self.experience.roles
+            for role in _roles
             if skill in role.skills
         ]
 
@@ -63,7 +65,7 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
 
     def _get_skills_matrix(self) -> dict[str, float]:
         """Get a matrix of skills and their years of experience."""
-        _roles = self.experience.roles
+        _roles = Roles([ role for role in self.experience.roles if role.skills ])
 
         # use only skills specified in the settings
         _settings_skills = self.settings.skills
