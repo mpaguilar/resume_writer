@@ -10,6 +10,7 @@ version = "0.1.0"
 description = ""
 authors = ["Michael Aguilar <bitflip@slowlink.net>"]
 readme = "README.md"
+packages = [{include = "resume_writer"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
