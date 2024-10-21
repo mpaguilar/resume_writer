@@ -1,5 +1,27 @@
 class ResumeSettingsBase:
-    """Base class for resume settings."""
+    """Base class for managing resume settings.
+
+    This class provides a method to update the settings from a dictionary.
+
+    Methods
+    -------
+    update_from_dict(data_dict: dict | None = None)
+        Update the settings from a dictionary.
+
+    Parameters
+    ----------
+        data_dict : dict | None, optional
+            Dictionary containing the new settings. If None, no changes are made.
+
+    Notes
+    -----
+        1. If data_dict is None, the method returns without making any changes.
+        2. The method iterates over each key-value pair in data_dict.
+        3. If the key is 'section', it is ignored to avoid unwanted updates.
+        4. If the key exists as an attribute of the class instance,
+            its value is updated.
+
+    """
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update the settings from a dictionary."""
@@ -15,7 +37,32 @@ class ResumeSettingsBase:
 
 
 class ResumePersonalSettings(ResumeSettingsBase):
-    """Control what parts of a resume's personal section are rendered."""
+    """Control what parts of a resume's personal section are rendered.
+
+    Attributes:
+    1. contact_info (bool): Include contact information.
+    2. banner (bool): Include banner.
+    3. visa_status (bool): Include visa status.
+    4. websites (bool): Include websites.
+    5. note (bool): Include note.
+
+    Contact Information Attributes:
+    6. name (bool): Include name.
+    7. email (bool): Include email.
+    8. phone (bool): Include phone number.
+    9. location (bool): Include location.
+
+    Websites Attributes:
+    10. linkedin (bool): Include LinkedIn.
+    11. github (bool): Include GitHub.
+    12. website (bool): Include personal website.
+    13. twitter (bool): Include Twitter.
+
+    Visa Status Attributes:
+    14. require_sponsorship (bool): Include sponsorship requirement.
+    15. work_authorization (bool): Include work authorization status.
+
+    """
 
     def __init__(self):
         """Initialize everything to True."""
@@ -44,7 +91,42 @@ class ResumePersonalSettings(ResumeSettingsBase):
 
 
 class ResumeEducationSettings(ResumeSettingsBase):
-    """Control what parts of a resume's education section are rendered."""
+    """Control what parts of a resume's education section are rendered.
+
+    Attributes
+    ----------
+    degrees : bool
+        Render all degrees (default is True).
+    school : bool
+        Render school name (default is True).
+    degree : bool
+        Render degree name (default is True).
+    start_date : bool
+        Render start date of degree (default is True).
+    end_date : bool
+        Render end date of degree (default is True).
+    gpa : bool
+        Render GPA (default is True).
+    major : bool
+        Render major of study (default is True).
+
+    Methods
+    -------
+    __init__()
+        Initialize all attributes to True.
+
+    Notes
+    -----
+    1. This class is used to control which parts of a resume's education
+       section are rendered.
+    2. Each attribute corresponds to a different part of the education
+       section that can be rendered or not.
+    3. By default, all attributes are set to True, meaning all parts of
+       the education section will be rendered.
+    4. To change which parts of the education section are rendered, set
+       the corresponding attribute to False.
+
+    """
 
     def __init__(self):
         """Initialize everything to True."""
@@ -60,7 +142,25 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
 
 class ResumeCertificationsSettings(ResumeSettingsBase):
-    """Control what parts of a resume's certifications section are rendered."""
+    """Control what parts of a resume's certifications section are rendered.
+
+    Attributes
+    ----------
+    name : bool
+        Whether to render the name of the certification.
+    issuer : bool
+        Whether to render the issuer of the certification.
+    issued : bool
+        Whether to render the date of issuance.
+    expires : bool
+        Whether to render the expiration date of the certification.
+
+    Methods
+    -------
+    __init__()
+        Initialize all attributes to True.
+
+    """
 
     def __init__(self):
         """Initialize everything to True."""
@@ -72,7 +172,46 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
 
 
 class ResumeProjectsSettings(ResumeSettingsBase):
-    """Control what parts of a resume's projects section are rendered."""
+    """Control what parts of a resume's projects section are rendered.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    overview : bool
+        Whether to include the project overview.
+    description : bool
+        Whether to include the project description.
+    skills : bool
+        Whether to include the skills used in the project.
+    title : bool
+        Whether to include the project title.
+    url : bool
+        Whether to include the project URL.
+    url_description : bool
+        Whether to include the description for the project URL.
+    start_date : bool
+        Whether to include the project start date.
+    end_date : bool
+        Whether to include the project end date.
+
+    Methods
+    -------
+    __init__()
+        Initialize all attributes to True.
+
+    Notes
+    -----
+    1. This class is used to control which parts of a resume's projects
+       section are rendered.
+    2. Each attribute corresponds to a different part of the project
+       section that can be included or excluded from the rendered resume.
+    3. The __init__ method initializes all attributes to True, meaning
+       that all parts of the project section will be included by default.
+
+    """
 
     def __init__(self):
         """Initialize everything to True."""
@@ -89,7 +228,25 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
 
 class ResumeRolesSettings(ResumeSettingsBase):
-    """Control what parts of a resume's roles section are rendered."""
+    """Control what parts of a resume's roles section are rendered.
+
+    Attributes:
+        summary (bool): Whether to include the role summary.
+        skills (bool): Whether to include the role skills.
+        responsibilities (bool): Whether to include role responsibilities.
+        reason_for_change (bool): Whether to include the reason for change.
+        location (bool): Whether to include the role location.
+        job_category (bool): Whether to include the role job category.
+        employment_type (bool): Whether to include the role employment type.
+        agency_name (bool): Whether to include the agency name.
+        start_date (bool): Whether to include the role start date.
+        end_date (bool): Whether to include the role end date.
+
+    Steps:
+        1. Initialize the class with all attributes set to True.
+        2. The title attribute is not included as it is required.
+
+    """
 
     def __init__(self) -> None:
         """Initialize everything to True."""
@@ -110,10 +267,46 @@ class ResumeRolesSettings(ResumeSettingsBase):
 
 
 class ResumeExperienceSettings(ResumeSettingsBase):
-    """Control what parts of a resume's experience section are rendered."""
+    """Control what parts of a resume's experience section are rendered.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    roles : bool
+        Flag to include roles in the rendered experience section.
+    roles_settings : ResumeRolesSettings
+        Settings for rendering roles in the experience section.
+    projects : bool
+        Flag to include projects in the rendered experience section.
+    projects_settings : ResumeProjectsSettings
+        Settings for rendering projects in the experience section.
+    executive_summary : bool
+        Flag to include executive summary in the rendered experience section.
+    executive_summary_settings : ResumeExecutiveSummarySettings
+        Settings for rendering executive summary in the experience section.
+    skills_matrix : bool
+        Flag to include skills matrix in the rendered experience section.
+    skills_matrix_settings : ResumeSkillsMatrixSettings
+        Settings for rendering skills matrix in the experience section.
+
+    Methods
+    -------
+    update_from_dict(data_dict=None)
+        Update settings for experience and subsections from a dictionary.
+
+    """
 
     def __init__(self) -> None:
-        """Initialize everything to True."""
+        """Initialize all attributes to True and create settings objects.
+
+        Steps:
+        1. Set roles, projects, executive_summary, and skills_matrix to True.
+        2. Create ResumeRolesSettings, ResumeProjectsSettings,
+           ResumeExecutiveSummarySettings, and ResumeSkillsMatrixSettings objects.
+        """
 
         self.roles = True
         self.roles_settings = ResumeRolesSettings()
@@ -125,7 +318,20 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
-        """Update settings for experience and subsections."""
+        """Update settings for experience and subsections from a dictionary.
+
+        Parameters
+        ----------
+        data_dict : dict, optional
+            Dictionary containing settings for experience and subsections.
+
+        Steps:
+        1. Call the parent class's update_from_dict method.
+        2. Extract the 'section' key from the dictionary.
+        3. Update the settings for projects, roles, executive_summary,
+           and skills_matrix if they exist in the 'section' key.
+
+        """
         super().update_from_dict(data_dict)
         _section = data_dict.get("section")
         if _section is None:
@@ -143,7 +349,19 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 
 
 class ResumeExecutiveSummarySettings(ResumeSettingsBase):
-    """Control what parts of a resume's executive summary section are rendered."""
+    """Control settings for rendering the executive summary section of a resume.
+
+    Attributes:
+        categories (list[str]): List of categories to include in the summary.
+
+    Methods:
+        update_from_dict(data_dict): Update settings from a dictionary.
+
+    1. Initialize categories as an empty list.
+    2. Define a method to update settings from a dictionary.
+    3. If categories are provided in the dictionary, split them into a list.
+
+    """
 
     def __init__(self) -> None:
         """Initialize everything to True."""
@@ -158,7 +376,20 @@ class ResumeExecutiveSummarySettings(ResumeSettingsBase):
 
 
 class ResumeSkillsMatrixSettings(ResumeSettingsBase):
-    """Control what parts of a resume's skills matrix section are rendered."""
+    """Control what parts of a resume's skills matrix section are rendered.
+
+    Attributes:
+        skills (list[str]): List of skills to be rendered.
+        all_skills (bool): Flag to indicate if all skills should be rendered.
+
+    Methods:
+        update_from_dict(data_dict): Update settings from a dictionary.
+
+    1. Initialize skills as an empty list and all_skills as False.
+    2. Call the parent class's update_from_dict method.
+    3. If skills are provided, split the skills string into a list.
+
+    """
 
     def __init__(self) -> None:
         """Initialize everything.
@@ -178,7 +409,53 @@ class ResumeSkillsMatrixSettings(ResumeSettingsBase):
 
 
 class ResumeRenderSettings(ResumeSettingsBase):
-    """Control what parts of a resume are rendered."""
+    """Control what parts of a resume are rendered.
+
+    Parameters
+    ----------
+    None
+
+    Attributes
+    ----------
+    personal_settings : ResumePersonalSettings
+        Settings for personal information.
+    personal : bool
+        Flag to include personal information.
+    education_settings : ResumeEducationSettings
+        Settings for education information.
+    education : bool
+        Flag to include education information.
+    certifications_settings : ResumeCertificationsSettings
+        Settings for certifications information.
+    certifications : bool
+        Flag to include certifications information.
+    experience_settings : ResumeExperienceSettings
+        Settings for experience information.
+    experience : bool
+        Flag to include experience information.
+    skills_matrix : bool
+        Flag to include skills matrix information.
+    skills_matrix_settings : ResumeSkillsMatrixSettings
+        Settings for skills matrix information.
+    executive_summary : bool
+        Flag to include executive summary information.
+    executive_summary_settings : ResumeExecutiveSummarySettings
+        Settings for executive summary information.
+    font_size : int
+        Font size in points.
+    margin_width : float
+        Margin width in inches.
+    top_margin : float
+        Top margin in inches.
+    bottom_margin : float
+        Bottom margin in inches.
+
+    Methods
+    -------
+    update_from_dict(data_dict=None)
+        Update settings for resume and subsections.
+
+    """
 
     def __init__(self):
         """Initialize all settings with appropriate objects."""
@@ -216,7 +493,18 @@ class ResumeRenderSettings(ResumeSettingsBase):
         self.executive_summary = True
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
-        """Update settings for resume and subsections."""
+        """Update settings for resume and subsections.
+
+        Parameters
+        ----------
+        data_dict : dict, optional
+            Dictionary containing data to update settings.
+
+        Returns
+        -------
+        None
+
+        """
         super().update_from_dict(data_dict)
         _section = data_dict.get("section")
         if _section is None:
