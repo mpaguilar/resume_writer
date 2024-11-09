@@ -1,82 +1,64 @@
-<h2>Roles</h2>
+## Roles
 {% for role in roles %}
 
-<h3>Basics</h3>
-<div class="role-company">
-Company: {{ role.basics.company }}
-</div>
-<div class="role-title">
-Title:  {{ role.basics.title }}
-</div>
+### Role
 
-{% if role.basics.start_date %}
-<div class="role-start-date">
-Start Date:  {{ role.basics.start_date|date }}
-</div>
+#### Basics
+Company: {{ role.basics.company }}
+
+{% if settings.agency_name and role.basics.agency_name %}
+Agency: {{ role.basics.agency_name }}
 {% endif %}
 
-<div class="role-end-date">
-{% if role.basics.end_date %}
+{% if settings.job_category and role.basics.job_category %}
+Job category: {{ role.basics.job_category }}
+{% endif %}
+
+{% if settings.employment_type and role.basics.employment_type %}
+Employment type:  {{ role.basics.employment_type }}
+{% endif %}
+
+{% if settings.start_date and role.basics.start_date %}
+Start Date:  {{ role.basics.start_date|date }}
+{% endif %}
+
+{% if settings.end_date and role.basics.end_date %}
 End Date:  {{ role.basics.end_date|date }}
 {% else %}
 End Date:  Present
 {% endif %}
-</div>
 
-{% if role.basics.employment_type %}
-<div class="role-employment-type">
-Employment Type:  {{ role.basics.employment_type }}
-</div>
+Title:  {{ role.basics.title }}
+
+{% if settings.reason_for_change and role.basics.reason_for_change %}
+Reason for Change:  {{ role.basics.reason_for_change }}
 {% endif %}
 
-{% if role.basics.location %}
-<div class="role-location">
+{% if settings.location and role.basics.location %}
 Location:  {{ role.basics.location }}
-</div>
 {% endif %}
 
 {% if role.basics.summary %}
-<div class="role-summary">
-Summary:  {{ role.basics.summary }}
-</div>
+#### Summary
+{{ role.basics.summary }}
 {% endif %}
 
-{% if role.basics.reason_for_change %}
-<div class="role-reason-for-change">
-Reason for Change:  {{ role.basics.reason_for_change }}
-</div>
-{% endif %}
-
-{% if role.basics.agency_name %}
-<div class="role-agency-name">
-Agency Name:  {{ role.basics.agency_name }}
-</div>
-{% endif %}
-
-<h3>Description</h3>
-
-{% if settings.summary and role.summary.summary %}
-<div class="role-summary">
-<h4>Summary</h4>
-{{ role.summary.summary|lf_to_br }}
-</div>
-{% endif %}
 
 {% if settings.responsibilities and role.responsibilities %}
-<h4>Responsibilities</h4>
-<div class="role-responsibility">
-{{ role.responsibilities.text|lf_to_br }}
-</div>
+#### Description
+{{ role.responsibilities.text }}
+{% endif %}
 
+{% if settings.summary and role.summary.summary %}
+#### Summary
+{{ role.summary.summary }}
 {% endif %}
 
 {% if settings.skills and role.skills %}
-<h4>Skills</h4>
-<div class="role-skills">
+#### Skills
 {% for skill in role.skills["skills"] %}
-* {{ skill }}<br/>
+* {{ skill }}
 {% endfor %}
-</div>
 {% endif %}
 
 {% endfor %}
