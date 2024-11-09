@@ -1,35 +1,26 @@
-<h1>Certifications</h1>
+# Certifications
 {% for certification in certifications %}
 
-<h2>Certification</h2>
-{% if settings.name and certification.name %}
-<div class="certification-name">
-Name: {{ certification.name }}
-</div>
-{% endif %}
+## Certification
 
 {% if settings.issuer and certification.issuer %}
-<div class="certification-issuer">
-Issued by: {{ certification.issuer }}
-</div>
+Issuer: {{ certification.issuer }}
+{% endif %}
+
+{% if settings.name and certification.name %}
+Name: {{ certification.name }}
 {% endif %}
 
 {% if settings.issued and certification.issued %}
-<div class="certification-issued">
-Issued on: {{ certification.issued|date }}
-</div>
+Issued: {{ certification.issued|date }}
 {% endif %}
 
 {% if settings.expires and certification.expires %}
-<div class="certification-expires">
-Expires on: {{ certification.expires|date }}
-</div>
+Expires: {{ certification.expires|date }}
 {% endif %}
 
 {% if settings.credential_id and certification.credential_id %}
-<div class="certification-credential-id">
 Credential ID: {{ certification.credential_id }}
-</div>
 {% endif %}
 
 {% endfor %}
