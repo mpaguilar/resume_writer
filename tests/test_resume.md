@@ -54,12 +54,14 @@ Issuer: BigCorp
 Name: BigCorp Certified Widget Expert
 Issued: 03/2020
 Expires: 03/2025
+Certification ID: 1234567890
 
 ## Certification
 Issuer: BigCorp
 Name: BigCorp Certified Thing Expert
 Issued: 04/2020
 Expires: 04/2025
+Certification ID: 0987654321
 
 # Experience
 
