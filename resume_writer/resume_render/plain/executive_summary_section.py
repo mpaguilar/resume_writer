@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import docx.document
 
@@ -70,7 +71,14 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
 
                 _paragraph = self.document.add_paragraph()
 
+                if _role.basics.end_date:
+                    _date_str = datetime.strftime(_role.basics.end_date, "%Y")
+                else:
+                    _date_str = "Present"
+
                 _paragraph.style = "List Bullet"
                 _paragraph.add_run(f"{_role.summary.summary}")
-                _run = _paragraph.add_run(f" ({_role.basics.company})")
+                _run = _paragraph.add_run(
+                    f" ({_role.basics.company}, {_date_str})",
+                )
                 _run.italic = True
