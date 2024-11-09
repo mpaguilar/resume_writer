@@ -1,0 +1,47 @@
+<h1>Education</h1>
+
+{% for degree in education.degrees %}
+<h2>Degree</h2>
+
+{% if settings.school and degree.school %}
+<div class="degree-school">
+School: {{ degree.school }}
+<div>
+{% endif %}
+
+{% if settings.degree and degree.degree %}
+<div class="degree-degree">
+Degree: {{ degree.degree }}
+<div>
+{% endif %}
+
+{% if settings.start_date and degree.start_date %}
+<div class="degree-start-date">
+Start date: {{ degree.start_date|date }}
+<div>
+{% endif %}
+
+{% if settings.end_date %}
+
+{% if degree.end_date %}
+<div class="degree-end-date">
+End date: {{ degree.end_date|date }}
+{% else %}
+End date: Present
+{% endif %}
+</div>
+{% endif %}
+
+{% if settings.major and degree.major %}
+<div class="degree-major">
+Major: {{ degree.major }}
+<div>
+{% endif %}
+
+{% if settings.gpa and degree.gpa %}
+<div class="degree-gpa">
+GPA: {{ degree.gpa }}
+<div>
+{% endif %}
+
+{% endfor %}

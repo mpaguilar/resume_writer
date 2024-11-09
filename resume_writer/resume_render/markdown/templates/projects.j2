@@ -1,0 +1,38 @@
+<h2>Projects</h2>
+{% for project in projects %}
+<h3>Project</h3>
+
+{%if settings.url_description and settings.url and project.overview.url and project.overview.url_description %}
+<div class="project-url">
+<a href="{{ project.overview.url }}">{{ project.overview.url_description }}</a>
+</div>
+{% endif %}
+
+{% if settings.start_date and project.overview.start_date %}
+<div class="project-start-date">
+{{ project.overview.start_date|date }}
+</div>
+{% endif %}
+
+{% if settings.end_date and project.overview.end_date %}
+<div class="project-end-date">
+{{ project.overview.end_date|date }}
+</div>
+{% endif %}
+
+{% if settings.description and project.description and project.description.text %}
+<div class="project-description">
+{{ project.description.text|lf_to_br }}
+</div>
+{% endif %}
+
+{% if settings.skills and project.skills %}
+<h5>Skills</h5>
+<div class="project-skills">
+{% for skill in project.skills["skills"] %}
+* {{ skill }}<br/>
+{% endfor %}
+</div>
+{% endif %}
+
+{% endfor %}
