@@ -20,12 +20,14 @@ class Certification(LabelBlockParse):
         issuer: str | None,
         issued: datetime | str | None,
         expires: datetime | str | None,
+        certification_id: str | None,
     ):
         """Initialize the object."""
         assert isinstance(name, str)
         assert isinstance(issuer, (str, type(None)))
         assert isinstance(issued, (datetime, str, type(None)))
         assert isinstance(expires, (datetime, str, type(None)))
+        assert isinstance(certification_id, (str, type(None)))
 
         # If the issued date is a string, convert it to a datetime object
         if isinstance(issued, str):
@@ -42,6 +44,7 @@ class Certification(LabelBlockParse):
         self.name : str = name
         self.issued : datetime | None = issued
         self.expires : datetime | None = expires
+        self.certification_id : str | None = certification_id
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -51,6 +54,7 @@ class Certification(LabelBlockParse):
             "name": "name",
             "issued": "issued",
             "expires": "expires",
+            "certification id": "certification_id",
         }
 
 

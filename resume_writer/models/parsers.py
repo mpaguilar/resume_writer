@@ -114,6 +114,8 @@ class LabelBlockParse:
                 _init_kwargs[_init_arg] = _value
                 # remove the label from the expected fields
                 _expected_fields.pop(_label)
+            else:
+                log.info(f"Skipping line: {_block_line}")
 
         # if there are any expected fields left, add them to the init kwargs with None
         _none_kwargs = {_field: None for _field in _expected_fields.values()}
