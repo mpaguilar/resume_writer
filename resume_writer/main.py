@@ -9,6 +9,7 @@ import tomli
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
 from resume_writer.renderers.html_renderer import RenderResumeHtml
+from resume_writer.renderers.markdown_renderer import RenderResumeMarkdown
 from resume_writer.resume_render.ats.resume_main import (
     RenderResume as AtsRenderResume,
 )
@@ -140,6 +141,25 @@ def html_render(
 
     log.info("Render of HTML resume complete.")
 
+def markdown_render(
+    resume: Resume,
+    settings: ResumeRenderSettings,
+) -> None:
+    """Render the resume using the markdown renderer."""
+
+    assert isinstance(resume, Resume)
+    assert isinstance(settings, ResumeRenderSettings)
+
+    log.info("Rendering Markdown resume")
+
+    _markdown_renderer = RenderResumeMarkdown(
+        resume=resume,
+        settings=settings,
+    )
+    _markdown_renderer.render()
+    _markdown_renderer.save(Path("data/markdown_resume.md"))
+
+    log.info("Render of Markdown resume complete.")
 
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
@@ -150,7 +170,7 @@ def html_render(
 )
 @click.option(
     "--resume-type",
-    type=click.Choice(["ats", "basic", "plain", "html"]),
+    type=click.Choice(["ats", "basic", "plain", "html", "markdown"]),
     default="simple",
 )
 def main(
@@ -185,6 +205,8 @@ def main(
         _docx_doc.save(output_file)
     elif resume_type == "html":
         html_render(_resume, _render_settings)
+    elif resume_type == "markdown":
+        markdown_render(_resume, _render_settings)
     else:
         raise ValueError(f"Unknown resume type: {resume_type}")
 

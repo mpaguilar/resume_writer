@@ -3,16 +3,16 @@ import logging
 from jinja2 import Environment
 
 from resume_writer.models.resume import Resume
-from resume_writer.resume_render.html.certifications_section import (
+from resume_writer.resume_render.markdown.certifications_section import (
     RenderCertificationsSection,
 )
-from resume_writer.resume_render.html.education_section import (
+from resume_writer.resume_render.markdown.education_section import (
     RenderEducationSection,
 )
-from resume_writer.resume_render.html.experience_section import (
+from resume_writer.resume_render.markdown.experience_section import (
     RenderExperienceSection,
 )
-from resume_writer.resume_render.html.personal_section import (
+from resume_writer.resume_render.markdown.personal_section import (
     RenderPersonalSection,
 )
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
