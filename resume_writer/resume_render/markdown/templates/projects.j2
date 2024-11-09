@@ -7,7 +7,7 @@ Title: {{ project.overview.title }}
 {% endif %}
 
 {% if settings.url and project.overview.url %}
-Url: {% project.overview.url %}
+Url: {{ project.overview.url }}
 {% endif %}
 
 {% if settings.url_description and project.overview.url_description %}
@@ -29,7 +29,7 @@ End date: {{ project.overview.end_date|date }}
 
 {% if settings.skills and project.skills %}
 #### Skills
-{% for skill in project.skills["skills"] %}
+{% for skill in project.skills %}
 * {{ skill }}<br/>
 {% endfor %}
 {% endif %}

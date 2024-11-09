@@ -56,7 +56,7 @@ Location:  {{ role.basics.location }}
 
 {% if settings.skills and role.skills %}
 #### Skills
-{% for skill in role.skills["skills"] %}
+{% for skill in role.skills.skills %}
 * {{ skill }}
 {% endfor %}
 {% endif %}
