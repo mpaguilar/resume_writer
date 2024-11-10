@@ -1,4 +1,3 @@
-
 # Personal
 
 ## Contact Information
@@ -69,6 +68,48 @@ Expires: April 2025
 
 # Experience
 
+## Projects
+
+### Project
+
+Title: A Useful project
+Url: https://example.com/useful1
+Url Description: A Useful Project
+Start date: January 2020
+End date: January 2021
+
+#### Description
+
+This should still be pretty short, 2-3 sentences.
+Multiple lines are fine.
+So are multiple paragraphs.
+
+#### Skills
+
+* Skill 1<br/>
+* Skill 2<br/>
+* Skill 5<br/>
+
+### Project
+
+Title: Another Useful project
+Url: https://example.com/useful2
+Url Description: Another Useful Project
+Start date: February 2020
+End date: February 2021
+
+#### Description
+
+This should still be pretty short, 2-3 sentences.
+Multiple lines are fine.
+So are multiple paragraphs.
+
+#### Skills
+
+* Skill 3<br/>
+* Skill 4<br/>
+* Skill 5<br/>
+
 ## Roles
 
 ### Role
@@ -129,45 +170,3 @@ Performed junior tasks.
 * Skill 1
 * Skill 2
 * Skill 4
-
-## Projects
-
-### Project
-
-Title: A Useful project
-Url: https://example.com/useful1
-Url Description: A Useful Project
-Start date: January 2020
-End date: January 2021
-
-#### Description
-
-This should still be pretty short, 2-3 sentences.
-Multiple lines are fine.
-So are multiple paragraphs.
-
-#### Skills
-
-* Skill 1<br/>
-* Skill 2<br/>
-* Skill 5<br/>
-
-### Project
-
-Title: Another Useful project
-Url: https://example.com/useful2
-Url Description: Another Useful Project
-Start date: February 2020
-End date: February 2021
-
-#### Description
-
-This should still be pretty short, 2-3 sentences.
-Multiple lines are fine.
-So are multiple paragraphs.
-
-#### Skills
-
-* Skill 3<br/>
-* Skill 4<br/>
-* Skill 5<br/>

@@ -117,18 +117,18 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         self.document.add_text("# Experience")
 
-        if self.settings.roles and self.experience.roles:
-            RenderRolesSection(
-                document=self.document,
-                jinja_env=self.jinja_env,
-                roles=self.experience.roles,
-                settings=self.settings.roles_settings,
-            ).render()
-
         if self.settings.projects and self.experience.projects:
             RenderProjectsSection(
                 document=self.document,
                 jinja_env=self.jinja_env,
                 projects=self.experience.projects,
                 settings=self.settings.projects_settings,
+            ).render()
+
+        if self.settings.roles and self.experience.roles:
+            RenderRolesSection(
+                document=self.document,
+                jinja_env=self.jinja_env,
+                roles=self.experience.roles,
+                settings=self.settings.roles_settings,
             ).render()
