@@ -23,7 +23,7 @@ from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
     ResumeSkillsMatrixSettings,
 )
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import TextDoc
 
 log = logging.getLogger(__name__)
 
@@ -36,13 +36,13 @@ class RenderBase:
 
     """
 
-    def __init__(self, document: HtmlDoc, jinja_env: Environment):
+    def __init__(self, document: TextDoc, jinja_env: Environment):
         """Initialize superclass."""
 
         self.errors = []
         self.warnings = []
 
-        assert isinstance(document, HtmlDoc)
+        assert isinstance(document, TextDoc)
         assert isinstance(jinja_env, Environment)
 
         self.document = document
@@ -67,7 +67,7 @@ class ResumeRenderBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         resume: Resume,
         settings: ResumeRenderSettings | None,
@@ -76,7 +76,7 @@ class ResumeRenderBase(RenderBase):
 
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings) or settings is None
-        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
+        assert isinstance(document, TextDoc), f"document is {type(document)}"
         assert isinstance(jinja_env, Environment)
 
         if settings is None:
@@ -96,7 +96,7 @@ class ResumeRenderPersonalBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         personal: Personal,
         template_name: str,
@@ -104,7 +104,7 @@ class ResumeRenderPersonalBase(RenderBase):
     ):
         """Initialize personal renderer."""
 
-        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
+        assert isinstance(document, TextDoc), f"document is {type(document)}"
         assert isinstance(personal, Personal)
         assert isinstance(settings, ResumePersonalSettings)
         assert isinstance(template_name, str)
@@ -121,7 +121,7 @@ class ResumeRenderRolesBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         roles: Roles,
         template_name: str,
@@ -145,7 +145,7 @@ class ResumeRenderProjectsBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         projects: Projects,
         template_name: str,
@@ -168,7 +168,7 @@ class ResumeRenderExperienceBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         experience: Experience,
         settings: ResumeRolesSettings,
@@ -179,7 +179,7 @@ class ResumeRenderExperienceBase(RenderBase):
         assert isinstance(experience, Experience)
         assert isinstance(settings, ResumeExperienceSettings)
         assert isinstance(jinja_env, Environment)
-        assert isinstance(document, HtmlDoc), f"document is {type(document)}"
+        assert isinstance(document, TextDoc), f"document is {type(document)}"
 
         self.experience = experience
         self.document = document
@@ -192,7 +192,7 @@ class ResumeRenderEducationBase(RenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: TextDoc,
         jinja_env: Environment,
         education: Education,
         template_name: str,

@@ -59,7 +59,7 @@ class RoleSkills(ListBlockParse):
 
     def __getitem__(self, index: int):
         """Return the skill at the given index."""
-        return self.skills[index]
+        return self.skills
 
 
 class RoleBasics(LabelBlockParse):
