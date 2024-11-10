@@ -16,6 +16,7 @@ class MarkdownDoc(TextDoc):
     def __init__(self):
         """Initialize HTML document."""
         self.text: str = ""
+        self.previous_line_was_header = False
 
     def add_text(self, text: str) -> None:
         """Add text to HTML document."""
@@ -24,20 +25,19 @@ class MarkdownDoc(TextDoc):
 
         _lines = text.split("\n")
         _all_text = ""
-        _previous_line_was_header = False
         for _line in _lines:
             _text = re.sub("\n", "", _line)
             if not _text:
                 continue
 
             if _text.startswith("#"):
-                if not _previous_line_was_header:
+                if not self.previous_line_was_header:
                     _all_text += "\n"
                 _all_text += _text + "\n\n"
-                _previous_line_was_header = True
+                self.previous_line_was_header = True
             else:
                 _all_text += _text + "\n"
-                _previous_line_was_header = False
+                self.previous_line_was_header = False
 
         self.text += _all_text
 
