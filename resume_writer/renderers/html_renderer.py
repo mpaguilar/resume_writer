@@ -7,7 +7,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.html.resume_main import RenderResume
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
-from resume_writer.resume_render.resume_render_text_base import HtmlDoc
+from resume_writer.utils.text_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 

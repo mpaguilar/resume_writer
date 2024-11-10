@@ -7,7 +7,7 @@ from jinja2 import Environment, PackageLoader, select_autoescape
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.markdown.resume_main import RenderResume
 from resume_writer.resume_render.render_settings import ResumeRenderSettings
-from resume_writer.resume_render.resume_render_text_base import HtmlDoc
+from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
@@ -56,8 +56,8 @@ class RenderResumeMarkdown:
         """Initialize and return a RenderResume object.
 
         Steps:
-        1. Create an instance of HtmlDoc.
-        2. Create a RenderResume object with the HtmlDoc,
+        1. Create an instance of MarkdownDoc.
+        2. Create a RenderResume object with the MarkdownDoc,
         Jinja environment, resume data, and settings.
         3. Return the RenderResume object.
 
@@ -65,7 +65,7 @@ class RenderResumeMarkdown:
         RenderResume: Initialized RenderResume object.
 
         """
-        _document: HtmlDoc = HtmlDoc()
+        _document: MarkdownDoc = MarkdownDoc()
         _renderer = RenderResume(
             document=_document,
             jinja_env=self.jinja_env,
