@@ -7,7 +7,7 @@ from resume_writer.resume_render.render_settings import ResumeEducationSettings
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderEducationBase,
 )
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
@@ -16,7 +16,7 @@ class RenderEducationSection(ResumeRenderEducationBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         education: Education,
         settings: ResumeEducationSettings,

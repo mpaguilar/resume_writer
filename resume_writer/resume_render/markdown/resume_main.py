@@ -19,7 +19,7 @@ from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderBase,
 )
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
@@ -29,7 +29,7 @@ class RenderResume(ResumeRenderBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         resume: Resume,
         settings: ResumeRenderSettings,

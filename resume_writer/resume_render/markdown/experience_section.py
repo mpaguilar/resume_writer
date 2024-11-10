@@ -17,7 +17,7 @@ from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderProjectsBase,
     ResumeRenderRolesBase,
 )
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         roles: Roles,
         settings: ResumeRolesSettings,
@@ -60,7 +60,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         projects: Projects,
         settings: ResumeProjectsSettings,
@@ -95,7 +95,7 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         experience: Experience,
         settings: ResumeExperienceSettings,
@@ -115,7 +115,7 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         log.debug("Rendering experience section.")
 
-        self.document.add_text("<h1>Experience</h1>")
+        self.document.add_text("# Experience")
 
         if self.settings.roles and self.experience.roles:
             RenderRolesSection(

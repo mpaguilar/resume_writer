@@ -5,7 +5,7 @@ from jinja2 import Environment
 from resume_writer.models.personal import Personal
 from resume_writer.resume_render.render_settings import ResumePersonalSettings
 from resume_writer.resume_render.resume_render_text_base import ResumeRenderPersonalBase
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
@@ -15,7 +15,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
     def __init__(
         self,
-        document: HtmlDoc,
+        document: MarkdownDoc,
         jinja_env: Environment,
         personal: Personal,
         settings: ResumePersonalSettings,
