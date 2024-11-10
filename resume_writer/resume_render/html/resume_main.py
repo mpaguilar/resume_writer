@@ -19,7 +19,7 @@ from resume_writer.resume_render.render_settings import ResumeRenderSettings
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderBase,
 )
-from resume_writer.utils.html_doc import HtmlDoc
+from resume_writer.utils.text_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 
