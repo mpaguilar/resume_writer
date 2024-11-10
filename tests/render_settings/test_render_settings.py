@@ -77,6 +77,7 @@ def test_dict():
                         "issuer": False,
                         "issued": False,
                         "expires": False,
+                        "certification_id": False,
                     },
                     "education": {
                         "degrees": False,
@@ -191,6 +192,7 @@ def test_certifications_settings(test_dict):
     assert _certifications_settings.issuer is False
     assert _certifications_settings.issued is False
     assert _certifications_settings.expires is False
+    assert _certifications_settings.certification_id is False
 
 
 def test_projects_settings(test_dict):

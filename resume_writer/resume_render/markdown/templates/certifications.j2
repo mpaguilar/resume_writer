@@ -19,8 +19,8 @@ Issued: {{ certification.issued|date }}
 Expires: {{ certification.expires|date }}
 {% endif %}
 
-{% if settings.credential_id and certification.credential_id %}
-Credential ID: {{ certification.credential_id }}
+{% if settings.certification_id and certification.certification_id %}
+Certification ID: {{ certification.certification_id }}
 {% endif %}
 
 {% endfor %}

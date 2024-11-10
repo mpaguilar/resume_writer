@@ -72,6 +72,7 @@ name = true
 issuer = true
 issued = true
 expires = true
+certification_id = true
 
 [resume.render.section.education]
 degrees = true

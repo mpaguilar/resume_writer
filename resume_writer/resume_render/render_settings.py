@@ -154,6 +154,8 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
         Whether to render the date of issuance.
     expires : bool
         Whether to render the expiration date of the certification.
+    certification_id : bool
+        Whether to render the id of the certification.
 
     Methods
     -------
@@ -169,6 +171,7 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
         self.issuer = True
         self.issued = True
         self.expires = True
+        self.certification_id = True
 
 
 class ResumeProjectsSettings(ResumeSettingsBase):
