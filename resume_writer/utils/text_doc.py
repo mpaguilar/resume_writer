@@ -22,7 +22,7 @@ class MarkdownDoc(TextDoc):
     def add_text(
         self,
         text: str,
-        line_breaks: Literal["preserve", "strip"] = "strip",
+        line_breaks: Literal["preserve", "strip"] = "preserve",
     ) -> None:
         """Add text to a Markdown document.
 
