@@ -39,10 +39,3 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             return
 
         log.debug("Rendering certifications.")
-
-        _rendered = self.template.render(
-            settings=self.settings,
-            certifications=self.certifications,
-        )
-
-        self.document.add_text(_rendered)
