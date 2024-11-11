@@ -77,8 +77,8 @@ Certification ID: 0987654321
 #### Overview
 
 Title: A Useful project
-URL: https://example.com/useful1
-URL Description: A Useful Project
+Url: https://example.com/useful1
+Url Description: A Useful Project
 Start Date: 2020-01-01 00:00:00
 End Date: 2021-01-01 00:00:00
 
@@ -98,8 +98,8 @@ Multiple lines are fine.
 #### Overview
 
 Title: Another Useful project
-URL: https://example.com/useful2
-URL Description: Another Useful Project
+Url: https://example.com/useful2
+Url Description: Another Useful Project
 Start Date: 2020-02-01 00:00:00
 End Date: 2021-02-01 00:00:00
 
@@ -113,3 +113,62 @@ Multiple lines are fine.
 * Skill 3
 * Skill 4
 * Skill 5
+
+## Roles
+
+### Role
+
+#### Basics
+
+Agency: High-end 3rd party
+Job category: Worker
+Employment type: Contract
+Start date: 2023-01-01 00:00:00
+End date: 2024-01-01 00:00:00
+Title: Senior Worker
+Reason for change: Searching for new opportunities
+Location: remote
+
+#### Summary
+
+Performed senior tasks
+
+#### Responsibilities
+
+Performed activities associated with a senior role.
+Also did other things as required.
+
+#### Skills
+
+* Skill 1
+* Skill 2
+* Skill 3
+
+### Role
+
+#### Basics
+
+Job category: Worker
+Employment type: Full-time
+Start date: 2020-06-01 00:00:00
+End date: 2022-06-01 00:00:00
+Title: Junior Worker
+Reason for change: Laid off
+Location: Somewhere, USA
+
+#### Summary
+
+Performed junior tasks.
+
+#### Responsibilities
+
+Performed routine activities associated with a junior role.
+Other things were done as required.
+* a thing
+* another thing
+
+#### Skills
+
+* Skill 1
+* Skill 2
+* Skill 4

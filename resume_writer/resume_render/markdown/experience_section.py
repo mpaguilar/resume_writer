@@ -6,6 +6,7 @@ from resume_writer.models.experience import (
     Experience,
     Project,
     Projects,
+    Role,
     Roles,
 )
 from resume_writer.resume_render.render_settings import (
@@ -43,14 +44,62 @@ class RenderRolesSection(ResumeRenderRolesBase):
             settings=settings,
         )
 
+    def render_role(self, role : Role) -> None:
+        """Render a single role."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        _doc.add_header("### Role")
+
+        _doc.add_header("#### Basics")
+        if _settings.agency_name and role.basics.agency_name:
+            _doc.add_text(f"Agency: {role.basics.agency_name}")
+        if _settings.job_category and role.basics.job_category:
+            _doc.add_text(f"Job category: {role.basics.job_category}")
+        if _settings.employment_type and role.basics.employment_type:
+            _doc.add_text(f"Employment type: {role.basics.employment_type}")
+        if _settings.start_date and role.basics.start_date:
+            _doc.add_text(f"Start date: {role.basics.start_date}")
+        if _settings.end_date and role.basics.end_date:
+            _doc.add_text(f"End date: {role.basics.end_date}")
+        if role.basics.title:  # title is required
+            _doc.add_text(f"Title: {role.basics.title}")
+        if _settings.reason_for_change and role.basics.reason_for_change:
+            _doc.add_text(f"Reason for change: {role.basics.reason_for_change}")
+        if _settings.location and role.basics.location:
+            _doc.add_text(f"Location: {role.basics.location}")
+
+        if _settings.summary and role.summary and role.summary.summary:
+            _doc.add_header("#### Summary")
+            _doc.add_text(role.summary.summary)
+
+        if _settings.responsibilities and role.responsibilities and role.responsibilities.text:
+            _doc.add_header("#### Responsibilities")
+            _doc.add_text(role.responsibilities.text)
+
+        if _settings.skills and role.skills:
+            _doc.add_header("#### Skills")
+            for skill in role.skills:
+                _doc.add_text(f"* {skill}")
+
     def render(self) -> None:
         """Render roles section."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+        _roles = self.roles
 
-        if not self.roles:
+        if not _roles:
             log.debug("No roles to render.")
+            return
 
         log.debug("Rendering roles section.")
 
+        _doc.add_header("## Roles")
+
+        for role in _roles:
+            self.render_role(role)
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
     """Render experience projects section."""
