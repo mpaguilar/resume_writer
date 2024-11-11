@@ -2,7 +2,7 @@ import logging
 
 from jinja2 import Environment
 
-from resume_writer.models.certifications import Certifications
+from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderCertificationsBase,
@@ -23,6 +23,23 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         settings: ResumeCertificationsSettings,
     ):
         """Initialize the basic certifications renderer."""
+        assert isinstance(
+            document,
+            MarkdownDoc,
+        ), "document must be an instance of MarkdownDoc"
+        assert isinstance(
+            jinja_env,
+            Environment,
+        ), "jinja_env must be an instance of Environment"
+        assert isinstance(
+            certifications,
+            Certifications,
+        ), "certifications must be an instance of Certifications"
+        assert isinstance(
+            settings,
+            ResumeCertificationsSettings,
+        ), "settings must be an instance of ResumeCertificationsSettings"
+
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -31,18 +48,18 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             settings=settings,
         )
 
-    def render_certification(self, certification) -> None:
+    def render_certification(self, certification: Certification) -> None:
         """Render a single certification."""
         # shortcuts
         _doc = self.document
         _settings = self.settings
 
         _doc.add_header("## Certification")
-        
-        if _settings.name and certification.name:
-            _doc.add_text(f"Name: {certification.name}")
+
         if _settings.issuer and certification.issuer:
             _doc.add_text(f"Issuer: {certification.issuer}")
+        if _settings.name and certification.name:
+            _doc.add_text(f"Name: {certification.name}")
         if _settings.issued and certification.issued:
             _doc.add_text(f"Issued: {certification.issued}")
         if _settings.expires and certification.expires:

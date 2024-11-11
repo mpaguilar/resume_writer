@@ -49,20 +49,27 @@ Major: Example Major
 Start Date: 1986-08-01 00:00:00
 End Date: 1989-05-01 00:00:00
 GPA: 4.0
+
 # Certifications
+
 ## Certification
+
 Issuer: BigCorp
 Name: BigCorp Certified Widget Expert
-Issued: March 2020
-Expires: March 2025
+Issued: 2020-03-01 00:00:00
+Expires: 2025-03-01 00:00:00
 Certification ID: 1234567890
+
 ## Certification
+
 Issuer: BigCorp
 Name: BigCorp Certified Thing Expert
-Issued: April 2020
-Expires: April 2025
+Issued: 2020-04-01 00:00:00
+Expires: 2025-04-01 00:00:00
 Certification ID: 0987654321
+
 # Experience
+
 ## Projects
 ### Project
 #### Overview
