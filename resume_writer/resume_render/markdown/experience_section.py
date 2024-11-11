@@ -4,6 +4,7 @@ from jinja2 import Environment
 
 from resume_writer.models.experience import (
     Experience,
+    Project,
     Projects,
     Roles,
 )
@@ -51,7 +52,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
         log.debug("Rendering roles section.")
 
 
-
 class RenderProjectsSection(ResumeRenderProjectsBase):
     """Render experience projects section."""
 
@@ -74,28 +74,31 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             settings=settings,
         )
 
-    def render_project(self, project) -> None:
+    def render_project(self, project: Project) -> None:
         """Render a single project."""
         # shortcuts
         _doc = self.document
         _settings = self.settings
 
         _doc.add_header("### Project")
-        
-        if _settings.title and project.title:
-            _doc.add_text(f"Title: {project.title}")
-        if _settings.overview and project.overview:
-            _doc.add_text(f"Overview: {project.overview}")
-        if _settings.description and project.description:
-            _doc.add_text(f"Description: {project.description}")
-        if _settings.url and project.url:
-            _doc.add_text(f"URL: {project.url}")
-        if _settings.url_description and project.url_description:
-            _doc.add_text(f"URL Description: {project.url_description}")
-        if _settings.start_date and project.start_date:
-            _doc.add_text(f"Start Date: {project.start_date}")
-        if _settings.end_date and project.end_date:
-            _doc.add_text(f"End Date: {project.end_date}")
+
+        _doc.add_header("#### Overview")
+
+        if _settings.title and project.overview.title:
+            _doc.add_text(f"Title: {project.overview.title}")
+        if _settings.url and project.overview.url:
+            _doc.add_text(f"URL: {project.overview.url}")
+        if _settings.url_description and project.overview.url_description:
+            _doc.add_text(f"URL Description: {project.overview.url_description}")
+        if _settings.start_date and project.overview.start_date:
+            _doc.add_text(f"Start Date: {project.overview.start_date}")
+        if _settings.end_date and project.overview.end_date:
+            _doc.add_text(f"End Date: {project.overview.end_date}")
+
+        if _settings.description and project.description.text:
+            _doc.add_header("#### Description")
+            _doc.add_text(f"{project.description.text}")
+
         if _settings.skills and project.skills:
             _doc.add_text(f"Skills: {', '.join(project.skills)}")
 
@@ -111,9 +114,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             return
 
         log.debug("Rendering projects section.")
-        
+
         _doc.add_header("## Projects")
-        
+
         for project in _projects:
             self.render_project(project)
 
