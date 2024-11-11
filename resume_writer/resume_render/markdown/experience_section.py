@@ -44,15 +44,15 @@ class RenderRolesSection(ResumeRenderRolesBase):
             settings=settings,
         )
 
-    def render_role(self, role : Role) -> None:
-        """Render a single role."""
+    def render_basics(self, role: Role) -> None:
+        """Render role basics."""
         # shortcuts
         _doc = self.document
         _settings = self.settings
 
-        _doc.add_header("### Role")
-
         _doc.add_header("#### Basics")
+        if role.basics.company:  # company is required
+            _doc.add_text(f"Company: {role.basics.company}")
         if _settings.agency_name and role.basics.agency_name:
             _doc.add_text(f"Agency: {role.basics.agency_name}")
         if _settings.job_category and role.basics.job_category:
@@ -70,11 +70,71 @@ class RenderRolesSection(ResumeRenderRolesBase):
         if _settings.location and role.basics.location:
             _doc.add_text(f"Location: {role.basics.location}")
 
+    def render_highlights(self, role: Role) -> None:
+        """Render role highlights."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        if _settings.highlights and role.highlights:
+            _doc.add_header("#### Highlights")
+            for highlight in role.highlights:
+                _doc.add_text(f"- {highlight}")
+
+    def render_responsibilities(self, role: Role) -> None:
+        """Render role responsibilities."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        if _settings.responsibilities and role.responsibilities:
+            _doc.add_header("#### Responsibilities")
+            for responsibility in role.responsibilities:
+                _doc.add_text(f"- {responsibility}")
+
+    def render_skills(self, role: Role) -> None:
+        """Render role skills."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        if _settings.skills and role.skills:
+            _doc.add_header("#### Skills")
+            for skill in role.skills:
+                _doc.add_text(f"- {skill}")
+
+    def render_projects(self, role: Role) -> None:
+        """Render role projects."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        if _settings.projects and role.projects:
+            _doc.add_header("#### Projects")
+            for project in role.projects:
+                _doc.add_text(f"- {project}")
+
+
+    def render_role(self, role: Role) -> None:
+        """Render a single role."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        _doc.add_header("### Role")
+
+        self.render_basics(role)
+        
+
         if _settings.summary and role.summary and role.summary.summary:
             _doc.add_header("#### Summary")
             _doc.add_text(role.summary.summary)
 
-        if _settings.responsibilities and role.responsibilities and role.responsibilities.text:
+        if (
+            _settings.responsibilities
+            and role.responsibilities
+            and role.responsibilities.text
+        ):
             _doc.add_header("#### Responsibilities")
             _doc.add_text(role.responsibilities.text)
 
@@ -100,6 +160,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
         for role in _roles:
             self.render_role(role)
+
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
     """Render experience projects section."""
