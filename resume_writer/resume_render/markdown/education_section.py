@@ -57,9 +57,3 @@ class RenderEducationSection(ResumeRenderEducationBase):
 
         log.debug("Rendering education section.")
 
-        _rendered = self.template.render(
-            settings=self.settings,
-            education=self.education,
-        )
-
-        self.document.add_text(_rendered)
