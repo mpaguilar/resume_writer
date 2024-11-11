@@ -114,7 +114,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
             for project in role.projects:
                 _doc.add_text(f"- {project}")
 
-
     def render_role(self, role: Role) -> None:
         """Render a single role."""
         # shortcuts
@@ -124,7 +123,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
         _doc.add_header("### Role")
 
         self.render_basics(role)
-        
 
         if _settings.summary and role.summary and role.summary.summary:
             _doc.add_header("#### Summary")
@@ -147,7 +145,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render roles section."""
         # shortcuts
         _doc = self.document
-        _settings = self.settings
         _roles = self.roles
 
         if not _roles:

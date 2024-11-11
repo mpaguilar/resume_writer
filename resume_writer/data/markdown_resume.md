@@ -120,6 +120,7 @@ Multiple lines are fine.
 
 #### Basics
 
+Company: Another Company, Inc.
 Agency: High-end 3rd party
 Job category: Worker
 Employment type: Contract
@@ -148,6 +149,7 @@ Also did other things as required.
 
 #### Basics
 
+Company: A Company, LLC
 Job category: Worker
 Employment type: Full-time
 Start date: 2020-06-01 00:00:00
