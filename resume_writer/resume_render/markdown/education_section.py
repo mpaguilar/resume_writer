@@ -4,10 +4,10 @@ from jinja2 import Environment
 
 from resume_writer.models.education import Degree, Education
 from resume_writer.resume_render.render_settings import ResumeEducationSettings
-from resume_writer.utils.date_format import format_date
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderEducationBase,
 )
+from resume_writer.utils.date_format import format_date
 from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)

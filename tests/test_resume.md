@@ -119,7 +119,6 @@ Multiple lines are fine.
 ### Role
 
 #### Basics
-
 Company: Another Company, Inc.
 Agency: High-end 3rd party 
 Job category: Worker
@@ -148,7 +147,6 @@ Also did other things as required.
 ### Role
 
 #### Basics
-
 Company: A Company, LLC
 Employment type: Full-time
 Job category: Worker
