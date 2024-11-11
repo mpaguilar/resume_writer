@@ -48,12 +48,43 @@ class RenderEducationSection(ResumeRenderEducationBase):
             settings=settings,
         )
 
+    def render_degree(self, degree) -> None:
+        """Render a single degree."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        _doc.add_header("### Degree")
+        
+        if _settings.school and degree.school:
+            _doc.add_text(f"School: {degree.school}")
+        if _settings.degree and degree.degree:
+            _doc.add_text(f"Degree: {degree.degree}")
+        if _settings.major and degree.major:
+            _doc.add_text(f"Major: {degree.major}")
+        if _settings.gpa and degree.gpa:
+            _doc.add_text(f"GPA: {degree.gpa}")
+        if _settings.start_date and degree.start_date:
+            _doc.add_text(f"Start Date: {degree.start_date}")
+        if _settings.end_date and degree.end_date:
+            _doc.add_text(f"End Date: {degree.end_date}")
+
     def render(self) -> None:
         """Render the education section."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+        _education = self.education
 
-        if not self.settings.degrees:
+        if not _settings.degrees:
             log.debug("No degrees to render.")
             return
 
         log.debug("Rendering education section.")
+        
+        _doc.add_header("# Education")
+        _doc.add_header("## Degrees")
+        
+        for degree in _education.degrees:
+            self.render_degree(degree)
 
