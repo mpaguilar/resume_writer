@@ -49,6 +49,15 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             settings=settings,
         )
 
+    def websites(self) -> None:
+        """Render the websites section."""
+        # shortcuts
+        _doc = self.document
+        _personal = self.personal
+        _settings = self.settings
+
+        self.websites()
+
     def contact_info(self) -> None:
         """Render the contact information section."""
         # shortcuts
