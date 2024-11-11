@@ -81,3 +81,10 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             if _settings.twitter and _personal.websites.twitter:
                 _doc.add_text(f"Twitter: {_personal.websites.twitter}")
 
+        if _settings.visa_status and _personal.visa_status:
+            _doc.add_header("## Visa Status")
+            if _settings.work_authorization and _personal.visa_status.work_authorization:
+                _doc.add_text(f"Work Authorization: {_personal.visa_status.work_authorization}")
+            if _settings.require_sponsorship and _personal.visa_status.require_sponsorship:
+                _doc.add_text(f"Require Sponsorship: {_personal.visa_status.require_sponsorship}")
+
