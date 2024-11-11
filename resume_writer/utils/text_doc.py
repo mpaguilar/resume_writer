@@ -33,12 +33,19 @@ class MarkdownDoc(TextDoc):
 
         _lines = text.split("\n")
         _all_text = ""
+
+        if self.previous_line_was_header:
+            _all_text += "\n"
+
         for _line in _lines:
             _text = re.sub("\n", "", _line)
             if not _text and line_breaks == "strip":
                 continue
 
-            _all_text += _text
+            _all_text += _text + "\n"
+
+        self.previous_line_was_header = False
+        self.first_line = False
 
         self.text += _all_text
 
@@ -47,9 +54,11 @@ class MarkdownDoc(TextDoc):
 
         if not self.first_line:
             self.text += "\n"
-            self.first_line = False
 
         self.text += f"{header}\n"
+
+        self.previous_line_was_header = True
+        self.first_line = False
 
 
 class HtmlDoc(TextDoc):
