@@ -50,9 +50,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
         log.debug("Rendering roles section.")
 
-        _rendered = self.template.render(settings=self.settings, roles=self.roles)
-
-        self.document.add_text(_rendered)
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
@@ -85,9 +82,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             return
 
         log.debug("Rendering projects section.")
-        _rendered = self.template.render(settings=self.settings, projects=self.projects)
 
-        self.document.add_text(_rendered)
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
