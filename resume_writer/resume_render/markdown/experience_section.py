@@ -74,15 +74,48 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             settings=settings,
         )
 
+    def render_project(self, project) -> None:
+        """Render a single project."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+
+        _doc.add_header("### Project")
+        
+        if _settings.title and project.title:
+            _doc.add_text(f"Title: {project.title}")
+        if _settings.overview and project.overview:
+            _doc.add_text(f"Overview: {project.overview}")
+        if _settings.description and project.description:
+            _doc.add_text(f"Description: {project.description}")
+        if _settings.url and project.url:
+            _doc.add_text(f"URL: {project.url}")
+        if _settings.url_description and project.url_description:
+            _doc.add_text(f"URL Description: {project.url_description}")
+        if _settings.start_date and project.start_date:
+            _doc.add_text(f"Start Date: {project.start_date}")
+        if _settings.end_date and project.end_date:
+            _doc.add_text(f"End Date: {project.end_date}")
+        if _settings.skills and project.skills:
+            _doc.add_text(f"Skills: {', '.join(project.skills)}")
+
     def render(self) -> None:
         """Render projects section."""
+        # shortcuts
+        _doc = self.document
+        _settings = self.settings
+        _projects = self.projects
 
-        if len(self.projects) == 0:
+        if len(_projects) == 0:
             log.debug("No projects to render.")
             return
 
         log.debug("Rendering projects section.")
-
+        
+        _doc.add_header("## Projects")
+        
+        for project in _projects:
+            self.render_project(project)
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
