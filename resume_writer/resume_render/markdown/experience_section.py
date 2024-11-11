@@ -66,6 +66,23 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
         log.debug("Initializing projects render object.")
 
+        assert isinstance(
+            document,
+            MarkdownDoc,
+        ), "document must be an instance of MarkdownDoc"
+        assert isinstance(
+            jinja_env,
+            Environment,
+        ), "jinja_env must be an instance of Environment"
+        assert isinstance(
+            projects,
+            Projects,
+        ), "projects must be an instance of Projects"
+        assert isinstance(
+            settings,
+            ResumeProjectsSettings,
+        ), "settings must be an instance of ResumeProjectsSettings"
+
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -87,9 +104,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         if _settings.title and project.overview.title:
             _doc.add_text(f"Title: {project.overview.title}")
         if _settings.url and project.overview.url:
-            _doc.add_text(f"URL: {project.overview.url}")
+            _doc.add_text(f"Url: {project.overview.url}")
         if _settings.url_description and project.overview.url_description:
-            _doc.add_text(f"URL Description: {project.overview.url_description}")
+            _doc.add_text(f"Url Description: {project.overview.url_description}")
         if _settings.start_date and project.overview.start_date:
             _doc.add_text(f"Start Date: {project.overview.start_date}")
         if _settings.end_date and project.overview.end_date:
