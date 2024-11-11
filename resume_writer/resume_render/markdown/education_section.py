@@ -11,6 +11,7 @@ from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
 
+
 class RenderEducationSection(ResumeRenderEducationBase):
     """Render Education Section."""
 
@@ -22,6 +23,23 @@ class RenderEducationSection(ResumeRenderEducationBase):
         settings: ResumeEducationSettings,
     ):
         """Initialize the basic education renderer."""
+        assert isinstance(
+            document,
+            MarkdownDoc,
+        ), f"Expected document to be of type MarkdownDoc, but got {type(document)}"
+        assert isinstance(
+            jinja_env,
+            Environment,
+        ), f"Expected jinja_env to be of type Environment, but got {type(jinja_env)}"
+        assert isinstance(
+            education,
+            Education,
+        ), f"Expected education to be of type Education, but got {type(education)}"
+        assert isinstance(
+            settings,
+            ResumeEducationSettings,
+        ), f"Expected settings to be of type ResumeEducationSettings, but got {type(settings)}"  # noqa: E501
+
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -40,7 +58,8 @@ class RenderEducationSection(ResumeRenderEducationBase):
         log.debug("Rendering education section.")
 
         _rendered = self.template.render(
-            settings=self.settings, education=self.education,
+            settings=self.settings,
+            education=self.education,
         )
 
         self.document.add_text(_rendered)
