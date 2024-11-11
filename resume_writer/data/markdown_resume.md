@@ -17,6 +17,7 @@ Twitter: https://twitter.com/example
 ## Visa Status
 
 Work Authorization: US Citizen
+Require Sponsorship: No
 
 ## Banner
 
@@ -26,22 +27,28 @@ Experienced Widget Expert with a lot of experience in the field.
 
 Proficient in the skills employers look for.
 Lots of experience.
+
 # Education
+
 ## Degrees
-## Degree
+
+### Degree
+
 School: University of Example
 Degree: Impressive Degree
-Start date: August 1990
-End date: May 1994
 Major: Example Major
 GPA: 3.5
-## Degree
+Start Date: 1990-08-01 00:00:00
+End Date: 1994-05-01 00:00:00
+
+### Degree
+
 School: College of Education
 Degree: Less Impressive Degree
-Start date: August 1986
-End date: May 1989
 Major: Example Major
 GPA: 4.0
+Start Date: 1986-08-01 00:00:00
+End Date: 1989-05-01 00:00:00
 # Certifications
 ## Certification
 Issuer: BigCorp

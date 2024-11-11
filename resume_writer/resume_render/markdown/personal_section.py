@@ -109,10 +109,11 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 )
             if (
                 _settings.require_sponsorship
-                and _personal.visa_status.require_sponsorship
+                and _personal.visa_status.require_sponsorship is not None
             ):
+                _value = "Yes" if _personal.visa_status.require_sponsorship else "No"
                 _doc.add_text(
-                    f"Require Sponsorship: {_personal.visa_status.require_sponsorship}",
+                    f"Require Sponsorship: {_value}",
                 )
 
         if _settings.banner and _personal.banner and _personal.banner.text:
