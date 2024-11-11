@@ -49,15 +49,13 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             settings=settings,
         )
 
-    def render(self) -> None:
-        """Render the personal section."""
-
+    def contact_info(self) -> None:
+        """Render the contact information section."""
         # shortcuts
         _doc = self.document
         _personal = self.personal
         _settings = self.settings
 
-        _doc.add_header("# Personal")
         _doc.add_header("## Contact Information")
 
         if _settings.contact_info and self.personal.contact_info:
@@ -69,6 +67,17 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 _doc.add_text(f"Phone: {_personal.contact_info.phone}")
             if _settings.location and _personal.contact_info.location:
                 _doc.add_text(f"Location: {_personal.contact_info.location}")
+
+    def render(self) -> None:
+        """Render the personal section."""
+
+        # shortcuts
+        _doc = self.document
+        _personal = self.personal
+        _settings = self.settings
+
+        _doc.add_header("# Personal")
+        self.contact_info()
 
         if _settings.websites and _personal.websites:
             _doc.add_header("## Websites")
