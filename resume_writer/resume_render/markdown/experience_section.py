@@ -115,7 +115,7 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         log.debug("Rendering experience section.")
 
-        self.document.add_text("# Experience")
+        self.document.add_header("# Experience")
 
         if self.settings.projects and self.experience.projects:
             RenderProjectsSection(
