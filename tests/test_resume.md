@@ -1,21 +1,23 @@
 # Personal
 
 ## Contact Information
+
 Name: John Doe
 Email: johndoe@example.com
 Phone: 123-456-7890
 Location: Somewhere, USA
 
 ## Websites
+
 GitHub: https://github.com/example
 LinkedIn: https://www.linkedin.com/in/example
 Website: https://www.example.com
 Twitter: https://twitter.com/example
 
 ## Visa Status
+
 Work Authorization: US Citizen
 Require sponsorship: No
-
 
 ## Banner
 
@@ -31,6 +33,7 @@ Lots of experience.
 ## Degrees
 
 ### Degree
+
 School: University of Example
 Degree: Impressive Degree
 Start date: 08/1990
@@ -39,6 +42,7 @@ Major: Example Major
 GPA: 3.5
 
 ### Degree
+
 School: College of Education
 Degree: Less Impressive Degree
 Start date: 08/1986
@@ -57,6 +61,7 @@ Expires: 03/2025
 Certification ID: 1234567890
 
 ## Certification
+
 Issuer: BigCorp
 Name: BigCorp Certified Thing Expert
 Issued: 04/2020
@@ -66,9 +71,11 @@ Certification ID: 0987654321
 # Experience
 
 ## Projects
+
 ### Project
 
 #### Overview
+
 Title: A Useful project
 Url: https://example.com/useful1
 Url Description: A Useful Project
@@ -80,9 +87,8 @@ End date: 01/2021
 This should still be pretty short, 2-3 sentences.
 Multiple lines are fine.
 
-So are multiple paragraphs.
-
 #### Skills
+
 * Skill 1
 * Skill 2
 * Skill 5
@@ -90,6 +96,7 @@ So are multiple paragraphs.
 ### Project
 
 #### Overview
+
 Title: Another Useful project
 Url: https://example.com/useful2
 Url Description: Another Useful Project
@@ -101,9 +108,8 @@ End date: 02/2021
 This should still be pretty short, 2-3 sentences.
 Multiple lines are fine.
 
-So are multiple paragraphs.
-
 #### Skills
+
 * Skill 3
 * Skill 4
 * Skill 5
@@ -113,6 +119,7 @@ So are multiple paragraphs.
 ### Role
 
 #### Basics
+
 Company: Another Company, Inc.
 Agency: High-end 3rd party 
 Job category: Worker
@@ -124,13 +131,16 @@ Reason for change: Searching for new opportunities
 Location: remote
 
 #### Summary
+
 Performed senior tasks
 
 #### Responsibilities
+
 Performed activities associated with a senior role.
 Also did other things as required.
 
 #### Skills
+
 * Skill 1
 * Skill 2
 * Skill 3
@@ -138,24 +148,22 @@ Also did other things as required.
 ### Role
 
 #### Basics
+
 Company: A Company, LLC
 Employment type: Full-time
 Job category: Worker
-
 Start date: 06/2020
-
 End date: 06/2022
-
 Title: Junior Worker
-
 Reason for change: Laid off
-
 Location: Somewhere, USA
 
 #### Summary
+
 Performed junior tasks.
 
 #### Responsibilities
+
 Performed routine activities associated with a junior role.
 Other things were done as required.
 * a thing
