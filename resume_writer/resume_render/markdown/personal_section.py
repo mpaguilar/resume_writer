@@ -58,6 +58,8 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         _settings = self.settings
 
         _doc.add_header("# Personal")
+        _doc.add_header("## Contact Information")
+
         if _settings.contact_info and self.personal.contact_info:
             if _settings.name and _personal.contact_info.name:
                 _doc.add_text(f"Name: {_personal.contact_info.name}")
@@ -67,4 +69,8 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 _doc.add_text(f"Phone: {_personal.contact_info.phone}")
             if _settings.location and _personal.contact_info.location:
                 _doc.add_text(f"Location: {_personal.contact_info.location}")
+
+        if _settings.websites and _personal.websites:
+            _doc.add_header("## Websites")
+            
 
