@@ -72,5 +72,12 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         if _settings.websites and _personal.websites:
             _doc.add_header("## Websites")
-            
+            if _settings.github and _personal.websites.github:
+                _doc.add_text(f"GitHub: {_personal.websites.github}")
+            if _settings.linkedin and _personal.websites.linkedin:
+                _doc.add_text(f"LinkedIn: {_personal.websites.linkedin}")
+            if _settings.website and _personal.websites.website:
+                _doc.add_text(f"Website: {_personal.websites.website}")
+            if _settings.twitter and _personal.websites.twitter:
+                _doc.add_text(f"Twitter: {_personal.websites.twitter}")
 
