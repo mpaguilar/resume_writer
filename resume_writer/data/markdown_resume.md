@@ -37,8 +37,8 @@ Lots of experience.
 School: University of Example
 Degree: Impressive Degree
 Major: Example Major
-Start Date: 1990-08-01 00:00:00
-End Date: 1994-05-01 00:00:00
+Start Date: 08/1990
+End Date: 05/1994
 GPA: 3.5
 
 ### Degree
@@ -46,8 +46,8 @@ GPA: 3.5
 School: College of Education
 Degree: Less Impressive Degree
 Major: Example Major
-Start Date: 1986-08-01 00:00:00
-End Date: 1989-05-01 00:00:00
+Start Date: 08/1986
+End Date: 05/1989
 GPA: 4.0
 
 # Certifications
@@ -79,8 +79,8 @@ Certification ID: 0987654321
 Title: A Useful project
 Url: https://example.com/useful1
 Url Description: A Useful Project
-Start Date: 2020-01-01 00:00:00
-End Date: 2021-01-01 00:00:00
+Start Date: 01/2020
+End Date: 01/2021
 
 #### Description
 
@@ -100,8 +100,8 @@ Multiple lines are fine.
 Title: Another Useful project
 Url: https://example.com/useful2
 Url Description: Another Useful Project
-Start Date: 2020-02-01 00:00:00
-End Date: 2021-02-01 00:00:00
+Start Date: 02/2020
+End Date: 02/2021
 
 #### Description
 
@@ -124,8 +124,8 @@ Company: Another Company, Inc.
 Agency: High-end 3rd party
 Job category: Worker
 Employment type: Contract
-Start date: 2023-01-01 00:00:00
-End date: 2024-01-01 00:00:00
+Start date: 01/2023
+End date: 01/2024
 Title: Senior Worker
 Reason for change: Searching for new opportunities
 Location: remote
@@ -152,8 +152,8 @@ Also did other things as required.
 Company: A Company, LLC
 Job category: Worker
 Employment type: Full-time
-Start date: 2020-06-01 00:00:00
-End date: 2022-06-01 00:00:00
+Start date: 06/2020
+End date: 06/2022
 Title: Junior Worker
 Reason for change: Laid off
 Location: Somewhere, USA

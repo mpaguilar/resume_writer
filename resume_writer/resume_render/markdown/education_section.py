@@ -4,6 +4,7 @@ from jinja2 import Environment
 
 from resume_writer.models.education import Degree, Education
 from resume_writer.resume_render.render_settings import ResumeEducationSettings
+from resume_writer.utils.date_format import format_date
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderEducationBase,
 )
@@ -63,9 +64,9 @@ class RenderEducationSection(ResumeRenderEducationBase):
         if _settings.major and degree.major:
             _doc.add_text(f"Major: {degree.major}")
         if _settings.start_date and degree.start_date:
-            _doc.add_text(f"Start Date: {degree.start_date}")
+            _doc.add_text(f"Start Date: {format_date(degree.start_date)}")
         if _settings.end_date and degree.end_date:
-            _doc.add_text(f"End Date: {degree.end_date}")
+            _doc.add_text(f"End Date: {format_date(degree.end_date)}")
         if _settings.gpa and degree.gpa:
             _doc.add_text(f"GPA: {degree.gpa}")
 

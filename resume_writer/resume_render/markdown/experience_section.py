@@ -19,6 +19,7 @@ from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderProjectsBase,
     ResumeRenderRolesBase,
 )
+from resume_writer.utils.date_format import format_date
 from resume_writer.utils.text_doc import MarkdownDoc
 
 log = logging.getLogger(__name__)
@@ -60,9 +61,9 @@ class RenderRolesSection(ResumeRenderRolesBase):
         if _settings.employment_type and role.basics.employment_type:
             _doc.add_text(f"Employment type: {role.basics.employment_type}")
         if _settings.start_date and role.basics.start_date:
-            _doc.add_text(f"Start date: {role.basics.start_date}")
+            _doc.add_text(f"Start date: {format_date(role.basics.start_date)}")
         if _settings.end_date and role.basics.end_date:
-            _doc.add_text(f"End date: {role.basics.end_date}")
+            _doc.add_text(f"End date: {format_date(role.basics.end_date)}")
         if role.basics.title:  # title is required
             _doc.add_text(f"Title: {role.basics.title}")
         if _settings.reason_for_change and role.basics.reason_for_change:
@@ -215,9 +216,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         if _settings.url_description and project.overview.url_description:
             _doc.add_text(f"Url Description: {project.overview.url_description}")
         if _settings.start_date and project.overview.start_date:
-            _doc.add_text(f"Start Date: {project.overview.start_date}")
+            _doc.add_text(f"Start Date: {format_date(project.overview.start_date)}")
         if _settings.end_date and project.overview.end_date:
-            _doc.add_text(f"End Date: {project.overview.end_date}")
+            _doc.add_text(f"End Date: {format_date(project.overview.end_date)}")
 
         if _settings.description and project.description.text:
             _doc.add_header("#### Description")
