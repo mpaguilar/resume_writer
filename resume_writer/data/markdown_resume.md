@@ -37,18 +37,18 @@ Lots of experience.
 School: University of Example
 Degree: Impressive Degree
 Major: Example Major
-GPA: 3.5
 Start Date: 1990-08-01 00:00:00
 End Date: 1994-05-01 00:00:00
+GPA: 3.5
 
 ### Degree
 
 School: College of Education
 Degree: Less Impressive Degree
 Major: Example Major
-GPA: 4.0
 Start Date: 1986-08-01 00:00:00
 End Date: 1989-05-01 00:00:00
+GPA: 4.0
 # Certifications
 ## Certification
 Issuer: BigCorp

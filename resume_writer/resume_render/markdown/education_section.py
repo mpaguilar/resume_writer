@@ -2,7 +2,7 @@ import logging
 
 from jinja2 import Environment
 
-from resume_writer.models.education import Education
+from resume_writer.models.education import Degree, Education
 from resume_writer.resume_render.render_settings import ResumeEducationSettings
 from resume_writer.resume_render.resume_render_text_base import (
     ResumeRenderEducationBase,
@@ -48,26 +48,26 @@ class RenderEducationSection(ResumeRenderEducationBase):
             settings=settings,
         )
 
-    def render_degree(self, degree) -> None:
+    def render_degree(self, degree : Degree) -> None:
         """Render a single degree."""
         # shortcuts
         _doc = self.document
         _settings = self.settings
 
         _doc.add_header("### Degree")
-        
+
         if _settings.school and degree.school:
             _doc.add_text(f"School: {degree.school}")
         if _settings.degree and degree.degree:
             _doc.add_text(f"Degree: {degree.degree}")
         if _settings.major and degree.major:
             _doc.add_text(f"Major: {degree.major}")
-        if _settings.gpa and degree.gpa:
-            _doc.add_text(f"GPA: {degree.gpa}")
         if _settings.start_date and degree.start_date:
             _doc.add_text(f"Start Date: {degree.start_date}")
         if _settings.end_date and degree.end_date:
             _doc.add_text(f"End Date: {degree.end_date}")
+        if _settings.gpa and degree.gpa:
+            _doc.add_text(f"GPA: {degree.gpa}")
 
     def render(self) -> None:
         """Render the education section."""
@@ -81,10 +81,9 @@ class RenderEducationSection(ResumeRenderEducationBase):
             return
 
         log.debug("Rendering education section.")
-        
+
         _doc.add_header("# Education")
         _doc.add_header("## Degrees")
-        
+
         for degree in _education.degrees:
             self.render_degree(degree)
-
