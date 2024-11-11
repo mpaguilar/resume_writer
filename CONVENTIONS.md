@@ -1,0 +1,2 @@
+- always use type hints everywhere possible
+- local variables should be prefixed with a single underscore, e.g. `_foo`

@@ -33,3 +33,5 @@ infra/export/var/lib/garage/meta
 
 # env files with secrets
 *.env
+.aider*
+.env
