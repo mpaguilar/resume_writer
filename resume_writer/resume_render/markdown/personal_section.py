@@ -92,3 +92,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             _doc.add_header("## Banner")
             _doc.add_text(_personal.banner.text)
 
+        if _settings.note and _personal.note and _personal.note.text:
+            _doc.add_header("## Note")
+            _doc.add_text(_personal.note.text)
+
