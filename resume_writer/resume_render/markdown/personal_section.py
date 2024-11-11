@@ -83,10 +83,20 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         if _settings.visa_status and _personal.visa_status:
             _doc.add_header("## Visa Status")
-            if _settings.work_authorization and _personal.visa_status.work_authorization:
-                _doc.add_text(f"Work Authorization: {_personal.visa_status.work_authorization}")
-            if _settings.require_sponsorship and _personal.visa_status.require_sponsorship:
-                _doc.add_text(f"Require Sponsorship: {_personal.visa_status.require_sponsorship}")
+            if (
+                _settings.work_authorization
+                and _personal.visa_status.work_authorization
+            ):
+                _doc.add_text(
+                    f"Work Authorization: {_personal.visa_status.work_authorization}",
+                )
+            if (
+                _settings.require_sponsorship
+                and _personal.visa_status.require_sponsorship
+            ):
+                _doc.add_text(
+                    f"Require Sponsorship: {_personal.visa_status.require_sponsorship}",
+                )
 
         if _settings.banner and _personal.banner and _personal.banner.text:
             _doc.add_header("## Banner")
@@ -95,4 +105,3 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         if _settings.note and _personal.note and _personal.note.text:
             _doc.add_header("## Note")
             _doc.add_text(_personal.note.text)
-
