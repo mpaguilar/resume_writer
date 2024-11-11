@@ -63,4 +63,8 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 _doc.add_text(f"Name: {_personal.contact_info.name}")
             if _settings.email and _personal.contact_info.email:
                 _doc.add_text(f"Email: {_personal.contact_info.email}")
+            if _settings.phone and _personal.contact_info.phone:
+                _doc.add_text(f"Phone: {_personal.contact_info.phone}")
+            if _settings.location and _personal.contact_info.location:
+                _doc.add_text(f"Location: {_personal.contact_info.location}")
 
