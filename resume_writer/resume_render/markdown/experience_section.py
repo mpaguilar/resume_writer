@@ -100,7 +100,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             _doc.add_text(f"{project.description.text}")
 
         if _settings.skills and project.skills:
-            _doc.add_text(f"Skills: {', '.join(project.skills)}")
+            _doc.add_header("#### Skills")
+            for skill in project.skills:
+                _doc.add_text(f"* {skill}")
 
     def render(self) -> None:
         """Render projects section."""
