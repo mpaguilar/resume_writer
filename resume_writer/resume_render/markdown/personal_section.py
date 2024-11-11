@@ -23,6 +23,24 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         """Initialize the personal section renderer."""
 
         log.debug("Initializing personal basic render object")
+
+        assert isinstance(
+            document,
+            MarkdownDoc,
+        ), "document must be an instance of MarkdownDoc"
+        assert isinstance(
+            jinja_env,
+            Environment,
+        ), "jinja_env must be an instance of Environment"
+        assert isinstance(
+            personal,
+            Personal,
+        ), "personal must be an instance of Personal"
+        assert isinstance(
+            settings,
+            ResumePersonalSettings,
+        ), "settings must be an instance of ResumePersonalSettings"
+
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -34,7 +52,15 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
     def render(self) -> None:
         """Render the personal section."""
 
-        _rendered = self.template.render(settings=self.settings, personal=self.personal)
+        # shortcuts
+        _doc = self.document
+        _personal = self.personal
+        _settings = self.settings
 
-        self.document.add_text(_rendered)
+        _doc.add_header("# Personal")
+        if _settings.contact_info and self.personal.contact_info:
+            if _settings.name and _personal.contact_info.name:
+                _doc.add_text(f"Name: {_personal.contact_info.name}")
+            if _settings.email and _personal.contact_info.email:
+                _doc.add_text(f"Email: {_personal.contact_info.email}")
 
