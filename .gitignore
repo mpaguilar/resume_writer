@@ -35,3 +35,4 @@ infra/export/var/lib/garage/meta
 *.env
 .aider*
 .env
+start_aider.sh
