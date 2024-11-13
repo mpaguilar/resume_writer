@@ -1,3 +1,4 @@
 * You are writing an app which converts a text file to various output formats
-* The current output is Markdown
+* The current output is HTML
+* The HTML renderer is in `resume_writer/resume_render/html`
 * Outputs are controlled by settings
