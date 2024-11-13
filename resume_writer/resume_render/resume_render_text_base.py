@@ -36,14 +36,14 @@ class RenderBase:
 
     """
 
-    def __init__(self, document: TextDoc, jinja_env: Environment):
+    def __init__(self, document: TextDoc, jinja_env: Environment | None):
         """Initialize superclass."""
 
         self.errors = []
         self.warnings = []
 
         assert isinstance(document, TextDoc)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None), Environment))
 
         self.document = document
         self.jinja_env = jinja_env
@@ -68,7 +68,7 @@ class ResumeRenderBase(RenderBase):
     def __init__(
         self,
         document: TextDoc,
-        jinja_env: Environment,
+        jinja_env: Environment | None,
         resume: Resume,
         settings: ResumeRenderSettings | None,
     ):
@@ -77,7 +77,7 @@ class ResumeRenderBase(RenderBase):
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings) or settings is None
         assert isinstance(document, TextDoc), f"document is {type(document)}"
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
 
         if settings is None:
             settings = ResumeRenderSettings()
@@ -113,7 +113,10 @@ class ResumeRenderPersonalBase(RenderBase):
 
         self.settings = settings
         self.personal = personal
-        self.template = jinja_env.get_template(template_name)
+        if template_name:
+            self.template = jinja_env.get_template(template_name)
+        else:
+            self.template = None
 
 
 class ResumeRenderRolesBase(RenderBase):
@@ -122,7 +125,7 @@ class ResumeRenderRolesBase(RenderBase):
     def __init__(
         self,
         document: TextDoc,
-        jinja_env: Environment,
+        jinja_env: Environment | None,
         roles: Roles,
         template_name: str,
         settings: ResumeRolesSettings,
@@ -133,11 +136,14 @@ class ResumeRenderRolesBase(RenderBase):
         assert isinstance(roles, Roles)
         assert isinstance(settings, ResumeRolesSettings)
         assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
 
         self.roles = roles
         self.settings = settings
-        self.template = jinja_env.get_template(template_name)
+        if template_name:
+            self.template = jinja_env.get_template(template_name)
+        else:
+            self.template = None
 
 
 class ResumeRenderProjectsBase(RenderBase):
@@ -156,11 +162,14 @@ class ResumeRenderProjectsBase(RenderBase):
         assert isinstance(projects, Projects)
         assert isinstance(settings, ResumeProjectsSettings)
         assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
 
         self.projects = projects
         self.settings = settings
-        self.template = jinja_env.get_template(template_name)
+        if template_name:
+            self.template = jinja_env.get_template(template_name)
+        else:
+            self.template = None
 
 
 class ResumeRenderExperienceBase(RenderBase):
@@ -178,7 +187,7 @@ class ResumeRenderExperienceBase(RenderBase):
         super().__init__(document=document, jinja_env=jinja_env)
         assert isinstance(experience, Experience)
         assert isinstance(settings, ResumeExperienceSettings)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
         assert isinstance(document, TextDoc), f"document is {type(document)}"
 
         self.experience = experience
@@ -205,11 +214,12 @@ class ResumeRenderEducationBase(RenderBase):
         assert isinstance(education, Education)
         assert isinstance(settings, ResumeEducationSettings)
         assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
 
         self.education = education
         self.settings = settings
-        self.template = jinja_env.get_template(template_name)
+        if template_name:
+            self.template = jinja_env.get_template(template_name)
 
     def degrees(self) -> None:
         """Render degrees section of education."""
@@ -238,11 +248,12 @@ class ResumeRenderCertificationsBase(RenderBase):
         assert isinstance(certifications, Certifications)
         assert isinstance(settings, ResumeCertificationsSettings)
         assert isinstance(template_name, str)
-        assert isinstance(jinja_env, Environment)
+        assert isinstance(jinja_env, (type(None),Environment))
 
         self.settings = settings
         self.certifications = certifications
-        self.template = jinja_env.get_template(template_name)
+        if template_name:
+            self.template = jinja_env.get_template(template_name)
 
 
 class ResumeRenderExecutiveSummaryBase(RenderBase):

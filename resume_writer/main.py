@@ -206,7 +206,7 @@ def main(
     elif resume_type == "html":
         html_render(_resume, _render_settings)
     elif resume_type == "markdown":
-        markdown_render(_resume, _render_settings)
+        markdown_render(resume=_resume, settings=_render_settings)
     else:
         raise ValueError(f"Unknown resume type: {resume_type}")
 

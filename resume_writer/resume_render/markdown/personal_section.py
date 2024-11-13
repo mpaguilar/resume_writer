@@ -1,7 +1,5 @@
 import logging
 
-from jinja2 import Environment
-
 from resume_writer.models.personal import Personal
 from resume_writer.resume_render.render_settings import ResumePersonalSettings
 from resume_writer.resume_render.resume_render_text_base import ResumeRenderPersonalBase
@@ -16,7 +14,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         personal: Personal,
         settings: ResumePersonalSettings,
     ):
@@ -29,10 +26,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             MarkdownDoc,
         ), "document must be an instance of MarkdownDoc"
         assert isinstance(
-            jinja_env,
-            Environment,
-        ), "jinja_env must be an instance of Environment"
-        assert isinstance(
             personal,
             Personal,
         ), "personal must be an instance of Personal"
@@ -43,9 +36,9 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
             personal=personal,
-            template_name="personal.j2",
+            template_name="",
+            jinja_env=None,
             settings=settings,
         )
 

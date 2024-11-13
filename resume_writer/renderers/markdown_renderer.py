@@ -1,8 +1,5 @@
 import logging
-from datetime import datetime
 from pathlib import Path
-
-from jinja2 import Environment, PackageLoader, select_autoescape
 
 from resume_writer.models.resume import Resume
 from resume_writer.resume_render.markdown.resume_main import RenderResume
@@ -38,15 +35,13 @@ class RenderResumeMarkdown:
 
         Steps
         -----
-        1. Initialize the Jinja environment.
-        2. Store the resume and settings data.
-        3. Initialize the Markdown renderer.
+        1. Store the resume and settings data.
+        2. Initialize the Markdown renderer.
 
         """
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings)
 
-        self.jinja_env = self.init_jinja()
         self.resume = resume
         self.settings = settings
         self.renderer = self.init_renderer()
@@ -57,8 +52,7 @@ class RenderResumeMarkdown:
 
         Steps:
         1. Create an instance of MarkdownDoc.
-        2. Create a RenderResume object with the MarkdownDoc,
-        Jinja environment, resume data, and settings.
+        2. Create a RenderResume object with the MarkdownDoc, resume data, and settings.
         3. Return the RenderResume object.
 
         Returns:
@@ -66,87 +60,28 @@ class RenderResumeMarkdown:
 
         """
         _document: MarkdownDoc = MarkdownDoc()
+        assert isinstance(
+            _document,
+            MarkdownDoc,
+        ), "Expected _document to be an instance of MarkdownDoc"
+
         _renderer = RenderResume(
             document=_document,
-            jinja_env=self.jinja_env,
             resume=self.resume,
             settings=self.settings,
         )
+        assert isinstance(
+            _renderer,
+            RenderResume,
+        ), "Expected _renderer to be an instance of RenderResume"
+
+        assert isinstance(self.resume, Resume), "Expected self.resume to be a Resume"
+        assert isinstance(
+            self.settings,
+            ResumeRenderSettings,
+        ), "Expected self.settings to be a ResumeRenderSettings"
+
         return _renderer
-
-    def init_jinja(self) -> Environment:
-        """Initialize the Jinja environment.
-
-        Steps:
-        1. Define a date filter function to format dates in the Jinja template.
-        2. Define a line feed to HTML break function to convert line feeds to HTML
-            breaks. (unused for markdown)
-        3. Define a list length function to calculate the length of a list.
-        4. Initialize the Jinja environment with the custom filters.
-
-        Returns:
-            Environment: The initialized Jinja environment.
-
-        """
-
-        def date_filter(resdate: datetime | None, date_format: str = "%B %Y") -> str:
-            """Format dates in Jinja template.
-
-            Args:
-                resdate (datetime | None): The date to format.
-                date_format (str, optional): The format string for the date.
-                    Defaults to "%B %Y".
-
-            Returns:
-                str: The formatted date string or "Present" if resdate is None.
-
-            """
-            assert isinstance(resdate, (datetime, type(None))), "Invalid datetime"
-            assert isinstance(date_format, str), "Invalid date format"
-
-            if resdate is None:
-                return "Present"
-
-            return resdate.strftime(date_format)
-
-        def lf_to_br(text: str) -> str:
-            """Convert line feeds to HTML breaks.
-
-            Args:
-                text (str): The input text.
-
-            Returns:
-                str: The input text with line feeds replaced by HTML breaks.
-
-            """
-            assert isinstance(text, str)
-            _txt = text.replace("\r\n", "\n")
-            _txt = _txt.replace("\n\n", "\n")
-            _txt = _txt.replace("\n", "<br>")
-            return _txt
-
-        def list_len(lst: list) -> int:
-            """Return the length of a list.
-
-            Args:
-                lst (list): The input list.
-
-            Returns:
-                int: The length of the list.
-
-            """
-            assert isinstance(lst, list)
-            return len(lst)
-
-        jinja_env = Environment(
-            loader=PackageLoader("resume_writer.resume_render.markdown"),
-            autoescape=select_autoescape(),
-        )
-        jinja_env.filters["date"] = date_filter
-        jinja_env.filters["lf_to_br"] = lf_to_br
-        jinja_env.filters["list_len"] = list_len
-
-        return jinja_env
 
     def render(
         self,

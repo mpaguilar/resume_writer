@@ -1,7 +1,5 @@
 import logging
 
-from jinja2 import Environment
-
 from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
 from resume_writer.resume_render.resume_render_text_base import (
@@ -18,7 +16,6 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
@@ -27,10 +24,6 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             document,
             MarkdownDoc,
         ), "document must be an instance of MarkdownDoc"
-        assert isinstance(
-            jinja_env,
-            Environment,
-        ), "jinja_env must be an instance of Environment"
         assert isinstance(
             certifications,
             Certifications,
@@ -42,9 +35,9 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
 
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
             certifications=certifications,
-            template_name="certifications.j2",
+            template_name="",
+            jinja_env=None,
             settings=settings,
         )
 
@@ -71,7 +64,6 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Render the certifications section."""
         # shortcuts
         _doc = self.document
-        _settings = self.settings
         _certifications = self.certifications
 
         if not _certifications:

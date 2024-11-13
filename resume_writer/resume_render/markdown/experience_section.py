@@ -1,7 +1,5 @@
 import logging
 
-from jinja2 import Environment
-
 from resume_writer.models.experience import (
     Experience,
     Project,
@@ -31,17 +29,26 @@ class RenderRolesSection(ResumeRenderRolesBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         roles: Roles,
         settings: ResumeRolesSettings,
     ):
         """Initialize roles render object."""
 
+        assert isinstance(
+            document,
+            MarkdownDoc,
+        ), "document should be an instance of MarkdownDoc"
+        assert isinstance(roles, Roles), "roles should be an instance of Roles"
+        assert isinstance(
+            settings,
+            ResumeRolesSettings,
+        ), "settings should be an instance of ResumeRolesSettings"
+
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
+            jinja_env=None,
             roles=roles,
-            template_name="roles.j2",
+            template_name="",
             settings=settings,
         )
 
@@ -166,7 +173,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
@@ -179,10 +185,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             MarkdownDoc,
         ), "document must be an instance of MarkdownDoc"
         assert isinstance(
-            jinja_env,
-            Environment,
-        ), "jinja_env must be an instance of Environment"
-        assert isinstance(
             projects,
             Projects,
         ), "projects must be an instance of Projects"
@@ -193,9 +195,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
+            jinja_env=None,
             projects=projects,
-            template_name="projects.j2",
+            template_name="",
             settings=settings,
         )
 
@@ -254,7 +256,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         experience: Experience,
         settings: ResumeExperienceSettings,
     ) -> None:
@@ -263,7 +264,7 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         log.debug("Initializing experience render object.")
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
+            jinja_env=None,
             experience=experience,
             settings=settings,
         )
@@ -278,7 +279,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         if self.settings.projects and self.experience.projects:
             RenderProjectsSection(
                 document=self.document,
-                jinja_env=self.jinja_env,
                 projects=self.experience.projects,
                 settings=self.settings.projects_settings,
             ).render()
@@ -286,7 +286,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         if self.settings.roles and self.experience.roles:
             RenderRolesSection(
                 document=self.document,
-                jinja_env=self.jinja_env,
                 roles=self.experience.roles,
                 settings=self.settings.roles_settings,
             ).render()

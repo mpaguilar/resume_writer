@@ -1,7 +1,5 @@
 import logging
 
-from jinja2 import Environment
-
 from resume_writer.models.education import Degree, Education
 from resume_writer.resume_render.render_settings import ResumeEducationSettings
 from resume_writer.resume_render.resume_render_text_base import (
@@ -19,7 +17,6 @@ class RenderEducationSection(ResumeRenderEducationBase):
     def __init__(
         self,
         document: MarkdownDoc,
-        jinja_env: Environment,
         education: Education,
         settings: ResumeEducationSettings,
     ):
@@ -28,10 +25,6 @@ class RenderEducationSection(ResumeRenderEducationBase):
             document,
             MarkdownDoc,
         ), f"Expected document to be of type MarkdownDoc, but got {type(document)}"
-        assert isinstance(
-            jinja_env,
-            Environment,
-        ), f"Expected jinja_env to be of type Environment, but got {type(jinja_env)}"
         assert isinstance(
             education,
             Education,
@@ -43,13 +36,13 @@ class RenderEducationSection(ResumeRenderEducationBase):
 
         super().__init__(
             document=document,
-            jinja_env=jinja_env,
             education=education,
-            template_name="education.j2",
+            template_name="",
+            jinja_env=None,
             settings=settings,
         )
 
-    def render_degree(self, degree : Degree) -> None:
+    def render_degree(self, degree: Degree) -> None:
         """Render a single degree."""
         # shortcuts
         _doc = self.document
