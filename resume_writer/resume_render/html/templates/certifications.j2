@@ -26,9 +26,9 @@ Expires on: {{ certification.expires|date }}
 </div>
 {% endif %}
 
-{% if settings.credential_id and certification.credential_id %}
-<div class="certification-credential-id">
-Credential ID: {{ certification.credential_id }}
+{% if settings.certification_id and certification.certification_id %}
+<div class="certification-certification-id">
+Certification ID: {{ certification.certification_id }}
 </div>
 {% endif %}
 
