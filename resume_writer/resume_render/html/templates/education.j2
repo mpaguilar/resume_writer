@@ -6,19 +6,19 @@
 {% if settings.school and degree.school %}
 <div class="degree-school">
 School: {{ degree.school }}
-<div>
+</div>
 {% endif %}
 
 {% if settings.degree and degree.degree %}
 <div class="degree-degree">
 Degree: {{ degree.degree }}
-<div>
+</div>
 {% endif %}
 
 {% if settings.start_date and degree.start_date %}
 <div class="degree-start-date">
 Start date: {{ degree.start_date|date }}
-<div>
+</div>
 {% endif %}
 
 {% if settings.end_date %}
@@ -35,13 +35,13 @@ End date: Present
 {% if settings.major and degree.major %}
 <div class="degree-major">
 Major: {{ degree.major }}
-<div>
+</div>
 {% endif %}
 
 {% if settings.gpa and degree.gpa %}
 <div class="degree-gpa">
 GPA: {{ degree.gpa }}
-<div>
+</div>
 {% endif %}
 
 {% endfor %}
