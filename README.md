@@ -8,6 +8,8 @@ This is a simple resume writer that takes a text file and converts into a Word d
 
 - The "ats" format is similar to the basic format, but is well-suited for ATS parsing. There are no columns, tables, or bullet points, as these are all things that can trip up ATS parsing.
 
+- The "html" format is exactly what it sounds like. The HTML is unstyled.
+
 - The "basic" format is meant for testing and debugging. Neither humans nor machines will really like it.
 
 ## Motivation
