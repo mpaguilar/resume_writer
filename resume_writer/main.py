@@ -141,6 +141,7 @@ def html_render(
 
     log.info("Render of HTML resume complete.")
 
+
 def markdown_render(
     resume: Resume,
     settings: ResumeRenderSettings,
@@ -160,6 +161,19 @@ def markdown_render(
     _markdown_renderer.save(Path("data/markdown_resume.md"))
 
     log.info("Render of Markdown resume complete.")
+
+
+
+def parse_text_resume(input_file: str) -> Resume:
+    """Convert text doc into Resume object."""
+
+    with open(input_file) as _f:
+        _resume_text = _f.read()
+        _resume_lines = _resume_text.splitlines(keepends=True)
+
+    _resume = Resume.parse(_resume_lines)
+    return _resume
+
 
 @click.command()
 @click.argument("input_file", type=click.Path(exists=True))
@@ -185,11 +199,7 @@ def main(
     _render_settings = ResumeRenderSettings()
     _render_settings.update_from_dict(_settings["resume"]["render"])
 
-    with open(input_file) as _f:
-        _resume_text = _f.read()
-        _resume_lines = _resume_text.splitlines(keepends=True)
-
-    _resume = Resume.parse(_resume_lines)
+    _resume = parse_text_resume(input_file)
 
     if resume_type == "basic":
         _docx_doc = docx.Document()
