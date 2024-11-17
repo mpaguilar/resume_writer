@@ -314,7 +314,8 @@ class MultiBlockParse:
             isinstance(line, str) for line in block_lines
         ), "Expected all elements in 'block_lines' to be of type str"
 
-        log.debug(f"Parsing {len(block_lines)} block lines for {type(T)}")
+
+        log.debug(f"Parsing {len(block_lines)} block lines for {cls.__name__}")
 
         _object_list: list[cls] = []
         _object_blocks = cls.parse_blocks(block_lines)

@@ -36,7 +36,7 @@ class Degree(LabelBlockParse):
             log.debug(f"Creating degree object for {school}.")
 
         if end_date and not start_date:
-            raise ValueError("End date provided without start date.")
+            raise ValueError("Education section: End date provided without start date.")
 
         self.school = school
         self.degree = degree
