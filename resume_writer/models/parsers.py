@@ -10,6 +10,34 @@ class ParseError(Exception):
     """Exception raised when parsing fails."""
 
 
+class ParseContext:
+    """Tracking context while parsing."""
+
+    def __init__(self, lines: list[str]):
+        """Initialize ParseContext class instance."""
+
+        assert isinstance(lines, list), "lines should be a list"
+
+        self.lines = lines
+        self.line_num = 0
+
+    def __iter__(self):
+        """Return iterator."""
+        return self
+
+    def __next__(self) -> str:
+        """Return next line."""
+        if self.line_num >= len(self.lines):
+            raise StopIteration
+        _line = self.lines[self.line_num]
+        self.line_num += 1
+        return _line
+
+    def __getitem__(self, line_number: int) -> str:
+        """Return line at line_number."""
+        return self.lines[line_number - 1]
+
+
 class ListBlockParse:
     """Mixin for parsing bullet points into a list."""
 

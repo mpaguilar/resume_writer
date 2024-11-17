@@ -6,6 +6,7 @@ import docx
 import rich
 import tomli
 
+from resume_writer.models.parsers import ParseContext
 from resume_writer.models.personal import Personal
 from resume_writer.models.resume import Resume
 from resume_writer.renderers.html_renderer import RenderResumeHtml
