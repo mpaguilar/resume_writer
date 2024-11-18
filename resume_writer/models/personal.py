@@ -3,6 +3,7 @@ import logging
 from resume_writer.models.parsers import (
     BasicBlockParse,
     LabelBlockParse,
+    ParseContext,
     TextBlockParse,
 )
 
@@ -14,6 +15,7 @@ class ContactInfo(LabelBlockParse):
 
     def __init__(
         self,
+        parse_context: ParseContext,
         name: str,
         email: str | None,
         phone: str | None,
@@ -21,6 +23,10 @@ class ContactInfo(LabelBlockParse):
     ):
         """Initialize the object."""
 
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
         assert isinstance(name, str), "Name must be a string"
         assert isinstance(email, (str, type(None))), "Email must be a string or None"
         assert isinstance(phone, (str, type(None))), "Phone must be a string or None"
@@ -33,6 +39,7 @@ class ContactInfo(LabelBlockParse):
         self.email = email
         self.phone = phone
         self.location = location
+        self.parse_context = parse_context
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -51,12 +58,18 @@ class Websites(LabelBlockParse):
 
     def __init__(
         self,
+        parse_context: ParseContext,
         website: str | None,
         github: str | None,
         linkedin: str | None,
         twitter: str | None,
     ):
         """Initialize the object."""
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
 
         assert isinstance(
             website,
@@ -72,6 +85,7 @@ class Websites(LabelBlockParse):
             (str, type(None)),
         ), "Twitter must be a string or None"
 
+        self.parse_context = parse_context
         self.website = website
         self.github = github
         self.linkedin = linkedin
@@ -94,10 +108,16 @@ class VisaStatus(LabelBlockParse):
 
     def __init__(
         self,
+        parse_context: ParseContext,
         work_authorization: str | None,
         require_sponsorship: bool | str | None,
     ):
         """Initialize the object."""
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
 
         assert isinstance(
             work_authorization,
@@ -109,6 +129,7 @@ class VisaStatus(LabelBlockParse):
         ), "Require sponsorship must be a boolean or None"
 
         self.work_authorization = work_authorization
+        self.parse_context = parse_context
 
         # Convert string to boolean
         if isinstance(require_sponsorship, str):
@@ -134,12 +155,17 @@ class VisaStatus(LabelBlockParse):
 class Banner(TextBlockParse):
     """Details of personal banner."""
 
-    def __init__(self, banner: str):
+    def __init__(self, parse_context: ParseContext, text_string: str):
         """Initialize the object."""
 
-        assert isinstance(banner, str), "Banner must be a string"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+        assert isinstance(text_string, str), "Banner must be a string"
+
         # remove leading and ending blank lines
-        _banner_lines = banner.split("\n")
+        _banner_lines = text_string.split("\n")
         # remove leading blank lines
         while _banner_lines[0] == "\n":
             _banner_lines.pop(0)
@@ -156,11 +182,16 @@ class Banner(TextBlockParse):
 class Note(TextBlockParse):
     """Details of personal note."""
 
-    def __init__(self, note: str):
+    def __init__(self, parse_context: ParseContext, text_string: str):
         """Initialize the object."""
 
-        assert isinstance(note, str), "note must be a string"
-        _note = note.split("\n")
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+        assert isinstance(text_string, str), "note must be a string"
+
+        _note = text_string.split("\n")
 
         # remove leading blank lines
         while _note[0] == "\n":
@@ -178,8 +209,9 @@ class Note(TextBlockParse):
 class Personal(BasicBlockParse):
     """Details of personal information."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
+        parse_context: ParseContext,
         contact_info: ContactInfo | None,
         websites: Websites | None,
         visa_status: VisaStatus | None,
@@ -187,6 +219,12 @@ class Personal(BasicBlockParse):
         note: Note | None,
     ):
         """Initialize the object."""
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+        self.parse_context = parse_context
 
         assert isinstance(
             contact_info,
@@ -209,6 +247,7 @@ class Personal(BasicBlockParse):
             (Note, type(None)),
         ), "Note must be a Note object or None"
 
+        self.parse_context = parse_context
         self.contact_info = contact_info
         self.websites = websites
         self.visa_status = visa_status

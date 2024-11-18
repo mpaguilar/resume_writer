@@ -7,6 +7,7 @@ from resume_writer.models.parsers import (
     BasicBlockParse,
     LabelBlockParse,
     MultiBlockParse,
+    ParseContext,
 )
 
 log = logging.getLogger(__name__)
@@ -17,6 +18,7 @@ class Degree(LabelBlockParse):
 
     def __init__(  # noqa: PLR0913
         self,
+        parse_context: ParseContext,
         school: str,
         degree: str | None,
         start_date: str | datetime | None,
@@ -25,6 +27,9 @@ class Degree(LabelBlockParse):
         gpa: str | None = None,
     ):
         """Initialize the object."""
+        assert isinstance(
+            parse_context, ParseContext,
+        ), "parse_context must be a ParseContext object."
         assert isinstance(school, str)
         assert isinstance(degree, (str, type(None)))
         assert isinstance(start_date, (str, datetime, type(None)))
@@ -41,13 +46,19 @@ class Degree(LabelBlockParse):
         self.school = school
         self.degree = degree
         if isinstance(start_date, str):
-            start_date = dateparser.parse(start_date, settings={
-                "PREFER_DAY_OF_MONTH": "first",
-            })
+            start_date = dateparser.parse(
+                start_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
         if isinstance(end_date, str):
-            end_date = dateparser.parse(end_date, settings={
-                "PREFER_DAY_OF_MONTH": "first",
-            })
+            end_date = dateparser.parse(
+                end_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
 
         if start_date and end_date and start_date > end_date:
             raise ValueError("Start date is after end date.")

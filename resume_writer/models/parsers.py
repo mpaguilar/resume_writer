@@ -46,6 +46,11 @@ class ParseContext:
         assert isinstance(line, str), "line should be a string"
         self.lines.append(line)
 
+    def clear(self) -> None:
+        """Clear the list of lines."""
+        self.lines.clear()
+        self.line_num = 1
+
 
 class ListBlockParse:
     """Mixin for parsing bullet points into a list."""
@@ -96,7 +101,7 @@ class TextBlockParse:
 
         # remove leading newlines
         _lines = _lines.lstrip()
-        return cls(_lines)
+        return cls(parse_context=parse_context, text_string=_lines)
 
 
 class LabelBlockParse:
@@ -165,6 +170,7 @@ class LabelBlockParse:
         _none_kwargs = {_field: None for _field in _expected_fields.values()}
         # update the init kwargs with the none kwargs
         _init_kwargs.update(_none_kwargs)
+        _init_kwargs["parse_context"] = parse_context
 
         return cls(**_init_kwargs)
 
@@ -230,7 +236,7 @@ class BasicBlockParse:
                 log.debug(f"Found section header: {_section_header}")
                 _blocks[_section_header] = ParseContext(
                     lines=[],
-                    doc_line_num=parse_context.line_num,
+                    doc_line_num=parse_context.doc_line_num,
                 )
                 continue
 
@@ -287,6 +293,7 @@ class BasicBlockParse:
 
         _none_kwargs = {_field: None for _field in _expected_blocks.values()}
         _init_kwargs.update(_none_kwargs)
+        _init_kwargs["parse_context"] = parse_context
         return _init_kwargs
 
     @classmethod
