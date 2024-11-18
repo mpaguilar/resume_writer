@@ -1,6 +1,7 @@
 from datetime import datetime
 
 import pytest
+from resume_writer.models.parsers import ParseContext
 from resume_writer.models.certifications import Certification
 
 test_data = """
@@ -68,7 +69,9 @@ def block_lines():
 
 def test_parse_certification_block():
     _lines = get_data_lines(9, 13)
-    cert = Certification.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=9)
+
+    cert = Certification.parse(_ctx)
     assert cert.issuer == "BigCorp"
     assert cert.name == "BigCorp Certified Widget Expert"
     assert cert.issued == datetime(2020, 3, 1)

@@ -9,6 +9,8 @@ from resume_writer.models.experience import (
     RoleResponsibilities,
 )
 
+from resume_writer.models.parsers import ParseContext
+
 test_data = """
 ## Roles
 
@@ -107,11 +109,10 @@ def _deindenter(lines, count: int = 1):
 
 
 def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
-
     _data_start = first_line_number - test_data_start_line
     _data_end = last_line_number - test_data_start_line
     _lines = _block_lines()
-    _lines = _lines[_data_start:_data_end + 1] # add one to include the last line
+    _lines = _lines[_data_start : _data_end + 1]  # add one to include the last line
     return _lines
 
 
@@ -120,8 +121,9 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
 
 def test_role_basics_block():
     _lines = get_data_lines(18, 26)
+    _ctx = ParseContext(_lines, doc_line_num=18)
 
-    _basics = RoleBasics.parse(_lines)
+    _basics = RoleBasics.parse(_ctx)
 
     assert isinstance(_basics, RoleBasics)
     assert _basics.company == "Another Company"
@@ -133,32 +135,38 @@ def test_role_basics_block():
     assert _basics.employment_type == "Contract"
     assert _basics.job_category == "Worker"
     assert _basics.agency_name == "High-end 3rd party"
+    assert _ctx.doc_line_num == 27  # (26 + 1, to account for zero index)
 
 
 def test_summary_block():
     _lines = get_data_lines(29, 30)
-    _summary = RoleSummary.parse(_lines)
+    _ctx = ParseContext(_lines, doc_line_num=29)
+    _summary = RoleSummary.parse(_ctx)
     assert isinstance(_summary, RoleSummary)
     assert _summary.summary == "Performed senior tasks"
 
 
 def test_responsibilities_block():
     _lines = get_data_lines(32, 33)
-    _responsibilities = RoleResponsibilities.parse(_lines)
+    _ctx = ParseContext(_lines, doc_line_num=32)
+    _responsibilities = RoleResponsibilities.parse(_ctx)
     assert isinstance(_responsibilities, RoleResponsibilities)
     assert (
         _responsibilities.text
         == "Performed activities associated with a senior role.\nAlso did other things as required."  # noqa: E501
     )
+    assert _ctx.doc_line_num == 34  # (33 + 1, to account for zero index)
 
 
 def test_skills_block():
     _lines = _deindenter(get_data_lines(36, 38))
     # remove blank lines
     _lines = [line for line in _lines if line]
-    _skills = RoleSkills.parse(_lines)
+    _ctx = ParseContext(_lines, doc_line_num=36)
+    _skills = RoleSkills.parse(_ctx)
     assert isinstance(_skills, RoleSkills)
     assert _skills.skills == ["Skill 1", "Skill 2", "Skill 3"]
+    assert _ctx.doc_line_num == 39  # (38 + 1, to account for zero index)
 
 
 def test_role_block():
@@ -166,19 +174,23 @@ def test_role_block():
     _lines = get_data_lines(41, 70)
     _block_lines = _deindenter(_lines, 3)
 
-    _role = Role.parse(_block_lines)
+    _ctx = ParseContext(_block_lines, doc_line_num=41)
+
+    _role = Role.parse(parse_context=_ctx)
     assert isinstance(_role, Role)
     assert isinstance(_role.basics, RoleBasics)
     assert isinstance(_role.summary, RoleSummary)
     assert isinstance(_role.responsibilities, RoleResponsibilities)
     assert isinstance(_role.skills, RoleSkills)
+    assert _ctx.doc_line_num == 71  # (70 + 1, to account for zero index)
 
 
 def test_roles_block():
     """Test multiple roles."""
     _lines = get_data_lines(15, 72)
     _lines = _deindenter(_lines, 2)
-    _roles = Roles.parse(_lines)
+    _ctx = ParseContext(_lines, 0)
+    _roles = Roles.parse(_ctx)
     assert isinstance(_roles, Roles)
     assert len(_roles) == 2
     assert isinstance(_roles[0], Role)

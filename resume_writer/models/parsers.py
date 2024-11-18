@@ -13,13 +13,14 @@ class ParseError(Exception):
 class ParseContext:
     """Tracking context while parsing."""
 
-    def __init__(self, lines: list[str]):
+    def __init__(self, lines: list[str], doc_line_num: int):
         """Initialize ParseContext class instance."""
 
         assert isinstance(lines, list), "lines should be a list"
 
         self.lines = lines
-        self.line_num = 0
+        self.line_num = 1
+        self.doc_line_num = doc_line_num
 
     def __iter__(self):
         """Return iterator."""
@@ -27,32 +28,40 @@ class ParseContext:
 
     def __next__(self) -> str:
         """Return next line."""
-        if self.line_num >= len(self.lines):
+        if self.line_num >= len(self.lines) + 1:
             raise StopIteration
-        _line = self.lines[self.line_num]
+
+        # humans start at line 1, but python starts at line 0
+        _line = self.lines[self.line_num - 1]
         self.line_num += 1
+        self.doc_line_num += 1
         return _line
 
-    def __getitem__(self, line_number: int) -> str:
-        """Return line at line_number."""
-        return self.lines[line_number - 1]
+    def __len__(self) -> int:
+        """Return number of lines in the context."""
+        return len(self.lines)
+
+    def append(self, line: str) -> None:
+        """Add a line to the list of lines."""
+        assert isinstance(line, str), "line should be a string"
+        self.lines.append(line)
 
 
 class ListBlockParse:
     """Mixin for parsing bullet points into a list."""
 
     @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
+    def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the bullet list into lines of text."""
 
-        assert isinstance(block_lines, list), "block_lines should be a list"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "All elements in block_lines should be strings"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
 
         _items = []
 
-        for _block_line in block_lines:
+        for _block_line in parse_context:
             # skip empty lines
             if not _block_line:
                 continue
@@ -74,9 +83,14 @@ class TextBlockParse:
     """Mixin for parsing blocks of text."""
 
     @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
+    def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the block of lines into an object."""
-        _lines = "\n".join(block_lines)
+
+        _block_lines = []
+        for _line in parse_context:
+            _block_lines.append(_line)  # noqa: PERF402
+
+        _lines = "\n".join(_block_lines)
         # remove trailing newlines
         _lines = _lines.rstrip()
 
@@ -106,16 +120,18 @@ class LabelBlockParse:
     """
 
     @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
+    def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the block of lines into an object."""
 
-        assert isinstance(block_lines, list)
-        assert all(isinstance(line, str) for line in block_lines)
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
 
         _expected_fields = cls.expected_fields()
         _init_kwargs: dict[str, str | bool] = {}
 
-        for _block_line in block_lines:
+        for _block_line in parse_context:
             # skip empty lines
             if not _block_line:
                 continue
@@ -184,20 +200,20 @@ class BasicBlockParse:
     """
 
     @classmethod
-    def parse_blocks(cls: T, block_lines: list[str]) -> dict[str, str]:
+    def parse_blocks(cls: T, parse_context: ParseContext) -> dict[str, str]:
         """Parse the block of lines into a dictionary of blocks."""
 
-        assert isinstance(block_lines, list), "block_lines should be a list"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "block_lines should be a list of strings"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
 
         _blocks: dict = {}
 
         _section_header = None
 
         # iterate over the lines in the block
-        for _block_line in block_lines:
+        for _block_line in parse_context:
             # keep carriage returns, but strip everything else
 
             _block_line = _block_line.strip(" ")
@@ -212,7 +228,10 @@ class BasicBlockParse:
                 assert _section_header != "", "_section_header should not be empty"
 
                 log.debug(f"Found section header: {_section_header}")
-                _blocks[_section_header] = []
+                _blocks[_section_header] = ParseContext(
+                    lines=[],
+                    doc_line_num=parse_context.line_num,
+                )
                 continue
 
             if _section_header is None:
@@ -235,23 +254,26 @@ class BasicBlockParse:
             isinstance(key, str) for key in _blocks
         ), "_blocks keys should be strings"
         assert all(
-            isinstance(value, list) for value in _blocks.values()
-        ), "_blocks values should be lists"
-        assert all(
-            isinstance(item, str) for value in _blocks.values() for item in value
-        ), "_blocks values should be lists of strings"
+            isinstance(value, ParseContext) for value in _blocks.values()
+        ), "_blocks values should be ParseContext"
 
         return _blocks
 
     @classmethod
-    def kwargs_parse(cls: T, block_lines: list[str]) -> dict[str, str]:
+    def kwargs_parse(cls: T, parse_context: ParseContext) -> dict[str, str]:
         """Parse the block of lines into an dict.
 
         Use this when more processing has to be done.
         """
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
+
         _expected_blocks = cls.expected_blocks()
         _init_classes = cls.block_classes()
-        _blocks: dict[str, str] = cls.parse_blocks(block_lines)
+        _blocks: dict[str, str] = cls.parse_blocks(parse_context=parse_context)
 
         _init_kwargs: dict[str, str] = {}
         for _block in _blocks:
@@ -268,9 +290,13 @@ class BasicBlockParse:
         return _init_kwargs
 
     @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
+    def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the block of lines into an object."""
-        _init_kwargs = cls.kwargs_parse(block_lines)
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
+        _init_kwargs = cls.kwargs_parse(parse_context=parse_context)
 
         return cls(**_init_kwargs)
 
@@ -279,7 +305,7 @@ class MultiBlockParse:
     """Mixin for blocks containing multiple blocks with the same name."""
 
     @classmethod
-    def parse_blocks(cls: T, block_lines: list[str]) -> list[list[str]]:
+    def parse_blocks(cls: T, parse_context: ParseContext) -> list[list[str]]:
         """Parse the block of lines into a list of blocks.
 
         Requires a static method named `list_class` which returns
@@ -287,17 +313,15 @@ class MultiBlockParse:
 
         """
 
-        assert isinstance(block_lines, list), "Expected 'lines' to be of type list[str]"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "Expected all elements in 'lines' to be of type str"
+        assert isinstance(
+            parse_context, ParseContext,
+        ), "parse_context must be a ParseContext"
 
         _blocks = []
-        _current_block = []
+        _current_block = ParseContext(lines=[], doc_line_num=parse_context.doc_line_num)
         _section_header = None
 
-        for _line in block_lines:
-
+        for _line in parse_context:
             # skip empty lines
             if not _line:
                 continue
@@ -306,8 +330,10 @@ class MultiBlockParse:
                 _section_header = _line[1:].strip().lower()
                 log.info(f"Found section header: {_section_header}")
                 if len(_current_block) > 0:
-                    _blocks.append(list(_current_block))
-                _current_block.clear()
+                    _blocks.append(_current_block)
+                _current_block = ParseContext(
+                    lines=[], doc_line_num=parse_context.doc_line_num,
+                )
                 continue
 
             if _section_header is not None:
@@ -318,35 +344,31 @@ class MultiBlockParse:
 
         # Get the last block
         if len(_current_block) > 0:
-            _blocks.append(list(_current_block))
+            _blocks.append(_current_block)
 
         assert isinstance(
             _blocks,
             list,
-        ), "Expected '_blocks' to be of type list[list[str]]"
+        ), "Expected '_blocks' to be of type list[ParseContext]"
         assert all(
-            isinstance(block, list) for block in _blocks
-        ), "Expected all elements in '_blocks' to be of type list[str]"
-        assert all(
-            all(isinstance(item, str) for item in block) for block in _blocks
-        ), "Expected all elements in '_blocks' to be of type str"
+            isinstance(block, ParseContext) for block in _blocks
+        ), "Expected all elements in '_blocks' to be of type ParseContext"
 
         return _blocks
 
     @classmethod
-    def parse(cls: T, block_lines: list[str]) -> T:
+    def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the blocks and return a list of objects."""
 
-        assert isinstance(block_lines, list), "Expected 'lines' to be of type list[str]"
-        assert all(
-            isinstance(line, str) for line in block_lines
-        ), "Expected all elements in 'block_lines' to be of type str"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "parse_context must be a ParseContext"
 
-
-        log.debug(f"Parsing {len(block_lines)} block lines for {cls.__name__}")
+        log.debug(f"Parsing {len(parse_context)} block lines for {cls.__name__}")
 
         _object_list: list[cls] = []
-        _object_blocks = cls.parse_blocks(block_lines)
+        _object_blocks = cls.parse_blocks(parse_context=parse_context)
         _list_type = cls.list_class()
 
         for _block in _object_blocks:

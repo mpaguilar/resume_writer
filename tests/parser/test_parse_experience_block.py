@@ -1,6 +1,7 @@
 from resume_writer.models.experience import (
     Experience,
 )
+from resume_writer.models.parsers import ParseContext
 
 test_data = """
 
@@ -152,5 +153,9 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
 def test_basic_experience():
     _lines = get_data_lines(10, 107)
     _lines = _deindenter(_lines, 1)
-    _experience = Experience.parse(_lines)
+
+    _ctx = ParseContext(lines=_lines, doc_line_num=10)
+
+    _experience = Experience.parse(_ctx)
     assert isinstance(_experience, Experience)
+    assert _ctx.doc_line_num == 108

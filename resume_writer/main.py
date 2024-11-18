@@ -172,7 +172,9 @@ def parse_text_resume(input_file: str) -> Resume:
         _resume_text = _f.read()
         _resume_lines = _resume_text.splitlines(keepends=True)
 
-    _resume = Resume.parse(_resume_lines)
+    _parse_context = ParseContext(lines=_resume_lines, doc_line_num=0)
+
+    _resume = Resume.parse(_parse_context)
     return _resume
 
 

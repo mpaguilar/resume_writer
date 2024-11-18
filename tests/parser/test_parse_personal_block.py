@@ -8,6 +8,8 @@ from resume_writer.models.personal import (
     Personal,
 )
 
+from resume_writer.models.parsers import ParseContext
+
 test_data = """
 ## Contact Information
 Name: John Doe
@@ -48,7 +50,7 @@ def _deindenter(lines):
     return _lines
 
 
-@pytest.fixture()
+@pytest.fixture
 def block_lines():
     lines = test_data.split("\n")
     return _deindenter(lines)
@@ -56,84 +58,95 @@ def block_lines():
 
 def test_parse_personal_contact_info(block_lines):
     _lines = block_lines[2:6]
-    contact_info = ContactInfo.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=3)
+    contact_info = ContactInfo.parse(_ctx)
     assert contact_info.name == "John Doe"
     assert contact_info.email == "johndoe@example.com"
     assert contact_info.phone == "123-456-7890"
     assert contact_info.location == "Somewhere, USA"
+    # check that the context was updated
+    assert _ctx.doc_line_num == 7
 
 
 def test_parse_personal_websites(block_lines):
     _lines = block_lines[8:13]
-    websites = Websites.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=9)
+    websites = Websites.parse(_ctx)
     assert websites.github == "https://github.com/example"
     assert websites.linkedin == "https://www.linkedin.com/in/example"
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
-
+    assert _ctx.doc_line_num == 14
 
 def test_parse_personal_websites_missing_field(block_lines):
-    _lines = block_lines[9:13]  # skil first line, github
-    websites = Websites.parse(_lines)
+    _lines = block_lines[9:13]  # skip first line, github
+    _ctx = ParseContext(lines=_lines, doc_line_num=10)
+    websites = Websites.parse(_ctx)
     assert websites.github is None
     assert websites.linkedin == "https://www.linkedin.com/in/example"
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
-
+    assert _ctx.doc_line_num == 14
 
 def test_parse_personal_websites_missing_label(block_lines):
     _lines = block_lines[8:13]  # skip first line, github
     _lines[0] = "Github:"
-    websites = Websites.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=9)
+    websites = Websites.parse(_ctx)
     assert websites.github is None
     assert websites.linkedin == "https://www.linkedin.com/in/example"
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
+    assert _ctx.doc_line_num == 14
 
 def test_parse_personal_websites_missing_colon_on_label(block_lines):
     _lines = block_lines[8:13]  # skip first line, github
     _lines[0] = "Github"
-    websites = Websites.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=9)
+    websites = Websites.parse(_ctx)
     assert websites.github is None
     assert websites.linkedin == "https://www.linkedin.com/in/example"
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
+    assert _ctx.doc_line_num == 14
 
 def test_parse_visa_status(block_lines):
     _lines = block_lines[14:17]
-    visa_status = VisaStatus.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=15)
+    visa_status = VisaStatus.parse(_ctx)
     assert visa_status.work_authorization == "US Citizen"
     assert visa_status.require_sponsorship is False
+    assert _ctx.doc_line_num == 18
 
     _lines[1] = ""
-    visa_status = VisaStatus.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=15)
+    visa_status = VisaStatus.parse(_ctx)
     assert visa_status.require_sponsorship is None
-
+    assert _ctx.doc_line_num == 18
 
 def test_parse_banner(block_lines):
-    _lines = block_lines[19:22]
-    banner = Banner.parse(_lines)
+    _lines = block_lines[19:21]
+    _ctx = ParseContext(lines=_lines, doc_line_num=20)
+    banner = Banner.parse(_ctx)
     assert (
         banner.text
         == "Experienced Widget Expert with a lot of experience in the field."
     )
-
+    assert _ctx.doc_line_num == 22
 
 def test_parse_note(block_lines):
     _lines = block_lines[24:27]
-    note = Note.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=25)
+    note = Note.parse(_ctx)
     assert (
         note.text == "Proficent in the skills employers look for.\nLots of experience."
     )
 
-
 def test_parse_full_personal_block(block_lines):
-    personal = Personal.parse(block_lines)
+    _ctx = ParseContext(lines=block_lines, doc_line_num=1)
+    personal = Personal.parse(_ctx)
     assert isinstance(personal, Personal)
     assert isinstance(personal.contact_info, ContactInfo)
     assert isinstance(personal.websites, Websites)
     assert isinstance(personal.visa_status, VisaStatus)
     assert isinstance(personal.banner, Banner)
-
-
-

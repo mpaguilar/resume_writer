@@ -11,6 +11,7 @@ from resume_writer.models.personal import (
 from resume_writer.models.education import Degrees, Education
 from resume_writer.models.certifications import Certifications
 from resume_writer.models.experience import Experience
+from resume_writer.models.parsers import ParseContext
 
 
 test_data = """
@@ -183,14 +184,16 @@ Other things were done as required.
 """  # noqa: W291
 
 
-@pytest.fixture()
+@pytest.fixture
 def block_lines():
     lines = test_data.split("\n")
     return lines
 
 
 def test_parse_resume_complete(block_lines):
-    resume = Resume.parse(block_lines)
+    _ctx = ParseContext(lines=block_lines, doc_line_num=1)
+    resume = Resume.parse(_ctx)
+
     assert isinstance(resume, Resume)
 
     assert isinstance(resume.personal.contact_info, ContactInfo)

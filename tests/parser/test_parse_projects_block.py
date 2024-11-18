@@ -7,6 +7,8 @@ from resume_writer.models.experience import (
     Project,
 )
 
+from resume_writer.models.parsers import ParseContext
+
 test_data = """
 ## Projects
 ### Project
@@ -101,7 +103,9 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
 def test_project_overview_block():
     _lines = get_data_lines(15, 20)
 
-    _overview = ProjectOverview.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=15)
+
+    _overview = ProjectOverview.parse(_ctx)
     assert isinstance(_overview, ProjectOverview)
 
     # test the values
@@ -110,37 +114,39 @@ def test_project_overview_block():
     assert _overview.url_description == "A Useful Project"
     assert _overview.start_date == datetime(2020, 1, 1)
     assert _overview.end_date == datetime(2021, 1, 1)
-
+    assert _ctx.doc_line_num == 21
 
 def test_description_block():
     _lines = get_data_lines(22, 27)
-    _lines = _deindenter(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=22)
 
-    _description = ProjectDescription.parse(_lines)
+    _description = ProjectDescription.parse(_ctx)
     assert isinstance(_description, ProjectDescription)
     _text = """This should still be pretty short, 2-3 sentences.
 Multiple lines are fine.
 
 So are multiple paragraphs."""
-    assert (
-        _description.text
-        == _text
-    )
-
+    assert _description.text.strip() == _text.strip()
+    assert _ctx.doc_line_num == 28
 
 def test_skills_block():
     _lines = get_data_lines(29, 31)
-    _skills = ProjectSkills.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=29)
+
+    _skills = ProjectSkills.parse(_ctx)
     assert isinstance(_skills, ProjectSkills)
     assert _skills.skills == ["Skill 1", "Skill 2", "Skill 5"]
-
+    assert _ctx.doc_line_num == 32
 
 def test_project_block():
     _lines = get_data_lines(13, 32)
     _lines = _deindenter(_lines, 3)
 
-    _project = Project.parse(_lines)
+    _ctx = ParseContext(lines=_lines, doc_line_num=13)
+
+    _project = Project.parse(_ctx)
     assert isinstance(_project, Project)
     assert isinstance(_project.overview, ProjectOverview)
     assert isinstance(_project.description, ProjectDescription)
     assert isinstance(_project.skills, ProjectSkills)
+    assert _ctx.doc_line_num == 33

@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from resume_writer.models.education import Education, Degrees, Degree
+from resume_writer.models.parsers import ParseContext
 
 test_data = """
 ## Degrees
@@ -59,7 +60,10 @@ def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
 def test_parse_degree_block():
     _lines = get_data_lines(7, 15)
     _lines = _deindenter(_lines)
-    degree = Degree.parse(_lines)
+
+    _ctx = ParseContext(_lines, doc_line_num=7)
+
+    degree = Degree.parse(_ctx)
     assert isinstance(degree, Degree)
     assert degree.school == "University of Example"
     assert degree.degree == "Impressive Degree"
@@ -67,22 +71,31 @@ def test_parse_degree_block():
     assert degree.end_date == datetime(1994, 5, 1)
     assert degree.major == "Example Major"
     assert degree.gpa == "3.5"
+    assert _ctx.doc_line_num == 16
 
 def test_parse_multiple_degrees_blocks():
     _lines = get_data_lines(8, 23)
     _lines = _deindenter(_lines)
-    _lines = _deindenter(_lines) # needs two so "# Degree" it top-level
-    degrees = Degrees.parse(_lines)
+    _lines = _deindenter(_lines) # needs two so "# Degree" is top-level
+
+    _ctx = ParseContext(_lines, doc_line_num=8)
+
+    degrees = Degrees.parse(_ctx)
     assert isinstance(degrees, Degrees)
     assert len(degrees.degrees) == 2
     assert degrees.degrees[0].school == "University of Example"
     assert degrees.degrees[1].school == "University of College"
+    assert _ctx.doc_line_num == 24
 
 def test_parse_education_block():
     _lines = get_data_lines(5, 23)
     _lines = _deindenter(_lines)
-    education = Education.parse(_lines)
+
+    _ctx = ParseContext(_lines, doc_line_num=5)
+
+    education = Education.parse(_ctx)
     assert isinstance(education, Education)
     assert len(education.degrees.degrees) == 2
     assert education.degrees.degrees[0].school == "University of Example"
     assert education.degrees.degrees[1].school == "University of College"
+    assert _ctx.doc_line_num == 24

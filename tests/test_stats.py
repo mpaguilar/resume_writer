@@ -12,6 +12,8 @@ from resume_writer.resume_render.skills_matrix import (
     skills_experience,
 )
 
+from resume_writer.models.parsers import ParseContext
+
 
 test_data = """
 
@@ -80,7 +82,10 @@ test_data_start_line = 17
 def roles():
     _lines = get_data_lines(test_data, test_data_start_line, 17, 75)
     data = deindenter(_lines, 2)
-    roles = Roles.parse(data)
+
+    _ctx = ParseContext(lines=data, doc_line_num=1)
+
+    roles = Roles.parse(_ctx)
     return roles
 
 
