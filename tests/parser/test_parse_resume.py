@@ -192,7 +192,7 @@ def block_lines():
 
 def test_parse_resume_complete(block_lines):
     _ctx = ParseContext(lines=block_lines, doc_line_num=1)
-    resume = Resume.parse(_ctx)
+    resume = Resume.parse(parse_context=_ctx)
 
     assert isinstance(resume, Resume)
 

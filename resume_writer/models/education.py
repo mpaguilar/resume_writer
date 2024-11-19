@@ -8,6 +8,7 @@ from resume_writer.models.parsers import (
     LabelBlockParse,
     MultiBlockParse,
     ParseContext,
+    ParseError,
 )
 
 log = logging.getLogger(__name__)
@@ -28,7 +29,8 @@ class Degree(LabelBlockParse):
     ):
         """Initialize the object."""
         assert isinstance(
-            parse_context, ParseContext,
+            parse_context,
+            ParseContext,
         ), "parse_context must be a ParseContext object."
         assert isinstance(school, str)
         assert isinstance(degree, (str, type(None)))
@@ -41,7 +43,10 @@ class Degree(LabelBlockParse):
             log.debug(f"Creating degree object for {school}.")
 
         if end_date and not start_date:
-            raise ValueError("Education section: End date provided without start date.")
+            raise ParseError(
+                message="Education section: End date provided without start date.",
+                parse_context=parse_context,
+            )
 
         self.school = school
         self.degree = degree
@@ -61,12 +66,16 @@ class Degree(LabelBlockParse):
             )
 
         if start_date and end_date and start_date > end_date:
-            raise ValueError("Start date is after end date.")
+            raise ParseError(
+                "Start date is after end date.",
+                parse_context=parse_context,
+            )
 
         self.start_date = start_date
         self.end_date = end_date
         self.major = major
         self.gpa = gpa
+        self.parse_context = parse_context
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -84,11 +93,12 @@ class Degree(LabelBlockParse):
 class Degrees(MultiBlockParse):
     """Details of educational background."""
 
-    def __init__(self, degrees: list[Degree]):
+    def __init__(self, degrees: list[Degree], parse_context : ParseContext):
         """Initialize the object."""
 
         assert isinstance(degrees, list)
         assert all(isinstance(degree, Degree) for degree in degrees)
+        assert isinstance(parse_context, ParseContext)
 
         if degrees:
             log.info(f"Creating degrees object with {len(degrees)} degrees.")
@@ -96,6 +106,7 @@ class Degrees(MultiBlockParse):
             log.info("Creating degrees object with no degrees.")
 
         self.degrees = degrees
+        self.parse_context = parse_context
 
     def __iter__(self):
         """Iterate over the degrees."""
@@ -118,9 +129,11 @@ class Degrees(MultiBlockParse):
 class Education(BasicBlockParse):
     """Details of educational background."""
 
-    def __init__(self, degrees: Degrees | None):
+    def __init__(self, degrees: Degrees | None, parse_context: ParseContext):
         """Initialize the object."""
         assert isinstance(degrees, (Degrees, type(None)))
+        assert isinstance(parse_context, ParseContext)
+
         if degrees:
             log.info(f"Creating education object with {len(degrees)} degrees.")
         else:

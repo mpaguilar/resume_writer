@@ -12,6 +12,7 @@ from resume_writer.models.experience import (
     RoleSummary,
     RoleResponsibilities,
 )
+from resume_writer.models.parsers import ParseContext
 
 from resume_writer.resume_render.render_settings import (
     ResumeRolesSettings,
@@ -43,7 +44,10 @@ def role():
     role.responsibilities = Mock(spec=RoleResponsibilities)
     role.responsibilities.text = "Responsibility 1"
 
-    role.skills = RoleSkills(skills=["Skill 1", "Skill 2"])
+    role.skills = RoleSkills(
+        skills=["Skill 1", "Skill 2"],
+        parse_context=Mock(spec=ParseContext),
+    )
 
     _basics = Mock(spec=RoleBasics)
     _basics.company = "Company 1"
@@ -87,6 +91,6 @@ def test_basic_role_section(document, role, settings):
 
 
 def test_basic_roles_section(document, role, settings):
-    roles = Roles([role])
+    roles = Roles([role], parse_context=Mock(spec=ParseContext))
     section = RenderRolesSection(document=document, roles=roles, settings=settings)
     section.render()

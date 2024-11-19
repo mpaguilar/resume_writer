@@ -21,6 +21,7 @@ from resume_writer.models.experience import (
 )
 
 from resume_writer.resume_render.render_settings import ResumeExecutiveSummarySettings
+from resume_writer.models.parsers import ParseContext
 
 from resume_writer.resume_render.basic.executive_summary_section import (
     RenderExecutiveSummarySection,
@@ -105,9 +106,11 @@ def projects(project):
 
 @pytest.fixture
 def experience(projects, roles):
+    _ctx = Mock(spec=ParseContext)
     return Experience(
         roles=roles,
         projects=projects,
+        parse_context=_ctx,
     )
 
 @pytest.fixture

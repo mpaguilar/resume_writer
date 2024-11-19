@@ -20,6 +20,7 @@ from resume_writer.models.experience import (
     Project,
     Role,
 )
+from resume_writer.models.parsers import ParseContext
 
 from resume_writer.resume_render.render_settings import ResumeSkillsMatrixSettings
 
@@ -113,6 +114,7 @@ def experience(projects, roles):
     return Experience(
         roles=roles,
         projects=projects,
+        parse_context=Mock(spec=ParseContext),
     )
 
 
@@ -190,7 +192,10 @@ def role_no_skills():
 @pytest.fixture
 def roles_with_one_no_skills(role_no_skills, role_with_skills):
     _roles = MagicMock(spec=Roles)
-    _roles.roles = Roles([role_with_skills, role_no_skills])  # One role with no skills
+    _roles.roles = Roles(
+        [role_with_skills, role_no_skills],
+        parse_context=Mock(spec=ParseContext),
+    )  # One role with no skills
     _roles.__len__.return_value = 2
     _roles.__iter__.return_value = iter(_roles.roles)
 
@@ -202,6 +207,7 @@ def experience_with_one_no_skills(projects, roles_with_one_no_skills):
     return Experience(
         roles=roles_with_one_no_skills,
         projects=projects,
+        parse_context=Mock(spec=ParseContext),
     )
 
 

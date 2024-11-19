@@ -18,14 +18,16 @@ def block_lines():
 
 
 class DummyTextClass(TextBlockParse):
-    def __init__(self, text: str):
-        self.text = text
+    def __init__(self, text_string: str, parse_context : ParseContext):
+        self.text = text_string
+        self.parse_context = parse_context
 
 
 class DummyClass(BasicBlockParse):
-    def __init__(self, param1: str, section2: str):
+    def __init__(self, param1: str, section2: str, parse_context : ParseContext):
         self.param1 = param1
         self.section2 = section2
+        self.parse_context = parse_context
 
     @staticmethod
     def expected_blocks() -> dict[str, str]:

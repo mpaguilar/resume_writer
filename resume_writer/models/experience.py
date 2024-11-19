@@ -8,6 +8,7 @@ from resume_writer.models.parsers import (
     LabelBlockParse,
     ListBlockParse,
     MultiBlockParse,
+    ParseContext,
     ParseError,
     TextBlockParse,
 )
@@ -15,39 +16,51 @@ from resume_writer.models.parsers import (
 log = logging.getLogger(__name__)
 
 
-class ParseRoleError(ParseError):
-    """Error parsing a role."""
-
-
 class RoleSummary(TextBlockParse):
     """Brief description of a role."""
 
-    def __init__(self, summary: str):
+    def __init__(self, text_string: str, parse_context: ParseContext):
         """Initialize the object."""
-        assert isinstance(summary, str), "Summary must be a string"
+        assert isinstance(text_string, str), "Summary must be a string"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
         # TODO: rename this to `text`
-        self.summary = summary
+        self.summary = text_string
+        self.parse_context = parse_context
 
 
 class RoleResponsibilities(TextBlockParse):
     """Detailed description of role responsibilities."""
 
-    def __init__(self, responsibilities: str):
+    def __init__(self, text_string: str, parse_context: ParseContext):
         """Initialize the object."""
 
-        if not isinstance(responsibilities, str):
-            raise ParseRoleError("Responsibilities must be a string")
-        self.text = responsibilities
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+
+        if not isinstance(text_string, str):
+            raise ParseError("Responsibilities must be a string", parse_context)
+        self.text = text_string
+        self.parse_context = parse_context
 
 
 class RoleSkills(ListBlockParse):
     """Skills used in a role."""
 
-    def __init__(self, skills: list[str]) -> None:
+    def __init__(self, skills: list[str], parse_context: ParseContext) -> None:
         """Initialize the object."""
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
         assert isinstance(skills, list), "Skills must be a list"
         assert all(isinstance(skill, str) for skill in skills), "Skills must be strings"
         self.skills = [skill.strip() for skill in skills if skill.strip() != ""]
+        self.parse_context = parse_context
 
     def __iter__(self):
         """Iterate over the skills."""
@@ -67,6 +80,7 @@ class RoleBasics(LabelBlockParse):
 
     def __init__(  # noqa: PLR0913
         self,
+        parse_context: ParseContext,
         company: str,
         start_date: str | datetime,
         end_date: str | datetime | None,
@@ -79,11 +93,19 @@ class RoleBasics(LabelBlockParse):
     ):
         """Initialize the object."""
 
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+
         if not isinstance(company, str):
-            raise ParseRoleError("Company name must be a string")
+            raise ParseError(
+                "Company name must be a string",
+                parse_context=parse_context,
+            )
 
         if not isinstance(title, str):
-            raise ParseRoleError("Job title must be a string")
+            raise ParseError("Job title must be a string", parse_context=parse_context)
 
         assert isinstance(
             start_date,
@@ -99,13 +121,19 @@ class RoleBasics(LabelBlockParse):
 
         self.company = company
         if isinstance(start_date, str):
-            start_date = dateparser.parse(start_date, settings={
-                "PREFER_DAY_OF_MONTH": "first",
-            })
+            start_date = dateparser.parse(
+                start_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
         if isinstance(end_date, str):
-            end_date = dateparser.parse(end_date, settings={
-                "PREFER_DAY_OF_MONTH": "first",
-            })
+            end_date = dateparser.parse(
+                end_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
 
         self.start_date = start_date
         self.end_date = end_date
@@ -115,6 +143,7 @@ class RoleBasics(LabelBlockParse):
         self.job_category = job_category
         self.employment_type = employment_type
         self.agency_name = agency_name
+        self.parse_context = parse_context
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
@@ -137,12 +166,19 @@ class Role(BasicBlockParse):
 
     def __init__(
         self,
+        parse_context: ParseContext,
         basics: RoleBasics | None,
         summary: RoleSummary | None,
         responsibilities: RoleResponsibilities | None,
         skills: RoleSkills | None,
     ):
         """Initialize the object."""
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+
         assert isinstance(
             basics,
             (RoleBasics, type(None)),
@@ -164,6 +200,7 @@ class Role(BasicBlockParse):
         self.summary = summary
         self.responsibilities = responsibilities
         self.skills = skills
+        self.parse_context = parse_context
 
     @staticmethod
     def expected_blocks() -> dict[str, str]:
@@ -190,12 +227,16 @@ class Role(BasicBlockParse):
 class Roles(MultiBlockParse):
     """Collection of work-related experiences."""
 
-    def __init__(self, roles: list[Role]):
+    def __init__(self, roles: list[Role], parse_context: ParseContext):
         """Initialize the object."""
         assert isinstance(roles, list), "Roles must be a list"
         assert all(
             isinstance(role, Role) for role in roles
         ), "Roles must be a list of Role objects"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
         self.roles = roles
 
     def __iter__(self):
@@ -219,12 +260,17 @@ class Roles(MultiBlockParse):
 class ProjectSkills(ListBlockParse):
     """Skills used in a project."""
 
-    def __init__(self, skills: list[str]):
+    def __init__(self, skills: list[str], parse_context: ParseContext):
         """Initialize the object."""
         assert isinstance(skills, list), "Skills must be a list"
         assert all(
             isinstance(skill, str) for skill in skills
         ), "Skills must be a list of strings"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+
         self.skills = [s.strip() for s in skills]
 
     def __iter__(self):
@@ -243,9 +289,10 @@ class ProjectSkills(ListBlockParse):
 class ProjectOverview(LabelBlockParse):
     """Basic details of a project."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913
         self,
         title: str,
+        parse_context: ParseContext,
         url: str | None = None,
         url_description: str | None = None,
         start_date: str | datetime | None = None,
@@ -267,18 +314,28 @@ class ProjectOverview(LabelBlockParse):
             end_date,
             (str, datetime, type(None)),
         ), "End date must be a string, datetime, or None"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
 
         self.title = title
         self.url = url
         self.url_description = url_description
         if isinstance(start_date, str):
-            start_date = dateparser.parse(start_date, settings={
-                "PREFER_DAY_OF_MONTH": "first",
-            })
+            start_date = dateparser.parse(
+                start_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
         if isinstance(end_date, str):
-            end_date = dateparser.parse(end_date, settings={
-            "PREFER_DAY_OF_MONTH": "first",
-            })
+            end_date = dateparser.parse(
+                end_date,
+                settings={
+                    "PREFER_DAY_OF_MONTH": "first",
+                },
+            )
         self.start_date = start_date
         self.end_date = end_date
 
@@ -297,10 +354,14 @@ class ProjectOverview(LabelBlockParse):
 class ProjectDescription(TextBlockParse):
     """Brief description of a project."""
 
-    def __init__(self, description: str):
+    def __init__(self, text_string: str, parse_context: ParseContext):
         """Initialize the object."""
-        assert isinstance(description, str), "Text must be a string"
-        self.text = description
+        assert isinstance(text_string, str), "Text must be a string"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
+        self.text = text_string
 
 
 class Project(BasicBlockParse):
@@ -311,6 +372,7 @@ class Project(BasicBlockParse):
         overview: ProjectOverview,
         description: ProjectDescription,
         skills: ProjectSkills | None,
+        parse_context: ParseContext,
     ):
         """Initialize the object."""
         assert isinstance(
@@ -325,6 +387,10 @@ class Project(BasicBlockParse):
             skills,
             (ProjectSkills, type(None)),
         ), "Skills must be a ProjectSkills object or None"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
 
         self.overview = overview
         self.description = description
@@ -352,12 +418,17 @@ class Project(BasicBlockParse):
 class Projects(MultiBlockParse):
     """Collection of projects."""
 
-    def __init__(self, projects: list[Project]):
+    def __init__(self, projects: list[Project], parse_context: ParseContext):
         """Initialize the object."""
         assert isinstance(projects, list), "Projects must be a list"
         assert all(
             isinstance(project, Project) for project in projects
         ), "Projects must be a list of Project objects"
+
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
         self.projects = projects
 
     def __iter__(self):
@@ -381,7 +452,12 @@ class Projects(MultiBlockParse):
 class Experience(BasicBlockParse):
     """Details of experience."""
 
-    def __init__(self, roles: Roles | None, projects: Projects | None):
+    def __init__(
+        self,
+        roles: Roles | None,
+        projects: Projects | None,
+        parse_context: ParseContext,
+    ):
         """Initialize with a list of Role objects."""
 
         assert isinstance(roles, (Roles, type(None))), "Roles must be a Roles object"
@@ -389,6 +465,10 @@ class Experience(BasicBlockParse):
             projects,
             (Projects, type(None)),
         ), "Projects must be a Projects object"
+        assert isinstance(
+            parse_context,
+            ParseContext,
+        ), "Parse context must be a ParseContext object"
 
         log.info("Creating Experience object.")
 

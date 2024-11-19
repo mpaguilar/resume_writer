@@ -9,6 +9,13 @@ log = logging.getLogger(__name__)
 class ParseError(Exception):
     """Exception raised when parsing fails."""
 
+    def __init__(self, message: str, parse_context: "ParseContext"):
+        """Initialize ParseError class instance, add parse_context info to message."""
+
+        _start_line = parse_context.doc_line_num - parse_context.line_num
+        _msg = f"{message} (lines {_start_line}-{parse_context.doc_line_num})"
+        super().__init__(_msg)
+
 
 class ParseContext:
     """Tracking context while parsing."""
@@ -81,7 +88,7 @@ class ListBlockParse:
 
         assert all(item != "" for item in _items), "All items should be strings"
 
-        return cls(_items)
+        return cls(_items, parse_context=parse_context)
 
 
 class TextBlockParse:
@@ -286,7 +293,9 @@ class BasicBlockParse:
             _lookup_block = _block.lower().strip()
             if _lookup_block in _expected_blocks and _lookup_block in _init_classes:
                 _init_arg = _expected_blocks[_lookup_block]
-                _init_kwargs[_init_arg] = _init_classes[_block].parse(_blocks[_block])
+                _init_kwargs[_init_arg] = _init_classes[_block].parse(
+                    _blocks[_block],
+                )
                 _expected_blocks.pop(_lookup_block)
             else:
                 log.info(f"Unexpected block: {_block}")
@@ -321,7 +330,8 @@ class MultiBlockParse:
         """
 
         assert isinstance(
-            parse_context, ParseContext,
+            parse_context,
+            ParseContext,
         ), "parse_context must be a ParseContext"
 
         _blocks = []
@@ -339,7 +349,8 @@ class MultiBlockParse:
                 if len(_current_block) > 0:
                     _blocks.append(_current_block)
                 _current_block = ParseContext(
-                    lines=[], doc_line_num=parse_context.doc_line_num,
+                    lines=[],
+                    doc_line_num=parse_context.doc_line_num,
                 )
                 continue
 
@@ -385,6 +396,6 @@ class MultiBlockParse:
         log.debug(f"Parsed {len(_object_list)} objects for type {type(T)}")
 
         assert all(isinstance(obj, _list_type) for obj in _object_list)
-        _new_obj = cls(_object_list)
+        _new_obj = cls(_object_list, parse_context=parse_context)
         assert isinstance(_new_obj, cls)
         return _new_obj

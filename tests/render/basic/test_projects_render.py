@@ -12,6 +12,7 @@ from resume_writer.models.experience import (
     ProjectOverview,
     ProjectDescription,
 )
+from resume_writer.models.parsers import ParseContext
 
 from resume_writer.resume_render.render_settings import (
     ResumeProjectsSettings,
@@ -41,6 +42,7 @@ def resume():
 
 @pytest.fixture
 def project():
+    _ctx = Mock(spec=ParseContext)
     project: Project = Mock(spec=Project)
     project.overview = ProjectOverview(
         title="Project Title",
@@ -48,9 +50,13 @@ def project():
         url_description="Example Project",
         start_date=datetime(2021, 1, 1),
         end_date=datetime(2021, 12, 31),
+        parse_context=_ctx,
     )
-    project.skills = ProjectSkills(["Skill 1", "Skill 2"])
-    project.description = ProjectDescription("Project 1 description")
+    project.skills = ProjectSkills(["Skill 1", "Skill 2"], parse_context=_ctx)
+    project.description = ProjectDescription(
+        "Project 1 description",
+        parse_context=_ctx,
+    )
     return project
 
 
@@ -65,5 +71,9 @@ def test_render_project_section(document, project, settings):
 
 
 def test_render_projects_section(document, project, settings):
-    section = RenderProjectsSection(document, Projects([project]), settings)
+    section = RenderProjectsSection(
+        document,
+        Projects([project], parse_context=Mock(spec=ParseContext)),
+        settings,
+    )
     section.render()
