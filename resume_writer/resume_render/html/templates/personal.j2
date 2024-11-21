@@ -30,14 +30,15 @@
 </div>
 {% endif %} <!--- contact_info -->
 
-<h2>Banner and note</h2>
 {% if settings.banner and personal.banner.text %}
+<h2>Banner</h2>
 <div class="banner">
     {{ personal.banner.text }}
 </div>
 {% endif %} <!-- banner -->
 
 {% if settings.note and personal.note.text %}
+<h2>Note</h2>
 <div class="note">
     {{ personal.note.text }}
 </div>
