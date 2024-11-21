@@ -38,6 +38,7 @@ class RenderResume(ResumeRenderBase):
         settings: ResumeRenderSettings,
     ):
         """Initialize basic resume renderer."""
+        self.parse_context = resume.parse_context
         super().__init__(document, resume, settings)
 
     def render(self) -> None:
@@ -85,9 +86,11 @@ class RenderResume(ResumeRenderBase):
             # add a blank line
             self.document.add_paragraph()
             RenderSkillsMatrixSection(
-                self.document,
-                self.resume.experience,
-                self.settings.skills_matrix_settings,
+                document=self.document,
+                experience=self.resume.experience,
+                settings=self.settings.skills_matrix_settings,
+                parse_context=self.parse_context,
+
             ).render()
 
         # don't add a page break if we're rendering only the summary

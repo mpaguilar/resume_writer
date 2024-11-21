@@ -6,6 +6,7 @@ from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.shared import Inches
 
 from resume_writer.models.experience import Experience, Roles
+from resume_writer.models.parsers import ParseContext
 from resume_writer.resume_render.render_settings import (
     ResumeSkillsMatrixSettings,
 )
@@ -25,10 +26,12 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         document: docx.document.Document,
         experience: Experience,
         settings: ResumeSkillsMatrixSettings,
+        parse_context: ParseContext,  # for objects requiring it...
     ):
         """Initialize skills render object."""
         log.debug("Initializing functional skills render object.")
         super().__init__(document=document, experience=experience, settings=settings)
+        self.parse_context = parse_context
 
     def find_skill_date_range(
         self,
@@ -40,21 +43,15 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         _last_end_date = None
 
         # collect roles with skills
-        _roles = [ role for role in self.experience.roles if role.skills ]
+        _roles = [role for role in self.experience.roles if role.skills]
 
         # collect the start dates for each role with this skill
 
         _start_dates = [
-            role.basics.start_date
-            for role in _roles
-            if skill in role.skills
+            role.basics.start_date for role in _roles if skill in role.skills
         ]
         # collect the end dates for each role with this skill
-        _end_dates = [
-            role.basics.end_date
-            for role in _roles
-            if skill in role.skills
-        ]
+        _end_dates = [role.basics.end_date for role in _roles if skill in role.skills]
 
         # find the earliest start date
         if len(_start_dates) > 0:
@@ -65,7 +62,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
 
     def _get_skills_matrix(self) -> dict[str, float]:
         """Get a matrix of skills and their years of experience."""
-        _roles = Roles([ role for role in self.experience.roles if role.skills ])
+        _roles = Roles(
+            [role for role in self.experience.roles if role.skills],
+            parse_context=self.parse_context,
+        )
 
         # use only skills specified in the settings
         _settings_skills = self.settings.skills
@@ -84,7 +84,6 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
                 _skills_yoe[_setting_skill] = _all_skills_yoe.get(_setting_skill, 0.0)
         else:
             _skills_yoe = _all_skills_yoe
-
 
         # sort skills by yoe
         _skills_yoe = dict(

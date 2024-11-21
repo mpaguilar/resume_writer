@@ -154,7 +154,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
             _summary_paragraph = self.document.add_paragraph()
             _summary_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
             _summary_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
-            _summary_run = _summary_paragraph.add_run(self.role.summary.text)
+            _summary_run = _summary_paragraph.add_run(self.role.summary.summary)
             _summary_run.italic = True
 
         # add the responsibilities section
