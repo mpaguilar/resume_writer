@@ -3,13 +3,13 @@ import logging
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
-from resume_render.render_settings import ResumeCertificationsSettings
-from resume_render.resume_render_base import (
+
+from resume_writer.models.certifications import Certification, Certifications
+from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
+from resume_writer.resume_render.resume_render_base import (
     ResumeRenderCertificationBase,
     ResumeRenderCertificationsBase,
 )
-
-from resume_writer.models.certifications import Certification, Certifications
 
 log = logging.getLogger(__name__)
 

@@ -2,13 +2,13 @@ import logging
 from datetime import datetime
 
 import docx.document
-from resume_render.render_settings import ResumeCertificationsSettings
-from resume_render.resume_render_base import (
+
+from resume_writer.models.certifications import Certification, Certifications
+from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
+from resume_writer.resume_render.resume_render_base import (
     ResumeRenderCertificationBase,
     ResumeRenderCertificationsBase,
 )
-
-from resume_writer.models.certifications import Certification, Certifications
 
 log = logging.getLogger(__name__)
 

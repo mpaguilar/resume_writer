@@ -2,13 +2,13 @@ import logging
 
 import docx.document
 from docx.shared import Pt
-from resume_render.render_settings import ResumeEducationSettings
-from resume_render.resume_render_base import (
+
+from resume_writer.models.education import Degree, Education
+from resume_writer.resume_render.render_settings import ResumeEducationSettings
+from resume_writer.resume_render.resume_render_base import (
     ResumeRenderDegreeBase,
     ResumeRenderEducationBase,
 )
-
-from resume_writer.models.education import Degree, Education
 
 log = logging.getLogger(__name__)
 

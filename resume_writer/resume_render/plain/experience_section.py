@@ -4,18 +4,6 @@ from datetime import datetime
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.shared import Inches, Pt
-from resume_render.render_settings import (
-    ResumeExperienceSettings,
-    ResumeProjectsSettings,
-    ResumeRolesSettings,
-)
-from resume_render.resume_render_base import (
-    ResumeRenderExperienceBase,
-    ResumeRenderProjectBase,
-    ResumeRenderProjectsBase,
-    ResumeRenderRoleBase,
-    ResumeRenderRolesBase,
-)
 
 from resume_writer.models.experience import (
     Experience,
@@ -25,6 +13,18 @@ from resume_writer.models.experience import (
     Roles,
 )
 from resume_writer.resume_render.docx_hyperlink import add_hyperlink
+from resume_writer.resume_render.render_settings import (
+    ResumeExperienceSettings,
+    ResumeProjectsSettings,
+    ResumeRolesSettings,
+)
+from resume_writer.resume_render.resume_render_base import (
+    ResumeRenderExperienceBase,
+    ResumeRenderProjectBase,
+    ResumeRenderProjectsBase,
+    ResumeRenderRoleBase,
+    ResumeRenderRolesBase,
+)
 
 log = logging.getLogger(__name__)
 

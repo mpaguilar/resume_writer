@@ -3,11 +3,11 @@ import logging
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
-from resume_render.docx_hyperlink import add_hyperlink
-from resume_render.render_settings import ResumePersonalSettings
-from resume_render.resume_render_base import ResumeRenderPersonalBase
 
 from resume_writer.models.personal import ContactInfo, Personal
+from resume_writer.resume_render.docx_hyperlink import add_hyperlink
+from resume_writer.resume_render.render_settings import ResumePersonalSettings
+from resume_writer.resume_render.resume_render_base import ResumeRenderPersonalBase
 
 log = logging.getLogger(__name__)
 

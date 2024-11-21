@@ -3,13 +3,13 @@ import logging
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.shared import Inches, Pt
-from resume_render.render_settings import ResumeEducationSettings
-from resume_render.resume_render_base import (
+
+from resume_writer.models.education import Degree, Education
+from resume_writer.resume_render.render_settings import ResumeEducationSettings
+from resume_writer.resume_render.resume_render_base import (
     ResumeRenderDegreeBase,
     ResumeRenderEducationBase,
 )
-
-from resume_writer.models.education import Degree, Education
 
 log = logging.getLogger(__name__)
 
