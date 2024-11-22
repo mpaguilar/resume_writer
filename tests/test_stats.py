@@ -1,16 +1,13 @@
 import pytest
 
+from datetime import datetime
 from common import get_data_lines, deindenter  # type: ignore
 
 from resume_writer.models.experience import (
     Roles,
 )
 
-from resume_writer.resume_render.skills_matrix import (
-    career_experience_total,
-    career_experience_span,
-    skills_experience,
-)
+from resume_writer.resume_render.skills_matrix import SkillsMatrix
 
 from resume_writer.models.parsers import ParseContext
 
@@ -91,21 +88,37 @@ def roles():
 
 def test_career_total(roles: Roles):
     assert isinstance(roles, Roles)
-    years_of_experience = career_experience_total(roles)
+    _skills_matrix = SkillsMatrix(roles)
+    years_of_experience = _skills_matrix.career_experience_total()
     assert years_of_experience == 3
 
 
 def test_career_span(roles: Roles):
     assert isinstance(roles, Roles)
-    span_of_experience = career_experience_span(roles)
+    _skills_matrix = SkillsMatrix(roles)
+    span_of_experience = _skills_matrix.career_experience_span()
     assert span_of_experience == 3.6
+
 
 def test_skills_experience(roles: Roles):
     assert isinstance(roles, Roles)
-    skills_experience_matrix = skills_experience(roles)
+    _skills_matrix = SkillsMatrix(roles)
+    skills_experience_matrix = _skills_matrix.skills_experience()
     assert skills_experience_matrix == {
         "Skill 1": 3,
         "Skill 2": 3,
         "Skill 3": 1,
         "Skill 4": 2,
-        }
+    }
+
+def test_skills_matrix_matrix(roles: Roles):
+    assert isinstance(roles, Roles)
+    _skills_matrix = SkillsMatrix(roles)
+    _matrix = _skills_matrix.matrix(["Skill 1"])
+    assert _matrix == {
+        "Skill 1": {
+            "yoe": 3.0,
+            "first_used": datetime(2020, 6, 1, 0, 0),
+            "last_used": datetime(2024, 1, 1, 0, 0),
+        },
+    }
