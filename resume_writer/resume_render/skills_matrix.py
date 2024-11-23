@@ -124,6 +124,14 @@ class SkillsMatrix:
             _skills_matrix[_skill]["first_used"] = _date_range[0]
             _skills_matrix[_skill]["last_used"] = _date_range[1]
 
+        _skills_matrix = dict(
+            sorted(
+                _skills_matrix.items(),
+                key=lambda item: item[1]["yoe"],
+                reverse=True,
+            ),
+        )
+
         return _skills_matrix
 
     def find_skill_date_range(
@@ -137,15 +145,11 @@ class SkillsMatrix:
 
         # collect the start dates for each role with this skill
         _start_dates = [
-            role.basics.start_date
-            for role in self.roles
-            if skill in role.skills
+            role.basics.start_date for role in self.roles if skill in role.skills
         ]
         # collect the end dates for each role with this skill
         _end_dates = [
-            role.basics.end_date
-            for role in self.roles
-            if skill in role.skills
+            role.basics.end_date for role in self.roles if skill in role.skills
         ]
 
         # find the earliest start date
@@ -155,4 +159,3 @@ class SkillsMatrix:
 
         # return the first and last usage of the skill
         return _earliest_start_date, _last_end_date
-

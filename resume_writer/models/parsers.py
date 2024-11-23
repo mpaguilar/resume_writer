@@ -83,6 +83,8 @@ class ListBlockParse:
                 if _line == "":
                     continue
                 _items.append(_block_line[2:])
+            elif _block_line.strip():
+                log.info(f"Skipping line: {_block_line.strip()}")
             else:
                 log.info(f"Skipping line: {_block_line}")
 
@@ -170,6 +172,8 @@ class LabelBlockParse:
                 _init_kwargs[_init_arg] = _value
                 # remove the label from the expected fields
                 _expected_fields.pop(_label)
+            elif _block_line.strip():
+                log.info(f"Skipping line: {_block_line.strip()}")
             else:
                 log.info(f"Skipping line: {_block_line}")
 
@@ -258,7 +262,7 @@ class BasicBlockParse:
                 if _block_line.startswith("#"):
                     # this is a subheader, add it without the hash
                     _block_line = _block_line[1:]
-                    log.debug(f"Found subheader: {_block_line}")
+                    log.debug(f"Found subheader: {_block_line.strip()}")
                 _blocks[_section_header].append(_block_line)
 
         # check up on the values we've got so far

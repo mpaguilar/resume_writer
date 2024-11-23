@@ -6,6 +6,7 @@ from docx.enum.table import WD_ALIGN_VERTICAL
 from resume_writer.models.experience import (
     Experience,
 )
+from resume_writer.models.parsers import ParseContext
 from resume_writer.resume_render.render_settings import (
     ResumeSkillsMatrixSettings,
 )
@@ -25,9 +26,13 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         document: docx.document.Document,
         experience: Experience,
         settings: ResumeSkillsMatrixSettings,
+        parse_context: ParseContext,
     ):
         """Initialize skills render object."""
         log.debug("Initializing functional skills render object.")
+        assert isinstance(parse_context, ParseContext)
+        self.parse_context = parse_context
+
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
@@ -39,7 +44,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
             raise ValueError("Experience must have roles for a skills matrix.")
 
         _skills_matrix = SkillsMatrix(self.experience.roles)
-        _skills_matrix = _skills_matrix.matrix(self.settings.skills)
+        if self.settings.all_skills:
+            _skills_matrix = _skills_matrix.matrix(["*all*"])
+        else:
+            _skills_matrix = _skills_matrix.matrix(self.settings.skills)
 
         # Calculate the number of rows needed for the table
         _num_rows = len(_skills_matrix) // 2 + len(_skills_matrix) % 2
@@ -49,9 +57,9 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         # Add header row
         _header_row = _table.rows[0]
         _header_row.cells[0].paragraphs[0].add_run("Skill").bold = True
-        _header_row.cells[1].paragraphs[0].add_run("YOE").bold = True
+        _header_row.cells[1].paragraphs[0].add_run("YOE (from - to)").bold = True
         _header_row.cells[2].paragraphs[0].add_run("Skill").bold = True
-        _header_row.cells[3].paragraphs[0].add_run("YOE").bold = True
+        _header_row.cells[3].paragraphs[0].add_run("YOE (from - to)").bold = True
 
         # Iterate through the sorted skills and their YOE values
         for i, (skill, data) in enumerate(_skills_matrix.items()):
