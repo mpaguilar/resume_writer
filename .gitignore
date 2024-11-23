@@ -24,6 +24,9 @@ envVars.txt
 .vscode-test/
 .venv*/
 
+# LibreWriter temp files
+.~lock.*#
+
 # Personal data
 personal_data
 

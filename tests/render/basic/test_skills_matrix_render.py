@@ -67,6 +67,9 @@ def role():
     _role.skills = MagicMock(spec=RoleSkills)
     _role.skills.skills = ["test1"]
 
+    _role.skills.__len__.return_value = 1
+    _role.skills.__iter__.return_value = iter(_role.skills.skills)
+
     return _role
 
 
@@ -125,13 +128,17 @@ def settings():
     return _settings
 
 
-@patch(
-    "resume_writer.resume_render.skills_matrix.skills_experience",
-    return_value={"test1": 1.0, "test2": 1.0},
-)
 def test_render_skills_matrix_section(document, experience, settings):
-    section = RenderSkillsMatrixSection(document, experience, settings)
-    section.render()
+    with patch(
+        "resume_writer.resume_render.skills_matrix.SkillsMatrix.skills_list",
+    ) as _skills_list, patch(
+        "resume_writer.resume_render.skills_matrix.SkillsMatrix.skills_experience",
+    ) as _skills_experience:
+        _skills_list.return_value = ["test1"]
+        _skills_experience.return_value = {"test1": 1}
+
+        section = RenderSkillsMatrixSection(document, experience, settings)
+        section.render()
 
 
 ## test a role without skills
@@ -211,10 +218,6 @@ def experience_with_one_no_skills(projects, roles_with_one_no_skills):
     )
 
 
-@patch(
-    "resume_writer.resume_render.skills_matrix.skills_experience",
-    return_value={"test1": 0.5},  # Skills from the role with skills
-)
 def test_render_skills_matrix_section_one_no_skills(
     document,
     experience_with_one_no_skills,
