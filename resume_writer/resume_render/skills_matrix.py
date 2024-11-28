@@ -80,9 +80,33 @@ class SkillsMatrix:
         return _skills
 
     def matrix(self, skills: list[str]) -> dict:
-        """Return skills, years of experience, and when that skill was used.
+        """Return a dictionary of skills, years of experience, and usage dates.
 
-        To retrieve all skills, send a single skill `*all*`.
+        Parameters
+        ----------
+        skills : list[str]
+            List of skills to include in the matrix. If "*all*" is provided,
+            all skills from the resume are included.
+
+        Returns
+        -------
+        dict
+            A dictionary where each key is a skill and the value is another
+            dictionary containing years of experience and usage dates.
+
+        Raises
+        ------
+        AssertionError
+            If the input is not a list of strings.
+
+        Notes
+        -----
+        1. Validate input and filter out invalid skills.
+        2. Retrieve all skills if "*all*" is provided or filter skills.
+        3. Create a matrix of skills and years of experience.
+        4. Add years of experience and usage dates to the matrix.
+        5. Sort the matrix by years of experience in descending order.
+
         """
 
         assert isinstance(skills, list)

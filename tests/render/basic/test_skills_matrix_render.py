@@ -137,7 +137,12 @@ def test_render_skills_matrix_section(document, experience, settings):
         _skills_list.return_value = ["test1"]
         _skills_experience.return_value = {"test1": 1}
 
-        section = RenderSkillsMatrixSection(document, experience, settings)
+        section = RenderSkillsMatrixSection(
+            document=document,
+            experience=experience,
+            settings=settings,
+            parse_context=Mock(spec=ParseContext),
+        )
         section.render()
 
 
@@ -224,9 +229,10 @@ def test_render_skills_matrix_section_one_no_skills(
     settings,
 ):
     section = RenderSkillsMatrixSection(
-        document,
-        experience_with_one_no_skills,
-        settings,
+        document=document,
+        experience=experience_with_one_no_skills,
+        settings=settings,
+        parse_context=Mock(spec=ParseContext),
     )
 
     section.render()
