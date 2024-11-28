@@ -4,6 +4,7 @@ from datetime import datetime
 import docx.document
 from docx.enum.table import WD_ALIGN_VERTICAL
 from docx.shared import Inches
+from utils.skills_matrix import SkillsMatrix
 
 from resume_writer.models.experience import (
     Experience,
@@ -14,7 +15,6 @@ from resume_writer.resume_render.render_settings import (
 from resume_writer.resume_render.resume_render_base import (
     ResumeRenderSkillsMatrixBase,
 )
-from resume_writer.resume_render.skills_matrix import SkillsMatrix
 
 log = logging.getLogger(__name__)
 

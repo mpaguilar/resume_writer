@@ -7,7 +7,7 @@ from resume_writer.models.experience import (
     Roles,
 )
 
-from resume_writer.resume_render.skills_matrix import SkillsMatrix
+from resume_writer.utils.skills_matrix import SkillsMatrix
 
 from resume_writer.models.parsers import ParseContext
 
