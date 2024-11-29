@@ -60,3 +60,11 @@ class ExecutiveSummary:
             _summaries[_category] = _category_summaries
 
         return _summaries
+
+    def available_categories(self) -> list[str]:
+        """Return a list of role categories."""
+
+        _categories = [_role.basics.job_category for _role in self.experience.roles]
+        _categories = list(set(_categories))
+
+        return _categories

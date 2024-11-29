@@ -52,8 +52,8 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
                 if not _summary["company"]:
                     log.warning(f"No company available for {_summary['title']}")
                 else:
-                    if _summary["end_date"]:
-                        _date_str = datetime.strftime(_summary["end_date"])
+                    if _summary["last_date"]:
+                        _date_str = datetime.strftime(_summary["last_date"], "%Y")
                     else:
                         _date_str = "Present"
 

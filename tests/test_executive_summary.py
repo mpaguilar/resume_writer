@@ -120,6 +120,12 @@ def test_executive_summary_initialization(experience):
 def executive_summary(experience):
     return ExecutiveSummary(experience)
 
+def test_executive_summary_available_categories(executive_summary):
+    _categories = executive_summary.available_categories()
+    assert len(_categories) == 1
+    assert "Software Engineering" in _categories
+
+
 def test_executive_summary_summary(executive_summary):
     summaries = executive_summary.summary(["Software Engineering"])
 
