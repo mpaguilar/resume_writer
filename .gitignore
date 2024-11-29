@@ -39,3 +39,6 @@ infra/export/var/lib/garage/meta
 .aider*
 .env
 start_aider.sh
+
+# Continue.dev files
+.continue/
