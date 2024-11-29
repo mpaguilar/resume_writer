@@ -1,3 +1,4 @@
+import datetime
 from unittest.mock import Mock
 
 import pytest
@@ -21,16 +22,16 @@ def parse_context():
 @pytest.fixture
 def role_basics(parse_context):
     return RoleBasics(
-        parse_context,
-        "Google",
-        "2020-01-01",
-        "2021-12-31",
-        None,
-        "Software Engineer",
-        "Mountain View",
-        "Software Engineering",
-        "Full-time",
-        None,
+        parse_context=parse_context,
+        company="Google",
+        start_date="2020-01-01",
+        end_date="2021-12-31",
+        reason_for_change=None,
+        title="Software Engineer",
+        location="Mountain View",
+        job_category="Software Engineering",
+        employment_type="Full-time",
+        agency_name=None,
     )
 
 
@@ -121,11 +122,22 @@ def executive_summary(experience):
 
 def test_executive_summary_summary(executive_summary):
     summaries = executive_summary.summary(["Software Engineering"])
-    assert "Software Engineering" in summaries
-    assert (
-        "Developed and maintained software applications"
-        in summaries["Software Engineering"]
-    )
+
+    _swe_summary = summaries["Software Engineering"]
+
+    assert len(_swe_summary) == 1
+    _swe_summary = _swe_summary[0]
+    assert "summary" in _swe_summary
+    assert "company" in _swe_summary
+    assert "first_date" in _swe_summary
+    assert "last_date" in _swe_summary
+    assert "title" in _swe_summary
+
+    assert _swe_summary["summary"] == "Developed and maintained software applications"
+    assert _swe_summary["company"] == "Google"
+    assert _swe_summary["title"] == "Software Engineer"
+    assert datetime.datetime(2020, 1, 1, 0, 0) == _swe_summary["first_date"]
+    assert datetime.datetime(2021, 12, 31, 0, 0) == _swe_summary["last_date"]
 
 
 def test_executive_summary_summary_empty_category(executive_summary):

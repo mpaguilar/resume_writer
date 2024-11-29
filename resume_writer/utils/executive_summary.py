@@ -20,34 +20,43 @@ class ExecutiveSummary:
 
         self.experience = experience
 
-    def summary(self, categories: list[str]) -> dict:
+    def summary(self, categories: list[str]) -> dict[str, dict]:
         """Create a dictionary of roles and their summaries."""
 
         # Create a dictionary to hold the roles and their summaries
-        summaries = {}
+        _summaries = {}
 
         # Loop through the provided categories
-        for category in categories:
+        for _category in categories:
             # Filter the roles that belong to the current category
-            category_roles = [
+            _category_roles = [
                 role
                 for role in self.experience.roles
-                if role.basics.job_category == category
+                if role.basics.job_category == _category
             ]
 
             # If there are no roles in the current category, skip to the next category
-            if not category_roles:
+            if not _category_roles:
+                log.warning(f"No roles found for category: {_category}")
                 continue
 
             # Create a list to hold the summaries for the current category
-            category_summaries = []
+            _category_summaries = []
 
             # Create a list of summaries for the current category
-            category_summaries = [
-                role.summary.summary for role in category_roles if role.summary.summary
-            ]
+            for _role in _category_roles:
+                if not _role.summary.summary:
+                    log.warning(f"No summary for {_role.basics.title}")
+                    continue
 
-            # Add the list of summaries for the current category to the dictionary
-            summaries[category] = category_summaries
+                _summary = {
+                    "summary": _role.summary.summary,
+                    "company": _role.basics.company,
+                    "first_date": _role.basics.start_date,
+                    "last_date": _role.basics.end_date,
+                    "title": _role.basics.title,
+                }
+                _category_summaries.append(_summary)
+            _summaries[_category] = _category_summaries
 
-        return summaries
+        return _summaries

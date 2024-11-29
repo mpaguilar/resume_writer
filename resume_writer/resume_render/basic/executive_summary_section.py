@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 
 import docx.document
 
@@ -11,6 +12,7 @@ from resume_writer.resume_render.render_settings import (
 from resume_writer.resume_render.resume_render_base import (
     ResumeRenderExecutiveSummaryBase,
 )
+from resume_writer.utils.executive_summary import ExecutiveSummary
 
 log = logging.getLogger(__name__)
 
@@ -36,41 +38,24 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         if not self.experience.roles:
             raise ValueError("Experience must have roles for a functional resume.")
 
-        # collect all job categories
-        _roles = self.experience.roles
-        _job_categories = set()
+        _o_executive_summary = ExecutiveSummary(self.experience)
+        _executive_summary = _o_executive_summary.summary(self.settings.categories)
 
-        # collect roles for each job category
-        for _role in _roles:
-            if _role.basics.job_category:
-                _job_categories.add(_role.basics.job_category)
-
-        # render each job category with roles
-
-        for _category in self.settings.categories:
-            _category_roles = [
-                _role for _role in _roles if _role.basics.job_category == _category
-            ]
-            if len(_category_roles) == 0:
-                _msg = f"No roles available for category {_category}"
-                log.warning(_msg)
-                continue
+        for _category in _executive_summary:
             self.document.add_heading(_category, level=4)
-
-            for _role in _category_roles:
-                if not _role.summary.summary:
-                    _msg = f"No summary available for {_role.basics.title}"
-                    log.warning(_msg)
-                    continue
-
-                if not _role.basics.company:
-                    _msg = f"No company available for {_role.basics.title}"
-                    log.warning(_msg)
-                    continue
-
+            for _summary in _executive_summary[_category]:
                 _paragraph = self.document.add_paragraph()
-
                 _paragraph.style = "List Bullet"
-                _paragraph.add_run(f"{_role.summary.summary}")
-                _run = _paragraph.add_run(f" ({_role.basics.company})")
-                _run.italic = True
+
+                _paragraph.add_run(_summary["summary"])
+
+                if not _summary["company"]:
+                    log.warning(f"No company available for {_summary['title']}")
+                else:
+                    if _summary["end_date"]:
+                        _date_str = datetime.strftime(_summary["end_date"])
+                    else:
+                        _date_str = "Present"
+
+                    _run = _paragraph.add_run(f" ({_summary['company']}, {_date_str})")
+                    _run.italic = True
