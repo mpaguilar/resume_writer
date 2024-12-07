@@ -164,13 +164,17 @@ class RenderRolesSection(ResumeRenderRolesBase):
     def render(self) -> None:
         """Render roles section."""
         log.debug("Rendering roles section.")
-        if len(self.roles) > 0:
+        # to prevent filtering twice
+        _roles = self.roles
+
+        # don't emit anything if there are no roles
+        if len(_roles) > 0:
             self.document.add_heading("Work History", level=2)
         else:
             log.info("No roles found")
             return
 
-        for _role in self.roles:
+        for _role in _roles:
             RenderRoleSection(
                 document=self.document,
                 role=_role,
@@ -178,7 +182,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
             ).render()
 
             # add two blank lines between roles
-            if _role != self.roles[-1]:
+            if _role != _roles[-1]:
                 self.document.add_paragraph()
                 self.document.add_paragraph()
 

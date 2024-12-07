@@ -1,5 +1,7 @@
 import pytest
-from datetime import datetime
+import pytz
+
+import dateparser
 
 from unittest.mock import Mock, MagicMock
 import docx.document
@@ -53,8 +55,23 @@ def role():
     _basics.company = "Company 1"
     _basics.title = "Title 1"
     _basics.location = "Location 1"
-    _basics.start_date = datetime.strptime("2020-01-01", "%Y-%m-%d")  # noqa: DTZ007
-    _basics.end_date = datetime.strptime("2021-01-01", "%Y-%m-%d")  # noqa: DTZ007
+
+    _basics.start_date = dateparser.parse(
+        "2020-01-01",
+        settings={
+            "PREFER_DAY_OF_MONTH": "first",
+            "TIMEZONE": "UTC",
+        },
+    ).astimezone(pytz.utc)
+
+    _basics.end_date = dateparser.parse(
+        "2021-01-01",
+        settings={
+            "PREFER_DAY_OF_MONTH": "first",
+            "TO_TIMEZONE": "UTC",
+        },
+    ).astimezone(pytz.utc)
+
     _basics.description = "Description 1"
 
     _basics.job_category = "Job Category 1"
@@ -81,6 +98,7 @@ def settings():
     _settings.end_date = True
     _settings.start_date = True
     _settings.reason_for_change = True
+    _settings.months_ago = 120  # ten years
 
     return _settings
 
@@ -94,3 +112,12 @@ def test_basic_roles_section(document, role, settings):
     roles = Roles([role], parse_context=Mock(spec=ParseContext))
     section = RenderRolesSection(document=document, roles=roles, settings=settings)
     section.render()
+
+def test_basic_roles_filter(document, role, settings):
+    settings.months_ago = 12
+    roles = Roles([role], parse_context=Mock(spec=ParseContext))
+    section = RenderRolesSection(document=document, roles=roles, settings=settings)
+    assert len(section.roles) == 0
+    section.render()
+
+

@@ -2,6 +2,7 @@ import logging
 from datetime import datetime
 
 import dateparser
+import pytz
 
 from resume_writer.models.parsers import (
     BasicBlockParse,
@@ -125,15 +126,17 @@ class RoleBasics(LabelBlockParse):
                 start_date,
                 settings={
                     "PREFER_DAY_OF_MONTH": "first",
+                    "TIMEZONE": "UTC",
                 },
-            )
+            ).astimezone(pytz.utc)
         if isinstance(end_date, str):
             end_date = dateparser.parse(
                 end_date,
                 settings={
                     "PREFER_DAY_OF_MONTH": "first",
+                    "TIMEZONE": "UTC",
                 },
-            )
+            ).astimezone(pytz.utc)
 
         self.start_date = start_date
         self.end_date = end_date
@@ -328,14 +331,14 @@ class ProjectOverview(LabelBlockParse):
                 settings={
                     "PREFER_DAY_OF_MONTH": "first",
                 },
-            )
+            ).astimezone(pytz.utc)
         if isinstance(end_date, str):
             end_date = dateparser.parse(
                 end_date,
                 settings={
                     "PREFER_DAY_OF_MONTH": "first",
                 },
-            )
+            ).astimezone(pytz.utc)
         self.start_date = start_date
         self.end_date = end_date
 

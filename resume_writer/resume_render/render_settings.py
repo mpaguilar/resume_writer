@@ -267,6 +267,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.agency_name = True
         self.start_date = True
         self.end_date = True
+        self.months_ago = 0
 
 
 class ResumeExperienceSettings(ResumeSettingsBase):

@@ -1,4 +1,5 @@
 from datetime import datetime
+import pytz
 
 from resume_writer.models.experience import (
     Role,
@@ -127,8 +128,8 @@ def test_role_basics_block():
 
     assert isinstance(_basics, RoleBasics)
     assert _basics.company == "Another Company"
-    assert _basics.start_date == datetime(2023, 1, 1, 0, 0)
-    assert _basics.end_date == datetime(2024, 1, 1, 0, 0)
+    assert _basics.start_date == datetime(2023, 1, 1, 0, 0).astimezone(pytz.utc)
+    assert _basics.end_date == datetime(2024, 1, 1, 0, 0).astimezone(pytz.utc)
     assert _basics.title == "Senior Worker"
     assert _basics.reason_for_change == "Searching for new opportunities"
     assert _basics.location == "remote"

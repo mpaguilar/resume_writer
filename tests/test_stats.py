@@ -1,4 +1,5 @@
 import pytest
+import pytz
 
 from datetime import datetime
 from common import get_data_lines, deindenter  # type: ignore
@@ -118,7 +119,7 @@ def test_skills_matrix_matrix(roles: Roles):
     assert _matrix == {
         "Skill 1": {
             "yoe": 3.0,
-            "first_used": datetime(2020, 6, 1, 0, 0),
-            "last_used": datetime(2024, 1, 1, 0, 0),
+            "first_used": datetime(2020, 6, 1, 0, 0).astimezone(pytz.utc),
+            "last_used": datetime(2024, 1, 1, 0, 0).astimezone(pytz.utc),
         },
     }

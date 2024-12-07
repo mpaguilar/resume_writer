@@ -1,3 +1,4 @@
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import docx.document
@@ -169,8 +170,23 @@ class ResumeRenderRolesBase(RenderBase):
         assert isinstance(roles, Roles)
         assert isinstance(settings, ResumeRolesSettings)
 
-        self.roles = roles
+        self._roles = roles
         self.settings = settings
+
+    @property
+    def roles(self) -> list[Role]:
+        """Return roles which have not been filtered out."""
+        _ret_roles = []
+        for _role in self._roles:
+            # Check if the role is older than the specified number of months
+            if self.settings.months_ago and self.settings.months_ago > 0:
+                _now = datetime.now(tz=timezone.utc)
+                _end_date = _role.basics.end_date or _now
+                _months_ago = _now - timedelta(days=self.settings.months_ago * 30)
+                if _end_date < _months_ago:
+                    continue
+            _ret_roles.append(_role)
+        return _ret_roles
 
 
 class ResumeRenderRoleBase(RenderBase):
@@ -361,7 +377,7 @@ class ResumeRenderSkillsMatrixBase(RenderBase):
     def __init__(
         self,
         document: docx.document.Document,
-        experience : Experience,
+        experience: Experience,
         settings: ResumeSkillsMatrixSettings,
     ) -> None:
         """Initialize the skills matrix section."""

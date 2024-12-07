@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import pytz
+
 from resume_writer.models.experience import (
     ProjectOverview,
     ProjectDescription,
@@ -112,8 +114,8 @@ def test_project_overview_block():
     assert _overview.title == "A Useful project"
     assert _overview.url == "https://example.com/useful1"
     assert _overview.url_description == "A Useful Project"
-    assert _overview.start_date == datetime(2020, 1, 1)
-    assert _overview.end_date == datetime(2021, 1, 1)
+    assert _overview.start_date == datetime(2020, 1, 1).astimezone(pytz.utc)
+    assert _overview.end_date == datetime(2021, 1, 1).astimezone(pytz.utc)
     assert _ctx.doc_line_num == 21
 
 def test_description_block():

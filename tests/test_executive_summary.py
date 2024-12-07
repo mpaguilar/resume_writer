@@ -1,4 +1,5 @@
 import datetime
+import pytz
 from unittest.mock import Mock
 
 import pytest
@@ -116,9 +117,11 @@ def test_executive_summary_initialization(experience):
     )
     assert summary.experience == experience
 
+
 @pytest.fixture
 def executive_summary(experience):
     return ExecutiveSummary(experience)
+
 
 def test_executive_summary_available_categories(executive_summary):
     _categories = executive_summary.available_categories()
@@ -142,11 +145,16 @@ def test_executive_summary_summary(executive_summary):
     assert _swe_summary["summary"] == "Developed and maintained software applications"
     assert _swe_summary["company"] == "Google"
     assert _swe_summary["title"] == "Software Engineer"
-    assert datetime.datetime(2020, 1, 1, 0, 0) == _swe_summary["first_date"]
-    assert datetime.datetime(2021, 12, 31, 0, 0) == _swe_summary["last_date"]
+    assert (
+        datetime.datetime(2020, 1, 1, 0, 0).astimezone(pytz.utc)
+        == _swe_summary["first_date"]
+    )
+    assert (
+        datetime.datetime(2021, 12, 31, 0, 0).astimezone(pytz.utc)
+        == _swe_summary["last_date"]
+    )
 
 
 def test_executive_summary_summary_empty_category(executive_summary):
     summaries = executive_summary.summary(["Product Management"])
     assert "Product Management" not in summaries
-
