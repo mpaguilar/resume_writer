@@ -1,3 +1,4 @@
+{% if roles|length > 0 %}
 <h2>Roles</h2>
 {% for role in roles %}
 
@@ -80,3 +81,5 @@ Agency Name:  {{ role.basics.agency_name }}
 {% endif %}
 
 {% endfor %}
+
+{% endif %} {# if roles|length > 0 #}

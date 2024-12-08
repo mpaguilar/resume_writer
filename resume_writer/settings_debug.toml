@@ -54,6 +54,7 @@ employment_type = true
 agency_name = true
 start_date = true
 end_date = true
+months_ago = 0
 
 [resume.render.section.executive_summary]
 # Categories are displayed in this order

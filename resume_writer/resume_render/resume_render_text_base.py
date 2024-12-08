@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 from jinja2 import Environment
@@ -8,6 +9,7 @@ from resume_writer.models.education import Education
 from resume_writer.models.experience import (
     Experience,
     Projects,
+    Role,
     Roles,
 )
 from resume_writer.models.personal import Personal
@@ -138,12 +140,27 @@ class ResumeRenderRolesBase(RenderBase):
         assert isinstance(template_name, str)
         assert isinstance(jinja_env, (type(None),Environment))
 
-        self.roles = roles
+        self._roles = roles
         self.settings = settings
         if template_name:
             self.template = jinja_env.get_template(template_name)
         else:
             self.template = None
+
+    @property
+    def roles(self) -> list[Role]:
+        """Return roles which have not been filtered out."""
+        _ret_roles = []
+        for _role in self._roles:
+            # Check if the role is older than the specified number of months
+            if self.settings.months_ago and self.settings.months_ago > 0:
+                _now = datetime.now(tz=timezone.utc)
+                _end_date = _role.basics.end_date or _now
+                _months_ago = _now - timedelta(days=self.settings.months_ago * 30)
+                if _end_date < _months_ago:
+                    continue
+            _ret_roles.append(_role)
+        return _ret_roles
 
 
 class ResumeRenderProjectsBase(RenderBase):

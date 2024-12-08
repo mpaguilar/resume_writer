@@ -1,3 +1,5 @@
+{% if projects|length > 0 %}
+
 <h2>Projects</h2>
 {% for project in projects %}
 <h3>Project</h3>
@@ -36,3 +38,5 @@
 {% endif %}
 
 {% endfor %}
+
+{% endif %} {# projects|length > 0 #}

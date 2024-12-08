@@ -115,6 +115,16 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         log.debug("Rendering experience section.")
 
+        _experience_length = 0
+        if self.settings.roles:
+            _experience_length += len(self.experience.roles)
+
+        if self.settings.projects:
+            _experience_length += len(self.experience.projects)
+
+        if _experience_length == 0:
+            return
+
         self.document.add_text("<h1>Experience</h1>")
 
         if self.settings.roles and self.experience.roles:
