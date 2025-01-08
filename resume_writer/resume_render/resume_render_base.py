@@ -179,10 +179,10 @@ class ResumeRenderRolesBase(RenderBase):
         _ret_roles = []
         for _role in self._roles:
             # Check if the role is older than the specified number of months
-            if self.settings.months_ago and self.settings.months_ago > 0:
+            if self.settings.months_ago and int(self.settings.months_ago) > 0:
                 _now = datetime.now(tz=timezone.utc)
                 _end_date = _role.basics.end_date or _now
-                _months_ago = _now - timedelta(days=self.settings.months_ago * 30)
+                _months_ago = _now - timedelta(days=int(self.settings.months_ago) * 30)
                 if _end_date < _months_ago:
                     continue
             _ret_roles.append(_role)
