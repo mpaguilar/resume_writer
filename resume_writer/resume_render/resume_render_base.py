@@ -108,20 +108,20 @@ class ResumeRenderBase(RenderBase):
         _font = _normal.font
 
         if self.settings.font_size:
-            _font.size = Pt(self.settings.font_size)
+            _font.size = Pt(int(self.settings.font_size))
 
         # margins are set per-section
         _section = self.document.sections[0]
 
         if self.settings.margin_width:
-            _section.left_margin = Inches(self.settings.margin_width)
-            _section.right_margin = Inches(self.settings.margin_width)
+            _section.left_margin = Inches(float(self.settings.margin_width))
+            _section.right_margin = Inches(float(self.settings.margin_width))
 
         if self.settings.bottom_margin:
-            _section.bottom_margin = Inches(self.settings.bottom_margin)
+            _section.bottom_margin = Inches(float(self.settings.bottom_margin))
 
         if self.settings.top_margin:
-            _section.top_margin = Inches(self.settings.top_margin)
+            _section.top_margin = Inches(float(self.settings.top_margin))
 
     def save(self, path: Path) -> None:
         """Save the document to a file."""
