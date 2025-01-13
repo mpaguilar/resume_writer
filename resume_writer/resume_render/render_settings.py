@@ -64,30 +64,30 @@ class ResumePersonalSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self):
-        """Initialize everything to True."""
+    def __init__(self, default_init: bool = True):
+        """Initialize everything to default_init."""
 
-        self.contact_info = True
-        self.banner = True
-        self.visa_status = True
-        self.websites = True
-        self.note = True
+        self.contact_info = default_init
+        self.banner = default_init
+        self.visa_status = default_init
+        self.websites = default_init
+        self.note = default_init
 
         # contact info
-        self.name = True
-        self.email = True
-        self.phone = True
-        self.location = True
+        self.name = default_init
+        self.email = default_init
+        self.phone = default_init
+        self.location = default_init
 
         # websites
-        self.linkedin = True
-        self.github = True
-        self.website = True
-        self.twitter = True
+        self.linkedin = default_init
+        self.github = default_init
+        self.website = default_init
+        self.twitter = default_init
 
         # visa status
-        self.require_sponsorship = True
-        self.work_authorization = True
+        self.require_sponsorship = default_init
+        self.work_authorization = default_init
 
     def to_dict(self) -> dict:
         """Return settings as a dictionary."""
@@ -132,8 +132,8 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
     Methods
     -------
-    __init__()
-        Initialize all attributes to True.
+    __init__(self, default_init=True)
+        Initialize all attributes to default_init.
 
     Notes
     -----
@@ -148,17 +148,17 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self):
-        """Initialize everything to True."""
+    def __init__(self, default_init: bool = True):
+        """Initialize everything to default_init."""
 
-        self.degrees = True  # render all degrees
+        self.degrees = default_init  # render all degrees
 
-        self.school = True
-        self.degree = True  # render degree name
-        self.start_date = True
-        self.end_date = True
-        self.gpa = True
-        self.major = True
+        self.school = default_init
+        self.degree = default_init  # render degree name
+        self.start_date = default_init
+        self.end_date = default_init
+        self.gpa = default_init
+        self.major = default_init
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the settings."""
@@ -198,14 +198,14 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self):
-        """Initialize everything to True."""
+    def __init__(self, default_init: bool = True):
+        """Initialize everything to default_init."""
 
-        self.name = True
-        self.issuer = True
-        self.issued = True
-        self.expires = True
-        self.certification_id = True
+        self.name = default_init
+        self.issuer = default_init
+        self.issued = default_init
+        self.expires = default_init
+        self.certification_id = default_init
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the object."""
@@ -246,7 +246,7 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
     Methods
     -------
-    __init__()
+    __init__(default_init : bool)
         Initialize all attributes to True.
     to_dict()
         Return a dictionary representation of the class.
@@ -262,18 +262,18 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self):
-        """Initialize everything to True."""
+    def __init__(self, default_init: bool = True):
+        """Initialize everything to default_init."""
 
-        self.overview = True
-        self.description = True
-        self.skills = True
+        self.overview = default_init
+        self.description = default_init
+        self.skills = default_init
 
-        self.title = True
-        self.url = True
-        self.url_description = True
-        self.start_date = True
-        self.end_date = True
+        self.title = default_init
+        self.url = default_init
+        self.url_description = default_init
+        self.start_date = default_init
+        self.end_date = default_init
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the class."""
@@ -311,22 +311,22 @@ class ResumeRolesSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self) -> None:
-        """Initialize everything to True."""
+    def __init__(self, default_init: bool = True) -> None:
+        """Initialize everything to default_init."""
 
         # title is required
-        self.summary = True
-        self.skills = True
-        self.responsibilities = True
+        self.summary = default_init
+        self.skills = default_init
+        self.responsibilities = default_init
         # basics
 
-        self.reason_for_change = True
-        self.location = True
-        self.job_category = True
-        self.employment_type = True
-        self.agency_name = True
-        self.start_date = True
-        self.end_date = True
+        self.reason_for_change = default_init
+        self.location = default_init
+        self.job_category = default_init
+        self.employment_type = default_init
+        self.agency_name = default_init
+        self.start_date = default_init
+        self.end_date = default_init
         self.months_ago = 0
 
     def to_dict(self) -> dict:
@@ -379,22 +379,22 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self) -> None:
-        """Initialize all attributes to True and create settings objects.
+    def __init__(self, default_init: bool = True) -> None:
+        """Initialize all attributes to default_init and create settings objects.
 
         Steps:
-        1. Set roles, projects, executive_summary, and skills_matrix to True.
+        1. Set roles, projects, executive_summary, and skills_matrix to default_init.
         2. Create ResumeRolesSettings, ResumeProjectsSettings,
            ResumeExecutiveSummarySettings, and ResumeSkillsMatrixSettings objects.
         """
 
-        self.roles = True
-        self.roles_settings = ResumeRolesSettings()
-        self.projects = True
-        self.projects_settings = ResumeProjectsSettings()
-        self.executive_summary = True
+        self.roles = default_init
+        self.roles_settings = ResumeRolesSettings(default_init=default_init)
+        self.projects = default_init
+        self.projects_settings = ResumeProjectsSettings(default_init=default_init)
+        self.executive_summary = default_init
         self.executive_summary_settings = ResumeExecutiveSummarySettings()
-        self.skills_matrix = True
+        self.skills_matrix = default_init
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
@@ -580,25 +580,27 @@ class ResumeRenderSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self):
+    def __init__(self, default_init: bool = True):
         """Initialize all settings with appropriate objects."""
 
-        self.personal_settings = ResumePersonalSettings()
-        self.personal = True
+        self.personal_settings = ResumePersonalSettings(default_init=default_init)
+        self.personal = default_init
 
-        self.education_settings = ResumeEducationSettings()
-        self.education = True
+        self.education_settings = ResumeEducationSettings(default_init=default_init)
+        self.education = default_init
 
-        self.certifications_settings = ResumeCertificationsSettings()
-        self.certifications = True
+        self.certifications_settings = ResumeCertificationsSettings(
+            default_init=default_init,
+        )
+        self.certifications = default_init
 
-        self.experience_settings = ResumeExperienceSettings()
-        self.experience = True
+        self.experience_settings = ResumeExperienceSettings(default_init=default_init)
+        self.experience = default_init
 
-        self.skills_matrix = True
+        self.skills_matrix = default_init
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
 
-        self.executive_summary = True
+        self.executive_summary = default_init
         self.executive_summary_settings = ResumeExecutiveSummarySettings()
 
         # these are passed up to RenderBase
@@ -612,8 +614,6 @@ class ResumeRenderSettings(ResumeSettingsBase):
 
         self.top_margin = 0.5
         self.bottom_margin = 0.5
-
-        self.executive_summary = True
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for resume and subsections.
