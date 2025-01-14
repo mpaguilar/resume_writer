@@ -36,8 +36,17 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer."""
+        """Initialize ATS resume renderer."""
+
         super().__init__(document, resume, settings)
+        self._settings_override()
+
+    def _settings_override(self) -> None:
+        """There are some settings which we always/never want in an ATS resume."""
+
+        self.settings.experience_settings.roles_settings.summary = False
+        self.settings.executive_summary = False
+        self.settings.skills_matrix = False
 
     def render(self) -> None:
         """Render the resume."""

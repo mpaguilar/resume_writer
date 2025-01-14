@@ -203,6 +203,11 @@ class RenderRolesSection(ResumeRenderRolesBase):
             return
 
         for _role in self.roles:
+
+            if _role == self.roles[0]:
+                _p = self.document.add_paragraph()
+                self.add_horizontal_line(paragraph=_p)
+
             RenderRoleSection(
                 document=self.document,
                 role=_role,
@@ -211,7 +216,8 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
             # add two blank lines between roles
             if _role != self.roles[-1]:
-                self.document.add_paragraph()
+                _p = self.document.add_paragraph()
+                self.add_horizontal_line(paragraph=_p)
                 self.document.add_paragraph()
 
 
