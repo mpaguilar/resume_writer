@@ -151,12 +151,13 @@ class RenderRoleSection(ResumeRenderRoleBase):
             _summary_paragraph.paragraph_format.space_after = Pt(self.font_size)
             _summary_paragraph.paragraph_format.space_before = Pt(0)
 
-        _responsibilites_paragraph = self.document.add_paragraph()
-        _responsibilites_paragraph.paragraph_format.space_before = Pt(0)
-        _responsibilites_paragraph.paragraph_format.space_after = Pt(6)
-        _responsibilities_run = _responsibilites_paragraph.add_run()
 
         if self.role.responsibilities and self.settings.responsibilities:
+            _responsibilites_paragraph = self.document.add_paragraph()
+            _responsibilites_paragraph.paragraph_format.space_before = Pt(0)
+            _responsibilites_paragraph.paragraph_format.space_after = Pt(6)
+            _responsibilities_run = _responsibilites_paragraph.add_run()
+
             _responsibilities_lines = self.role.responsibilities.text.replace(
                 "\n\n",
                 "\n",
