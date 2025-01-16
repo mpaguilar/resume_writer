@@ -116,10 +116,10 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         log.debug("Rendering experience section.")
 
         _experience_length = 0
-        if self.settings.roles:
+        if self.settings.roles and self.experience.roles:
             _experience_length += len(self.experience.roles)
 
-        if self.settings.projects:
+        if self.settings.projects and self.experience.projects:
             _experience_length += len(self.experience.projects)
 
         if _experience_length == 0:
