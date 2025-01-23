@@ -69,6 +69,9 @@ def test_dict():
                                 "agency_name": False,
                                 "start_date": False,
                                 "end_date": False,
+                                "highlight_skills": False,
+                                "include_situation": False,
+                                "include_tasks": False,
                             },
                         },
                     },
@@ -227,6 +230,9 @@ def test_roles_settings(test_dict):
     assert _roles_settings.agency_name is False
     assert _roles_settings.start_date is False
     assert _roles_settings.end_date is False
+    assert _roles_settings.highlight_skills is False
+    assert _roles_settings.include_situation is False
+    assert _roles_settings.include_tasks is False
 
 
 def test_experience_settings(test_dict):

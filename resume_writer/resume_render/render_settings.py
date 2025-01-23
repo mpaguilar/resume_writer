@@ -304,6 +304,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
         agency_name (bool): Whether to include the agency name.
         start_date (bool): Whether to include the role start date.
         end_date (bool): Whether to include the role end date.
+        highlight_skills (bool): Whether to bold skills inline.
 
     Steps:
         1. Initialize the class with all attributes set to True.
@@ -328,6 +329,9 @@ class ResumeRolesSettings(ResumeSettingsBase):
         self.start_date = default_init
         self.end_date = default_init
         self.months_ago = 0
+        self.highlight_skills = default_init
+        self.include_situation = default_init
+        self.include_tasks = default_init
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the class."""
@@ -343,6 +347,9 @@ class ResumeRolesSettings(ResumeSettingsBase):
             "start_date": self.start_date,
             "end_date": self.end_date,
             "months_ago": self.months_ago,
+            "highlight_skills": self.highlight_skills,
+            "include_situation": self.include_situation,
+            "include_tasks": self.include_tasks,
         }
 
 

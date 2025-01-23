@@ -22,6 +22,8 @@ tomli = "^2.0.1"
 dateparser = "^1.2.0"
 jinja2 = "^3.1.4"
 pytz = "^2024.2"
+nltk = "^3.9.1"
+mosestokenizer = "^1.2.1"
 
 
 [tool.poetry.group.dev.dependencies]

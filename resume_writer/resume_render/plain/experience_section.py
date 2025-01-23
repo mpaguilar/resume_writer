@@ -1,6 +1,8 @@
 import logging
+import re
 from datetime import datetime
 
+import docx
 import docx.document
 from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.shared import Inches, Pt
@@ -25,8 +27,11 @@ from resume_writer.resume_render.resume_render_base import (
     ResumeRenderRoleBase,
     ResumeRenderRolesBase,
 )
+from resume_writer.utils.skills_splitter import skills_splitter
 
 log = logging.getLogger(__name__)
+
+_punctuation_end_re = re.compile(r"[\).,!?;:\]]")
 
 
 class RenderRoleSection(ResumeRenderRoleBase):
@@ -139,6 +144,73 @@ class RenderRoleSection(ResumeRenderRoleBase):
         if _basics.location and self.settings.location:
             paragraph.add_run(f"\t{_basics.location}")
 
+    def _render_task(
+        self,
+        paragraph: docx.text.paragraph.Paragraph,
+        task_line: str,
+    ) -> None:
+        if (
+            self.role.skills
+            and self.settings.include_tasks
+            and len(self.role.skills) > 0
+        ):
+            _fragments = skills_splitter(task_line, self.role.skills)
+            _leading_space = True
+            _trailing_space = True
+            for _ndx, _fragment in enumerate(_fragments):
+                _run = paragraph.add_run()
+
+                if (_ndx + 1) < len(_fragments) and not _punctuation_end_re.match(
+                        _fragments[_ndx + 1],
+                    ):
+                    _trailing_space = True
+                else:
+                    _trailing_space = False
+
+                if _fragment in self.role.skills:
+                    if _leading_space:
+                        _run.add_text(" ")
+
+                    _run.add_text(_fragment)
+                    _run.bold = True
+
+                    if _trailing_space:
+                        _run.add_text(" ")
+                else:
+                    _run.add_text(_fragment)
+
+                # used on the next iteration of the loop
+                _leading_space = not re.search(r"[({[]$", _fragment)
+
+            _run.add_break()
+
+    def _responsibilities(self) -> None:
+        _msg = f"Rendering responsibilities for role {self.role.basics.title}"
+        log.debug(_msg)
+
+        _situation_paragraph = self.document.add_paragraph()
+        _situation_paragraph.paragraph_format.space_before = Pt(0)
+        _situation_paragraph.paragraph_format.space_after = Pt(6)
+
+        _tasks_paragraph = self.document.add_paragraph()
+        _tasks_paragraph.paragraph_format.space_before = Pt(0)
+        _tasks_paragraph.paragraph_format.space_after = Pt(6)
+
+        _responsibilities_lines: list[str] = self.role.responsibilities.text.replace(
+            "\n\n",
+            "\n",
+        ).split("\n")
+
+        for _line in _responsibilities_lines:
+            # task lines start with "* "
+            if _line.startswith("* ") and self.settings.include_tasks:
+                self._render_task(_tasks_paragraph, _line)
+
+            if self.settings.include_situation and _line and not _line.startswith("* "):
+                _situation_run = _situation_paragraph.add_run()
+                _situation_run.add_text(_line)
+                _situation_run.add_break()
+
     def _description(self) -> None:
         """Render role summary and details section."""
 
@@ -151,21 +223,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
             _summary_paragraph.paragraph_format.space_after = Pt(self.font_size)
             _summary_paragraph.paragraph_format.space_before = Pt(0)
 
-
         if self.role.responsibilities and self.settings.responsibilities:
-            _responsibilites_paragraph = self.document.add_paragraph()
-            _responsibilites_paragraph.paragraph_format.space_before = Pt(0)
-            _responsibilites_paragraph.paragraph_format.space_after = Pt(6)
-            _responsibilities_run = _responsibilites_paragraph.add_run()
-
-            _responsibilities_lines = self.role.responsibilities.text.replace(
-                "\n\n",
-                "\n",
-            ).split("\n")
-
-            for _line in _responsibilities_lines:
-                _responsibilities_run.add_text(_line)
-                _responsibilities_run.add_break()
+            self._responsibilities()
 
     def render(self) -> None:
         """Render role overview/basics section."""

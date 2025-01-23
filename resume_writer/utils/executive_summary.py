@@ -29,6 +29,10 @@ class ExecutiveSummary:
         # Loop through the provided categories
         for _category in categories:
             # Filter the roles that belong to the current category
+
+            if not _category:
+                continue
+
             _category_roles = [
                 role
                 for role in self.experience.roles

@@ -85,7 +85,7 @@ End date: 01/2021
 #### Description
 
 This should still be pretty short, 2-3 sentences.
-Multiple lines are fine.
+Multiple lines (separated by line breaks) are fine.
 
 #### Skills
 
@@ -138,6 +138,8 @@ Performed senior tasks
 Performed activities associated with a senior role.
 Also did other things as required.
 
+* Proficient with (Skill 1), (always) and regularly.
+
 #### Skills
 
 * Skill 1
@@ -164,8 +166,8 @@ Performed junior tasks.
 
 Performed routine activities associated with a junior role.
 Other things were done as required.
-* a thing
-* another thing
+* a thing with Skill 1 successfully
+* another thing with Skill 2 successfully
 
 #### Skills
 
