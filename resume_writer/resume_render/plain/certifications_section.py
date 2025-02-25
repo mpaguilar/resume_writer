@@ -1,8 +1,9 @@
 import logging
+from datetime import datetime
 
 import docx.document
-from docx.enum.text import WD_ALIGN_PARAGRAPH
-from docx.shared import Pt
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.shared import Inches, Pt
 
 from resume_writer.models.certifications import Certification, Certifications
 from resume_writer.resume_render.render_settings import ResumeCertificationsSettings
@@ -26,42 +27,45 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         """Initialize the basic certification renderer."""
         super().__init__(document, certification, settings)
 
-    def render(
-        self,
-        doc_paragraph: docx.text.paragraph.Paragraph,
-    ) -> None:
-        """Render the certification section.
-
-        Parameters
-        ----------
-        doc_paragraph : docx.text.paragraph.Paragraph
-            The document paragraph to which the certification section will be added.
-
-        Returns
-        -------
-        None
-
-        Notes
-        -----
-        1. Initialize an empty string for the paragraph text.
-        2. Get the certification object.
-        3. If the certification name and settings name are both available,
-        append the name to the paragraph text.
-        4. If the paragraph text is not empty, add it to the document paragraph
-        and adjust the font size.
-
-        """
-        _paragraph_text = doc_paragraph.text
+    def render(self) -> None:
+        """Render the certification section."""
 
         _certification = self.certification
 
-        if _certification.name and self.settings.name:
-            _paragraph_text += f"{_certification.name}"
+        _paragraph = self.document.add_paragraph()
+        _paragraph.paragraph_format.space_after = Pt(1)
 
-        if _paragraph_text:
-            doc_paragraph.text = _paragraph_text
-            _run = doc_paragraph.add_run(_paragraph_text)
-            _run.font.size = Pt(self.font_size - 1)
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _paragraph.paragraph_format.tab_stops
+
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
+
+        if _certification.name and self.settings.name:
+            _run = _paragraph.add_run(f"{_certification.name}")
+            _run.bold = True
+
+        if _certification.issuer and self.settings.issuer:
+            if _certification.name and self.settings.name:
+                _paragraph.add_run("\t")
+            _paragraph.add_run(f"{_certification.issuer}")
+
+        if _certification.issued and self.settings.issued:
+            if (_certification.name and self.settings.name) or (
+                _certification.issuer and self.settings.issuer
+            ):
+                _paragraph.add_run("\n")
+            _value = datetime.strftime(_certification.issued, "%B %Y")
+            _paragraph.add_run(f"Issued: {_value}")
+
+        if _certification.expires and self.settings.expires:
+            if _certification.issued and self.settings.issued:
+                _paragraph.add_run(" - ")
+            _value = datetime.strftime(_certification.expires, "%B %Y")
+            _paragraph.add_run(f"Expires: {_value}")
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
@@ -89,32 +93,18 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         None
             The method does not return any value but modifies the document in-place.
 
-        Notes
-        -----
-        This method performs the following steps:
-
-        1. Logs an info message indicating the start of rendering the
-        Certifications section.
-        2. Adds a new paragraph to the document and centers it.
-        3. Iterates over each certification in the list of certifications.
-        4. For each certification, creates an instance of
-        RenderCertificationSection with the document,
-        certification, and settings as arguments.
-        5. Calls the render method of the RenderCertificationSection instance,
-        passing the centered paragraph as an argument.
-
         """
 
         log.info("Rendering Certifications section.")
 
-        _doc_paragraph = self.document.add_paragraph()
-        _doc_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        _doc_paragraph.paragraph_format.space_before = Pt(1)
-        _doc_paragraph.paragraph_format.space_after = Pt(1)
+        if len(self.certifications) > 0:
+            self.document.add_heading("Certifications", level=2)
+        else:
+            return
 
-        # for a functional resume put everything on one line
-
-        _certification_list = [_cert.name for _cert in self.certifications]
-
-        _doc_paragraph.add_run(" / ".join(_certification_list))
-
+        for _certification in self.certifications:
+            RenderCertificationSection(
+                self.document,
+                _certification,
+                self.settings,
+            ).render()
