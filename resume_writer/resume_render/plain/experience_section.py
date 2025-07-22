@@ -137,7 +137,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         # End date
         if _basics.end_date:
             _value = datetime.strftime(_basics.end_date, "%B %Y")
-            _date_run.add_text(f"- {_value}")
+            _date_run.add_text(f" - {_value}")
         else:
             _date_run.add_text(" - Present")
 

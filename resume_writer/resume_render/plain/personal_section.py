@@ -243,10 +243,10 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             _banner_paragraph = self.document.add_paragraph()
 
             _txt = "\n".join(_banner_lines)
-            _run = _banner_paragraph.add_run(_txt)
-            _banner_paragraph.paragraph_format.space_after = Pt(0)
+            _banner_paragraph.add_run(_txt)
             _banner_paragraph.paragraph_format.space_before = Pt(4)
-            _banner_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
+            _banner_paragraph.paragraph_format.space_after = Pt(10)
+            # _banner_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         if self.personal.websites and self.settings.websites:
             self._websites()
