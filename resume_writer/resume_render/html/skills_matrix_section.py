@@ -28,7 +28,19 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         experience: Experience,
         settings: ResumeSkillsMatrixSettings,
     ):
-        """Initialize skills render object."""
+        """Initialize skills render object.
+
+        Args:
+            document: The Word document object to which the skills section will be added.
+            experience: The experience data containing roles and associated skills.
+            settings: Configuration settings for rendering the skills matrix, including
+                      which skills to include and whether to include all skills.
+
+        Notes:
+            1. Initializes the base class with the provided document, experience, and settings.
+            2. Logs the initialization process.
+
+        """
         log.debug("Initializing functional skills render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
@@ -36,8 +48,23 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         self,
         skill: str,
     ) -> tuple[datetime | None, datetime | None]:
-        """Find the earliest job with a skill."""
+        """Find the earliest start date and latest end date for a given skill across roles.
 
+        Args:
+            skill: The name of the skill to search for in roles.
+
+        Returns:
+            A tuple containing:
+                - The earliest start date for any role that includes the skill (or None if not found).
+                - The latest end date for any role that includes the skill (or None if not found).
+
+        Notes:
+            1. Collects all start dates from roles where the skill appears.
+            2. Collects all end dates from roles where the skill appears.
+            3. If any roles contain the skill, finds the minimum start date and maximum end date.
+            4. Returns the earliest start date and latest end date as a tuple.
+
+        """
         _earliest_start_date = None
         _last_end_date = None
 
@@ -62,7 +89,20 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         return _earliest_start_date, _last_end_date
 
     def _get_skills_matrix(self) -> dict[str, float]:
-        """Get a matrix of skills and their years of experience."""
+        """Compute and filter skills matrix based on settings.
+
+        Returns:
+            A dictionary mapping skill names to years of experience (float), sorted in descending order.
+
+        Notes:
+            1. Retrieves all roles from the experience object.
+            2. Filters the skills specified in the settings, removing any blank entries.
+            3. Creates a SkillsMatrix object from the roles and computes the experience for each skill.
+            4. Filters the skills to include only those present in the settings, unless all_skills is True.
+            5. Sorts the resulting dictionary by years of experience in descending order.
+            6. Returns the filtered and sorted dictionary.
+
+        """
         _roles = self.experience.roles
 
         # use only skills specified in the settings
@@ -83,7 +123,6 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         else:
             _skills_yoe = _all_skills_yoe
 
-
         # sort skills by yoe
         _skills_yoe = dict(
             sorted(_skills_yoe.items(), key=lambda item: item[1], reverse=True),
@@ -91,8 +130,20 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         return _skills_yoe
 
     def render(self) -> None:
-        """Render skills section for functional resume."""
+        """Render the skills matrix section in the document.
 
+        Notes:
+            1. Validates that the experience object contains at least one role.
+            2. Retrieves the filtered skills matrix with years of experience.
+            3. Ensures the returned skills dictionary is valid and properly typed.
+            4. Calculates the number of rows needed for the table based on the number of skills.
+            5. Creates a 4-column table with the calculated number of rows.
+            6. Sets a fixed height for each row.
+            7. Populates the first two columns with skill names and years of experience (including date range).
+            8. Populates the last two columns with the remaining skills and their experience (including date range).
+            9. Enables automatic fitting of the table to its content.
+
+        """
         log.debug("Rendering functional skills section.")
 
         if not self.experience.roles:

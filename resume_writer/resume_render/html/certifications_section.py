@@ -33,7 +33,6 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
 
     def render(self) -> None:
         """Render the certifications section."""
-
         if not self.certifications:
             log.debug("No certifications to render.")
             return

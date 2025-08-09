@@ -26,7 +26,6 @@ class MarkdownDoc(TextDoc):
         line_breaks: Literal["preserve", "strip"] = "strip",
     ) -> None:
         """Add text to a Markdown document."""
-
         assert isinstance(text, str)
         assert isinstance(line_breaks, str)
         assert line_breaks in ("preserve", "strip")
@@ -51,7 +50,6 @@ class MarkdownDoc(TextDoc):
 
     def add_header(self, header: str) -> None:
         """Add a markdown header."""
-
         if not self.first_line:
             self.text += "\n"
 

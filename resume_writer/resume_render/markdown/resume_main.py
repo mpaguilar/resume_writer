@@ -31,7 +31,18 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer."""
+        """Initialize basic resume renderer.
+
+        Args:
+            document: The Markdown document to render the resume into.
+            resume: The resume data to render.
+            settings: The rendering settings for the resume.
+
+        Notes:
+            1. Calls the parent class constructor to initialize the base renderer.
+            2. Stores the provided document, resume, and settings for later use during rendering.
+
+        """
         super().__init__(
             document=document,
             resume=resume,
@@ -40,8 +51,26 @@ class RenderResume(ResumeRenderBase):
         )
 
     def render(self) -> None:
-        """Render the resume."""
+        """Render the resume.
 
+        Args:
+            None: This method does not take any arguments.
+
+        Returns:
+            None: This method does not return anything.
+
+        Notes:
+            1. Checks if the resume has personal information and if personal section rendering is enabled.
+            2. If both conditions are true, renders the personal section.
+            3. Checks if the resume has education information and if education section rendering is enabled.
+            4. If both conditions are true, renders the education section.
+            5. Checks if the resume has certifications and if certifications section rendering is enabled.
+            6. If both conditions are true, renders the certifications section.
+            7. Checks if the resume has experience information and if experience section rendering is enabled.
+            8. If both conditions are true, renders the experience section.
+            9. This method performs no disk, network, or database access.
+
+        """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(
                 document=self.document,
@@ -69,4 +98,3 @@ class RenderResume(ResumeRenderBase):
                 experience=self.resume.experience,
                 settings=self.settings.experience_settings,
             ).render()
-

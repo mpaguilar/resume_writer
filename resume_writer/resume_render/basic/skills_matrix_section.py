@@ -28,7 +28,23 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         settings: ResumeSkillsMatrixSettings,
         parse_context: ParseContext,
     ):
-        """Initialize skills render object."""
+        """Initialize skills render object.
+
+        Args:
+            document: The DOCX document to which the skills section will be added.
+            experience: The experience data containing roles and skill usage history.
+            settings: Configuration settings for rendering the skills matrix.
+            parse_context: Contextual information used during parsing, not directly used here.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that the provided parse_context is an instance of ParseContext.
+            2. Store the parse_context for potential future use.
+            3. Initialize the parent class (ResumeRenderSkillsMatrixBase) with the given parameters.
+
+        """
         log.debug("Initializing functional skills render object.")
         assert isinstance(parse_context, ParseContext)
         self.parse_context = parse_context
@@ -36,8 +52,30 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render skills section for functional resume."""
+        """Render skills section for functional resume.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Check if the experience object has any roles; if not, raise a ValueError.
+            2. Create a SkillsMatrix instance from the experience roles.
+            3. If settings.all_skills is True, generate a matrix for all skills using the special value "*all*".
+            4. Otherwise, generate a matrix only for the skills specified in settings.skills.
+            5. Calculate the number of rows needed for the table based on the number of skills (each row holds two skills).
+            6. Create a new table with the calculated number of rows and 4 columns, using the "Table Grid" style.
+            7. Add a header row with bolded column titles: "Skill", "YOE (from - to)", "Skill", "YOE (from - to)".
+            8. Iterate through the sorted skills and their data.
+            9. For each skill, determine its row and column position in the table.
+            10. Insert the skill name into the appropriate cell and center it vertically.
+            11. Format the YOE string using the first_used and last_used dates, along with the calculated YOE value.
+            12. Insert the formatted YOE string into the adjacent cell.
+            13. Set the table to auto-fit its contents.
+
+        """
         log.debug("Rendering functional skills section.")
 
         if not self.experience.roles:

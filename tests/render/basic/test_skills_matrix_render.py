@@ -129,11 +129,14 @@ def settings():
 
 
 def test_render_skills_matrix_section(document, experience, settings):
-    with patch(
-        "resume_writer.utils.skills_matrix.SkillsMatrix.skills_list",
-    ) as _skills_list, patch(
-        "resume_writer.utils.skills_matrix.SkillsMatrix.skills_experience",
-    ) as _skills_experience:
+    with (
+        patch(
+            "resume_writer.utils.skills_matrix.SkillsMatrix.skills_list",
+        ) as _skills_list,
+        patch(
+            "resume_writer.utils.skills_matrix.SkillsMatrix.skills_experience",
+        ) as _skills_experience,
+    ):
         _skills_list.return_value = ["test1"]
         _skills_experience.return_value = {"test1": 1}
 

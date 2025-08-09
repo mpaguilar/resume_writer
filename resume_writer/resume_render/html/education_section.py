@@ -11,6 +11,7 @@ from resume_writer.utils.text_doc import HtmlDoc
 
 log = logging.getLogger(__name__)
 
+
 class RenderEducationSection(ResumeRenderEducationBase):
     """Render Education Section."""
 
@@ -32,7 +33,6 @@ class RenderEducationSection(ResumeRenderEducationBase):
 
     def render(self) -> None:
         """Render the education section."""
-
         if not self.settings.degrees:
             log.debug("No degrees to render.")
             return
@@ -40,7 +40,8 @@ class RenderEducationSection(ResumeRenderEducationBase):
         log.debug("Rendering education section.")
 
         _rendered = self.template.render(
-            settings=self.settings, education=self.education,
+            settings=self.settings,
+            education=self.education,
         )
 
         self.document.add_text(_rendered)

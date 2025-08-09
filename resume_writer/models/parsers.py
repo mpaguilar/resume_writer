@@ -7,22 +7,45 @@ log = logging.getLogger(__name__)
 
 
 class ParseError(Exception):
-    """Exception raised when parsing fails."""
+    """Exception raised when parsing fails.
 
-    def __init__(self, message: str, parse_context: "ParseContext"):
-        """Initialize ParseError class instance, add parse_context info to message."""
+    Args:
+        message: A human-readable description of the parsing error.
+        parse_context: The current context of the parsing operation, used to track line numbers.
 
-        _start_line = parse_context.doc_line_num - parse_context.line_num
-        _msg = f"{message} (lines {_start_line}-{parse_context.doc_line_num})"
-        super().__init__(_msg)
+    Returns:
+        None. This exception is raised to signal a parsing failure.
+
+    Notes:
+        1. The error message is enhanced with the line range (start-end) of the failure.
+        2. The line range is derived from the parse_context's doc_line_num and the initial line number.
+        3. The exception is initialized with the enriched message, which includes the line range.
+    """
 
 
 class ParseContext:
-    """Tracking context while parsing."""
+    """Tracking context while parsing.
+
+    Args:
+        lines: A list of strings representing the lines to be parsed.
+        doc_line_num: The current line number in the document (used for tracking).
+
+    Returns:
+        An initialized ParseContext object.
+
+    Notes:
+        1. The input lines are validated to ensure they are a list.
+        2. The line_num is initialized to 1 (human-readable line numbering).
+        3. The doc_line_num is initialized to the provided value.
+        4. The ParseContext supports iteration using __iter__ and __next__.
+        5. The __next__ method returns one line at a time, advancing line_num and doc_line_num.
+        6. The __len__ method returns the number of lines in the context.
+        7. The append method adds a string to the lines list.
+        8. The clear method empties the lines list and resets line_num.
+    """
 
     def __init__(self, lines: list[str], doc_line_num: int):
         """Initialize ParseContext class instance."""
-
         assert isinstance(lines, list), "lines should be a list"
 
         self.lines = lines
@@ -60,12 +83,29 @@ class ParseContext:
 
 
 class ListBlockParse:
-    """Mixin for parsing bullet points into a list."""
+    """Mixin for parsing bullet points into a list.
+
+    Args:
+        parse_context: The current parsing context, containing lines to parse.
+
+    Returns:
+        An instance of the class with parsed items.
+
+    Notes:
+        1. The parse_context is validated to ensure it is a ParseContext.
+        2. An empty list _items is initialized to store parsed items.
+        3. Each line in the parse_context is processed:
+            a. Empty lines are skipped.
+            b. Lines starting with "* " or "- " are split into a label and value.
+            c. The label is discarded, and the value is added to _items if not empty.
+            d. Other non-empty lines are logged as skipped.
+        4. All items in _items must be non-empty strings.
+        5. The parsed list is returned as an instance of the class.
+    """
 
     @classmethod
     def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the bullet list into lines of text."""
-
         assert isinstance(
             parse_context,
             ParseContext,
@@ -94,12 +134,25 @@ class ListBlockParse:
 
 
 class TextBlockParse:
-    """Mixin for parsing blocks of text."""
+    """Mixin for parsing blocks of text.
+
+    Args:
+        parse_context: The current parsing context, containing lines to parse.
+
+    Returns:
+        An instance of the class with the concatenated and cleaned text.
+
+    Notes:
+        1. The parse_context is validated to ensure it is a ParseContext.
+        2. An empty list _block_lines is initialized to collect lines.
+        3. Each line in the parse_context is added to _block_lines.
+        4. The lines are joined with newlines and stripped of leading/trailing whitespace.
+        5. The resulting string is returned as an instance of the class.
+    """
 
     @classmethod
     def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the block of lines into an object."""
-
         _block_lines = []
         for _line in parse_context:
             _block_lines.append(_line)  # noqa: PERF402
@@ -131,12 +184,31 @@ class LabelBlockParse:
             "end date": "end_date",
         }
 
+    Args:
+        parse_context: The current parsing context, containing lines to parse.
+
+    Returns:
+        An instance of the class with parsed fields.
+
+    Notes:
+        1. The parse_context is validated to ensure it is a ParseContext.
+        2. A dictionary _expected_fields is retrieved from the class's expected_fields method.
+        3. A dictionary _init_kwargs is initialized to store parsed field values.
+        4. Each line in the parse_context is processed:
+            a. Empty lines are skipped.
+            b. Lines not containing a colon are skipped.
+            c. The label part is extracted and converted to lowercase for lookup.
+            d. If the label is in _expected_fields, the value is extracted, and the key-value pair is added to _init_kwargs.
+            e. If the value is empty, it is skipped.
+            f. Other non-empty lines are logged as skipped.
+        5. Remaining keys in _expected_fields are added to _init_kwargs with None values.
+        6. The parse_context is added to _init_kwargs.
+        7. The class is instantiated with the populated _init_kwargs.
     """
 
     @classmethod
     def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the block of lines into an object."""
-
         assert isinstance(
             parse_context,
             ParseContext,
@@ -214,12 +286,29 @@ class BasicBlockParse:
             "skills": RoleSkills,
         }
 
+    Args:
+        parse_context: The current parsing context, containing lines to parse.
+
+    Returns:
+        An instance of the class with parsed blocks.
+
+    Notes:
+        1. The parse_context is validated to ensure it is a ParseContext.
+        2. A dictionary _blocks is initialized to store parsed blocks.
+        3. A variable _section_header is initialized to track the current section.
+        4. Each line in the parse_context is processed:
+            a. If the line starts with "# ", it is a section header, and _section_header is set.
+            b. If there is no section header yet, the line is logged as unexpected.
+            c. If the line does not start with "#", it is added to the current section.
+        5. The section header is used to store the block context.
+        6. After processing, the block contexts are converted to blocks using parse_blocks.
+        7. The kwargs_parse method is called to process the blocks.
+        8. The class is instantiated with the parsed kwargs.
     """
 
     @classmethod
     def parse_blocks(cls: T, parse_context: ParseContext) -> dict[str, str]:
         """Parse the block of lines into a dictionary of blocks."""
-
         assert isinstance(
             parse_context,
             ParseContext,
@@ -267,12 +356,12 @@ class BasicBlockParse:
 
         # check up on the values we've got so far
         assert isinstance(_blocks, dict), "_blocks should be a dictionary"
-        assert all(
-            isinstance(key, str) for key in _blocks
-        ), "_blocks keys should be strings"
-        assert all(
-            isinstance(value, ParseContext) for value in _blocks.values()
-        ), "_blocks values should be ParseContext"
+        assert all(isinstance(key, str) for key in _blocks), (
+            "_blocks keys should be strings"
+        )
+        assert all(isinstance(value, ParseContext) for value in _blocks.values()), (
+            "_blocks values should be ParseContext"
+        )
 
         return _blocks
 
@@ -282,7 +371,6 @@ class BasicBlockParse:
 
         Use this when more processing has to be done.
         """
-
         assert isinstance(
             parse_context,
             ParseContext,
@@ -322,7 +410,30 @@ class BasicBlockParse:
 
 
 class MultiBlockParse:
-    """Mixin for blocks containing multiple blocks with the same name."""
+    """Mixin for blocks containing multiple blocks with the same name.
+
+    Args:
+        parse_context: The current parsing context, containing lines to parse.
+
+    Returns:
+        An instance of the class with a list of parsed objects.
+
+    Notes:
+        1. The parse_context is validated to ensure it is a ParseContext.
+        2. A list _blocks is initialized to store parsed block contexts.
+        3. A variable _current_block is initialized to collect lines for the current block.
+        4. A variable _section_header is initialized to track the current section.
+        5. Each line in the parse_context is processed:
+            a. Empty lines are skipped.
+            b. Lines starting with "# " are section headers, and _section_header is set.
+            c. If a new section header is found and _current_block is non-empty, it is added to _blocks.
+            d. If _section_header is set, the line is added to _current_block.
+        6. After processing, the last _current_block is added to _blocks if non-empty.
+        7. The block contexts in _blocks are validated.
+        8. The list_class method is called to get the type of the list items.
+        9. Each block context is parsed into an object using the list_class type.
+        10. The list of objects is returned as an instance of the class.
+    """
 
     @classmethod
     def parse_blocks(cls: T, parse_context: ParseContext) -> list[list[str]]:
@@ -332,7 +443,6 @@ class MultiBlockParse:
         the `type` of the list items.
 
         """
-
         assert isinstance(
             parse_context,
             ParseContext,
@@ -372,16 +482,15 @@ class MultiBlockParse:
             _blocks,
             list,
         ), "Expected '_blocks' to be of type list[ParseContext]"
-        assert all(
-            isinstance(block, ParseContext) for block in _blocks
-        ), "Expected all elements in '_blocks' to be of type ParseContext"
+        assert all(isinstance(block, ParseContext) for block in _blocks), (
+            "Expected all elements in '_blocks' to be of type ParseContext"
+        )
 
         return _blocks
 
     @classmethod
     def parse(cls: T, parse_context: ParseContext) -> T:
         """Parse the blocks and return a list of objects."""
-
         assert isinstance(
             parse_context,
             ParseContext,

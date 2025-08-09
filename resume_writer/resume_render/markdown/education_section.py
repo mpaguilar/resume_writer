@@ -19,8 +19,24 @@ class RenderEducationSection(ResumeRenderEducationBase):
         document: MarkdownDoc,
         education: Education,
         settings: ResumeEducationSettings,
-    ):
-        """Initialize the basic education renderer."""
+    ) -> None:
+        """Initialize the basic education renderer.
+
+        Args:
+            document: The MarkdownDoc instance to which rendered content will be added.
+            education: The Education object containing degree information to be rendered.
+            settings: The ResumeEducationSettings object defining which fields to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that the provided document is an instance of MarkdownDoc.
+            2. Validate that the provided education is an instance of Education.
+            3. Validate that the provided settings is an instance of ResumeEducationSettings.
+            4. Call the parent class constructor with the provided arguments.
+
+        """
         assert isinstance(
             document,
             MarkdownDoc,
@@ -32,7 +48,9 @@ class RenderEducationSection(ResumeRenderEducationBase):
         assert isinstance(
             settings,
             ResumeEducationSettings,
-        ), f"Expected settings to be of type ResumeEducationSettings, but got {type(settings)}"  # noqa: E501
+        ), (
+            f"Expected settings to be of type ResumeEducationSettings, but got {type(settings)}"
+        )  # noqa: E501
 
         super().__init__(
             document=document,
@@ -43,7 +61,25 @@ class RenderEducationSection(ResumeRenderEducationBase):
         )
 
     def render_degree(self, degree: Degree) -> None:
-        """Render a single degree."""
+        """Render a single degree in the education section.
+
+        Args:
+            degree: The Degree object containing details such as school, degree, major, dates, and GPA.
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve shortcuts for the document and settings.
+            2. Add a header for the degree section with "### Degree".
+            3. If the settings flag for school is enabled and the degree has a school, add the school to the document.
+            4. If the settings flag for degree is enabled and the degree has a degree name, add the degree to the document.
+            5. If the settings flag for major is enabled and the degree has a major, add the major to the document.
+            6. If the settings flag for start_date is enabled and the degree has a start date, format and add the start date to the document.
+            7. If the settings flag for end_date is enabled and the degree has an end date, format and add the end date to the document.
+            8. If the settings flag for gpa is enabled and the degree has a GPA, add the GPA to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -64,7 +100,23 @@ class RenderEducationSection(ResumeRenderEducationBase):
             _doc.add_text(f"GPA: {degree.gpa}")
 
     def render(self) -> None:
-        """Render the education section."""
+        """Render the complete education section.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve shortcuts for the document, settings, and education.
+            2. If the settings flag for degrees is disabled, log a debug message and return.
+            3. Log a debug message indicating that the education section is being rendered.
+            4. Add a top-level header for the education section with "# Education".
+            5. Add a sub-header for the degrees section with "## Degrees".
+            6. Iterate over each degree in the education object and call render_degree for each.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings

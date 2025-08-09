@@ -106,7 +106,6 @@ class RenderResumeMarkdown:
            Markdown resume rendering.
 
         """
-
         log.info("Rendering Markdown resume")
 
         self.renderer.render()
@@ -136,7 +135,6 @@ class RenderResumeMarkdown:
         4. Log an info message indicating the successful save.
 
         """
-
         assert isinstance(path, Path)
 
         if not self.rendered:
@@ -169,7 +167,6 @@ class RenderResumeMarkdown:
         3. If yes, returns the rendered content as a string.
 
         """
-
         if not self.rendered:
             log.warning("Resume not rendered. Call `render()` first.")
             return ""

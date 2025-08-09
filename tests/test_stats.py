@@ -112,6 +112,7 @@ def test_skills_experience(roles: Roles):
         "Skill 4": 2,
     }
 
+
 def test_skills_matrix_matrix(roles: Roles):
     assert isinstance(roles, Roles)
     _skills_matrix = SkillsMatrix(roles)

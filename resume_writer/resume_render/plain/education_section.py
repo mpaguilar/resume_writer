@@ -23,12 +23,42 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         degree: Degree,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic degree renderer."""
+        """Initialize the basic degree renderer.
+
+        Args:
+            document: The DOCX document to render into.
+            degree: The degree to render.
+            settings: The rendering settings for degrees.
+
+        Returns:
+            None
+
+        Notes:
+            1. Calls the parent constructor with the provided document, degree, and settings.
+
+        """
         super().__init__(document=document, degree=degree, settings=settings)
 
     def render(self) -> None:
-        """Render a single degree."""
+        """Render a single degree.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Logs a debug message indicating the start of degree rendering.
+            2. Adds a new paragraph to the document.
+            3. Sets a right-aligned tab stop at 7.4 inches.
+            4. If the school name is provided and enabled in settings, adds it in bold with increased font size.
+            5. If the degree name is provided and enabled in settings, adds it after a tab, in bold, and adds a line break.
+            6. If the start date is provided and enabled in settings, formats and adds it to the paragraph.
+            7. If the end date is provided and enabled in settings, formats and adds it to the paragraph with a dash.
+            8. If the GPA is provided and enabled in settings, adds it after a tab.
+
+        """
         log.debug("Rendering degree section.")
 
         _paragraph = self.document.add_paragraph()
@@ -78,12 +108,40 @@ class RenderEducationSection(ResumeRenderEducationBase):
         education: Education,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic education renderer."""
+        """Initialize the basic education renderer.
+
+        Args:
+            document: The DOCX document to render into.
+            education: The education data to render.
+            settings: The rendering settings for education.
+
+        Returns:
+            None
+
+        Notes:
+            1. Calls the parent constructor with the provided document, education, and settings.
+
+        """
         super().__init__(document, education, settings)
 
     def render(self) -> None:
-        """Render the education section."""
+        """Render the education section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Logs a debug message indicating the start of education rendering.
+            2. If degree rendering is disabled in settings, exits early.
+            3. Adds a centered heading titled "Education" with level 2.
+            4. Iterates through each degree in the education.
+            5. For each degree, creates a RenderDegreeSection instance and calls its render method.
+            6. Adds a blank paragraph between degrees.
+
+        """
         log.debug("Rendering education section.")
 
         if not self.settings.degrees:

@@ -21,12 +21,27 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         personal: Personal,
         settings: ResumePersonalSettings,
     ):
-        """Initialize the personal section renderer."""
+        """Initialize the personal section renderer.
 
+        Parameters
+        ----------
+        document : docx.document.Document
+            The Word document object to which the personal section will be added.
+        personal : Personal
+            The personal information object containing contact details, banner, note, websites, and visa status.
+        settings : ResumePersonalSettings
+            The settings object that controls which elements of the personal section are rendered.
+
+        Notes
+        -----
+        1. Initialize the base class with the provided document, personal data, and settings.
+        2. Log a debug message indicating initialization is complete.
+
+        """
         log.debug("Initializing personal basic render object")
         super().__init__(document, personal, settings)
 
-    def _contact_info(self) -> None:  # noqa: C901
+    def _contact_info(self) -> None:
         """Render the contact information section of the resume.
 
         Parameters
@@ -34,21 +49,23 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         self : object
             The instance of the class containing the personal and settings attributes.
 
-        Steps
+        Notes
         -----
         1. Log a debug message indicating the section being rendered.
         2. Extract the contact information from the personal attribute.
-        3. If a name is present in both the contact info and settings,
-        add it as a heading.
+        3. If a name is present in both the contact info and settings, add it as a heading.
         4. Determine which contact details to render based on the settings.
-        5. If any contact details are to be rendered,
-        add a new paragraph to the document.
+        5. If any contact details are to be rendered, add a new paragraph to the document.
         6. If the email is to be rendered, add it as a hyperlink to the paragraph.
         7. If the phone number is to be rendered, add it to the paragraph.
         8. If the location is to be rendered, add it to the paragraph.
 
-        """
+        Returns
+        -------
+        None
+            The method modifies the document in-place.
 
+        """
         log.debug("Rendering contact info section")
 
         _info: ContactInfo = self.personal.contact_info
@@ -91,8 +108,25 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             _paragraph.add_run(_info.location)
 
     def _banner(self) -> None:
-        """Render the banner section."""
+        """Render the banner section.
 
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing the personal and settings attributes.
+
+        Notes
+        -----
+        1. Log a debug message indicating the section being rendered.
+        2. Retrieve the banner text from the personal object.
+        3. If the banner text is not empty, add a heading and the banner text to the document.
+
+        Returns
+        -------
+        None
+            The method modifies the document in-place.
+
+        """
         log.debug("Rendering banner section")
 
         _banner = self.personal.banner
@@ -101,8 +135,25 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             self.document.add_paragraph(_banner.text)
 
     def _note(self) -> None:
-        """Render the note section."""
+        """Render the note section.
 
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing the personal and settings attributes.
+
+        Notes
+        -----
+        1. Log a debug message indicating the section being rendered.
+        2. Retrieve the note text from the personal object.
+        3. If the note text is not empty, add a heading and the note text to the document.
+
+        Returns
+        -------
+        None
+            The method modifies the document in-place.
+
+        """
         log.debug("Rendering note section")
 
         _note = self.personal.note
@@ -113,31 +164,26 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
     def _websites(self) -> str | None:
         """Render the websites section of a resume.
 
-        This function adds a paragraph to the resume document containing
-        hyperlinks to the user's GitHub, LinkedIn, website, and Twitter profiles,
-        based on the settings provided.
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing the personal and settings attributes.
 
-        Steps:
+        Notes
+        -----
         1. Log a debug message indicating that the websites section is being rendered.
         2. Retrieve the user's websites from the personal object.
         3. Initialize an empty string for the paragraph text and a new paragraph object.
-        4. Check if the user's GitHub profile is provided and if the GitHub
-        setting is enabled. If so, add a hyperlink to the GitHub profile to the
-        paragraph and set the has_content flag to True.
+        4. Check if the user's GitHub profile is provided and if the GitHub setting is enabled. If so, add a hyperlink to the GitHub profile to the paragraph and set the has_content flag to True.
         5. Repeat step 4 for the LinkedIn, website, and Twitter profiles.
         6. If the paragraph has content, set its alignment to center.
-        7. Return None.
-
-        Parameters
-        ----------
-        None
 
         Returns
         -------
         None
+            The method modifies the document in-place.
 
         """
-
         # TODO: This runs over one line if all the sites are populated
 
         log.debug("Rendering websites section")
@@ -176,8 +222,27 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         return None
 
     def _visa_status(self) -> None:
-        """Render the visa status section."""
+        """Render the visa status section.
 
+        Parameters
+        ----------
+        self : object
+            The instance of the class containing the personal and settings attributes.
+
+        Notes
+        -----
+        1. Create a new paragraph and set its alignment to center.
+        2. Retrieve the visa status object from the personal data.
+        3. If work authorization is enabled and present, add it to the paragraph.
+        4. If sponsorship requirement is enabled, determine if the value is "Yes" or "No" and add the appropriate text.
+        5. If both work authorization and sponsorship are present, add a separator "|".
+
+        Returns
+        -------
+        None
+            The method modifies the document in-place.
+
+        """
         _paragraph = self.document.add_paragraph()
         _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -208,11 +273,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         self : object
             The instance of the class containing the personal information.
 
-        Returns
-        -------
-        None
-            The method modifies the document in-place.
-
         Notes
         -----
         1. Log a debug message indicating the start of personal section rendering.
@@ -224,8 +284,12 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         7. Add banner lines to the document if any exist.
         8. Add visa status to the document if enabled in settings.
 
-        """
+        Returns
+        -------
+        None
+            The method modifies the document in-place.
 
+        """
         log.debug("Rendering personal section")
 
         _banner_lines = []

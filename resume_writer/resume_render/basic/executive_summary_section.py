@@ -26,13 +26,49 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize experience render object.
+
+        Args:
+            document: The Docx document object to which the executive summary will be added.
+            experience: The Experience object containing role and job data to summarize.
+            settings: The settings object that defines which categories to include in the summary.
+
+        Returns:
+            None
+
+        Notes:
+            1. Initialize the parent class (ResumeRenderExecutiveSummaryBase) with the provided document, experience, and settings.
+            2. Log a debug message indicating that the functional experience render object is being initialized.
+
+        """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render experience section for functional resume."""
+        """Render experience section for functional resume.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Log a debug message indicating that the functional experience section is being rendered.
+            2. Check if the experience object has any roles; if not, raise a ValueError.
+            3. Create an ExecutiveSummary object using the experience data.
+            4. Generate the executive summary using the specified categories from the settings.
+            5. For each category in the summary:
+                a. Add a heading to the document with level 4.
+                b. For each summary entry in the category:
+                    i. Create a new paragraph and apply the "List Bullet" style.
+                    ii. Add the summary text as a run.
+                    iii. If no company is available, log a warning.
+                    iv. If a company is available, determine the date string (either the last date formatted to year or "Present").
+                    v. Add an italicized run with the company and date information.
+            6. This function performs no disk, network, or database access.
+
+        """
         log.debug("Rendering functional experience section.")
 
         if not self.experience.roles:

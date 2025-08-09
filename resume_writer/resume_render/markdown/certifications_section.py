@@ -19,7 +19,23 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize the basic certifications renderer."""
+        """Initialize the basic certifications renderer.
+
+        Args:
+            document: The MarkdownDoc instance to which the rendered content will be added.
+            certifications: The Certifications object containing the list of certifications to render.
+            settings: The ResumeCertificationsSettings object that controls what information to include in the output.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that the document is an instance of MarkdownDoc.
+            2. Validate that the certifications is an instance of Certifications.
+            3. Validate that the settings is an instance of ResumeCertificationsSettings.
+            4. Call the parent class constructor with the provided arguments.
+
+        """
         assert isinstance(
             document,
             MarkdownDoc,
@@ -42,7 +58,24 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         )
 
     def render_certification(self, certification: Certification) -> None:
-        """Render a single certification."""
+        """Render a single certification in the document.
+
+        Args:
+            certification: The Certification object containing the details of a single certification to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract references to the document and settings for convenience.
+            2. Add a header for the certification section.
+            3. If the settings require the issuer and the certification has an issuer, add the issuer to the document.
+            4. If the settings require the name and the certification has a name, add the name to the document.
+            5. If the settings require the issued date and the certification has an issued date, add the issued date to the document.
+            6. If the settings require the expiration date and the certification has an expiration date, add the expiration date to the document.
+            7. If the settings require the certification ID and the certification has a certification ID, add the certification ID to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -61,7 +94,23 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             _doc.add_text(f"Certification ID: {certification.certification_id}")
 
     def render(self) -> None:
-        """Render the certifications section."""
+        """Render the certifications section into the document.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract references to the document and certifications for convenience.
+            2. If there are no certifications, log a debug message and return early.
+            3. Log a debug message indicating that rendering has started.
+            4. Add a top-level header for the certifications section.
+            5. Iterate over each certification in the certifications list.
+            6. For each certification, call the render_certification method to render its details.
+
+        """
         # shortcuts
         _doc = self.document
         _certifications = self.certifications

@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.text import WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.shared import Inches, Pt
 
 from resume_writer.models.certifications import Certification, Certifications
@@ -24,12 +24,48 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         certification: Certification,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize the basic certification renderer."""
+        """Initialize the basic certification renderer.
+
+        Args:
+            document: The Word document object to render into.
+            certification: The certification data to render.
+            settings: The rendering settings for the certification section.
+
+        Notes:
+            1. Initializes the parent class with the provided document, certification, and settings.
+
+        """
         super().__init__(document, certification, settings)
 
     def render(self) -> None:
-        """Render the certification section."""
+        """Render the certification section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve the certification data from the instance.
+            2. Create a new paragraph in the document with no space after it.
+            3. Add a right-aligned tab stop at 7.4 inches.
+            4. If the certification name exists and the name setting is enabled:
+               a. Add a bold run with the certification name.
+            5. If the issuer exists and the issuer setting is enabled:
+               a. Add a tab character if the name was previously added.
+               b. Add a run with the issuer name.
+            6. If the issued date exists and the issued setting is enabled:
+               a. Add a newline if a previous field (name or issuer) was added.
+               b. Format the issued date as "Month YYYY".
+               c. Add a run with "Issued: " followed by the formatted date.
+            7. If the expiration date exists and the expires setting is enabled:
+               a. Add a " - " separator if the issued date was added.
+               b. Format the expiration date as "Month YYYY".
+               c. Add a run with "Expires: " followed by the formatted date.
+            8. This function modifies the document in-place and does not write to disk.
+
+        """
         _certification = self.certification
 
         _paragraph = self.document.add_paragraph()
@@ -77,24 +113,38 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize the basic certifications renderer."""
+        """Initialize the basic certifications renderer.
+
+        Args:
+            document: The Word document object to render into.
+            certifications: A list of certification data to render.
+            settings: The rendering settings for the certifications section.
+
+        Notes:
+            1. Initializes the parent class with the provided document, certifications, and settings.
+
+        """
         super().__init__(document, certifications, settings)
 
     def render(self) -> None:
         """Render the certifications section of a document.
 
-        Parameters
-        ----------
-        self : object
-            The instance of the class containing the method.
+        Args:
+            None
 
-        Returns
-        -------
-        None
-            The method does not return any value but modifies the document in-place.
+        Returns:
+            None
+
+        Notes:
+            1. Log the start of the certifications section rendering.
+            2. If there are no certifications, return early without adding anything.
+            3. Add a level-2 heading titled "Certifications".
+            4. For each certification in the list:
+               a. Create a new RenderCertificationSection instance.
+               b. Call the render method on that instance to add the certification to the document.
+            5. This function modifies the document in-place and does not write to disk.
 
         """
-
         log.info("Rendering Certifications section.")
 
         if len(self.certifications) > 0:

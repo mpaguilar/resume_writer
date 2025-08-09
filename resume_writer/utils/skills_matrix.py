@@ -12,7 +12,6 @@ class SkillsMatrix:
 
     def __init__(self, roles: Roles):
         """Initialize the matrix."""
-
         assert isinstance(roles, Roles)
         assert all(isinstance(role, Role) for role in roles)
         self.roles = roles
@@ -31,7 +30,6 @@ class SkillsMatrix:
 
     def career_experience_span(self) -> float:
         """Return years from first used to last."""
-
         assert all(isinstance(role, Role) for role in self.roles)
 
         _date_stats = DateStats()
@@ -43,7 +41,6 @@ class SkillsMatrix:
 
     def skills_list(self) -> list:
         """Return a list of unique skills."""
-
         _skills = []
 
         for role in self.roles:
@@ -55,7 +52,6 @@ class SkillsMatrix:
 
     def skill_experience(self, skill: str) -> float:
         """Return years of experience with a skill."""
-
         _date_stats = DateStats()
         for role in self.roles:
             if skill in role.skills:
@@ -65,7 +61,6 @@ class SkillsMatrix:
 
     def skills_experience(self) -> dict:
         """Return a dictionary of skills and years of experience."""
-
         _skills = {}
 
         # get a list of unique skills
@@ -108,7 +103,6 @@ class SkillsMatrix:
         5. Sort the matrix by years of experience in descending order.
 
         """
-
         assert isinstance(skills, list)
         assert all(isinstance(skill, str) for skill in skills)
 
@@ -163,7 +157,6 @@ class SkillsMatrix:
         skill: str,
     ) -> tuple[datetime | None, datetime | None]:
         """Return the first and last usage of a skill."""
-
         _earliest_start_date = None
         _last_end_date = None
 

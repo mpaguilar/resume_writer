@@ -1,4 +1,3 @@
-
 class HtmlDoc:
     """HTML document."""
 

@@ -34,7 +34,18 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer."""
+        """Initialize basic resume renderer.
+
+        Args:
+            document: The HTML document to render into.
+            jinja_env: The Jinja2 environment used for templating.
+            resume: The resume data to render.
+            settings: The rendering settings for the resume.
+
+        Notes:
+            1. Calls the parent constructor with the provided arguments.
+
+        """
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -43,8 +54,22 @@ class RenderResume(ResumeRenderBase):
         )
 
     def render(self) -> None:
-        """Render the resume."""
+        """Render the resume by processing each section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. If the resume has personal information and personal rendering is enabled, render the personal section.
+            2. If the resume has education data and education rendering is enabled, render the education section.
+            3. If the resume has certifications and certifications rendering is enabled, render the certifications section.
+            4. If the resume has experience data and experience rendering is enabled, render the experience section.
+            5. No disk, network, or database access occurs during this process.
+
+        """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(
                 document=self.document,
@@ -76,24 +101,3 @@ class RenderResume(ResumeRenderBase):
                 experience=self.resume.experience,
                 settings=self.settings.experience_settings,
             ).render()
-
-
-"""
-        # the executive summary is built from experience, so it has to exist
-        if self.resume.experience and self.settings.executive_summary:
-            self.document.add_heading("Executive Summary", 2)
-
-            RenderExecutiveSummarySection(
-                self.document,
-                self.resume.experience,
-                self.settings.executive_summary_settings,
-            ).render()
-
-        # the skills section is built from experience, so it has to exist
-        if self.resume.experience and self.settings.skills_matrix:
-            RenderSkillsMatrixSection(
-                self.document,
-                self.resume.experience,
-                self.settings.skills_matrix_settings,
-            ).render()
-"""

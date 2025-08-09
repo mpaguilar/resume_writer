@@ -13,14 +13,22 @@ from docx.text.paragraph import Paragraph
 
 
 def get_or_create_hyperlink_style(d: Document) -> str:
-    """Create a hyperlink style if one doesn't exist, or return existing style."""
+    """Create a hyperlink style if one doesn't exist, or return existing style.
 
-    """If this document had no hyperlinks so far, the builtin
-    Hyperlink style will likely be missing and we need to add it.
-    There's no predefined value, different Word versions
-    define it differently.
-    This version is how Word 2019 defines it in the
-    default theme, excluding a theme reference.
+    Args:
+        d: The Document object to check or modify for the hyperlink style.
+
+    Returns:
+        The name of the style used for hyperlinks, which is "Hyperlink".
+
+    Notes:
+        1. Check if a style named "Hyperlink" already exists in the document.
+        2. If not, create a new style named "Default Character Font" with default character formatting.
+        3. The "Default Character Font" style is set to be the default font and is hidden.
+        4. Create a new style named "Hyperlink" based on the "Default Character Font" style.
+        5. Set the hyperlink style to be visible when used and apply blue color and underline to the font.
+        6. Return the name "Hyperlink" as the style identifier.
+
     """
     if "Hyperlink" not in d.styles:
         if "Default Character Font" not in d.styles:
@@ -53,8 +61,28 @@ def add_hyperlink(
     text: str,
     url: str,
 ) -> docx.oxml.shared.OxmlElement:
-    """Create a hyperlink object and add it to the paragraph."""
+    """Create a hyperlink object and add it to the paragraph.
 
+    Args:
+        paragraph: The Paragraph object to which the hyperlink will be added.
+        text: The text to display as the hyperlink.
+        url: The URL that the hyperlink will point to.
+
+    Returns:
+        The OxmlElement representing the hyperlink, which is added to the paragraph.
+
+    Notes:
+        1. Access the document part of the paragraph to manage relationships.
+        2. Create a unique relationship ID for the hyperlink using the provided URL.
+        3. Create an XML element for the hyperlink and set its relationship ID.
+        4. Create a new run element to hold the hyperlink text.
+        5. Set the text of the run to the provided display text.
+        6. Apply the hyperlink style to the run by retrieving or creating it.
+        7. Append the run element to the hyperlink XML element.
+        8. Append the complete hyperlink element to the paragraph's XML content.
+        9. Return the created hyperlink element.
+
+    """
     # This gets access to the document.xml.rels file and gets a new relation id value
     part = paragraph.part
     r_id = part.relate_to(

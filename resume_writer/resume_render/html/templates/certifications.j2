@@ -1,3 +1,29 @@
+{# 
+    Template for rendering a certifications section in an HTML resume.
+
+    This template generates an HTML structure for displaying certifications, 
+    with conditional rendering based on settings provided by the user.
+
+    Args:
+        settings: A ResumeCertificationsSettings object containing rendering options.
+        certifications: A list of Certification objects to be rendered.
+
+    Returns:
+        A string containing the rendered HTML for the certifications section.
+
+    Notes:
+        1. The template renders a top-level <h1> tag for "Certifications".
+        2. For each certification in the certifications list:
+           a. Renders an <h2> tag for "Certification".
+           b. Conditionally renders fields based on settings:
+              - name: if settings.name is True and certification.name exists
+              - issuer: if settings.issuer is True and certification.issuer exists
+              - issued: if settings.issued is True and certification.issued exists
+              - expires: if settings.expires is True and certification.expires exists
+              - certification_id: if settings.certification_id is True and certification.certification_id exists
+        3. Each field is rendered in a <div> with a corresponding class.
+        4. No network, disk, or database access occurs during rendering.
+# }
 <h1>Certifications</h1>
 {% for certification in certifications %}
 

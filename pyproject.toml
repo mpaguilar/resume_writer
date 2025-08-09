@@ -1,39 +1,27 @@
 [project]
-name = "resume_writer"
-version = "0.1.0"
-license = { file = "LICENSE" }
-
-
-[tool.poetry]
 name = "resume-writer"
 version = "0.1.0"
+license = { file = "LICENSE" }
+authors = [
+    {name = "Michael Aguilar", email = "bitflip@slowlink.net"},
+]
+requires-python = "<4.0,>=3.10"
+dependencies = [
+    "mistune<4.0.0,>=3.0.2",
+    "python-docx<2.0.0,>=1.1.2",
+    "click<9.0.0,>=8.1.7",
+    "tomli<3.0.0,>=2.0.1",
+    "dateparser<2.0.0,>=1.2.0",
+    "jinja2<4.0.0,>=3.1.4",
+    "pytz<2025.0,>=2024.2",
+    "nltk<4.0.0,>=3.9.1",
+    "mosestokenizer<2.0.0,>=1.2.1",
+    "dotenv>=0.9.9",
+    "rich>=14.1.0",
+    "aider-chat>=0.85.5",
+]
 description = ""
-authors = ["Michael Aguilar <bitflip@slowlink.net>"]
 readme = "README.md"
-packages = [{include = "resume_writer"}]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-mistune = "^3.0.2"
-rich = "^13.7.1"
-python-docx = "^1.1.2"
-click = "^8.1.7"
-tomli = "^2.0.1"
-dateparser = "^1.2.0"
-jinja2 = "^3.1.4"
-pytz = "^2024.2"
-nltk = "^3.9.1"
-mosestokenizer = "^1.2.1"
-
-
-[tool.poetry.group.dev.dependencies]
-mypy = "^1.11.0"
-pytest = "^8.3.1"
-coverage = "^7.6.0"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
 
 [tool.ruff]
 exclude = ["temporal-samples-python"]
@@ -70,3 +58,13 @@ ignore = ["ANN101", "D201", "D202",
 [tool.pytest.ini_options]
 pythonpath = [".", "./resume_writer", "./tests"]
 addopts = "-rx"
+log_cli_level = "DEBUG"
+
+[dependency-groups]
+dev = [
+    "mypy<2.0.0,>=1.11.0",
+    "pytest<9.0.0,>=8.3.1",
+    "coverage<8.0.0,>=7.6.0",
+    "pytest-cov>=6.2.1",
+    "ruff>=0.12.8",
+]

@@ -17,7 +17,6 @@ def download_nltk_data() -> None:
         nltk.download("punkt_tab")
 
 
-
 def normalize_sentence_fragment(fragment: str) -> str:
     """Normalize a sentence by removing extra spaces and punctuation.
 
@@ -38,7 +37,7 @@ def normalize_sentence_fragment(fragment: str) -> str:
 
     # Fix any spaces before punctuation
     sentence = _punctuation_re.sub(r"\1 ", sentence)
-    
+
     # Fix any spaces after opening pair, like parenthesis
     sentence = _open_pair_re.sub(r"\1", sentence)
 
@@ -62,7 +61,6 @@ def skills_splitter(sentence: str, skills: list[str]) -> list[str]:
     a list with the skills isolated. This is to be able to highlight
     individual skills within a sentence.
     """
-
     # make sure the nltk data is present
     # TODO: move this to someplace that isn't called all the time
     download_nltk_data()

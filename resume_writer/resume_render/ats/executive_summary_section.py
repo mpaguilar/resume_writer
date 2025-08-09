@@ -24,13 +24,49 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize experience render object.
+
+        Args:
+            document: The Word document object to which the executive summary will be added.
+            experience: The experience data containing roles and related information.
+            settings: Configuration settings for rendering the executive summary section.
+
+        Returns:
+            None
+
+        Notes:
+            1. Initialize the parent class with the provided document, experience, and settings.
+            2. Log a debug message indicating the initialization of the functional experience render object.
+
+        """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render experience section for functional resume."""
+        """Render experience section for functional resume.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Log a debug message indicating the start of rendering the functional experience section.
+            2. Validate that the experience object contains at least one role; raise a ValueError if not.
+            3. Collect all unique job categories from the roles in the experience.
+            4. For each job category specified in the settings:
+                a. Filter roles belonging to the current category.
+                b. If no roles are found for the category, log a warning and skip to the next category.
+                c. Add a heading for the category with level 4.
+                d. For each role in the category:
+                    i. If no summary is available for the role, log a warning and skip to the next role.
+                    ii. If no company is available for the role, log a warning and skip to the next role.
+                    iii. Create a new paragraph with the bullet style.
+                    iv. Add the role summary as a run to the paragraph.
+                    v. Add the company name in italic as a run to the paragraph, appended to the summary.
+
+        """
         log.debug("Rendering functional experience section.")
 
         if not self.experience.roles:

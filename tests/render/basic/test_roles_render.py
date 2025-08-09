@@ -113,11 +113,10 @@ def test_basic_roles_section(document, role, settings):
     section = RenderRolesSection(document=document, roles=roles, settings=settings)
     section.render()
 
+
 def test_basic_roles_filter(document, role, settings):
     settings.months_ago = 12
     roles = Roles([role], parse_context=Mock(spec=ParseContext))
     section = RenderRolesSection(document=document, roles=roles, settings=settings)
     assert len(section.roles) == 0
     section.render()
-
-

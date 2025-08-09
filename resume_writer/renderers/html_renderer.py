@@ -170,7 +170,6 @@ class RenderResumeHtml:
         4. Logs an info message indicating the completion of the HTML resume rendering.
 
         """
-
         log.info("Rendering HTML resume")
 
         self.renderer.render()
@@ -200,7 +199,6 @@ class RenderResumeHtml:
         4. Log an info message indicating the successful save.
 
         """
-
         assert isinstance(path, Path)
 
         if not self.rendered:
@@ -233,7 +231,6 @@ class RenderResumeHtml:
         3. If yes, returns the rendered content as a string.
 
         """
-
         if not self.rendered:
             log.warning("Resume not rendered. Call `render()` first.")
             return ""

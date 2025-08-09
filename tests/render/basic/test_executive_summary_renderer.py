@@ -113,6 +113,7 @@ def experience(projects, roles):
         parse_context=_ctx,
     )
 
+
 @pytest.fixture
 def settings():
     _settings = ResumeExecutiveSummarySettings()

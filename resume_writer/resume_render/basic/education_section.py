@@ -22,12 +22,44 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         degree: Degree,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic degree renderer."""
+        """Initialize the basic degree renderer.
+
+        Args:
+            document: The Word document to render the degree section into.
+            degree: The degree object containing education details such as school, degree name, dates, major, and GPA.
+            settings: Configuration settings that control which degree fields are rendered (e.g., school, degree, dates, major, GPA).
+
+        Returns:
+            None
+
+        Notes:
+            1. Store the provided document, degree, and settings as instance attributes.
+            2. No disk, network, or database access occurs during initialization.
+
+        """
         super().__init__(document=document, degree=degree, settings=settings)
 
     def render(self) -> None:
-        """Render a single degree."""
+        """Render a single degree.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Create a new paragraph in the document to hold the degree details.
+            2. If the school name is present and enabled in settings, add it in bold, underlined, and larger font size.
+            3. If the degree name is present and enabled in settings, add it in bold.
+            4. If the start date is present and enabled in settings, format it as "Month Year" and add it.
+            5. If the end date is present and enabled in settings, format it as "Month Year" (or "Present" if None) and add it.
+            6. If the major is present and enabled in settings, add it.
+            7. If the GPA is present and enabled in settings, add it in the format "GPA: X.XX".
+            8. All text additions use runs and breaks to format the output properly.
+            9. No disk, network, or database access occurs during rendering.
+
+        """
         _paragraph = self.document.add_paragraph()
 
         if self.degree.school and self.settings.school:
@@ -67,7 +99,6 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
             _gpa_run.add_break()
 
 
-
 class RenderEducationSection(ResumeRenderEducationBase):
     """Render Education Section."""
 
@@ -77,12 +108,40 @@ class RenderEducationSection(ResumeRenderEducationBase):
         education: Education,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic education renderer."""
+        """Initialize the basic education renderer.
+
+        Args:
+            document: The Word document to render the education section into.
+            education: The education object containing a list of degrees and related data.
+            settings: Configuration settings that control rendering behavior, including whether to render degrees and which fields to include.
+
+        Returns:
+            None
+
+        Notes:
+            1. Store the provided document, education, and settings as instance attributes.
+            2. No disk, network, or database access occurs during initialization.
+
+        """
         super().__init__(document, education, settings)
 
     def render(self) -> None:
-        """Render the education section."""
+        """Render the education section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. If the 'degrees' setting is disabled, exit early without rendering.
+            2. Add a level-2 heading titled "Education" to the document.
+            3. For each degree in the education object, create a RenderDegreeSection instance and call its render method.
+            4. Rendering each degree is delegated to the RenderDegreeSection class.
+            5. No disk, network, or database access occurs during rendering.
+
+        """
         log.debug("Rendering education section.")
 
         if not self.settings.degrees:

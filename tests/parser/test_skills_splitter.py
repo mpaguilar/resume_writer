@@ -15,6 +15,7 @@ def test_multiple_skills():
     expected = ["I am proficient in", "Python", "and", "Java", "."]
     assert skills_splitter(sentence, skills) == expected
 
+
 def test_skill_with_space():
     sentence = "I am proficient with Spring Boot and Java."
     skills = ["Spring Boot", "Java"]
@@ -71,11 +72,13 @@ def test_empty_skills():
     expected = ["I am a software engineer."]
     assert skills_splitter(sentence, skills) == expected
 
+
 def test_fragment_with_parenthesis():
     sentence = "This tests (parenthesis) in sentences"
     skills = ["Python"]
     expected = ["This tests (parenthesis) in sentences"]
     assert skills_splitter(sentence, skills) == expected
+
 
 def test_fragment_with_skill_and_parenthesis():
     sentence = "This tests (parenthesis) (Python) in sentences"
@@ -83,4 +86,3 @@ def test_fragment_with_skill_and_parenthesis():
     expected = ["This tests (parenthesis) (", "Python", ") in sentences"]
     _split = skills_splitter(sentence, skills)
     assert _split == expected
-

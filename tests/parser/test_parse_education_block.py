@@ -24,7 +24,7 @@ GPA: 4.0
 """
 
 # subtract one to the line number to account for zero index
-test_data_start_line = 5 - 1 # line number of the first line of the test data
+test_data_start_line = 5 - 1  # line number of the first line of the test data
 
 
 def _block_lines():
@@ -50,6 +50,7 @@ def _deindenter(lines):
             _lines.append(_line)
     return _lines
 
+
 def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
     _data_start = (first_line_number - 1) - test_data_start_line
     _data_end = last_line_number - test_data_start_line
@@ -73,10 +74,11 @@ def test_parse_degree_block():
     assert degree.gpa == "3.5"
     assert _ctx.doc_line_num == 16
 
+
 def test_parse_multiple_degrees_blocks():
     _lines = get_data_lines(8, 23)
     _lines = _deindenter(_lines)
-    _lines = _deindenter(_lines) # needs two so "# Degree" is top-level
+    _lines = _deindenter(_lines)  # needs two so "# Degree" is top-level
 
     _ctx = ParseContext(_lines, doc_line_num=8)
 
@@ -86,6 +88,7 @@ def test_parse_multiple_degrees_blocks():
     assert degrees.degrees[0].school == "University of Example"
     assert degrees.degrees[1].school == "University of College"
     assert _ctx.doc_line_num == 24
+
 
 def test_parse_education_block():
     _lines = get_data_lines(5, 23)

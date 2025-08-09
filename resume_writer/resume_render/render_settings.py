@@ -13,6 +13,10 @@ class ResumeSettingsBase:
         data_dict : dict | None, optional
             Dictionary containing the new settings. If None, no changes are made.
 
+    Returns
+    -------
+        None
+
     Notes
     -----
         1. If data_dict is None, the method returns without making any changes.
@@ -25,7 +29,6 @@ class ResumeSettingsBase:
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update the settings from a dictionary."""
-
         if data_dict is None:
             return
 
@@ -39,7 +42,8 @@ class ResumeSettingsBase:
 class ResumePersonalSettings(ResumeSettingsBase):
     """Control what parts of a resume's personal section are rendered.
 
-    Attributes:
+    Attributes
+    ----------
     1. contact_info (bool): Include contact information.
     2. banner (bool): Include banner.
     3. visa_status (bool): Include visa status.
@@ -62,11 +66,33 @@ class ResumePersonalSettings(ResumeSettingsBase):
     14. require_sponsorship (bool): Include sponsorship requirement.
     15. work_authorization (bool): Include work authorization status.
 
+    Methods
+    -------
+    __init__(default_init: bool = True)
+        Initialize all attributes to default_init.
+
+    to_dict() -> dict
+        Return settings as a dictionary.
+
+    Parameters
+    ----------
+        default_init : bool, optional
+            Default initialization value for all attributes. Defaults to True.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all settings with their respective boolean values.
+
+    Notes
+    -----
+        1. All attributes are initialized to default_init.
+        2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
+
     """
 
     def __init__(self, default_init: bool = True):
         """Initialize everything to default_init."""
-
         self.contact_info = default_init
         self.banner = default_init
         self.visa_status = default_init
@@ -132,27 +158,32 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
     Methods
     -------
-    __init__(self, default_init=True)
+    __init__(default_init: bool = True)
         Initialize all attributes to default_init.
+
+    to_dict() -> dict
+        Return a dictionary representation of the settings.
+
+    Parameters
+    ----------
+        default_init : bool, optional
+            Default initialization value for all attributes. Defaults to True.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all education settings with their respective boolean values.
 
     Notes
     -----
-    1. This class is used to control which parts of a resume's education
-       section are rendered.
-    2. Each attribute corresponds to a different part of the education
-       section that can be rendered or not.
-    3. By default, all attributes are set to True, meaning all parts of
-       the education section will be rendered.
-    4. To change which parts of the education section are rendered, set
-       the corresponding attribute to False.
+        1. All attributes are initialized to default_init.
+        2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
 
     """
 
     def __init__(self, default_init: bool = True):
         """Initialize everything to default_init."""
-
         self.degrees = default_init  # render all degrees
-
         self.school = default_init
         self.degree = default_init  # render degree name
         self.start_date = default_init
@@ -191,16 +222,31 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
 
     Methods
     -------
-    __init__()
+    __init__(default_init: bool = True)
         Initialize all attributes to True.
-    to_dict()
+
+    to_dict() -> dict
         Return a dictionary representation of the object.
+
+    Parameters
+    ----------
+        default_init : bool, optional
+            Default initialization value for all attributes. Defaults to True.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all certification settings with their respective boolean values.
+
+    Notes
+    -----
+        1. All attributes are initialized to default_init.
+        2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
 
     """
 
     def __init__(self, default_init: bool = True):
         """Initialize everything to default_init."""
-
         self.name = default_init
         self.issuer = default_init
         self.issued = default_init
@@ -246,29 +292,34 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
     Methods
     -------
-    __init__(default_init : bool)
+    __init__(default_init: bool)
         Initialize all attributes to True.
-    to_dict()
+
+    to_dict() -> dict
         Return a dictionary representation of the class.
+
+    Parameters
+    ----------
+        default_init : bool
+            Default initialization value for all attributes.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all project settings with their respective boolean values.
 
     Notes
     -----
-    1. This class is used to control which parts of a resume's projects
-       section are rendered.
-    2. Each attribute corresponds to a different part of the project
-       section that can be included or excluded from the rendered resume.
-    3. The __init__ method initializes all attributes to True, meaning
-       that all parts of the project section will be included by default.
+        1. All attributes are initialized to default_init.
+        2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
 
     """
 
     def __init__(self, default_init: bool = True):
         """Initialize everything to default_init."""
-
         self.overview = default_init
         self.description = default_init
         self.skills = default_init
-
         self.title = default_init
         self.url = default_init
         self.url_description = default_init
@@ -277,7 +328,6 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the class."""
-
         return {
             "overview": self.overview,
             "description": self.description,
@@ -293,7 +343,8 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 class ResumeRolesSettings(ResumeSettingsBase):
     """Control what parts of a resume's roles section are rendered.
 
-    Attributes:
+    Attributes
+    ----------
         summary (bool): Whether to include the role summary.
         skills (bool): Whether to include the role skills.
         responsibilities (bool): Whether to include role responsibilities.
@@ -306,21 +357,38 @@ class ResumeRolesSettings(ResumeSettingsBase):
         end_date (bool): Whether to include the role end date.
         highlight_skills (bool): Whether to bold skills inline.
 
-    Steps:
-        1. Initialize the class with all attributes set to True.
-        2. The title attribute is not included as it is required.
+    Methods
+    -------
+    __init__(default_init: bool = True)
+        Initialize everything to default_init.
+
+    to_dict() -> dict
+        Return a dictionary representation of the class.
+
+    Parameters
+    ----------
+        default_init : bool, optional
+            Default initialization value for all attributes. Defaults to True.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all role settings with their respective boolean values.
+
+    Notes
+    -----
+        1. All attributes are initialized to default_init.
+        2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
 
     """
 
     def __init__(self, default_init: bool = True) -> None:
         """Initialize everything to default_init."""
-
         # title is required
         self.summary = default_init
         self.skills = default_init
         self.responsibilities = default_init
         # basics
-
         self.reason_for_change = default_init
         self.location = default_init
         self.job_category = default_init
@@ -381,20 +449,37 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 
     Methods
     -------
-    update_from_dict(data_dict=None)
+    update_from_dict(data_dict: dict | None = None) -> None
         Update settings for experience and subsections from a dictionary.
+
+    to_dict() -> dict
+        Convert settings for experience and subsections to a dictionary.
+
+    Parameters
+    ----------
+        data_dict : dict | None, optional
+            Dictionary containing settings for experience and subsections.
+
+    Returns
+    -------
+        dict
+            Dictionary containing settings for experience and subsections.
+
+    Notes
+    -----
+        1. Initialize roles, projects, executive_summary, and skills_matrix to default_init.
+        2. Create ResumeRolesSettings, ResumeProjectsSettings, ResumeExecutiveSummarySettings,
+           and ResumeSkillsMatrixSettings objects.
+        3. The update_from_dict method updates settings for subsections by extracting the 'section' key
+           from the dictionary and applying updates to corresponding settings objects.
+        4. The to_dict method constructs a dictionary with keys for roles, projects, executive_summary,
+           and skills_matrix, and their corresponding values. If the value for a key is True,
+           the corresponding settings object is converted to a dictionary and added to the dictionary.
 
     """
 
     def __init__(self, default_init: bool = True) -> None:
-        """Initialize all attributes to default_init and create settings objects.
-
-        Steps:
-        1. Set roles, projects, executive_summary, and skills_matrix to default_init.
-        2. Create ResumeRolesSettings, ResumeProjectsSettings,
-           ResumeExecutiveSummarySettings, and ResumeSkillsMatrixSettings objects.
-        """
-
+        """Initialize all attributes to default_init and create settings objects."""
         self.roles = default_init
         self.roles_settings = ResumeRolesSettings(default_init=default_init)
         self.projects = default_init
@@ -405,20 +490,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
-        """Update settings for experience and subsections from a dictionary.
-
-        Parameters
-        ----------
-        data_dict : dict, optional
-            Dictionary containing settings for experience and subsections.
-
-        Steps:
-        1. Call the parent class's update_from_dict method.
-        2. Extract the 'section' key from the dictionary.
-        3. Update the settings for projects, roles, executive_summary,
-           and skills_matrix if they exist in the 'section' key.
-
-        """
+        """Update settings for experience and subsections from a dictionary."""
         super().update_from_dict(data_dict)
         _section = data_dict.get("section")
         if _section is None:
@@ -435,21 +507,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
             self.skills_matrix_settings.update_from_dict(_section["skills_matrix"])
 
     def to_dict(self) -> dict:
-        """Convert settings for experience and subsections to a dictionary.
-
-        Returns
-        -------
-        dict
-            Dictionary containing settings for experience and subsections.
-
-        Steps:
-        1. Create a dictionary with keys for roles, projects, executive_summary,
-        and skills_matrix, and their corresponding values.
-        2. If the value for a key is True, convert the corresponding settings
-        object to a dictionary and add it to the dictionary.
-        3. Return the dictionary.
-
-        """
+        """Convert settings for experience and subsections to a dictionary."""
         data_dict = {
             "roles": self.roles,
             "projects": self.projects,
@@ -470,25 +528,43 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 class ResumeExecutiveSummarySettings(ResumeSettingsBase):
     """Control settings for rendering the executive summary section of a resume.
 
-    Attributes:
+    Attributes
+    ----------
         categories (list[str]): List of categories to include in the summary.
 
-    Methods:
-        update_from_dict(data_dict): Update settings from a dictionary.
+    Methods
+    -------
+        update_from_dict(data_dict: dict | None = None) -> None
+            Update settings from a dictionary.
 
-    1. Initialize categories as an empty list.
-    2. Define a method to update settings from a dictionary.
-    3. If categories are provided in the dictionary, split them into a list.
+    to_dict() -> dict
+        Return a dictionary representation of the settings.
+
+    Parameters
+    ----------
+        data_dict : dict | None, optional
+            Dictionary containing settings for the executive summary.
+
+    Returns
+    -------
+        dict
+            Dictionary containing the categories as a string separated by newlines.
+
+    Notes
+    -----
+        1. Initialize categories as an empty list.
+        2. The update_from_dict method updates settings from a dictionary.
+        3. If categories are provided in the dictionary, split them into a list.
+        4. The to_dict method returns a dictionary with categories joined by newlines.
 
     """
 
     def __init__(self) -> None:
         """Initialize everything to True."""
-        self.categories: list[str] = ""
+        self.categories: list[str] = []
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Control what categories are rendered."""
-        # categories and skills are kept as a single string, so we need to split them
         super().update_from_dict(data_dict)
         if self.categories:
             self.categories = self.categories.split("\n")
@@ -501,31 +577,47 @@ class ResumeExecutiveSummarySettings(ResumeSettingsBase):
 class ResumeSkillsMatrixSettings(ResumeSettingsBase):
     """Control what parts of a resume's skills matrix section are rendered.
 
-    Attributes:
+    Attributes
+    ----------
         skills (list[str]): List of skills to be rendered.
         all_skills (bool): Flag to indicate if all skills should be rendered.
 
-    Methods:
-        update_from_dict(data_dict): Update settings from a dictionary.
+    Methods
+    -------
+        update_from_dict(data_dict: dict | None = None) -> None
+            Update settings from a dictionary.
 
-    1. Initialize skills as an empty list and all_skills as False.
-    2. Call the parent class's update_from_dict method.
-    3. If skills are provided, split the skills string into a list.
+    to_dict() -> dict
+        Return a dictionary representation of the settings.
+
+    Parameters
+    ----------
+        data_dict : dict | None, optional
+            Dictionary containing settings for the skills matrix.
+
+    Returns
+    -------
+        dict
+            Dictionary containing skills as a string separated by newlines and all_skills as a boolean.
+
+    Notes
+    -----
+        1. Initialize skills as an empty list and all_skills as False.
+        2. The update_from_dict method updates settings from a dictionary.
+        3. If skills are provided, split the skills string into a list.
+        4. The to_dict method returns a dictionary with skills joined by newlines.
 
     """
 
     def __init__(self) -> None:
         """Initialize everything.
-
         Set all_skills to False, because we don't usually want that.
         """
-
-        self.skills: list[str] = ""
+        self.skills: list[str] = []
         self.all_skills: bool = False
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Control what skills are rendered."""
-        # categories and skills are kept as a single string, so we need to split them
         super().update_from_dict(data_dict)
         if self.skills:
             self.skills = self.skills.split("\n")
@@ -582,93 +674,81 @@ class ResumeRenderSettings(ResumeSettingsBase):
 
     Methods
     -------
-    update_from_dict(data_dict=None)
+    update_from_dict(data_dict: dict | None = None) -> None
         Update settings for resume and subsections.
+
+    to_dict() -> dict
+        Convert settings for resume and subsections to a dictionary.
+
+    Parameters
+    ----------
+        data_dict : dict | None, optional
+            Dictionary containing data to update settings.
+
+    Returns
+    -------
+        dict
+            Dictionary containing all settings.
+
+    Notes
+    -----
+        1. Initialize all settings with appropriate objects.
+        2. The update_from_dict method updates settings for subsections by extracting the 'section' key
+           from the dictionary and applying updates to corresponding settings objects.
+        3. The to_dict method constructs and returns a dictionary containing all settings,
+           including subsection settings.
 
     """
 
     def __init__(self, default_init: bool = True):
         """Initialize all settings with appropriate objects."""
-
         self.personal_settings = ResumePersonalSettings(default_init=default_init)
         self.personal = default_init
-
         self.education_settings = ResumeEducationSettings(default_init=default_init)
         self.education = default_init
-
         self.certifications_settings = ResumeCertificationsSettings(
             default_init=default_init,
         )
         self.certifications = default_init
-
         self.experience_settings = ResumeExperienceSettings(default_init=default_init)
         self.experience = default_init
-
         self.skills_matrix = default_init
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
-
         self.executive_summary = default_init
         self.executive_summary_settings = ResumeExecutiveSummarySettings()
-
         # these are passed up to RenderBase
         # they should probably be moved to their own class
         # but I don't really have time for it
         # font-size in points
         self.font_size = 12
-
         # margin-width in inches
         self.margin_width = 0.5
-
         self.top_margin = 0.5
         self.bottom_margin = 0.5
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
-        """Update settings for resume and subsections.
-
-        Parameters
-        ----------
-        data_dict : dict, optional
-            Dictionary containing data to update settings.
-
-        Returns
-        -------
-        None
-
-        """
+        """Update settings for resume and subsections."""
         super().update_from_dict(data_dict)
         _section = data_dict.get("section")
         if _section is None:
             return
-
         if "personal" in _section:
             self.personal_settings.update_from_dict(_section["personal"])
-
         if "education" in _section:
             self.education_settings.update_from_dict(_section["education"])
-
         if "certifications" in _section:
             self.certifications_settings.update_from_dict(_section["certifications"])
-
         if "experience" in _section:
             self.experience_settings.update_from_dict(_section["experience"])
-
         if "skills_matrix" in _section:
             self.skills_matrix_settings.update_from_dict(_section["skills_matrix"])
-
         if "executive_summary" in _section:
             self.executive_summary_settings.update_from_dict(
                 _section["executive_summary"],
             )
 
     def to_dict(self) -> dict:
-        """Convert settings for resume and subsections to a dictionary.
-
-        Returns
-        -------
-        dict
-            Dictionary containing all settings.
-
-        """
+        """Convert settings for resume and subsections to a dictionary."""
         settings_dict = super().to_dict()
         settings_dict["section"] = {
             "personal": self.personal_settings.to_dict(),

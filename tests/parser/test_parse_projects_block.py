@@ -91,11 +91,10 @@ def _deindenter(lines, count: int = 1):
 
 
 def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
-
     _data_start = first_line_number - test_data_start_line
     _data_end = last_line_number - test_data_start_line
     _lines = _block_lines()
-    _lines = _lines[_data_start:_data_end + 1] # add one to include the last line
+    _lines = _lines[_data_start : _data_end + 1]  # add one to include the last line
     return _lines
 
 
@@ -118,6 +117,7 @@ def test_project_overview_block():
     assert _overview.end_date == datetime(2021, 1, 1).astimezone(pytz.utc)
     assert _ctx.doc_line_num == 21
 
+
 def test_description_block():
     _lines = get_data_lines(22, 27)
     _ctx = ParseContext(lines=_lines, doc_line_num=22)
@@ -131,6 +131,7 @@ So are multiple paragraphs."""
     assert _description.text.strip() == _text.strip()
     assert _ctx.doc_line_num == 28
 
+
 def test_skills_block():
     _lines = get_data_lines(29, 31)
     _ctx = ParseContext(lines=_lines, doc_line_num=29)
@@ -139,6 +140,7 @@ def test_skills_block():
     assert isinstance(_skills, ProjectSkills)
     assert _skills.skills == ["Skill 1", "Skill 2", "Skill 5"]
     assert _ctx.doc_line_num == 32
+
 
 def test_project_block():
     _lines = get_data_lines(13, 32)

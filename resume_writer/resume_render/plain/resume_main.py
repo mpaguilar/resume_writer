@@ -37,13 +37,45 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer."""
+        """Initialize basic resume renderer.
+
+        Args:
+            document (docx.document.Document): The Word document object to render into.
+            resume (Resume): The parsed resume data structure containing personal, education, experience, certifications, and other sections.
+            settings (ResumeRenderSettings): Configuration settings for rendering, including which sections to render and their formatting options.
+
+        Returns:
+            None
+
+        Notes:
+            1. Stores the provided document, resume, and settings as instance attributes.
+            2. Initializes the base class ResumeRenderBase with the provided document, resume, and settings.
+            3. No external disk, network, or database access occurs during initialization.
+
+        """
         self.parse_context = resume.parse_context
         super().__init__(document, resume, settings)
 
     def render(self) -> None:
-        """Render the resume."""
+        """Render the resume by sequentially rendering each enabled section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. If personal information is present in the resume and personal section rendering is enabled, render the personal section.
+            2. If certifications are present and certification section rendering is enabled, render the certifications section.
+            3. If education data exists and education section rendering is enabled, render the education section.
+            4. If experience data exists and executive summary rendering is enabled, add a centered heading "Executive Summary", then render the executive summary section using experience data.
+            5. If experience data exists and skills matrix rendering is enabled (but not necessarily executive summary), render the skills matrix section using experience data.
+            6. If both experience and executive summary rendering are enabled, insert a page break after the executive summary.
+            7. If experience data exists and experience section rendering is enabled, render the full experience section.
+            8. No external disk, network, or database access occurs during rendering.
+
+        """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(
                 self.document,
@@ -79,8 +111,7 @@ class RenderResume(ResumeRenderBase):
         # the skills section is built from experience, so it has to exist
         # Only render the skills matrix if we have an executive summary
         if (
-            self.resume.experience
-            and self.settings.skills_matrix
+            self.resume.experience and self.settings.skills_matrix
             # and self.settings.executive_summary
         ):
             # add a blank line
@@ -90,7 +121,6 @@ class RenderResume(ResumeRenderBase):
                 experience=self.resume.experience,
                 settings=self.settings.skills_matrix_settings,
                 parse_context=self.parse_context,
-
             ).render()
 
         # don't add a page break if we're rendering only the summary

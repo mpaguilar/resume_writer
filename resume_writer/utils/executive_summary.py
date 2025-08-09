@@ -12,7 +12,6 @@ class ExecutiveSummary:
 
     def __init__(self, experience: Experience):
         """Initialize the ExecutiveSummary class."""
-
         assert isinstance(
             experience,
             Experience,
@@ -22,7 +21,6 @@ class ExecutiveSummary:
 
     def summary(self, categories: list[str]) -> dict[str, dict]:
         """Create a dictionary of roles and their summaries."""
-
         # Create a dictionary to hold the roles and their summaries
         _summaries = {}
 
@@ -67,7 +65,6 @@ class ExecutiveSummary:
 
     def available_categories(self) -> list[str]:
         """Return a list of role categories."""
-
         _categories = [_role.basics.job_category for _role in self.experience.roles]
         _categories = list(set(_categories))
 

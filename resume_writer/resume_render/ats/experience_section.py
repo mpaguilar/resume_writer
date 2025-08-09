@@ -36,14 +36,31 @@ class RenderRoleSection(ResumeRenderRoleBase):
         role: Role,
         settings: ResumeRolesSettings,
     ):
-        """Initialize roles render object."""
+        """Initialize roles render object.
 
+        Args:
+            document: The Docx document object to render into.
+            role: The role data to render.
+            settings: The settings for rendering the role.
+
+        """
         log.debug("Initializing roles render object.")
         super().__init__(document=document, role=role, settings=settings)
 
     def _skills(self) -> list[str]:
-        """Render role skills section."""
+        """Render role skills section.
 
+        Returns:
+            A list of strings containing the formatted skills text.
+
+        Notes:
+            1. Initialize an empty list to store the output lines.
+            2. Check if the role has skills and the settings allow rendering skills.
+            3. If skills exist, join them into a comma-separated string.
+            4. Append the formatted "Skills: <skills>" string to the output list.
+            5. Return the list of formatted skill lines.
+
+        """
         log.debug("Rendering role skills.")
         _paragraph_lines = []
         if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
@@ -53,7 +70,21 @@ class RenderRoleSection(ResumeRenderRoleBase):
         return _paragraph_lines
 
     def _details(self) -> list[str]:
-        """Render role details section."""
+        """Render role details section.
+
+        Returns:
+            A list of strings containing the formatted detail lines.
+
+        Notes:
+            1. Initialize an empty list to store the output lines.
+            2. Extract the basics information from the role.
+            3. If job category is present and enabled in settings, append it to the output list.
+            4. If location is present and enabled in settings, append it to the output list.
+            5. If agency name is present and enabled in settings, append it to the output list.
+            6. If employment type is present and enabled in settings, append it to the output list.
+            7. Return the list of formatted detail lines.
+
+        """
         log.debug("Rendering role details.")
         _paragraph_lines = []
         # job category
@@ -73,8 +104,20 @@ class RenderRoleSection(ResumeRenderRoleBase):
         return _paragraph_lines
 
     def _dates(self) -> str:
-        """Generate dates string for role."""
+        """Generate dates string for role.
 
+        Returns:
+            A formatted string containing start date and optional end date.
+
+        Notes:
+            1. Extract the basics information from the role.
+            2. If start date is missing, log a warning and append an error.
+            3. Format the start date as "mm-YYYY".
+            4. If end date is present, format it as "mm-YYYY" and append to the string.
+            5. If end date is missing, append " - Present" to the string.
+            6. Return the final formatted date string.
+
+        """
         log.debug("Rendering role dates.")
 
         _basics = self.role.basics
@@ -97,8 +140,26 @@ class RenderRoleSection(ResumeRenderRoleBase):
         return _start_and_end
 
     def render(self) -> None:
-        """Render role overview/basics section."""
+        """Render role overview/basics section.
 
+        Notes:
+            1. Initialize an empty list to store paragraph lines.
+            2. Create a paragraph for the role basics.
+            3. If company name is missing, log an error and append to errors list.
+            4. Add the company name as bold and underlined text with increased font size.
+            5. Insert a line break.
+            6. If title is missing, log an error and append to errors list.
+            7. Add the title as bold text.
+            8. Insert a line break.
+            9. Generate and add the formatted dates to the paragraph.
+            10. Create a paragraph for the details section.
+            11. Collect and clean the detail lines.
+            12. If any detail lines exist, add them to the details paragraph.
+            13. If summary is present and enabled, add it as italicized text with spacing.
+            14. If responsibilities are present and enabled, add them with spacing.
+            15. If skills are present and enabled, add them with spacing.
+
+        """
         _paragraph_lines = []
 
         _basics_paragraph = self.document.add_paragraph()
@@ -189,12 +250,28 @@ class RenderRolesSection(ResumeRenderRolesBase):
         roles: Roles,
         settings: ResumeRolesSettings,
     ):
-        """Initialize roles render object."""
+        """Initialize roles render object.
 
+        Args:
+            document: The Docx document object to render into.
+            roles: The list of role data to render.
+            settings: The settings for rendering the roles.
+
+        """
         super().__init__(document=document, roles=roles, settings=settings)
 
     def render(self) -> None:
-        """Render roles section."""
+        """Render roles section.
+
+        Notes:
+            1. If no roles are present, log info and return.
+            2. Add a heading "Work History" with level 2.
+            3. For each role:
+            4. If it's the first role, add a horizontal line.
+            5. Render the role using RenderRoleSection.
+            6. If it's not the last role, add a horizontal line and a blank paragraph.
+
+        """
         log.debug("Rendering roles section.")
         if len(self.roles) > 0:
             self.document.add_heading("Work History", level=2)
@@ -203,7 +280,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
             return
 
         for _role in self.roles:
-
             if _role == self.roles[0]:
                 _p = self.document.add_paragraph()
                 self.add_horizontal_line(paragraph=_p)
@@ -230,13 +306,32 @@ class RenderProjectSection(ResumeRenderProjectBase):
         project: Project,
         settings: ResumeProjectsSettings,
     ):
-        """Initialize project render object."""
+        """Initialize project render object.
+
+        Args:
+            document: The Docx document object to render into.
+            project: The project data to render.
+            settings: The settings for rendering the project.
+
+        """
         log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
 
     def _overview(self) -> list[str]:
-        """Render project overview section."""
+        """Render project overview section.
 
+        Returns:
+            A list of strings containing the formatted overview lines.
+
+        Notes:
+            1. Initialize an empty list to store output lines.
+            2. Extract the project overview data.
+            3. If URL description and URL are present and enabled, create a formatted URL line.
+            4. If start date is present and enabled, format it and append.
+            5. If end date is present and enabled, format it and append.
+            6. Return the list of formatted lines.
+
+        """
         log.debug("Rendering project overview.")
 
         _paragraph_lines = []
@@ -263,8 +358,18 @@ class RenderProjectSection(ResumeRenderProjectBase):
         return _paragraph_lines
 
     def _skills(self) -> list[str]:
-        """Render project skills section."""
+        """Render project skills section.
 
+        Returns:
+            A list of strings containing the formatted skills text.
+
+        Notes:
+            1. Initialize an empty list to store output lines.
+            2. Join the project skills into a comma-separated string.
+            3. Append the formatted "Skills: <skills>" string to the output list.
+            4. Return the list of formatted skill lines.
+
+        """
         log.debug("Rendering project skills.")
 
         _paragraph_lines = []
@@ -275,8 +380,16 @@ class RenderProjectSection(ResumeRenderProjectBase):
         return _paragraph_lines
 
     def render(self) -> None:
-        """Render project section."""
+        """Render project section.
 
+        Notes:
+            1. Initialize an empty list to store paragraph lines.
+            2. If overview is present and enabled, collect its lines.
+            3. If description is present and enabled, add it to the lines.
+            4. If skills are present and enabled, collect their lines.
+            5. If any lines exist, add them to the document as a single paragraph.
+
+        """
         log.debug("Rendering project section.")
 
         _paragraph_lines = []
@@ -303,15 +416,29 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
-        """Initialize projects render object."""
+        """Initialize projects render object.
 
+        Args:
+            document: The Docx document object to render into.
+            projects: The list of project data to render.
+            settings: The settings for rendering the projects.
+
+        """
         log.debug("Initializing projects render object.")
 
         super().__init__(document=document, projects=projects, settings=settings)
 
     def render(self) -> None:
-        """Render projects section."""
+        """Render projects section.
 
+        Notes:
+            1. If no projects are present, log info and return.
+            2. Add a heading "Projects" with level 2.
+            3. For each project:
+            4. Create a RenderProjectSection object.
+            5. Render the project.
+
+        """
         log.debug("Rendering projects section.")
         if len(self.projects) > 0:
             self.document.add_heading("Projects", level=2)
@@ -332,14 +459,25 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         experience: Experience,
         settings: ResumeExperienceSettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize experience render object.
 
+        Args:
+            document: The Docx document object to render into.
+            experience: The experience data to render.
+            settings: The settings for rendering the experience.
+
+        """
         log.debug("Initializing experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render experience section."""
+        """Render experience section.
 
+        Notes:
+            1. If roles are present and enabled, render the roles section.
+            2. If projects are present and enabled, render the projects section.
+
+        """
         log.debug("Rendering experience section.")
 
         if self.settings.roles and self.experience.roles:

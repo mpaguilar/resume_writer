@@ -32,8 +32,23 @@ class RenderRolesSection(ResumeRenderRolesBase):
         roles: Roles,
         settings: ResumeRolesSettings,
     ):
-        """Initialize roles render object."""
+        """Initialize roles render object.
 
+        Args:
+            document: The MarkdownDoc object to render the content into.
+            roles: The list of Role objects to render.
+            settings: The settings object controlling what fields to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that `document` is an instance of MarkdownDoc.
+            2. Validate that `roles` is an instance of Roles.
+            3. Validate that `settings` is an instance of ResumeRolesSettings.
+            4. Call the parent class constructor with the provided arguments.
+
+        """
         assert isinstance(
             document,
             MarkdownDoc,
@@ -53,7 +68,28 @@ class RenderRolesSection(ResumeRenderRolesBase):
         )
 
     def render_basics(self, role: Role) -> None:
-        """Render role basics."""
+        """Render role basics.
+
+        Args:
+            role: The Role object containing the basic information to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. Add a header for the basics section.
+            3. Render the company name if present.
+            4. Render the agency name if the setting is enabled and the field is present.
+            5. Render the job category if the setting is enabled and the field is present.
+            6. Render the employment type if the setting is enabled and the field is present.
+            7. Render the start date if the setting is enabled and the field is present.
+            8. Render the end date if the setting is enabled and the field is present.
+            9. Render the title if present.
+            10. Render the reason for change if the setting is enabled and the field is present.
+            11. Render the location if the setting is enabled and the field is present.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -79,7 +115,20 @@ class RenderRolesSection(ResumeRenderRolesBase):
             _doc.add_text(f"Location: {role.basics.location}")
 
     def render_highlights(self, role: Role) -> None:
-        """Render role highlights."""
+        """Render role highlights.
+
+        Args:
+            role: The Role object containing the highlights to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. If highlights are enabled in settings and the role has highlights, add a header for highlights.
+            3. For each highlight in the role, add a bullet point to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -90,7 +139,20 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 _doc.add_text(f"- {highlight}")
 
     def render_responsibilities(self, role: Role) -> None:
-        """Render role responsibilities."""
+        """Render role responsibilities.
+
+        Args:
+            role: The Role object containing the responsibilities to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. If responsibilities are enabled in settings and the role has responsibilities, add a header for responsibilities.
+            3. For each responsibility in the role, add a bullet point to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -101,7 +163,20 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 _doc.add_text(f"- {responsibility}")
 
     def render_skills(self, role: Role) -> None:
-        """Render role skills."""
+        """Render role skills.
+
+        Args:
+            role: The Role object containing the skills to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. If skills are enabled in settings and the role has skills, add a header for skills.
+            3. For each skill in the role, add a bullet point to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -112,7 +187,20 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 _doc.add_text(f"- {skill}")
 
     def render_projects(self, role: Role) -> None:
-        """Render role projects."""
+        """Render role projects.
+
+        Args:
+            role: The Role object containing the projects to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. If projects are enabled in settings and the role has projects, add a header for projects.
+            3. For each project in the role, add a bullet point to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -123,7 +211,23 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 _doc.add_text(f"- {project}")
 
     def render_role(self, role: Role) -> None:
-        """Render a single role."""
+        """Render a single role.
+
+        Args:
+            role: The Role object to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. Add a header for the role section.
+            3. Render the role basics.
+            4. If summary is enabled and the role has a non-empty summary, add a header and render the summary.
+            5. If responsibilities are enabled and the role has a text field for responsibilities, add a header and render the text.
+            6. If skills are enabled and the role has skills, add a header and render each skill with an asterisk bullet.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -150,7 +254,22 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 _doc.add_text(f"* {skill}")
 
     def render(self) -> None:
-        """Render roles section."""
+        """Render roles section.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and roles.
+            2. If no roles are present, log a debug message and return.
+            3. Log a debug message indicating that rendering is starting.
+            4. Add a header for the roles section.
+            5. For each role in the roles list, render the role.
+
+        """
         # shortcuts
         _doc = self.document
         _roles = self.roles
@@ -176,8 +295,24 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
-        """Initialize projects render object."""
+        """Initialize projects render object.
 
+        Args:
+            document: The MarkdownDoc object to render the content into.
+            projects: The list of Project objects to render.
+            settings: The settings object controlling what fields to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Log a debug message indicating initialization.
+            2. Validate that `document` is an instance of MarkdownDoc.
+            3. Validate that `projects` is an instance of Projects.
+            4. Validate that `settings` is an instance of ResumeProjectsSettings.
+            5. Call the parent class constructor with the provided arguments.
+
+        """
         log.debug("Initializing projects render object.")
 
         assert isinstance(
@@ -202,7 +337,27 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         )
 
     def render_project(self, project: Project) -> None:
-        """Render a single project."""
+        """Render a single project.
+
+        Args:
+            project: The Project object to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document and settings.
+            2. Add a header for the project section.
+            3. Add a header for the overview section.
+            4. Render the project title if enabled in settings and present.
+            5. Render the project URL if enabled in settings and present.
+            6. Render the URL description if enabled in settings and present.
+            7. Render the start date if enabled in settings and present.
+            8. Render the end date if enabled in settings and present.
+            9. If a description is enabled in settings and present, add a header and render the description.
+            10. If skills are enabled in settings and present, add a header and render each skill with an asterisk bullet.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -232,7 +387,22 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
                 _doc.add_text(f"* {skill}")
 
     def render(self) -> None:
-        """Render projects section."""
+        """Render projects section.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Extract shortcuts for the document, settings, and projects.
+            2. If no projects are present, log a debug message and return.
+            3. Log a debug message indicating that rendering is starting.
+            4. Add a header for the projects section.
+            5. For each project in the projects list, render the project.
+
+        """
         # shortcuts
         _doc = self.document
         _settings = self.settings
@@ -259,8 +429,21 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         experience: Experience,
         settings: ResumeExperienceSettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize experience render object.
 
+        Args:
+            document: The MarkdownDoc object to render the content into.
+            experience: The Experience object containing the data to render.
+            settings: The settings object controlling what fields to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Log a debug message indicating initialization.
+            2. Call the parent class constructor with the provided arguments.
+
+        """
         log.debug("Initializing experience render object.")
         super().__init__(
             document=document,
@@ -270,8 +453,21 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         )
 
     def render(self) -> None:
-        """Render experience section."""
+        """Render experience section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Log a debug message indicating that rendering is starting.
+            2. Add a header for the experience section.
+            3. If projects are enabled in settings and the experience has projects, render the projects section.
+            4. If roles are enabled in settings and the experience has roles, render the roles section.
+
+        """
         log.debug("Rendering experience section.")
 
         self.document.add_header("# Experience")

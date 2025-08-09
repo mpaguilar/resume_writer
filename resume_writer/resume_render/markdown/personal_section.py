@@ -17,8 +17,23 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         personal: Personal,
         settings: ResumePersonalSettings,
     ):
-        """Initialize the personal section renderer."""
+        """Initialize the personal section renderer.
 
+        Args:
+            document: The MarkdownDoc instance to write rendered content to.
+            personal: The Personal instance containing personal contact information.
+            settings: The ResumePersonalSettings instance defining which fields to render.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that document is an instance of MarkdownDoc.
+            2. Validate that personal is an instance of Personal.
+            3. Validate that settings is an instance of ResumePersonalSettings.
+            4. Call the parent class constructor with provided arguments.
+
+        """
         log.debug("Initializing personal basic render object")
 
         assert isinstance(
@@ -43,7 +58,23 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         )
 
     def websites(self) -> None:
-        """Render the websites section."""
+        """Render the websites section.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve references to document, personal, and settings from self.
+            2. If websites rendering is enabled in settings and personal has websites data, render the section header.
+            3. If GitHub URL is enabled in settings and personal has a GitHub URL, add it to the document.
+            4. If LinkedIn URL is enabled in settings and personal has a LinkedIn URL, add it to the document.
+            5. If Website URL is enabled in settings and personal has a Website URL, add it to the document.
+            6. If Twitter URL is enabled in settings and personal has a Twitter URL, add it to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _personal = self.personal
@@ -61,7 +92,24 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 _doc.add_text(f"Twitter: {_personal.websites.twitter}")
 
     def contact_info(self) -> None:
-        """Render the contact information section."""
+        """Render the contact information section.
+
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve references to document, personal, and settings from self.
+            2. Add the section header for "Contact Information".
+            3. If contact info rendering is enabled in settings and personal has contact info data:
+                a. If name rendering is enabled and personal has a name, add the name to the document.
+                b. If email rendering is enabled and personal has an email, add the email to the document.
+                c. If phone rendering is enabled and personal has a phone number, add the phone number to the document.
+                d. If location rendering is enabled and personal has a location, add the location to the document.
+
+        """
         # shortcuts
         _doc = self.document
         _personal = self.personal
@@ -80,8 +128,26 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
                 _doc.add_text(f"Location: {_personal.contact_info.location}")
 
     def render(self) -> None:
-        """Render the personal section."""
+        """Render the personal section.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Retrieve references to document, personal, and settings from self.
+            2. Add the main section header "# Personal".
+            3. Render the contact information section.
+            4. If visa status rendering is enabled in settings and personal has visa status data:
+                a. Add the section header "## Visa Status".
+                b. If work authorization rendering is enabled and personal has work authorization data, add it to the document.
+                c. If sponsorship requirement rendering is enabled and personal has a sponsorship requirement, add it to the document.
+            5. If banner rendering is enabled in settings and personal has a banner with text, add the banner section header and text.
+            6. If note rendering is enabled in settings and personal has a note with text, add the note section header and text.
+
+        """
         # shortcuts
         _doc = self.document
         _personal = self.personal

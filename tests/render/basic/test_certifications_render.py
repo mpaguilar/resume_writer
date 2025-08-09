@@ -32,6 +32,7 @@ def document():
 def settings():
     return ResumeCertificationsSettings()
 
+
 @pytest.fixture
 def context():
     return Mock(spec=ParseContext)

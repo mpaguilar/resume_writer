@@ -24,6 +24,7 @@ Certification ID: 0987654321
 """
 test_data_start_line = 6
 
+
 def _block_lines():
     lines = test_data.split("\n")
 
@@ -52,6 +53,7 @@ def _deindenter(lines, count: int = 1):
         lines = _lines.copy()
 
     return _lines
+
 
 def get_data_lines(first_line_number: int, last_line_number: int) -> list[str]:
     _data_start = first_line_number - test_data_start_line

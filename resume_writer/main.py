@@ -49,7 +49,6 @@ def career_years_of_experience(resume: Resume) -> None:
 
 def dump_resume(resume: Resume) -> None:
     """Dump the resume to the console."""
-
     _personal = resume.personal
     print_personal(_personal)
     career_years_of_experience(resume)
@@ -71,7 +70,6 @@ def basic_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the basic renderer."""
-
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -88,7 +86,6 @@ def ats_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the ats renderer."""
-
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -105,7 +102,6 @@ def plain_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the plain renderer."""
-
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -127,7 +123,6 @@ def html_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the html renderer."""
-
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
@@ -148,7 +143,6 @@ def markdown_render(
     settings: ResumeRenderSettings,
 ) -> None:
     """Render the resume using the markdown renderer."""
-
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
@@ -164,10 +158,8 @@ def markdown_render(
     log.info("Render of Markdown resume complete.")
 
 
-
 def parse_text_resume(input_file: str) -> Resume:
     """Convert text doc into Resume object."""
-
     with open(input_file) as _f:
         _resume_text = _f.read()
         _resume_lines = _resume_text.splitlines(keepends=True)
@@ -197,7 +189,6 @@ def main(
     resume_type: str,
 ) -> None:
     """Convert a text resume to a .docx file."""
-
     _settings = load_settings(settings_file)
     _render_settings = ResumeRenderSettings()
     _render_settings.update_from_dict(_settings["resume"]["render"])

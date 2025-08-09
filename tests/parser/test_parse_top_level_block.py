@@ -3,6 +3,7 @@ import pytest
 
 from resume_writer.models.parsers import TextBlockParse, BasicBlockParse, ParseContext
 
+
 @pytest.fixture
 def block_lines():
     return [
@@ -18,13 +19,13 @@ def block_lines():
 
 
 class DummyTextClass(TextBlockParse):
-    def __init__(self, text_string: str, parse_context : ParseContext):
+    def __init__(self, text_string: str, parse_context: ParseContext):
         self.text = text_string
         self.parse_context = parse_context
 
 
 class DummyClass(BasicBlockParse):
-    def __init__(self, param1: str, section2: str, parse_context : ParseContext):
+    def __init__(self, param1: str, section2: str, parse_context: ParseContext):
         self.param1 = param1
         self.section2 = section2
         self.parse_context = parse_context
@@ -48,7 +49,6 @@ def test_parse_basic_block_parse_blocks(block_lines):
 
 
 def test_parse_block_basic(block_lines):
-
     _ctx = ParseContext(lines=block_lines, doc_line_num=1)
     dummy = DummyClass.parse(_ctx)
     assert isinstance(dummy.param1, DummyTextClass)

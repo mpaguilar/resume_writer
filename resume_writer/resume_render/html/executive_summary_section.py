@@ -24,13 +24,50 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize executive summary render object.
+
+        Args:
+            document: The Word document object to render into.
+            experience: The experience data to render, containing roles and their details.
+            settings: The rendering settings that control which categories are included and how they are formatted.
+
+        Returns:
+            None
+
+        Notes:
+            1. Logs a debug message indicating initialization.
+            2. Calls the parent class constructor to initialize base rendering functionality.
+
+        """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render experience section for functional resume."""
+        """Render the executive summary section of the resume.
 
+        Args:
+            None
+
+        Returns:
+            None
+
+        Notes:
+            1. Logs a debug message indicating the start of rendering.
+            2. Checks if the experience object contains any roles; if not, raises a ValueError.
+            3. Extracts unique job categories from the roles in the experience data.
+            4. Iterates over the job categories specified in the settings.
+            5. For each category, filters roles that belong to that category.
+            6. If no roles are found for a category, logs a warning and skips to the next category.
+            7. Adds a heading for the current job category to the document with level 4.
+            8. For each role in the category:
+               a. Checks if a summary is available; if not, logs a warning and skips.
+               b. Checks if a company name is available; if not, logs a warning and skips.
+               c. Creates a new paragraph with a bullet point style.
+               d. Adds the role summary as plain text.
+               e. Adds the company name in italics, appended to the summary.
+            9. No network, disk, or database access occurs during execution.
+
+        """
         log.debug("Rendering functional experience section.")
 
         if not self.experience.roles:

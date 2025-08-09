@@ -9,7 +9,6 @@ class DateStats:
 
     def __init__(self):
         """Initialize the DateStats class."""
-
         self.date_ranges = []
 
     def add_date_range(
@@ -18,7 +17,6 @@ class DateStats:
         end_date: datetime | None = None,
     ) -> None:
         """Add a date range to the list of date ranges."""
-
         # Check if the start date is before the end date
         if end_date and start_date > end_date:
             raise ValueError("Start date must be before end date")
@@ -35,7 +33,6 @@ class DateStats:
         * Overlapping ranges should use the start of
             the first range and the end of the last range.
         """
-
         if len(self.date_ranges) == 0:
             log.warning("No date ranges to merge")
             return []
@@ -57,7 +54,6 @@ class DateStats:
     @property
     def days_of_experience(self) -> int:
         """Return the number of years of experience."""
-
         _merged_ranges = self.merge_date_ranges()
 
         _total_days = 0
@@ -77,7 +73,6 @@ class DateStats:
     @property
     def span_of_experience(self) -> float:
         """Return the span of experience, from first time used to last."""
-
         _merged_ranges = self.merge_date_ranges()
 
         _first_date = _merged_ranges[0][0]

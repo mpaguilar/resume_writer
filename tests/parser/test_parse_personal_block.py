@@ -78,6 +78,7 @@ def test_parse_personal_websites(block_lines):
     assert websites.twitter == "https://twitter.com/example"
     assert _ctx.doc_line_num == 14
 
+
 def test_parse_personal_websites_missing_field(block_lines):
     _lines = block_lines[9:13]  # skip first line, github
     _ctx = ParseContext(lines=_lines, doc_line_num=10)
@@ -87,6 +88,7 @@ def test_parse_personal_websites_missing_field(block_lines):
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
     assert _ctx.doc_line_num == 14
+
 
 def test_parse_personal_websites_missing_label(block_lines):
     _lines = block_lines[8:13]  # skip first line, github
@@ -99,6 +101,7 @@ def test_parse_personal_websites_missing_label(block_lines):
     assert websites.twitter == "https://twitter.com/example"
     assert _ctx.doc_line_num == 14
 
+
 def test_parse_personal_websites_missing_colon_on_label(block_lines):
     _lines = block_lines[8:13]  # skip first line, github
     _lines[0] = "Github"
@@ -109,6 +112,7 @@ def test_parse_personal_websites_missing_colon_on_label(block_lines):
     assert websites.website == "https://www.example.com"
     assert websites.twitter == "https://twitter.com/example"
     assert _ctx.doc_line_num == 14
+
 
 def test_parse_visa_status(block_lines):
     _lines = block_lines[14:17]
@@ -124,6 +128,7 @@ def test_parse_visa_status(block_lines):
     assert visa_status.require_sponsorship is None
     assert _ctx.doc_line_num == 18
 
+
 def test_parse_banner(block_lines):
     _lines = block_lines[19:21]
     _ctx = ParseContext(lines=_lines, doc_line_num=20)
@@ -134,6 +139,7 @@ def test_parse_banner(block_lines):
     )
     assert _ctx.doc_line_num == 22
 
+
 def test_parse_note(block_lines):
     _lines = block_lines[24:27]
     _ctx = ParseContext(lines=_lines, doc_line_num=25)
@@ -141,6 +147,7 @@ def test_parse_note(block_lines):
     assert (
         note.text == "Proficent in the skills employers look for.\nLots of experience."
     )
+
 
 def test_parse_full_personal_block(block_lines):
     _ctx = ParseContext(lines=block_lines, doc_line_num=1)

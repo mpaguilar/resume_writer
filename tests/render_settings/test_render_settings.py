@@ -95,7 +95,7 @@ def test_dict():
                         "categories": "Category1\nCategory2",
                     },
                     "skills_matrix": {
-                        "all_skills": True, # default is False
+                        "all_skills": True,  # default is False
                         "skills": "Skill1\nSkill2",
                     },
                 },

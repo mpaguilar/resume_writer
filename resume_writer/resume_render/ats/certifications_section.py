@@ -1,5 +1,4 @@
 import logging
-from datetime import datetime
 
 import docx.document
 
@@ -22,28 +21,37 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         certification: Certification,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize the basic certification renderer."""
+        """Initialize the basic certification renderer.
+
+        Args:
+            document (docx.document.Document): The Word document to which the certification will be added.
+            certification (Certification): The certification object containing details such as name, issuer, issued date, and expiration date.
+            settings (ResumeCertificationsSettings): Configuration settings that determine which fields to display in the rendered output.
+
+        Notes:
+            1. Calls the parent class constructor to initialize common attributes.
+
+        """
         super().__init__(document, certification, settings)
 
     def render(self) -> None:
-        """Render the certification section."""
-        _paragraph_lines = []
-        _certification = self.certification
+        """Render the certification section in the document.
 
-        if _certification.name and self.settings.name:
-            _paragraph_lines.append(f"{_certification.name}")
-        if _certification.issuer and self.settings.issuer:
-            _paragraph_lines.append(f"Issued by: {_certification.issuer}")
-        if _certification.issued and self.settings.issued:
-            _value = datetime.strftime(_certification.issued, "%B %Y")
-            _paragraph_lines.append(f"Issued: {_value}")
-        if _certification.expires and self.settings.expires:
-            _value = datetime.strftime(_certification.expires, "%B %Y")
-            _paragraph_lines.append(f"Expires: {_value}")
+        Args:
+            None: This method does not accept any arguments.
 
-        if len(_paragraph_lines) > 0:
-            _paragraph_text = "\n".join(_paragraph_lines)
-            self.document.add_paragraph(_paragraph_text)
+        Returns:
+            None: This method does not return any value.
+
+        Notes:
+            1. Initializes an empty list to store lines of text for the certification.
+            2. If the certification name exists and the name setting is enabled, adds the name to the lines.
+            3. If the issuer exists and the issuer setting is enabled, adds the issuer to the lines.
+            4. If the issued date exists and the issued setting is enabled, formats the date to "Month Year" and adds it to the lines.
+            5. If the expiration date exists and the expires setting is enabled, formats the date to "Month Year" and adds it to the lines.
+            6. If any lines were generated, joins them with newline characters and adds the resulting paragraph to the document.
+
+        """
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
@@ -55,18 +63,31 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         certifications: Certifications,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize the basic certifications renderer."""
+        """Initialize the basic certifications renderer.
+
+        Args:
+            document (docx.document.Document): The Word document to which the certifications section will be added.
+            certifications (Certifications): A collection of Certification objects to be rendered.
+            settings (ResumeCertificationsSettings): Configuration settings that determine which fields to display for each certification.
+
+        Notes:
+            1. Calls the parent class constructor to initialize common attributes.
+
+        """
         super().__init__(document, certifications, settings)
 
     def render(self) -> None:
-        """Render the certifications section."""
+        """Render the certifications section in the document.
 
-        if len(self.certifications) > 0:
-            self.document.add_heading("Certifications", level=2)
+        Args:
+            None: This method does not accept any arguments.
 
-        for _certification in self.certifications:
-            RenderCertificationSection(
-                self.document,
-                _certification,
-                self.settings,
-            ).render()
+        Returns:
+            None: This method does not return any value.
+
+        Notes:
+            1. If there are certifications to render, adds a level-2 heading titled "Certifications".
+            2. Iterates through each certification in the collection.
+            3. For each certification, creates a RenderCertificationSection instance and renders it into the document.
+
+        """

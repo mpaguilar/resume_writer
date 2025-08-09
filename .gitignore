@@ -40,5 +40,27 @@ infra/export/var/lib/garage/meta
 .env
 start_aider.sh
 
+# aider
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.v3/
+.aider.tags.cache.v4/
+.aider/
+.aider.model.settings.yml
+.aider.model.metadata.jso
+
+# utilities
+start_aider.sh
+linting.sh
+.env
+_*.py
+.coverage
+DEV_PLAN.md
+_*.md
+
+
+
 # Continue.dev files
 .continue/
+
+
