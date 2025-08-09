@@ -9,7 +9,15 @@ _open_pair_re = re.compile(r"([\(\[\{])\s+")
 
 
 def download_nltk_data() -> None:
-    """Ensure the nltk data is present."""
+    """Ensure the nltk data is present.
+
+    Notes:
+        1. Checks if the 'punkt' NLTK data is installed.
+        2. If not installed, downloads 'punkt' data.
+        3. Checks if the 'punkt_tab' NLTK data is installed.
+        4. If not installed, downloads 'punkt_tab' data.
+        5. This function performs disk access to download required NLTK data.
+    """
     downloader = Downloader()
     if not downloader.is_installed("punkt"):
         nltk.download("punkt")
@@ -21,11 +29,17 @@ def normalize_sentence_fragment(fragment: str) -> str:
     """Normalize a sentence by removing extra spaces and punctuation.
 
     Args:
-        fragment: The input sentence.
+        fragment: The input sentence fragment to normalize.
 
     Returns:
-        The normalized sentence.
+        The normalized sentence fragment with consistent spacing and punctuation.
 
+    Notes:
+        1. Strips leading and trailing whitespace from the fragment.
+        2. Splits the fragment into words and rejoins with single spaces to remove extra spaces.
+        3. Strips leading and trailing spaces again.
+        4. Fixes spacing before punctuation marks by removing spaces before them.
+        5. Fixes spacing after opening punctuation (e.g., '(', '[', '{') by removing spaces after them.
     """
     _fragment = fragment.strip()
 
@@ -45,7 +59,21 @@ def normalize_sentence_fragment(fragment: str) -> str:
 
 
 def nltk_normalize_fragment(fragment: str) -> str:
-    """Use a more advanced detokenizer to reassemble fragments."""
+    """Use a more advanced detokenizer to reassemble fragments.
+
+    Args:
+        fragment: The input sentence fragment to normalize.
+
+    Returns:
+        The normalized sentence fragment after detokenization and punctuation fixes.
+
+    Notes:
+        1. Strips leading and trailing whitespace from the fragment.
+        2. Uses nltk.sent_tokenize to split the fragment into sentences, taking the first.
+        3. Fixes trailing punctuation by removing extra spaces before punctuation.
+        4. Fixes punctuation spacing after opening pairs (e.g., '(', '[', '{').
+        5. This function performs network access if NLTK data is not present, via nltk.download.
+    """
     _fragment = fragment.strip()
     _raw_detokenize = sent_tokenize(_fragment)[0]
     _fixed_trailing_punctuation = _punctuation_re.sub(r"\1", _raw_detokenize)
@@ -55,11 +83,31 @@ def nltk_normalize_fragment(fragment: str) -> str:
 
 
 def skills_splitter(sentence: str, skills: list[str]) -> list[str]:
-    """Split a sentence into parts based on list of skills.
+    """Split a sentence into parts based on a list of skills.
 
-    Take a sentence, look for the skills in the sentence, and return
-    a list with the skills isolated. This is to be able to highlight
-    individual skills within a sentence.
+    This function identifies skills within a sentence and separates them into distinct parts,
+    allowing for individual highlighting or processing of each skill.
+
+    Args:
+        sentence: The input sentence to be split.
+        skills: A list of skill strings to search for in the sentence. Skills with more words
+                should be listed first for accurate matching.
+
+    Returns:
+        A list of strings where each element is either a skill or a fragment of text between skills.
+
+    Notes:
+        1. Ensures required NLTK data ('punkt', 'punkt_tab') are downloaded if missing.
+        2. Tokenizes the input sentence into individual words and punctuation.
+        3. Sorts the skills by length in descending order to prioritize longer, more specific skills.
+        4. Iterates through each token in the sentence, checking for matches with any skill.
+        5. When a skill is found, adds the current fragment (if any) and the skill to the result.
+        6. Skips over tokens that are part of the matched skill.
+        7. Continues until all tokens are processed.
+        8. Adds any remaining fragment to the result.
+        9. Normalizes each part of the result using nltk_normalize_fragment.
+        10. Returns the final list of normalized fragments and skills.
+        11. This function performs disk access if NLTK data is not present.
     """
     # make sure the nltk data is present
     # TODO: move this to someplace that isn't called all the time

@@ -24,7 +24,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
-    """Render experience roles section."""
+    """Render experience roles section.
+
+    This class is responsible for rendering individual roles within the experience section of a resume.
+    It inherits from ResumeRenderRolesBase, which provides base functionality for rendering role-related content.
+
+    Attributes:
+        document (MarkdownDoc): The MarkdownDoc object to render the content into.
+        roles (Roles): The list of Role objects to render.
+        settings (ResumeRolesSettings): The settings object controlling what fields to render.
+    """
 
     def __init__(
         self,
@@ -35,9 +44,9 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Initialize roles render object.
 
         Args:
-            document: The MarkdownDoc object to render the content into.
-            roles: The list of Role objects to render.
-            settings: The settings object controlling what fields to render.
+            document (MarkdownDoc): The MarkdownDoc object to render the content into.
+            roles (Roles): The list of Role objects to render.
+            settings (ResumeRolesSettings): The settings object controlling what fields to render.
 
         Returns:
             None
@@ -71,7 +80,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render role basics.
 
         Args:
-            role: The Role object containing the basic information to render.
+            role (Role): The Role object containing the basic information to render.
 
         Returns:
             None
@@ -118,7 +127,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render role highlights.
 
         Args:
-            role: The Role object containing the highlights to render.
+            role (Role): The Role object containing the highlights to render.
 
         Returns:
             None
@@ -142,7 +151,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render role responsibilities.
 
         Args:
-            role: The Role object containing the responsibilities to render.
+            role (Role): The Role object containing the responsibilities to render.
 
         Returns:
             None
@@ -166,7 +175,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render role skills.
 
         Args:
-            role: The Role object containing the skills to render.
+            role (Role): The Role object containing the skills to render.
 
         Returns:
             None
@@ -190,7 +199,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render role projects.
 
         Args:
-            role: The Role object containing the projects to render.
+            role (Role): The Role object containing the projects to render.
 
         Returns:
             None
@@ -214,7 +223,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Render a single role.
 
         Args:
-            role: The Role object to render.
+            role (Role): The Role object to render.
 
         Returns:
             None
@@ -287,7 +296,16 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
-    """Render experience projects section."""
+    """Render experience projects section.
+
+    This class is responsible for rendering individual projects within the experience section of a resume.
+    It inherits from ResumeRenderProjectsBase, which provides base functionality for rendering project-related content.
+
+    Attributes:
+        document (MarkdownDoc): The MarkdownDoc object to render the content into.
+        projects (Projects): The list of Project objects to render.
+        settings (ResumeProjectsSettings): The settings object controlling what fields to render.
+    """
 
     def __init__(
         self,
@@ -298,9 +316,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """Initialize projects render object.
 
         Args:
-            document: The MarkdownDoc object to render the content into.
-            projects: The list of Project objects to render.
-            settings: The settings object controlling what fields to render.
+            document (MarkdownDoc): The MarkdownDoc object to render the content into.
+            projects (Projects): The list of Project objects to render.
+            settings (ResumeProjectsSettings): The settings object controlling what fields to render.
 
         Returns:
             None
@@ -340,7 +358,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """Render a single project.
 
         Args:
-            project: The Project object to render.
+            project (Project): The Project object to render.
 
         Returns:
             None
@@ -421,7 +439,16 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
-    """Render experience section."""
+    """Render experience section.
+
+    This class is responsible for orchestrating the rendering of both roles and projects within the experience section of a resume.
+    It inherits from ResumeRenderExperienceBase, which provides base functionality for rendering experience-related content.
+
+    Attributes:
+        document (MarkdownDoc): The MarkdownDoc object to render the content into.
+        experience (Experience): The Experience object containing the data to render.
+        settings (ResumeExperienceSettings): The settings object controlling what fields to render.
+    """
 
     def __init__(
         self,
@@ -432,9 +459,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         """Initialize experience render object.
 
         Args:
-            document: The MarkdownDoc object to render the content into.
-            experience: The Experience object containing the data to render.
-            settings: The settings object controlling what fields to render.
+            document (MarkdownDoc): The MarkdownDoc object to render the content into.
+            experience (Experience): The Experience object containing the data to render.
+            settings (ResumeExperienceSettings): The settings object controlling what fields to render.
 
         Returns:
             None

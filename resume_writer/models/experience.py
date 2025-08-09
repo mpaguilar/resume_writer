@@ -18,23 +18,29 @@ log = logging.getLogger(__name__)
 
 
 class RoleSummary(TextBlockParse):
-    """Brief description of a role.
+    """Represents a brief description of a professional role.
 
-    Args:
-        text_string: The text content of the role summary.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized RoleSummary object.
-
-    Notes:
-        1. Validate that text_string is a string.
-        2. Validate that parse_context is a ParseContext object.
-        3. Store the text_string as the summary and parse_context as the context.
+    Attributes:
+        summary (str): The text content of the role summary.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            text_string (str): The text content of the role summary.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that text_string is a string.
+            2. Validate that parse_context is a ParseContext object.
+            3. Store the text_string as the summary and parse_context as the context.
+
+        """
         assert isinstance(text_string, str), "Summary must be a string"
         assert isinstance(
             parse_context,
@@ -46,24 +52,30 @@ class RoleSummary(TextBlockParse):
 
 
 class RoleResponsibilities(TextBlockParse):
-    """Detailed description of role responsibilities.
+    """Represents detailed descriptions of role responsibilities.
 
-    Args:
-        text_string: The text content of the responsibilities.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized RoleResponsibilities object.
-
-    Notes:
-        1. Validate that parse_context is a ParseContext object.
-        2. Validate that text_string is a string.
-        3. Raise a ParseError if text_string is not a string.
-        4. Store the text_string as the text and parse_context as the context.
+    Attributes:
+        text (str): The text content of the responsibilities.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            text_string (str): The text content of the responsibilities.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that parse_context is a ParseContext object.
+            2. Validate that text_string is a string.
+            3. Raise a ParseError if text_string is not a string.
+            4. Store the text_string as the text and parse_context as the context.
+
+        """
         assert isinstance(
             parse_context,
             ParseContext,
@@ -76,25 +88,31 @@ class RoleResponsibilities(TextBlockParse):
 
 
 class RoleSkills(ListBlockParse):
-    """Skills used in a role.
+    """Represents skills used in a professional role.
 
-    Args:
-        skills: A list of skill strings.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        A list of non-empty, stripped skill strings.
-
-    Notes:
-        1. Validate that parse_context is a ParseContext object.
-        2. Validate that skills is a list.
-        3. Validate that all items in skills are strings.
-        4. Strip whitespace from each skill and filter out empty strings.
-        5. Store the cleaned list of skills and parse_context.
+    Attributes:
+        skills (List[str]): A list of non-empty, stripped skill strings.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, skills: list[str], parse_context: ParseContext) -> None:
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            skills (List[str]): A list of skill strings.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that parse_context is a ParseContext object.
+            2. Validate that skills is a list.
+            3. Validate that all items in skills are strings.
+            4. Strip whitespace from each skill and filter out empty strings.
+            5. Store the cleaned list of skills and parse_context.
+
+        """
         assert isinstance(
             parse_context,
             ParseContext,
@@ -105,44 +123,50 @@ class RoleSkills(ListBlockParse):
         self.parse_context = parse_context
 
     def __iter__(self):
-        """Iterate over the skills."""
+        """Iterate over the skills.
+
+        Returns:
+            Iterator over the skills list.
+
+        """
         return iter(self.skills)
 
     def __len__(self):
-        """Return the number of skills."""
+        """Return the number of skills.
+
+        Returns:
+            int: The number of skills.
+
+        """
         return len(self.skills)
 
     def __getitem__(self, index: int):
-        """Return the skill at the given index."""
+        """Return the skill at the given index.
+
+        Args:
+            index (int): The index of the skill to return.
+
+        Returns:
+            str: The skill at the specified index.
+
+        """
         return self.skills
 
 
 class RoleBasics(LabelBlockParse):
-    """Relevant basics for a resume.
+    """Represents basic information about a professional role.
 
-    Args:
-        parse_context: The context object used for parsing.
-        company: The name of the company.
-        start_date: The start date of the role as a string or datetime object.
-        end_date: The end date of the role as a string, datetime object, or None.
-        reason_for_change: The reason for leaving the role as a string or None.
-        title: The job title.
-        location: The job location as a string or None.
-        job_category: The category of the job as a string or None.
-        employment_type: The employment type as a string or None.
-        agency_name: The name of the agency as a string or None.
-
-    Returns:
-        An initialized RoleBasics object with parsed date fields and stored attributes.
-
-    Notes:
-        1. Validate that parse_context is a ParseContext object.
-        2. Validate that company and title are strings.
-        3. Validate that start_date is either a string or datetime.
-        4. Validate that end_date is a string, datetime, or None.
-        5. Validate that all other fields are appropriate types.
-        6. Parse start_date and end_date using dateparser with UTC timezone.
-        7. Store all fields as instance attributes.
+    Attributes:
+        company (str): The name of the company.
+        start_date (datetime): The start date of the role.
+        end_date (datetime | None): The end date of the role or None if still ongoing.
+        title (str): The job title.
+        reason_for_change (str | None): The reason for leaving the role or None.
+        location (str | None): The job location or None.
+        job_category (str | None): The category of the job or None.
+        employment_type (str | None): The employment type or None.
+        agency_name (str | None): The name of the agency or None.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(  # noqa: PLR0913
@@ -158,7 +182,33 @@ class RoleBasics(LabelBlockParse):
         employment_type: str | None = None,
         agency_name: str | None = None,
     ):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            parse_context (ParseContext): The context object used for parsing.
+            company (str): The name of the company.
+            start_date (str | datetime): The start date of the role as a string or datetime object.
+            end_date (str | datetime | None): The end date of the role as a string, datetime object, or None.
+            reason_for_change (str | None): The reason for leaving the role as a string or None.
+            title (str): The job title.
+            location (str | None, optional): The job location as a string or None.
+            job_category (str | None, optional): The category of the job as a string or None.
+            employment_type (str | None, optional): The employment type as a string or None.
+            agency_name (str | None, optional): The name of the agency as a string or None.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that parse_context is a ParseContext object.
+            2. Validate that company and title are strings.
+            3. Validate that start_date is either a string or datetime.
+            4. Validate that end_date is a string, datetime, or None.
+            5. Validate that all other fields are appropriate types.
+            6. Parse start_date and end_date using dateparser with UTC timezone.
+            7. Store all fields as instance attributes.
+
+        """
         assert isinstance(
             parse_context,
             ParseContext,
@@ -219,6 +269,7 @@ class RoleBasics(LabelBlockParse):
 
         Returns:
             A dictionary mapping label names to constructor argument names.
+
         """
         return {
             "company": "company",
@@ -234,25 +285,14 @@ class RoleBasics(LabelBlockParse):
 
 
 class Role(BasicBlockParse):
-    """Details of a single work-related experience.
+    """Represents a complete professional role with all associated details.
 
-    Args:
-        parse_context: The context object used for parsing.
-        basics: The RoleBasics object containing role metadata.
-        summary: The RoleSummary object describing the role.
-        responsibilities: The RoleResponsibilities object listing duties.
-        skills: The RoleSkills object listing skills used.
-
-    Returns:
-        An initialized Role object with all components.
-
-    Notes:
-        1. Validate that parse_context is a ParseContext object.
-        2. Validate that basics is either a RoleBasics object or None.
-        3. Validate that summary is either a RoleSummary object or None.
-        4. Validate that responsibilities is either a RoleResponsibilities object or None.
-        5. Validate that skills is either a RoleSkills object or None.
-        6. Store the provided components as instance attributes.
+    Attributes:
+        basics (RoleBasics | None): The RoleBasics object containing role metadata.
+        summary (RoleSummary | None): The RoleSummary object describing the role.
+        responsibilities (RoleResponsibilities | None): The RoleResponsibilities object listing duties.
+        skills (RoleSkills | None): The RoleSkills object listing skills used.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(
@@ -263,7 +303,27 @@ class Role(BasicBlockParse):
         responsibilities: RoleResponsibilities | None,
         skills: RoleSkills | None,
     ):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            parse_context (ParseContext): The context object used for parsing.
+            basics (RoleBasics | None): The RoleBasics object containing role metadata.
+            summary (RoleSummary | None): The RoleSummary object describing the role.
+            responsibilities (RoleResponsibilities | None): The RoleResponsibilities object listing duties.
+            skills (RoleSkills | None): The RoleSkills object listing skills used.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that parse_context is a ParseContext object.
+            2. Validate that basics is either a RoleBasics object or None.
+            3. Validate that summary is either a RoleSummary object or None.
+            4. Validate that responsibilities is either a RoleResponsibilities object or None.
+            5. Validate that skills is either a RoleSkills object or None.
+            6. Store the provided components as instance attributes.
+
+        """
         assert isinstance(
             parse_context,
             ParseContext,
@@ -298,6 +358,7 @@ class Role(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to constructor argument names.
+
         """
         return {
             "basics": "basics",
@@ -312,6 +373,7 @@ class Role(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to their corresponding classes.
+
         """
         return {
             "basics": RoleBasics,
@@ -322,24 +384,30 @@ class Role(BasicBlockParse):
 
 
 class Roles(MultiBlockParse):
-    """Collection of work-related experiences.
+    """Represents a collection of professional roles.
 
-    Args:
-        roles: A list of Role objects.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized Roles object containing the provided roles.
-
-    Notes:
-        1. Validate that roles is a list.
-        2. Validate that all items in roles are Role objects.
-        3. Validate that parse_context is a ParseContext object.
-        4. Store the roles list and parse_context.
+    Attributes:
+        roles (List[Role]): A list of Role objects.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, roles: list[Role], parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            roles (List[Role]): A list of Role objects.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that roles is a list.
+            2. Validate that all items in roles are Role objects.
+            3. Validate that parse_context is a ParseContext object.
+            4. Store the roles list and parse_context.
+
+        """
         assert isinstance(roles, list), "Roles must be a list"
         assert all(isinstance(role, Role) for role in roles), (
             "Roles must be a list of Role objects"
@@ -351,15 +419,33 @@ class Roles(MultiBlockParse):
         self.roles = roles
 
     def __iter__(self):
-        """Iterate over the roles."""
+        """Iterate over the roles.
+
+        Returns:
+            Iterator over the roles list.
+
+        """
         return iter(self.roles)
 
     def __len__(self):
-        """Return the number of roles."""
+        """Return the number of roles.
+
+        Returns:
+            int: The number of roles.
+
+        """
         return len(self.roles)
 
     def __getitem__(self, index: int):
-        """Return the role at the given index."""
+        """Return the role at the given index.
+
+        Args:
+            index (int): The index of the role to return.
+
+        Returns:
+            Role: The role at the specified index.
+
+        """
         return self.roles[index]
 
     @staticmethod
@@ -368,30 +454,37 @@ class Roles(MultiBlockParse):
 
         Returns:
             The Role class.
+
         """
         return Role
 
 
 class ProjectSkills(ListBlockParse):
-    """Skills used in a project.
+    """Represents skills used in a project.
 
-    Args:
-        skills: A list of skill strings.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        A list of non-empty, stripped skill strings.
-
-    Notes:
-        1. Validate that skills is a list.
-        2. Validate that all items in skills are strings.
-        3. Validate that parse_context is a ParseContext object.
-        4. Strip whitespace from each skill and filter out empty strings.
-        5. Store the cleaned list of skills.
+    Attributes:
+        skills (List[str]): A list of non-empty, stripped skill strings.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, skills: list[str], parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            skills (List[str]): A list of skill strings.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that skills is a list.
+            2. Validate that all items in skills are strings.
+            3. Validate that parse_context is a ParseContext object.
+            4. Strip whitespace from each skill and filter out empty strings.
+            5. Store the cleaned list of skills.
+
+        """
         assert isinstance(skills, list), "Skills must be a list"
         assert all(isinstance(skill, str) for skill in skills), (
             "Skills must be a list of strings"
@@ -404,39 +497,46 @@ class ProjectSkills(ListBlockParse):
         self.skills = [s.strip() for s in skills]
 
     def __iter__(self):
-        """Iterate over the skills."""
+        """Iterate over the skills.
+
+        Returns:
+            Iterator over the skills list.
+
+        """
         return iter(self.skills)
 
     def __len__(self):
-        """Return the number of skills."""
+        """Return the number of skills.
+
+        Returns:
+            int: The number of skills.
+
+        """
         return len(self.skills)
 
     def __getitem__(self, index: int):
-        """Return the skill at the given index."""
+        """Return the skill at the given index.
+
+        Args:
+            index (int): The index of the skill to return.
+
+        Returns:
+            str: The skill at the specified index.
+
+        """
         return self.skills[index]
 
 
 class ProjectOverview(LabelBlockParse):
-    """Basic details of a project.
+    """Represents basic details of a project.
 
-    Args:
-        title: The title of the project.
-        parse_context: The context object used for parsing.
-        url: The URL for the project as a string or None.
-        url_description: A description of the URL as a string or None.
-        start_date: The start date as a string, datetime, or None.
-        end_date: The end date as a string, datetime, or None.
-
-    Returns:
-        An initialized ProjectOverview object with parsed date fields.
-
-    Notes:
-        1. Validate that title is a string.
-        2. Validate that url and url_description are strings or None.
-        3. Validate that start_date and end_date are strings, datetimes, or None.
-        4. Validate that parse_context is a ParseContext object.
-        5. Parse start_date and end_date using dateparser with UTC timezone.
-        6. Store all fields as instance attributes.
+    Attributes:
+        title (str): The title of the project.
+        url (str | None): The URL for the project or None.
+        url_description (str | None): A description of the URL or None.
+        start_date (datetime | None): The start date as a datetime object or None.
+        end_date (datetime | None): The end date as a datetime object or None.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(  # noqa: PLR0913
@@ -448,7 +548,28 @@ class ProjectOverview(LabelBlockParse):
         start_date: str | datetime | None = None,
         end_date: str | datetime | None = None,
     ):
-        """Initialize ProjectOverview object."""
+        """Initialize ProjectOverview object.
+
+        Args:
+            title (str): The title of the project.
+            parse_context (ParseContext): The context object used for parsing.
+            url (str | None, optional): The URL for the project as a string or None.
+            url_description (str | None, optional): A description of the URL as a string or None.
+            start_date (str | datetime | None, optional): The start date as a string, datetime, or None.
+            end_date (str | datetime | None, optional): The end date as a string, datetime, or None.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that title is a string.
+            2. Validate that url and url_description are strings or None.
+            3. Validate that start_date and end_date are strings, datetimes, or None.
+            4. Validate that parse_context is a ParseContext object.
+            5. Parse start_date and end_date using dateparser with UTC timezone.
+            6. Store all fields as instance attributes.
+
+        """
         assert isinstance(title, str), "Title must be a string"
         assert isinstance(url, (str, type(None))), "URL must be a string or None"
         assert isinstance(
@@ -494,6 +615,7 @@ class ProjectOverview(LabelBlockParse):
 
         Returns:
             A dictionary mapping label names to constructor argument names.
+
         """
         return {
             "title": "title",
@@ -505,23 +627,29 @@ class ProjectOverview(LabelBlockParse):
 
 
 class ProjectDescription(TextBlockParse):
-    """Brief description of a project.
+    """Represents a brief description of a project.
 
-    Args:
-        text_string: The text content of the project description.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized ProjectDescription object.
-
-    Notes:
-        1. Validate that text_string is a string.
-        2. Validate that parse_context is a ParseContext object.
-        3. Store the text_string as the text.
+    Attributes:
+        text (str): The text content of the project description.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            text_string (str): The text content of the project description.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that text_string is a string.
+            2. Validate that parse_context is a ParseContext object.
+            3. Store the text_string as the text.
+
+        """
         assert isinstance(text_string, str), "Text must be a string"
         assert isinstance(
             parse_context,
@@ -531,23 +659,13 @@ class ProjectDescription(TextBlockParse):
 
 
 class Project(BasicBlockParse):
-    """Details of a single project.
+    """Represents a complete project with all associated details.
 
-    Args:
-        overview: The ProjectOverview object containing project metadata.
-        description: The ProjectDescription object describing the project.
-        skills: The ProjectSkills object listing skills used.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized Project object.
-
-    Notes:
-        1. Validate that overview is a ProjectOverview object.
-        2. Validate that description is a ProjectDescription object.
-        3. Validate that skills is a ProjectSkills object or None.
-        4. Validate that parse_context is a ParseContext object.
-        5. Store all components as instance attributes.
+    Attributes:
+        overview (ProjectOverview): The ProjectOverview object containing project metadata.
+        description (ProjectDescription): The ProjectDescription object describing the project.
+        skills (ProjectSkills | None): The ProjectSkills object listing skills used.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(
@@ -557,7 +675,25 @@ class Project(BasicBlockParse):
         skills: ProjectSkills | None,
         parse_context: ParseContext,
     ):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            overview (ProjectOverview): The ProjectOverview object containing project metadata.
+            description (ProjectDescription): The ProjectDescription object describing the project.
+            skills (ProjectSkills | None): The ProjectSkills object listing skills used.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that overview is a ProjectOverview object.
+            2. Validate that description is a ProjectDescription object.
+            3. Validate that skills is a ProjectSkills object or None.
+            4. Validate that parse_context is a ParseContext object.
+            5. Store all components as instance attributes.
+
+        """
         assert isinstance(
             overview,
             ProjectOverview,
@@ -585,6 +721,7 @@ class Project(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to constructor argument names.
+
         """
         return {
             "overview": "overview",
@@ -598,6 +735,7 @@ class Project(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to their corresponding classes.
+
         """
         return {
             "overview": ProjectOverview,
@@ -607,24 +745,30 @@ class Project(BasicBlockParse):
 
 
 class Projects(MultiBlockParse):
-    """Collection of projects.
+    """Represents a collection of projects.
 
-    Args:
-        projects: A list of Project objects.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized Projects object containing the provided projects.
-
-    Notes:
-        1. Validate that projects is a list.
-        2. Validate that all items in projects are Project objects.
-        3. Validate that parse_context is a ParseContext object.
-        4. Store the projects list.
+    Attributes:
+        projects (List[Project]): A list of Project objects.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(self, projects: list[Project], parse_context: ParseContext):
-        """Initialize the object."""
+        """Initialize the object.
+
+        Args:
+            projects (List[Project]): A list of Project objects.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that projects is a list.
+            2. Validate that all items in projects are Project objects.
+            3. Validate that parse_context is a ParseContext object.
+            4. Store the projects list.
+
+        """
         assert isinstance(projects, list), "Projects must be a list"
         assert all(isinstance(project, Project) for project in projects), (
             "Projects must be a list of Project objects"
@@ -637,15 +781,33 @@ class Projects(MultiBlockParse):
         self.projects = projects
 
     def __iter__(self):
-        """Iterate over the projects."""
+        """Iterate over the projects.
+
+        Returns:
+            Iterator over the projects list.
+
+        """
         return iter(self.projects)
 
     def __len__(self):
-        """Return the number of projects."""
+        """Return the number of projects.
+
+        Returns:
+            int: The number of projects.
+
+        """
         return len(self.projects)
 
     def __getitem__(self, index: int):
-        """Return the project at the given index."""
+        """Return the project at the given index.
+
+        Args:
+            index (int): The index of the project to return.
+
+        Returns:
+            Project: The project at the specified index.
+
+        """
         return self.projects[index]
 
     @staticmethod
@@ -654,27 +816,18 @@ class Projects(MultiBlockParse):
 
         Returns:
             The Project class.
+
         """
         return Project
 
 
 class Experience(BasicBlockParse):
-    """Details of experience.
+    """Represents a collection of professional experience including roles and projects.
 
-    Args:
-        roles: A Roles object containing work experience.
-        projects: A Projects object containing project details.
-        parse_context: The context object used for parsing.
-
-    Returns:
-        An initialized Experience object.
-
-    Notes:
-        1. Validate that roles is a Roles object or None.
-        2. Validate that projects is a Projects object or None.
-        3. Validate that parse_context is a ParseContext object.
-        4. Log the creation of an Experience object.
-        5. Store the roles and projects as instance attributes.
+    Attributes:
+        roles (Roles | None): A Roles object containing work experience.
+        projects (Projects | None): A Projects object containing project details.
+        parse_context (ParseContext): The context object used for parsing.
     """
 
     def __init__(
@@ -683,7 +836,24 @@ class Experience(BasicBlockParse):
         projects: Projects | None,
         parse_context: ParseContext,
     ):
-        """Initialize with a list of Role objects."""
+        """Initialize with a list of Role objects.
+
+        Args:
+            roles (Roles | None): A Roles object containing work experience.
+            projects (Projects | None): A Projects object containing project details.
+            parse_context (ParseContext): The context object used for parsing.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that roles is a Roles object or None.
+            2. Validate that projects is a Projects object or None.
+            3. Validate that parse_context is a ParseContext object.
+            4. Log the creation of an Experience object.
+            5. Store the roles and projects as instance attributes.
+
+        """
         assert isinstance(roles, (Roles, type(None))), "Roles must be a Roles object"
         assert isinstance(
             projects,
@@ -705,6 +875,7 @@ class Experience(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to constructor argument names.
+
         """
         return {
             "roles": "roles",
@@ -717,6 +888,7 @@ class Experience(BasicBlockParse):
 
         Returns:
             A dictionary mapping block names to their corresponding classes.
+
         """
         return {
             "roles": Roles,

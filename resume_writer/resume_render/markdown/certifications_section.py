@@ -11,7 +11,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
-    """Render Certifications Section."""
+    """Render Certifications Section.
+
+    Inherits from:
+        ResumeRenderCertificationsBase: Base class for rendering certifications in a resume.
+
+    Attributes:
+        document (MarkdownDoc): The Markdown document instance to which the rendered content will be added.
+        certifications (Certifications): The list of certifications to render.
+        settings (ResumeCertificationsSettings): Configuration settings for what information to include in the output.
+    """
 
     def __init__(
         self,
@@ -22,9 +31,9 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Initialize the basic certifications renderer.
 
         Args:
-            document: The MarkdownDoc instance to which the rendered content will be added.
-            certifications: The Certifications object containing the list of certifications to render.
-            settings: The ResumeCertificationsSettings object that controls what information to include in the output.
+            document (MarkdownDoc): The Markdown document instance to which the rendered content will be added.
+            certifications (Certifications): The list of certifications to render.
+            settings (ResumeCertificationsSettings): Configuration settings for what information to include in the output.
 
         Returns:
             None
@@ -34,7 +43,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             2. Validate that the certifications is an instance of Certifications.
             3. Validate that the settings is an instance of ResumeCertificationsSettings.
             4. Call the parent class constructor with the provided arguments.
-
+            5. No disk, network, or database access occurs during initialization.
         """
         assert isinstance(
             document,
@@ -61,7 +70,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Render a single certification in the document.
 
         Args:
-            certification: The Certification object containing the details of a single certification to render.
+            certification (Certification): The certification object containing the details of a single certification to render.
 
         Returns:
             None
@@ -74,7 +83,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             5. If the settings require the issued date and the certification has an issued date, add the issued date to the document.
             6. If the settings require the expiration date and the certification has an expiration date, add the expiration date to the document.
             7. If the settings require the certification ID and the certification has a certification ID, add the certification ID to the document.
-
+            8. No disk, network, or database access occurs during rendering.
         """
         # shortcuts
         _doc = self.document
@@ -109,7 +118,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             4. Add a top-level header for the certifications section.
             5. Iterate over each certification in the certifications list.
             6. For each certification, call the render_certification method to render its details.
-
+            7. No disk, network, or database access occurs during rendering.
         """
         # shortcuts
         _doc = self.document

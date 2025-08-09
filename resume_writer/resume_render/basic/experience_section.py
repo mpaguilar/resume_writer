@@ -27,8 +27,18 @@ log = logging.getLogger(__name__)
 
 
 class RenderRoleSection(ResumeRenderRoleBase):
-    """Render experience roles section."""
+    """Render experience roles section.
 
+    This class is responsible for rendering individual job roles in a resume document.
+    It formats and adds role details such as company, title, dates, skills, and responsibilities.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which content will be added.
+        role (Role): The role object containing job-specific details.
+        settings (ResumeRolesSettings): Configuration settings for which role details to render.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
+    
     def __init__(
         self,
         document: docx.document.Document,
@@ -38,9 +48,9 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Initialize roles render object.
 
         Args:
-            document: The Docx document object to which the role content will be added.
-            role: The Role object containing role-specific details such as company, title, dates, etc.
-            settings: The settings object that controls which parts of the role to render.
+            document (docx.document.Document): The Word document object to which the role content will be added.
+            role (Role): The Role object containing role-specific details such as company, title, dates, etc.
+            settings (ResumeRolesSettings): The settings object that controls which parts of the role to render.
 
         Returns:
             None.
@@ -227,8 +237,18 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
-    """Render experience roles section."""
+    """Render experience roles section.
 
+    This class is responsible for rendering multiple job roles in a resume document.
+    It manages the formatting and ordering of job roles, adding appropriate headings and spacing.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the roles content will be added.
+        roles (Roles): A list of Role objects representing job roles to be rendered.
+        settings (ResumeRolesSettings): Configuration settings for which role details to render.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
+    
     def __init__(
         self,
         document: docx.document.Document,
@@ -238,9 +258,9 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Initialize roles render object.
 
         Args:
-            document: The Docx document object to which the roles content will be added.
-            roles: A list of Role objects representing job roles to be rendered.
-            settings: The settings object that controls which parts of the roles to render.
+            document (docx.document.Document): The Docx document object to which the roles content will be added.
+            roles (Roles): A list of Role objects representing job roles to be rendered.
+            settings (ResumeRolesSettings): The settings object that controls which parts of the roles to render.
 
         Returns:
             None.
@@ -295,8 +315,18 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
-    """Render experience project section."""
+    """Render experience project section.
 
+    This class is responsible for rendering individual projects in a resume document.
+    It formats and adds project details such as description, skills, URLs, and dates.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the project content will be added.
+        project (Project): The Project object containing project details such as description, skills, URLs, etc.
+        settings (ResumeProjectsSettings): Configuration settings for which project details to render.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
+    
     def __init__(
         self,
         document: docx.document.Document,
@@ -306,9 +336,9 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """Initialize project render object.
 
         Args:
-            document: The Docx document object to which the project content will be added.
-            project: The Project object containing project details such as description, skills, URLs, etc.
-            settings: The settings object that controls which parts of the project to render.
+            document (docx.document.Document): The Docx document object to which the project content will be added.
+            project (Project): The Project object containing project details such as description, skills, URLs, etc.
+            settings (ResumeProjectsSettings): The settings object that controls which parts of the project to render.
 
         Returns:
             None.
@@ -427,8 +457,18 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
-    """Render experience projects section."""
+    """Render experience projects section.
 
+    This class is responsible for rendering multiple projects in a resume document.
+    It manages the formatting and ordering of projects, adding appropriate headings and spacing.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the projects content will be added.
+        projects (Projects): A list of Project objects representing projects to be rendered.
+        settings (ResumeProjectsSettings): Configuration settings for which project details to render.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
+    
     def __init__(
         self,
         document: docx.document.Document,
@@ -438,9 +478,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """Initialize projects render object.
 
         Args:
-            document: The Docx document object to which the projects content will be added.
-            projects: A list of Project objects representing projects to be rendered.
-            settings: The settings object that controls which parts of the projects to render.
+            document (docx.document.Document): The Docx document object to which the projects content will be added.
+            projects (Projects): A list of Project objects representing projects to be rendered.
+            settings (ResumeProjectsSettings): The settings object that controls which parts of the projects to render.
 
         Returns:
             None.
@@ -482,8 +522,18 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
-    """Render experience section."""
+    """Render experience section.
 
+    This class is responsible for rendering the entire experience section of a resume.
+    It coordinates the rendering of roles and projects, applying appropriate formatting and settings.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the experience content will be added.
+        experience (Experience): The Experience object containing roles and projects to be rendered.
+        settings (ResumeExperienceSettings): Configuration settings for which experience details to render.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
+    
     def __init__(
         self,
         document: docx.document.Document,
@@ -493,9 +543,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         """Initialize experience render object.
 
         Args:
-            document: The Docx document object to which the experience content will be added.
-            experience: The Experience object containing roles and projects to be rendered.
-            settings: The settings object that controls which parts of experience to render.
+            document (docx.document.Document): The Docx document object to which the experience content will be added.
+            experience (Experience): The Experience object containing roles and projects to be rendered.
+            settings (ResumeExperienceSettings): The settings object that controls which parts of experience to render.
 
         Returns:
             None.

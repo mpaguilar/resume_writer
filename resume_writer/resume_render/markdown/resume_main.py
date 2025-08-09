@@ -23,7 +23,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderResume(ResumeRenderBase):
-    """Render a resume in basic format."""
+    """Render a resume in basic Markdown format.
+
+    Attributes:
+        document (MarkdownDoc): The Markdown document to render the resume into.
+        resume (Resume): The resume data to render.
+        settings (ResumeRenderSettings): The rendering settings for the resume.
+    """
 
     def __init__(
         self,
@@ -31,12 +37,15 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer.
+        """Initialize the basic resume renderer.
 
         Args:
-            document: The Markdown document to render the resume into.
-            resume: The resume data to render.
-            settings: The rendering settings for the resume.
+            document (MarkdownDoc): The Markdown document to render the resume into.
+            resume (Resume): The resume data to render.
+            settings (ResumeRenderSettings): The rendering settings for the resume.
+
+        Returns:
+            None: This method does not return anything.
 
         Notes:
             1. Calls the parent class constructor to initialize the base renderer.
@@ -51,7 +60,7 @@ class RenderResume(ResumeRenderBase):
         )
 
     def render(self) -> None:
-        """Render the resume.
+        """Render the resume by generating sections based on provided data and settings.
 
         Args:
             None: This method does not take any arguments.

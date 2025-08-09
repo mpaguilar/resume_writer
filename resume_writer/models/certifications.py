@@ -15,6 +15,9 @@ log = logging.getLogger(__name__)
 class Certification(LabelBlockParse):
     """Represents a professional certification.
 
+    Base class:
+        LabelBlockParse
+
     Attributes:
         name (str): The name of the certification.
         issuer (str | None): The organization that issued the certification.
@@ -22,6 +25,7 @@ class Certification(LabelBlockParse):
         expires (datetime | None): The date the certification expires.
         certification_id (str | None): An identifier for the certification.
         parse_context (ParseContext): The context used during parsing, tracking line information.
+
     """
 
     def __init__(  # noqa: PLR0913
@@ -51,6 +55,7 @@ class Certification(LabelBlockParse):
             2. If `issued` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to "first".
             3. If `expires` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to "first".
             4. Assign the parsed or original values to instance attributes.
+
         """
         assert isinstance(name, str)
         assert isinstance(issuer, (str, type(None)))
@@ -96,6 +101,7 @@ class Certification(LabelBlockParse):
         Notes:
             1. The keys are field names as they appear in the input, and the values are the argument names used in the constructor.
             2. The field "certification id" maps to "certification_id" in the constructor.
+
         """
         return {
             "issuer": "issuer",
@@ -109,9 +115,13 @@ class Certification(LabelBlockParse):
 class Certifications(MultiBlockParse):
     """Represents a collection of professional certifications.
 
+    Base class:
+        MultiBlockParse
+
     Attributes:
         certifications (list[Certification]): A list of Certification objects.
         parse_context (ParseContext): The context used during parsing, tracking line information.
+
     """
 
     def __init__(
@@ -131,6 +141,7 @@ class Certifications(MultiBlockParse):
         Notes:
             1. Assign the provided list of certifications to the instance attribute `certifications`.
             2. Assign the provided parse_context to the instance attribute `parse_context`.
+
         """
         self.certifications = certifications
         self.parse_context = parse_context
@@ -146,6 +157,7 @@ class Certifications(MultiBlockParse):
 
         Notes:
             1. Return an iterator over the `certifications` list.
+
         """
         return iter(self.certifications)
 
@@ -160,6 +172,7 @@ class Certifications(MultiBlockParse):
 
         Notes:
             1. Return the length of the `certifications` list.
+
         """
         return len(self.certifications)
 
@@ -175,5 +188,6 @@ class Certifications(MultiBlockParse):
 
         Notes:
             1. Return the Certification class, which is the type of objects in the list.
+
         """
         return Certification

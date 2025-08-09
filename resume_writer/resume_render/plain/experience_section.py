@@ -35,7 +35,15 @@ _punctuation_end_re = re.compile(r"[\).,!?;:\]]")
 
 
 class RenderRoleSection(ResumeRenderRoleBase):
-    """Render experience roles section."""
+    """Render experience roles section.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render into.
+        role (Role): The role data to render.
+        settings (ResumeRolesSettings): The rendering settings for roles.
+        font_size (int): The base font size for rendering.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
 
     def __init__(
         self,
@@ -46,9 +54,9 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Initialize roles render object.
 
         Args:
-            document: The DOCX document object to render into.
-            role: The role data to render.
-            settings: The rendering settings for roles.
+            document (docx.document.Document): The DOCX document object to render into.
+            role (Role): The role data to render.
+            settings (ResumeRolesSettings): The rendering settings for roles.
 
         Returns:
             None
@@ -56,7 +64,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
         Notes:
             1. Initializes the base class with the provided document, role, and settings.
             2. Logs a debug message indicating initialization has started.
-
         """
         log.debug("Initializing roles render object.")
         super().__init__(document=document, role=role, settings=settings)
@@ -76,7 +83,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             3. If skills are present, joins them with commas and adds them as italicized text.
             4. Sets the font size to be two points smaller than the base font size.
             5. Logs a debug message about the skills rendering process.
-
         """
         log.debug("Rendering role skills.")
 
@@ -108,7 +114,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             8. Checks if employment type is present and if it should be displayed.
             9. Adds employment type to the list if applicable.
             10. Returns the list of details.
-
         """
         log.debug("Rendering role details.")
         _paragraph_lines = []
@@ -133,7 +138,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render role title and company section.
 
         Args:
-            paragraph: The paragraph object to add the title and company to.
+            paragraph (docx.text.paragraph.Paragraph): The paragraph object to add the title and company to.
 
         Returns:
             None
@@ -147,7 +152,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             6. Checks if the company name is present; if not, raises a ValueError with an error message.
             7. Adds the company name with a tab character and bold formatting to the paragraph.
             8. Sets the font size to be two points larger than the base font size.
-
         """
         log.debug("Rendering role title and company.")
 
@@ -184,7 +188,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render role dates section.
 
         Args:
-            paragraph: The paragraph object to add the dates and location to.
+            paragraph (docx.text.paragraph.Paragraph): The paragraph object to add the dates and location to.
 
         Returns:
             A list of strings containing the formatted date and location information.
@@ -199,7 +203,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             7. If no end date is present, adds "Present" to the run.
             8. If location is present and should be displayed, adds it to the paragraph with a tab.
             9. Returns the list of formatted date and location strings.
-
         """
         log.debug("Rendering role dates.")
 
@@ -234,8 +237,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Render a single task line with skill highlighting.
 
         Args:
-            paragraph: The paragraph object to add the task to.
-            task_line: The task text to render.
+            paragraph (docx.text.paragraph.Paragraph): The paragraph object to add the task to.
+            task_line (str): The task text to render.
 
         Returns:
             None
@@ -252,7 +255,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             9. Adds the fragment text to the run.
             10. Adds trailing space if needed.
             11. Adds a line break after the last fragment.
-
         """
         if (
             self.role.skills
@@ -307,7 +309,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             6. If the line starts with "* ", renders it as a task if tasks are included.
             7. If the line doesn't start with "* ", adds it to the situation paragraph if situation is included.
             8. Adds line breaks as needed.
-
         """
         _msg = f"Rendering responsibilities for role {self.role.basics.title}"
         log.debug(_msg)
@@ -351,7 +352,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             4. Sets the spacing before the paragraph.
             5. Checks if responsibilities are present and if the settings allow displaying them.
             6. If responsibilities are present, calls the responsibilities rendering method.
-
         """
         if self.role.summary and self.settings.summary:
             _summary_paragraph = self.document.add_paragraph()
@@ -386,7 +386,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             9. Sets spacing after the dates paragraph.
             10. Renders the description section.
             11. Renders the skills section.
-
         """
         log.debug("Rendering roles section.")
 
@@ -423,7 +422,15 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
-    """Render experience roles section."""
+    """Render experience roles section.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render into.
+        roles (Roles): The list of role data to render.
+        settings (ResumeRolesSettings): The rendering settings for roles.
+        font_size (int): The base font size for rendering.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
 
     def __init__(
         self,
@@ -434,9 +441,9 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Initialize roles render object.
 
         Args:
-            document: The DOCX document object to render into.
-            roles: The list of role data to render.
-            settings: The rendering settings for roles.
+            document (docx.document.Document): The DOCX document object to render into.
+            roles (Roles): The list of role data to render.
+            settings (ResumeRolesSettings): The rendering settings for roles.
 
         Returns:
             None
@@ -444,7 +451,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
         Notes:
             1. Initializes the base class with the provided document, roles, and settings.
             2. Logs a debug message indicating initialization has started.
-
         """
         super().__init__(document=document, roles=roles, settings=settings)
 
@@ -465,7 +471,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
             5. Iterates through each role and renders it using the RenderRoleSection class.
             6. Adds a blank paragraph after each role with 12 points of spacing after.
             7. Adds a horizontal line after each role.
-
         """
         log.debug("Rendering roles section.")
         if len(self.roles) > 0:
@@ -489,7 +494,15 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
-    """Render experience project section."""
+    """Render experience project section.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render into.
+        project (Project): The project data to render.
+        settings (ResumeProjectsSettings): The rendering settings for projects.
+        font_size (int): The base font size for rendering.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
 
     def __init__(
         self,
@@ -500,9 +513,9 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """Initialize project render object.
 
         Args:
-            document: The DOCX document object to render into.
-            project: The project data to render.
-            settings: The rendering settings for projects.
+            document (docx.document.Document): The DOCX document object to render into.
+            project (Project): The project data to render.
+            settings (ResumeProjectsSettings): The rendering settings for projects.
 
         Returns:
             None
@@ -510,7 +523,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
         Notes:
             1. Initializes the base class with the provided document, project, and settings.
             2. Logs a debug message indicating initialization has started.
-
         """
         log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
@@ -519,7 +531,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """Render project overview section.
 
         Args:
-            paragraph: The paragraph object to add the overview to.
+            paragraph (docx.text.paragraph.Paragraph): The paragraph object to add the overview to.
 
         Returns:
             None
@@ -531,7 +543,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             4. Adds a tab character to the paragraph.
             5. Sets spacing after the paragraph.
             6. Adds a hyperlink to the project website using the add_hyperlink function.
-
         """
         log.debug("Rendering project overview.")
 
@@ -550,7 +561,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """Render project skills section.
 
         Args:
-            paragraph: The paragraph object to add the skills to.
+            paragraph (docx.text.paragraph.Paragraph): The paragraph object to add the skills to.
 
         Returns:
             A list of strings containing the project skills.
@@ -562,7 +573,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             4. Adds the skills text with "Skills: " prefix.
             5. Sets the text to be italic.
             6. Returns the list of skills.
-
         """
         log.debug("Rendering project skills.")
 
@@ -593,7 +603,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             9. Sets spacing before and after the description paragraph.
             10. Checks if skills should be displayed and if they exist.
             11. If skills should be displayed, adds a new paragraph for skills and renders them.
-
         """
         log.debug("Rendering project section.")
 
@@ -634,7 +643,15 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
-    """Render experience projects section."""
+    """Render experience projects section.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render into.
+        projects (Projects): The list of project data to render.
+        settings (ResumeProjectsSettings): The rendering settings for projects.
+        font_size (int): The base font size for rendering.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
 
     def __init__(
         self,
@@ -645,9 +662,9 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """Initialize projects render object.
 
         Args:
-            document: The DOCX document object to render into.
-            projects: The list of project data to render.
-            settings: The rendering settings for projects.
+            document (docx.document.Document): The DOCX document object to render into.
+            projects (Projects): The list of project data to render.
+            settings (ResumeProjectsSettings): The rendering settings for projects.
 
         Returns:
             None
@@ -655,7 +672,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         Notes:
             1. Initializes the base class with the provided document, projects, and settings.
             2. Logs a debug message indicating initialization has started.
-
         """
         log.debug("Initializing projects render object.")
 
@@ -675,7 +691,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             2. Checks if there are any projects to render.
             3. If projects exist, adds a heading with the text "Projects".
             4. Iterates through each project and renders it using the RenderProjectSection class.
-
         """
         log.debug("Rendering projects section.")
         if len(self.projects) > 0:
@@ -689,7 +704,15 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
-    """Render experience section."""
+    """Render experience section.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render into.
+        experience (Experience): The experience data to render.
+        settings (ResumeExperienceSettings): The rendering settings for experience.
+        font_size (int): The base font size for rendering.
+        errors (list[str]): List of error messages encountered during rendering.
+    """
 
     def __init__(
         self,
@@ -700,9 +723,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         """Initialize experience render object.
 
         Args:
-            document: The DOCX document object to render into.
-            experience: The experience data to render.
-            settings: The rendering settings for experience.
+            document (docx.document.Document): The DOCX document object to render into.
+            experience (Experience): The experience data to render.
+            settings (ResumeExperienceSettings): The rendering settings for experience.
 
         Returns:
             None
@@ -710,7 +733,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         Notes:
             1. Initializes the base class with the provided document, experience, and settings.
             2. Logs a debug message indicating initialization has started.
-
         """
         log.debug("Initializing experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
@@ -730,7 +752,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
             3. If roles should be rendered and they exist, creates a roles section with the appropriate settings.
             4. Checks if projects should be rendered and if they exist.
             5. If projects should be rendered and they exist, creates a projects section with the appropriate settings.
-
         """
         log.debug("Rendering experience section.")
 

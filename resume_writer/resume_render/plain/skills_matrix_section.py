@@ -19,7 +19,14 @@ log = logging.getLogger(__name__)
 
 
 class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
-    """Render skills for a functional resume."""
+    """Render skills for a functional resume.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document object to render the skills matrix into.
+        experience (Experience): The experience data containing roles and skill information.
+        settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix.
+        parse_context (ParseContext): The context used for parsing input data (e.g., from resume text).
+    """
 
     def __init__(
         self,
@@ -31,10 +38,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         """Initialize skills render object.
 
         Args:
-            document: The DOCX document object to render the skills matrix into.
-            experience: The experience data containing roles and skill information.
-            settings: Configuration settings for rendering the skills matrix.
-            parse_context: The context used for parsing input data (e.g., from resume text).
+            document (docx.document.Document): The DOCX document object to render the skills matrix into.
+            experience (Experience): The experience data containing roles and skill information.
+            settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix.
+            parse_context (ParseContext): The context used for parsing input data (e.g., from resume text).
 
         Returns:
             None

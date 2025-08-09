@@ -16,7 +16,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
-    """Render experience for a functional resume."""
+    """Render experience for a functional resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the executive summary will be added.
+        experience (Experience): The experience data containing roles and related information.
+        settings (ResumeExecutiveSummarySettings): Configuration settings for rendering the executive summary section.
+
+    Inherits from:
+        ResumeRenderExecutiveSummaryBase: Base class for rendering executive summary sections.
+    """
 
     def __init__(
         self,
@@ -27,9 +36,9 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         """Initialize experience render object.
 
         Args:
-            document: The Word document object to which the executive summary will be added.
-            experience: The experience data containing roles and related information.
-            settings: Configuration settings for rendering the executive summary section.
+            document (docx.document.Document): The Word document object to which the executive summary will be added.
+            experience (Experience): The experience data containing roles and related information.
+            settings (ResumeExecutiveSummarySettings): Configuration settings for rendering the executive summary section.
 
         Returns:
             None

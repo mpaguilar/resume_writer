@@ -11,7 +11,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderPersonalSection(ResumeRenderPersonalBase):
-    """Render personal contact info section."""
+    """Render personal contact info section.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        personal (Personal): The Personal model containing personal information.
+        settings (ResumePersonalSettings): The ResumePersonalSettings object controlling which sections to render.
+    """
 
     def __init__(
         self,
@@ -22,9 +28,9 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         """Initialize the personal section renderer.
 
         Args:
-            document: The Docx document object to render into.
-            personal: The Personal model containing personal information.
-            settings: The ResumePersonalSettings object controlling which sections to render.
+            document (docx.document.Document): The Docx document object to render into.
+            personal (Personal): The Personal model containing personal information.
+            settings (ResumePersonalSettings): The ResumePersonalSettings object controlling which sections to render.
 
         Returns:
             None.
@@ -32,7 +38,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         Notes:
             1. Logs the initialization of the personal basic render object.
             2. Calls the parent class constructor with the provided arguments.
-
         """
         log.debug("Initializing personal basic render object")
         super().__init__(document, personal, settings)
@@ -53,7 +58,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             4. If email is present and enabled in settings, adds the email as a run and adds a line break.
             5. If phone is present and enabled in settings, adds the phone as a run and adds a line break.
             6. If location is present and enabled in settings, adds the location as a run and adds a line break.
-
         """
         log.debug("Rendering contact info section")
 
@@ -91,7 +95,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             1. Extracts the banner text from the personal model.
             2. If banner text is present, adds a level 3 heading "Banner".
             3. Adds the banner text as a paragraph.
-
         """
         log.debug("Rendering banner section")
 
@@ -113,7 +116,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             1. Extracts the note text from the personal model.
             2. If note text is present, adds a level 3 heading "Note".
             3. Adds the note text as a paragraph.
-
         """
         log.debug("Rendering note section")
 
@@ -140,7 +142,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             6. If Twitter is present and enabled in settings, appends "Twitter: <url>" to the list.
             7. If the list is not empty, adds a level 3 heading "Websites".
             8. Joins the list with newlines and adds it as a paragraph.
-
         """
         log.debug("Rendering websites section")
 
@@ -180,7 +181,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             4. If require_sponsorship is not None and enabled in settings, appends "Require Sponsorship: Yes" or "No" based on the value.
             5. If the list is not empty, adds a level 3 heading "Visa Status".
             6. Joins the list with newlines and adds it as a paragraph.
-
         """
         _paragraph_lines = []
 
@@ -217,7 +217,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             3. If note exists and enabled in settings, calls _note.
             4. If websites exist and enabled in settings, calls _websites.
             5. If visa status exists and enabled in settings, calls _visa_status.
-
         """
         if self.personal.contact_info and self.settings.contact_info:
             self._contact_info()

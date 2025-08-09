@@ -28,7 +28,23 @@ log = logging.getLogger(__name__)
 
 
 class RenderRoleSection(ResumeRenderRoleBase):
-    """Render experience roles section."""
+    """Render experience roles section.
+
+    Inherits from:
+        ResumeRenderRoleBase: Base class for rendering role-specific content.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        role (Role): The role data to render.
+        settings (ResumeRolesSettings): The settings for rendering the role.
+        errors (list[str]): List to store any errors encountered during rendering.
+
+    Methods:
+        _skills: Render role skills section.
+        _details: Render role details section.
+        _dates: Generate dates string for role.
+        render: Render role overview/basics section.
+    """
 
     def __init__(
         self,
@@ -39,10 +55,13 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """Initialize roles render object.
 
         Args:
-            document: The Docx document object to render into.
-            role: The role data to render.
-            settings: The settings for rendering the role.
+            document (docx.document.Document): The Docx document object to render into.
+            role (Role): The role data to render.
+            settings (ResumeRolesSettings): The settings for rendering the role.
 
+        Notes:
+            1. Initializes the parent class with the provided document, role, and settings.
+            2. Logs the initialization process for debugging.
         """
         log.debug("Initializing roles render object.")
         super().__init__(document=document, role=role, settings=settings)
@@ -59,7 +78,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             3. If skills exist, join them into a comma-separated string.
             4. Append the formatted "Skills: <skills>" string to the output list.
             5. Return the list of formatted skill lines.
-
         """
         log.debug("Rendering role skills.")
         _paragraph_lines = []
@@ -83,7 +101,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             5. If agency name is present and enabled in settings, append it to the output list.
             6. If employment type is present and enabled in settings, append it to the output list.
             7. Return the list of formatted detail lines.
-
         """
         log.debug("Rendering role details.")
         _paragraph_lines = []
@@ -116,7 +133,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             4. If end date is present, format it as "mm-YYYY" and append to the string.
             5. If end date is missing, append " - Present" to the string.
             6. Return the final formatted date string.
-
         """
         log.debug("Rendering role dates.")
 
@@ -158,7 +174,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
             13. If summary is present and enabled, add it as italicized text with spacing.
             14. If responsibilities are present and enabled, add them with spacing.
             15. If skills are present and enabled, add them with spacing.
-
         """
         _paragraph_lines = []
 
@@ -242,7 +257,20 @@ class RenderRoleSection(ResumeRenderRoleBase):
 
 
 class RenderRolesSection(ResumeRenderRolesBase):
-    """Render experience roles section."""
+    """Render experience roles section.
+
+    Inherits from:
+        ResumeRenderRolesBase: Base class for rendering roles-related content.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        roles (Roles): The list of role data to render.
+        settings (ResumeRolesSettings): The settings for rendering the roles.
+        errors (list[str]): List to store any errors encountered during rendering.
+
+    Methods:
+        render: Render roles section.
+    """
 
     def __init__(
         self,
@@ -253,10 +281,12 @@ class RenderRolesSection(ResumeRenderRolesBase):
         """Initialize roles render object.
 
         Args:
-            document: The Docx document object to render into.
-            roles: The list of role data to render.
-            settings: The settings for rendering the roles.
+            document (docx.document.Document): The Docx document object to render into.
+            roles (Roles): The list of role data to render.
+            settings (ResumeRolesSettings): The settings for rendering the roles.
 
+        Notes:
+            1. Initializes the parent class with the provided document, roles, and settings.
         """
         super().__init__(document=document, roles=roles, settings=settings)
 
@@ -269,8 +299,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
             3. For each role:
             4. If it's the first role, add a horizontal line.
             5. Render the role using RenderRoleSection.
-            6. If it's not the last role, add a horizontal line and a blank paragraph.
-
+            6. If it's not last role, add a horizontal line and a blank paragraph.
         """
         log.debug("Rendering roles section.")
         if len(self.roles) > 0:
@@ -298,7 +327,22 @@ class RenderRolesSection(ResumeRenderRolesBase):
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
-    """Render experience project section."""
+    """Render experience project section.
+
+    Inherits from:
+        ResumeRenderProjectBase: Base class for rendering project-specific content.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        project (Project): The project data to render.
+        settings (ResumeProjectsSettings): The settings for rendering the project.
+        errors (list[str]): List to store any errors encountered during rendering.
+
+    Methods:
+        _overview: Render project overview section.
+        _skills: Render project skills section.
+        render: Render project section.
+    """
 
     def __init__(
         self,
@@ -309,10 +353,13 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """Initialize project render object.
 
         Args:
-            document: The Docx document object to render into.
-            project: The project data to render.
-            settings: The settings for rendering the project.
+            document (docx.document.Document): The Docx document object to render into.
+            project (Project): The project data to render.
+            settings (ResumeProjectsSettings): The settings for rendering the project.
 
+        Notes:
+            1. Initializes the parent class with the provided document, project, and settings.
+            2. Logs the initialization process for debugging.
         """
         log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
@@ -330,7 +377,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             4. If start date is present and enabled, format it and append.
             5. If end date is present and enabled, format it and append.
             6. Return the list of formatted lines.
-
         """
         log.debug("Rendering project overview.")
 
@@ -368,7 +414,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             2. Join the project skills into a comma-separated string.
             3. Append the formatted "Skills: <skills>" string to the output list.
             4. Return the list of formatted skill lines.
-
         """
         log.debug("Rendering project skills.")
 
@@ -388,7 +433,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
             3. If description is present and enabled, add it to the lines.
             4. If skills are present and enabled, collect their lines.
             5. If any lines exist, add them to the document as a single paragraph.
-
         """
         log.debug("Rendering project section.")
 
@@ -408,7 +452,20 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):
-    """Render experience projects section."""
+    """Render experience projects section.
+
+    Inherits from:
+        ResumeRenderProjectsBase: Base class for rendering projects-related content.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        projects (Projects): The list of project data to render.
+        settings (ResumeProjectsSettings): The settings for rendering the projects.
+        errors (list[str]): List to store any errors encountered during rendering.
+
+    Methods:
+        render: Render projects section.
+    """
 
     def __init__(
         self,
@@ -419,10 +476,13 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """Initialize projects render object.
 
         Args:
-            document: The Docx document object to render into.
-            projects: The list of project data to render.
-            settings: The settings for rendering the projects.
+            document (docx.document.Document): The Docx document object to render into.
+            projects (Projects): The list of project data to render.
+            settings (ResumeProjectsSettings): The settings for rendering the projects.
 
+        Notes:
+            1. Initializes the parent class with the provided document, projects, and settings.
+            2. Logs the initialization process for debugging.
         """
         log.debug("Initializing projects render object.")
 
@@ -437,7 +497,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
             3. For each project:
             4. Create a RenderProjectSection object.
             5. Render the project.
-
         """
         log.debug("Rendering projects section.")
         if len(self.projects) > 0:
@@ -451,7 +510,20 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
-    """Render experience section."""
+    """Render experience section.
+
+    Inherits from:
+        ResumeRenderExperienceBase: Base class for rendering experience-related content.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to render into.
+        experience (Experience): The experience data to render.
+        settings (ResumeExperienceSettings): The settings for rendering the experience.
+        errors (list[str]): List to store any errors encountered during rendering.
+
+    Methods:
+        render: Render experience section.
+    """
 
     def __init__(
         self,
@@ -462,10 +534,13 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         """Initialize experience render object.
 
         Args:
-            document: The Docx document object to render into.
-            experience: The experience data to render.
-            settings: The settings for rendering the experience.
+            document (docx.document.Document): The Docx document object to render into.
+            experience (Experience): The experience data to render.
+            settings (ResumeExperienceSettings): The settings for rendering the experience.
 
+        Notes:
+            1. Initializes the parent class with the provided document, experience, and settings.
+            2. Logs the initialization process for debugging.
         """
         log.debug("Initializing experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
@@ -476,7 +551,6 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         Notes:
             1. If roles are present and enabled, render the roles section.
             2. If projects are present and enabled, render the projects section.
-
         """
         log.debug("Rendering experience section.")
 

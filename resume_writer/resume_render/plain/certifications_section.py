@@ -16,7 +16,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderCertificationSection(ResumeRenderCertificationBase):
-    """Render Certification Section."""
+    """Render a single certification entry in a resume document.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render into.
+        certification (Certification): The certification data to render.
+        settings (ResumeCertificationsSettings): The rendering settings for the certification section.
+
+    Base Class:
+        ResumeRenderCertificationBase: Base class providing shared rendering functionality.
+    """
 
     def __init__(
         self,
@@ -27,24 +36,23 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         """Initialize the basic certification renderer.
 
         Args:
-            document: The Word document object to render into.
-            certification: The certification data to render.
-            settings: The rendering settings for the certification section.
+            document (docx.document.Document): The Word document object to render into.
+            certification (Certification): The certification data to render.
+            settings (ResumeCertificationsSettings): The rendering settings for the certification section.
 
         Notes:
             1. Initializes the parent class with the provided document, certification, and settings.
-
         """
         super().__init__(document, certification, settings)
 
     def render(self) -> None:
-        """Render the certification section.
+        """Render the certification section in the document.
 
         Args:
             None
 
         Returns:
-            None
+            None: This method modifies the document in-place and does not return a value.
 
         Notes:
             1. Retrieve the certification data from the instance.
@@ -64,7 +72,6 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
                b. Format the expiration date as "Month YYYY".
                c. Add a run with "Expires: " followed by the formatted date.
             8. This function modifies the document in-place and does not write to disk.
-
         """
         _certification = self.certification
 
@@ -105,7 +112,16 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
-    """Render Certifications Section."""
+    """Render the entire certifications section of a resume document.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render into.
+        certifications (Certifications): A list of certification data to render.
+        settings (ResumeCertificationsSettings): The rendering settings for the certifications section.
+
+    Base Class:
+        ResumeRenderCertificationsBase: Base class providing shared rendering functionality for multiple certifications.
+    """
 
     def __init__(
         self,
@@ -116,13 +132,12 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Initialize the basic certifications renderer.
 
         Args:
-            document: The Word document object to render into.
-            certifications: A list of certification data to render.
-            settings: The rendering settings for the certifications section.
+            document (docx.document.Document): The Word document object to render into.
+            certifications (Certifications): A list of certification data to render.
+            settings (ResumeCertificationsSettings): The rendering settings for the certifications section.
 
         Notes:
             1. Initializes the parent class with the provided document, certifications, and settings.
-
         """
         super().__init__(document, certifications, settings)
 
@@ -133,7 +148,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             None
 
         Returns:
-            None
+            None: This method modifies the document in-place and does not return a value.
 
         Notes:
             1. Log the start of the certifications section rendering.
@@ -143,7 +158,6 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
                a. Create a new RenderCertificationSection instance.
                b. Call the render method on that instance to add the certification to the document.
             5. This function modifies the document in-place and does not write to disk.
-
         """
         log.info("Rendering Certifications section.")
 

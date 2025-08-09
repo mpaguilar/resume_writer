@@ -14,7 +14,20 @@ log = logging.getLogger(__name__)
 
 
 class RenderDegreeSection(ResumeRenderDegreeBase):
-    """Render Degree Section."""
+    """Render a single degree section in a resume document.
+
+    This class handles formatting and rendering of a single academic degree,
+    including school, degree name, dates, major, and GPA, based on provided settings.
+
+    Inherits from:
+        ResumeRenderDegreeBase: Base class providing common rendering functionality.
+
+    Attributes:
+        document (docx.document.Document): The Word document being rendered.
+        degree (Degree): The degree object containing education details.
+        settings (ResumeEducationSettings): Configuration settings for rendering fields.
+        font_size (int): Font size used for rendering (inherited from base class).
+    """
 
     def __init__(
         self,
@@ -25,9 +38,9 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         """Initialize the basic degree renderer.
 
         Args:
-            document: The Word document to render the degree section into.
-            degree: The degree object containing education details such as school, degree name, dates, major, and GPA.
-            settings: Configuration settings that control which degree fields are rendered (e.g., school, degree, dates, major, GPA).
+            document (docx.document.Document): The Word document to render the degree section into.
+            degree (Degree): The degree object containing education details such as school, degree name, dates, major, and GPA.
+            settings (ResumeEducationSettings): Configuration settings that control which degree fields are rendered (e.g., school, degree, dates, major, GPA).
 
         Returns:
             None
@@ -40,7 +53,7 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         super().__init__(document=document, degree=degree, settings=settings)
 
     def render(self) -> None:
-        """Render a single degree.
+        """Render a single degree with formatted details in the document.
 
         Args:
             None
@@ -100,7 +113,20 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
 
 
 class RenderEducationSection(ResumeRenderEducationBase):
-    """Render Education Section."""
+    """Render the entire education section of a resume document.
+
+    This class manages the rendering of a resume's education section, including
+    a heading and a list of degrees, with formatting based on user-defined settings.
+
+    Inherits from:
+        ResumeRenderEducationBase: Base class providing common education rendering behavior.
+
+    Attributes:
+        document (docx.document.Document): The Word document being rendered.
+        education (Education): The education object containing a list of degrees and related data.
+        settings (ResumeEducationSettings): Configuration settings for rendering behavior.
+        font_size (int): Font size used for rendering (inherited from base class).
+    """
 
     def __init__(
         self,
@@ -111,9 +137,9 @@ class RenderEducationSection(ResumeRenderEducationBase):
         """Initialize the basic education renderer.
 
         Args:
-            document: The Word document to render the education section into.
-            education: The education object containing a list of degrees and related data.
-            settings: Configuration settings that control rendering behavior, including whether to render degrees and which fields to include.
+            document (docx.document.Document): The Word document to render the education section into.
+            education (Education): The education object containing a list of degrees and related data.
+            settings (ResumeEducationSettings): Configuration settings that control rendering behavior, including whether to render degrees and which fields to include.
 
         Returns:
             None
@@ -126,7 +152,7 @@ class RenderEducationSection(ResumeRenderEducationBase):
         super().__init__(document, education, settings)
 
     def render(self) -> None:
-        """Render the education section.
+        """Render the education section with heading and degrees.
 
         Args:
             None

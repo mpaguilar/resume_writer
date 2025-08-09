@@ -28,7 +28,22 @@ log = logging.getLogger(__name__)
 
 
 class RenderResume(ResumeRenderBase):
-    """Render a resume in basic format."""
+    """Render a resume in basic format.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render the resume into.
+        resume (Resume): The resume data model containing personal, education, experience, certifications, and other sections.
+        settings (ResumeRenderSettings): Configuration settings for rendering specific sections of the resume.
+
+    Args:
+        document: The Word document object to render the resume into.
+        resume: The resume data model containing personal, education, experience, certifications, and other sections.
+        settings: Configuration settings for rendering specific sections of the resume.
+
+    Notes:
+        1. The super().__init__() method is called to initialize the base class with the provided document, resume, and settings.
+        2. No external file, network, or database access occurs during initialization.
+    """
 
     def __init__(
         self,
@@ -39,14 +54,13 @@ class RenderResume(ResumeRenderBase):
         """Initialize basic resume renderer.
 
         Args:
-            document: The Word document object to render the resume into.
-            resume: The resume data model containing personal, education, experience, certifications, and other sections.
-            settings: Configuration settings for rendering specific sections of the resume.
+            document (docx.document.Document): The Word document object to render the resume into.
+            resume (Resume): The resume data model containing personal, education, experience, certifications, and other sections.
+            settings (ResumeRenderSettings): Configuration settings for rendering specific sections of the resume.
 
         Notes:
             1. The super().__init__() method is called to initialize the base class with the provided document, resume, and settings.
             2. No external file, network, or database access occurs during initialization.
-
         """
         super().__init__(document, resume, settings)
 
@@ -73,7 +87,6 @@ class RenderResume(ResumeRenderBase):
             11. Check if the resume has experience data and if the experience section is enabled in settings.
             12. If both conditions are true, render the experience section using RenderExperienceSection.
             13. No external file, network, or database access occurs during rendering.
-
         """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(

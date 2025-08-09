@@ -16,7 +16,19 @@ log = logging.getLogger(__name__)
 
 
 class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
-    """Render experience for a functional resume."""
+    """Render executive summary section for a functional resume.
+
+    This class is responsible for rendering the executive summary section of a resume based on experience data.
+    It processes roles and their categories, formatting them into a structured document with headings and bullet points.
+
+    Inherits from:
+        ResumeRenderExecutiveSummaryBase: Base class providing common rendering functionality.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render into.
+        experience (Experience): The experience data containing roles and their details.
+        settings (ResumeExecutiveSummarySettings): The rendering settings that control which categories are included and how they are formatted.
+    """
 
     def __init__(
         self,
@@ -24,12 +36,12 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize executive summary render object.
+        """Initialize the executive summary render object.
 
         Args:
-            document: The Word document object to render into.
-            experience: The experience data to render, containing roles and their details.
-            settings: The rendering settings that control which categories are included and how they are formatted.
+            document (docx.document.Document): The Word document object to render into.
+            experience (Experience): The experience data containing roles and their details.
+            settings (ResumeExecutiveSummarySettings): The rendering settings that control which categories are included and how they are formatted.
 
         Returns:
             None
@@ -37,13 +49,14 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         Notes:
             1. Logs a debug message indicating initialization.
             2. Calls the parent class constructor to initialize base rendering functionality.
-
         """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
         """Render the executive summary section of the resume.
+
+        This method generates the executive summary by processing experience data and formatting it into a Word document.
 
         Args:
             None
@@ -54,7 +67,7 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         Notes:
             1. Logs a debug message indicating the start of rendering.
             2. Checks if the experience object contains any roles; if not, raises a ValueError.
-            3. Extracts unique job categories from the roles in the experience data.
+            3. Collects all unique job categories from the roles in the experience data.
             4. Iterates over the job categories specified in the settings.
             5. For each category, filters roles that belong to that category.
             6. If no roles are found for a category, logs a warning and skips to the next category.
@@ -66,7 +79,6 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
                d. Adds the role summary as plain text.
                e. Adds the company name in italics, appended to the summary.
             9. No network, disk, or database access occurs during execution.
-
         """
         log.debug("Rendering functional experience section.")
 

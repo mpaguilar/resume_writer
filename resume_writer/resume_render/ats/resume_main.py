@@ -28,27 +28,37 @@ log = logging.getLogger(__name__)
 
 
 class RenderResume(ResumeRenderBase):
-    """Render a resume in basic format."""
+    """Render a resume in basic format.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render the resume into.
+        resume (Resume): The parsed resume data structure containing personal, education,
+                         experience, certifications, and other sections.
+        settings (ResumeRenderSettings): Configuration settings for rendering the resume,
+                                         including which sections to include and how they should be formatted.
+    """
 
     def __init__(
         self,
         document: docx.document.Document,
         resume: Resume,
         settings: ResumeRenderSettings,
-    ):
+    ) -> None:
         """Initialize ATS resume renderer.
 
         Args:
-            document: The Word document object to render the resume into.
-            resume: The parsed resume data structure containing personal, education,
-                    experience, certifications, and other sections.
-            settings: Configuration settings for rendering the resume, including
-                      which sections to include and how they should be formatted.
+            document (docx.document.Document): The Word document object to render the resume into.
+            resume (Resume): The parsed resume data structure containing personal, education,
+                             experience, certifications, and other sections.
+            settings (ResumeRenderSettings): Configuration settings for rendering the resume,
+                                             including which sections to include and how they should be formatted.
+
+        Returns:
+            None
 
         Notes:
             1. Calls the parent class constructor to initialize common rendering state.
             2. Applies default settings overrides specific to ATS resume formatting.
-
         """
         super().__init__(document, resume, settings)
         self._settings_override()
@@ -67,7 +77,6 @@ class RenderResume(ResumeRenderBase):
             2. Disables the executive summary section.
             3. Disables the skills matrix section.
             4. These settings are enforced to ensure compatibility with applicant tracking systems.
-
         """
         self.settings.experience_settings.roles_settings.summary = False
         self.settings.executive_summary = False
@@ -95,7 +104,6 @@ class RenderResume(ResumeRenderBase):
             10. If enabled, renders the skills matrix using RenderSkillsMatrixSection.
             11. Checks if experience data exists and the experience section is enabled.
             12. If enabled, renders the experience section using RenderExperienceSection.
-
         """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(

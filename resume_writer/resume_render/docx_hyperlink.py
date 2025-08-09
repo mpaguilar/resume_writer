@@ -16,10 +16,10 @@ def get_or_create_hyperlink_style(d: Document) -> str:
     """Create a hyperlink style if one doesn't exist, or return existing style.
 
     Args:
-        d: The Document object to check or modify for the hyperlink style.
+        d (Document): The Document object to check or modify for the hyperlink style.
 
     Returns:
-        The name of the style used for hyperlinks, which is "Hyperlink".
+        str: The name of the style used for hyperlinks, which is "Hyperlink".
 
     Notes:
         1. Check if a style named "Hyperlink" already exists in the document.
@@ -64,12 +64,12 @@ def add_hyperlink(
     """Create a hyperlink object and add it to the paragraph.
 
     Args:
-        paragraph: The Paragraph object to which the hyperlink will be added.
-        text: The text to display as the hyperlink.
-        url: The URL that the hyperlink will point to.
+        paragraph (Paragraph): The Paragraph object to which the hyperlink will be added.
+        text (str): The text to display as the hyperlink.
+        url (str): The URL that the hyperlink will point to.
 
     Returns:
-        The OxmlElement representing the hyperlink, which is added to the paragraph.
+        docx.oxml.shared.OxmlElement: The OxmlElement representing the hyperlink, which is added to the paragraph.
 
     Notes:
         1. Access the document part of the paragraph to manage relationships.

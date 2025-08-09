@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 class ContactInfo(LabelBlockParse):
-    """Details of personal contact information.
+    """Holds personal contact details such as name, email, phone, and location.
 
     Attributes:
         name (str): The full name of the person.
@@ -19,6 +19,7 @@ class ContactInfo(LabelBlockParse):
         phone (str | None): The phone number of the person, or None if not provided.
         location (str | None): The physical location (e.g., city and country) of the person, or None if not provided.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(
@@ -29,14 +30,14 @@ class ContactInfo(LabelBlockParse):
         phone: str | None,
         location: str | None,
     ):
-        """Initialize the object.
+        """Initialize the contact information with provided details.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            name: The full name of the person.
-            email: The email address of the person, or None if not provided.
-            phone: The phone number of the person, or None if not provided.
-            location: The physical location (e.g., city and country) of the person, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            name (str): The full name of the person.
+            email (str | None): The email address of the person, or None if not provided.
+            phone (str | None): The phone number of the person, or None if not provided.
+            location (str | None): The physical location (e.g., city and country) of the person, or None if not provided.
 
         Returns:
             None
@@ -48,6 +49,7 @@ class ContactInfo(LabelBlockParse):
             4. Validate that phone is either a string or None.
             5. Validate that location is either a string or None.
             6. Assign the provided values to instance attributes.
+
         """
         assert isinstance(
             parse_context,
@@ -69,17 +71,18 @@ class ContactInfo(LabelBlockParse):
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
-        """Return the expected labels.
+        """Return the expected labels for contact information fields.
 
         Args:
             None
 
         Returns:
-            A dictionary mapping label names (as strings) to their corresponding attribute names in the ContactInfo class.
+            A dictionary mapping label names (e.g., "name", "email") to their corresponding attribute names in the ContactInfo class.
 
         Notes:
             1. The returned dictionary defines the expected field names in the input data for ContactInfo.
             2. The keys are the labels found in the input (e.g., "name", "email"), and the values are the corresponding attribute names in the class (e.g., "name").
+
         """
         return {
             "name": "name",
@@ -90,7 +93,7 @@ class ContactInfo(LabelBlockParse):
 
 
 class Websites(LabelBlockParse):
-    """Details of personal websites.
+    """Holds personal website and social media links.
 
     Attributes:
         website (str | None): The personal website URL, or None if not provided.
@@ -98,6 +101,7 @@ class Websites(LabelBlockParse):
         linkedin (str | None): The LinkedIn profile URL, or None if not provided.
         twitter (str | None): The Twitter profile URL, or None if not provided.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(
@@ -108,14 +112,14 @@ class Websites(LabelBlockParse):
         linkedin: str | None,
         twitter: str | None,
     ):
-        """Initialize the object.
+        """Initialize the websites information with provided links.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            website: The personal website URL, or None if not provided.
-            github: The GitHub profile URL, or None if not provided.
-            linkedin: The LinkedIn profile URL, or None if not provided.
-            twitter: The Twitter profile URL, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            website (str | None): The personal website URL, or None if not provided.
+            github (str | None): The GitHub profile URL, or None if not provided.
+            linkedin (str | None): The LinkedIn profile URL, or None if not provided.
+            twitter (str | None): The Twitter profile URL, or None if not provided.
 
         Returns:
             None
@@ -127,6 +131,7 @@ class Websites(LabelBlockParse):
             4. Validate that linkedin is either a string or None.
             5. Validate that twitter is either a string or None.
             6. Assign the provided values to instance attributes.
+
         """
         assert isinstance(
             parse_context,
@@ -155,17 +160,18 @@ class Websites(LabelBlockParse):
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
-        """Return the expected labels.
+        """Return the expected labels for website and social media fields.
 
         Args:
             None
 
         Returns:
-            A dictionary mapping label names (as strings) to their corresponding attribute names in the Websites class.
+            A dictionary mapping label names (e.g., "website", "github") to their corresponding attribute names in the Websites class.
 
         Notes:
             1. The returned dictionary defines the expected field names in the input data for Websites.
             2. The keys are the labels found in the input (e.g., "website", "github"), and the values are the corresponding attribute names in the class (e.g., "website").
+
         """
         return {
             "website": "website",
@@ -176,12 +182,13 @@ class Websites(LabelBlockParse):
 
 
 class VisaStatus(LabelBlockParse):
-    """Details of personal visa information.
+    """Holds information about work authorization and sponsorship requirements.
 
     Attributes:
         work_authorization (str | None): The current work authorization status (e.g., "US Citizen", "H-1B"), or None if not provided.
         require_sponsorship (bool | None): A boolean indicating if sponsorship is required, or None if not provided.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(
@@ -190,12 +197,12 @@ class VisaStatus(LabelBlockParse):
         work_authorization: str | None,
         require_sponsorship: bool | str | None,
     ):
-        """Initialize the object.
+        """Initialize the visa status with provided authorization and sponsorship details.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            work_authorization: The current work authorization status (e.g., "US Citizen", "H-1B"), or None if not provided.
-            require_sponsorship: A boolean indicating if sponsorship is required, or a string ("yes"/"no") that will be converted to a boolean, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            work_authorization (str | None): The current work authorization status (e.g., "US Citizen", "H-1B"), or None if not provided.
+            require_sponsorship (bool | str | None): A boolean indicating if sponsorship is required, or a string ("yes"/"no") that will be converted to a boolean, or None if not provided.
 
         Returns:
             None
@@ -208,6 +215,7 @@ class VisaStatus(LabelBlockParse):
             5. If require_sponsorship is a string, convert "yes" to True and "no" to False.
             6. If require_sponsorship is not None and not a string, assign it directly.
             7. Otherwise, set require_sponsorship to None.
+
         """
         assert isinstance(
             parse_context,
@@ -239,17 +247,18 @@ class VisaStatus(LabelBlockParse):
 
     @staticmethod
     def expected_fields() -> dict[str, str]:
-        """Return the expected labels.
+        """Return the expected labels for visa and sponsorship fields.
 
         Args:
             None
 
         Returns:
-            A dictionary mapping label names (as strings) to their corresponding attribute names in the VisaStatus class.
+            A dictionary mapping label names (e.g., "work authorization", "require sponsorship") to their corresponding attribute names in the VisaStatus class.
 
         Notes:
             1. The returned dictionary defines the expected field names in the input data for VisaStatus.
             2. The keys are the labels found in the input (e.g., "work authorization", "require sponsorship"), and the values are the corresponding attribute names in the class (e.g., "work_authorization").
+
         """
         return {
             "work authorization": "work_authorization",
@@ -258,19 +267,20 @@ class VisaStatus(LabelBlockParse):
 
 
 class Banner(TextBlockParse):
-    """Details of personal banner.
+    """Holds a personal banner message with cleaned text content.
 
     Attributes:
         text (str): The cleaned text content of the banner, with leading/trailing and internal blank lines removed.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(self, parse_context: ParseContext, text_string: str):
-        """Initialize the object.
+        """Initialize the banner with cleaned text content.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            text_string: The raw text content of the banner, potentially including leading/trailing or internal blank lines.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            text_string (str): The raw text content of the banner, potentially including leading/trailing or internal blank lines.
 
         Returns:
             None
@@ -283,6 +293,7 @@ class Banner(TextBlockParse):
             5. Remove trailing blank lines.
             6. Filter out any lines that are blank after stripping whitespace.
             7. Join the remaining lines back into a single string and assign to self.text.
+
         """
         assert isinstance(
             parse_context,
@@ -306,19 +317,20 @@ class Banner(TextBlockParse):
 
 
 class Note(TextBlockParse):
-    """Details of personal note.
+    """Holds a personal note with cleaned text content.
 
     Attributes:
         text (str): The cleaned text content of the note, with leading/trailing and internal blank lines removed.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(self, parse_context: ParseContext, text_string: str):
-        """Initialize the object.
+        """Initialize the note with cleaned text content.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            text_string: The raw text content of the note, potentially including leading/trailing or internal blank lines.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            text_string (str): The raw text content of the note, potentially including leading/trailing or internal blank lines.
 
         Returns:
             None
@@ -331,6 +343,7 @@ class Note(TextBlockParse):
             5. Remove trailing blank lines.
             6. Filter out any lines that are blank after stripping whitespace.
             7. Join the remaining lines back into a single string and assign to self.text.
+
         """
         assert isinstance(
             parse_context,
@@ -354,7 +367,7 @@ class Note(TextBlockParse):
 
 
 class Personal(BasicBlockParse):
-    """Details of personal information.
+    """Holds all personal information including contact details, websites, visa status, banner, and note.
 
     Attributes:
         contact_info (ContactInfo | None): An instance of ContactInfo containing personal contact details, or None if not provided.
@@ -363,6 +376,7 @@ class Personal(BasicBlockParse):
         banner (Banner | None): An instance of Banner containing a personal banner message, or None if not provided.
         note (Note | None): An instance of Note containing a personal note, or None if not provided.
         parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+
     """
 
     def __init__(  # noqa: PLR0913
@@ -374,15 +388,15 @@ class Personal(BasicBlockParse):
         banner: Banner | None,
         note: Note | None,
     ):
-        """Initialize the object.
+        """Initialize the personal information block with provided components.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            contact_info: An instance of ContactInfo containing personal contact details, or None if not provided.
-            websites: An instance of Websites containing personal website links, or None if not provided.
-            visa_status: An instance of VisaStatus containing visa and sponsorship information, or None if not provided.
-            banner: An instance of Banner containing a personal banner message, or None if not provided.
-            note: An instance of Note containing a personal note, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            contact_info (ContactInfo | None): An instance of ContactInfo containing personal contact details, or None if not provided.
+            websites (Websites | None): An instance of Websites containing personal website links, or None if not provided.
+            visa_status (VisaStatus | None): An instance of VisaStatus containing visa and sponsorship information, or None if not provided.
+            banner (Banner | None): An instance of Banner containing a personal banner message, or None if not provided.
+            note (Note | None): An instance of Note containing a personal note, or None if not provided.
 
         Returns:
             None
@@ -395,6 +409,7 @@ class Personal(BasicBlockParse):
             5. Validate that banner is either a Banner instance or None.
             6. Validate that note is either a Note instance or None.
             7. Assign the provided values to instance attributes.
+
         """
         assert isinstance(
             parse_context,
@@ -432,17 +447,18 @@ class Personal(BasicBlockParse):
 
     @staticmethod
     def expected_blocks() -> dict[str, str]:
-        """Return the expected blocks.
+        """Return the expected block names for parsing personal information.
 
         Args:
             None
 
         Returns:
-            A dictionary mapping block names (as strings) to their corresponding attribute names in the Personal class.
+            A dictionary mapping block names (e.g., "contact information") to their corresponding attribute names in the Personal class.
 
         Notes:
             1. The returned dictionary defines the expected block names in the input data for Personal.
             2. The keys are the block names found in the input (e.g., "contact information"), and the values are the corresponding attribute names in the class (e.g., "contact_info").
+
         """
         return {
             "contact information": "contact_info",
@@ -454,17 +470,18 @@ class Personal(BasicBlockParse):
 
     @staticmethod
     def block_classes() -> dict[str, type]:
-        """Return the classes for the blocks.
+        """Return the classes used to parse each block of personal information.
 
         Args:
             None
 
         Returns:
-            A dictionary mapping block names (as strings) to the corresponding class types for parsing.
+            A dictionary mapping block names (e.g., "contact information") to the corresponding class types for parsing.
 
         Notes:
             1. The returned dictionary defines which classes should be used to parse each block.
             2. The keys are the block names found in the input (e.g., "contact information"), and the values are the corresponding class types (e.g., ContactInfo).
+
         """
         return {
             "contact information": ContactInfo,

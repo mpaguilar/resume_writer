@@ -20,7 +20,17 @@ log = logging.getLogger(__name__)
 
 
 class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
-    """Render skills for a functional resume."""
+    """Render skills for a functional resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the skills section will be added.
+        experience (Experience): The experience data containing roles and associated skills.
+        settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix, including
+                                              which skills to include and whether to include all skills.
+
+    Base class:
+        ResumeRenderSkillsMatrixBase: Base class for rendering skills matrix sections.
+    """
 
     def __init__(
         self,
@@ -31,10 +41,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         """Initialize skills render object.
 
         Args:
-            document: The Word document object to which the skills section will be added.
-            experience: The experience data containing roles and associated skills.
-            settings: Configuration settings for rendering the skills matrix, including
-                      which skills to include and whether to include all skills.
+            document (docx.document.Document): The Word document object to which the skills section will be added.
+            experience (Experience): The experience data containing roles and associated skills.
+            settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix, including
+                                                  which skills to include and whether to include all skills.
 
         Notes:
             1. Initializes the base class with the provided document, experience, and settings.
@@ -51,10 +61,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         """Find the earliest start date and latest end date for a given skill across roles.
 
         Args:
-            skill: The name of the skill to search for in roles.
+            skill (str): The name of the skill to search for in roles.
 
         Returns:
-            A tuple containing:
+            tuple[datetime | None, datetime | None]: A tuple containing:
                 - The earliest start date for any role that includes the skill (or None if not found).
                 - The latest end date for any role that includes the skill (or None if not found).
 
@@ -92,7 +102,7 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         """Compute and filter skills matrix based on settings.
 
         Returns:
-            A dictionary mapping skill names to years of experience (float), sorted in descending order.
+            dict[str, float]: A dictionary mapping skill names to years of experience (float), sorted in descending order.
 
         Notes:
             1. Retrieves all roles from the experience object.

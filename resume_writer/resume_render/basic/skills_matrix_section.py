@@ -2,7 +2,7 @@ import logging
 
 import docx.document
 from docx.enum.table import WD_ALIGN_VERTICAL
-from utils.skills_matrix import SkillsMatrix
+from resume_writer.utils.skills_matrix import SkillsMatrix
 
 from resume_writer.models.experience import (
     Experience,
@@ -19,7 +19,24 @@ log = logging.getLogger(__name__)
 
 
 class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
-    """Render skills for a functional resume."""
+    """Render skills for a functional resume.
+
+    This class generates a skills matrix table in a DOCX document based on experience data,
+    showing skills and their years of experience (YOE) with date ranges.
+
+    Attributes:
+        document (docx.document.Document): The DOCX document to which the skills section will be added.
+        experience (Experience): The experience data containing roles and skill usage history.
+        settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix.
+        parse_context (ParseContext): Contextual information used during parsing (not directly used in rendering).
+
+    Base Class:
+        ResumeRenderSkillsMatrixBase: Provides base functionality for rendering skills matrices.
+
+    Methods:
+        __init__: Initializes the render object with required parameters.
+        render: Generates and adds the skills matrix table to the document.
+    """
 
     def __init__(
         self,
@@ -31,10 +48,10 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
         """Initialize skills render object.
 
         Args:
-            document: The DOCX document to which the skills section will be added.
-            experience: The experience data containing roles and skill usage history.
-            settings: Configuration settings for rendering the skills matrix.
-            parse_context: Contextual information used during parsing, not directly used here.
+            document (docx.document.Document): The DOCX document to which the skills section will be added.
+            experience (Experience): The experience data containing roles and skill usage history.
+            settings (ResumeSkillsMatrixSettings): Configuration settings for rendering the skills matrix.
+            parse_context (ParseContext): Contextual information used during parsing, not directly used here.
 
         Returns:
             None
@@ -74,6 +91,9 @@ class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
             11. Format the YOE string using the first_used and last_used dates, along with the calculated YOE value.
             12. Insert the formatted YOE string into the adjacent cell.
             13. Set the table to auto-fit its contents.
+
+        Disk Access:
+            - The function writes to the DOCX document via the `document.add_table` and cell text operations.
 
         """
         log.debug("Rendering functional skills section.")

@@ -26,28 +26,6 @@ class Degree(LabelBlockParse):
         gpa (str | None): The grade point average.
         parse_context (ParseContext): The context in which the parsing occurred.
 
-    Args:
-        parse_context (ParseContext): The context in which the parsing occurred, used for error reporting.
-        school (str): The name of the educational institution.
-        degree (str | None): The type of degree (e.g., Bachelor, Master).
-        start_date (str | datetime | None): The start date of the program, as a string or datetime object.
-        end_date (str | datetime | None): The end date of the program, as a string or datetime object.
-        major (str | None): The major field of study.
-        gpa (str | None): The grade point average, as a string.
-
-    Returns:
-        None
-
-    Notes:
-        1. Validate that parse_context is an instance of ParseContext.
-        2. Validate that school is a non-empty string.
-        3. Validate that degree, major, and gpa are either strings or None.
-        4. Validate that start_date and end_date are either strings, datetime objects, or None.
-        5. If end_date is provided but start_date is not, raise a ParseError.
-        6. Parse start_date and end_date from strings into datetime objects using dateparser.
-        7. If both start_date and end_date are provided, ensure start_date is not after end_date.
-        8. Store the parsed values in the object's attributes.
-
     """
 
     def __init__(  # noqa: PLR0913
@@ -60,6 +38,31 @@ class Degree(LabelBlockParse):
         major: str | None = None,
         gpa: str | None = None,
     ):
+        """Initialize a Degree object with academic details.
+
+        Args:
+            parse_context: The context in which the parsing occurred, used for error reporting.
+            school: The name of the educational institution.
+            degree: The type of degree (e.g., Bachelor, Master).
+            start_date: The start date of the program, as a string or datetime object.
+            end_date: The end date of the program, as a string or datetime object.
+            major: The major field of study.
+            gpa: The grade point average, as a string.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that parse_context is an instance of ParseContext.
+            2. Validate that school is a non-empty string.
+            3. Validate that degree, major, and gpa are either strings or None.
+            4. Validate that start_date and end_date are either strings, datetime objects, or None.
+            5. If end_date is provided but start_date is not, raise a ParseError.
+            6. Parse start_date and end_date from strings into datetime objects using dateparser.
+            7. If both start_date and end_date are provided, ensure start_date is not after end_date.
+            8. Store the parsed values in the object's attributes.
+
+        """
         assert isinstance(
             parse_context,
             ParseContext,
@@ -141,23 +144,26 @@ class Degrees(MultiBlockParse):
         degrees (list[Degree]): A list of Degree objects representing educational achievements.
         parse_context (ParseContext): The context in which the parsing occurred.
 
-    Args:
-        degrees (list[Degree]): A list of Degree objects representing educational achievements.
-        parse_context (ParseContext): The context in which the parsing occurred, used for error reporting.
-
-    Returns:
-        None
-
-    Notes:
-        1. Validate that degrees is a list.
-        2. Validate that all items in degrees are instances of Degree.
-        3. Validate that parse_context is an instance of ParseContext.
-        4. Log the number of degrees created.
-        5. Store the degrees list and parse_context in the object.
-
     """
 
     def __init__(self, degrees: list[Degree], parse_context: ParseContext):
+        """Initialize a Degrees object with a list of degree records.
+
+        Args:
+            degrees: A list of Degree objects representing educational achievements.
+            parse_context: The context in which the parsing occurred, used for error reporting.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that degrees is a list.
+            2. Validate that all items in degrees are instances of Degree.
+            3. Validate that parse_context is an instance of ParseContext.
+            4. Log the number of degrees created.
+            5. Store the degrees list and parse_context in the object.
+
+        """
         assert isinstance(degrees, list)
         assert all(isinstance(degree, Degree) for degree in degrees)
         assert isinstance(parse_context, ParseContext)
@@ -204,7 +210,7 @@ class Degrees(MultiBlockParse):
         """Return the degree at the given index.
 
         Args:
-            index (int): The index of the degree to retrieve.
+            index: The index of the degree to retrieve.
 
         Returns:
             The Degree object at the specified index.
@@ -239,22 +245,25 @@ class Education(BasicBlockParse):
         degrees (Degrees | None): A Degrees object containing educational achievements, or None if no degrees.
         parse_context (ParseContext): The context in which the parsing occurred.
 
-    Args:
-        degrees (Degrees | None): A Degrees object containing educational achievements, or None if no degrees.
-        parse_context (ParseContext): The context in which the parsing occurred, used for error reporting.
-
-    Returns:
-        None
-
-    Notes:
-        1. Validate that degrees is either a Degrees object or None.
-        2. Validate that parse_context is an instance of ParseContext.
-        3. Log the number of degrees in the object.
-        4. Store the degrees and parse_context in the object.
-
     """
 
     def __init__(self, degrees: Degrees | None, parse_context: ParseContext):
+        """Initialize an Education object with educational details.
+
+        Args:
+            degrees: A Degrees object containing educational achievements, or None if no degrees.
+            parse_context: The context in which the parsing occurred, used for error reporting.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that degrees is either a Degrees object or None.
+            2. Validate that parse_context is an instance of ParseContext.
+            3. Log the number of degrees in the object.
+            4. Store the degrees and parse_context in the object.
+
+        """
         assert isinstance(degrees, (Degrees, type(None)))
         assert isinstance(parse_context, ParseContext)
 

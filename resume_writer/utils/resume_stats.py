@@ -5,10 +5,18 @@ log = logging.getLogger(__name__)
 
 
 class DateStats:
-    """Provide date-range related statistics."""
+    """Provide date-range related statistics.
+
+    Attributes:
+        date_ranges (list[tuple[datetime, datetime]]): A list of date ranges
+            represented as tuples of start and end datetimes.
+    """
 
     def __init__(self):
-        """Initialize the DateStats class."""
+        """Initialize the DateStats class.
+
+        Initializes an empty list to store date ranges.
+        """
         self.date_ranges = []
 
     def add_date_range(
@@ -16,7 +24,21 @@ class DateStats:
         start_date: datetime,
         end_date: datetime | None = None,
     ) -> None:
-        """Add a date range to the list of date ranges."""
+        """Add a date range to the list of date ranges.
+
+        Args:
+            start_date (datetime): The start date of the range.
+            end_date (datetime | None): The end date of the range. If None,
+                the current date is used.
+
+        Returns:
+            None
+
+        Notes:
+            1. Validate that start_date is not after end_date.
+            2. If end_date is None, use the current date as end_date.
+            3. Append the (start_date, end_date) tuple to the date_ranges list.
+        """
         # Check if the start date is before the end date
         if end_date and start_date > end_date:
             raise ValueError("Start date must be before end date")
@@ -28,10 +50,23 @@ class DateStats:
     def merge_date_ranges(self) -> list[tuple[datetime, datetime]]:
         """Take a list of date ranges, and consolidate them.
 
-        * Remove 0-length ranges.
-        * Remove completely overlapped ranges.
-        * Overlapping ranges should use the start of
-            the first range and the end of the last range.
+        This function merges overlapping or adjacent date ranges into a single
+        continuous range.
+
+        Returns:
+            list[tuple[datetime, datetime]]: A list of merged date ranges,
+                each represented as a tuple of start and end datetimes.
+
+        Notes:
+            1. If no date ranges exist, return an empty list.
+            2. Sort date ranges by start date.
+            3. Initialize the first range as the current range.
+            4. Iterate through the remaining ranges:
+                a. If the current range overlaps with the next range (next start <= current end),
+                   extend the current end date to the maximum of the two.
+                b. Otherwise, add the current range to the merged list and start a new range.
+            5. Add the final current range to the merged list.
+            6. Return the merged ranges.
         """
         if len(self.date_ranges) == 0:
             log.warning("No date ranges to merge")
@@ -53,7 +88,17 @@ class DateStats:
 
     @property
     def days_of_experience(self) -> int:
-        """Return the number of years of experience."""
+        """Return the total number of days across all merged date ranges.
+
+        Returns:
+            int: The total number of days of experience.
+
+        Notes:
+            1. Merge all date ranges using merge_date_ranges.
+            2. Initialize a counter for total days.
+            3. For each merged date range, add the number of days between start and end dates.
+            4. Return the total.
+        """
         _merged_ranges = self.merge_date_ranges()
 
         _total_days = 0
@@ -66,13 +111,33 @@ class DateStats:
 
     @property
     def years_of_experience(self) -> float:
-        """Return the number of years of experience."""
+        """Return the number of years of experience.
+
+        Returns:
+            float: The number of years of experience, rounded to one decimal place.
+
+        Notes:
+            1. Compute the total days of experience.
+            2. Divide by 365.25 to account for leap years.
+            3. Round to one decimal place.
+        """
         _yoe = self.days_of_experience / 365.25
         return round(_yoe, 1)
 
     @property
     def span_of_experience(self) -> float:
-        """Return the span of experience, from first time used to last."""
+        """Return the span of experience from first to last date.
+
+        Returns:
+            float: The span of experience in years, rounded to one decimal place.
+
+        Notes:
+            1. Merge all date ranges using merge_date_ranges.
+            2. Get the first start date and the last end date from the merged ranges.
+            3. Calculate the difference between last end and first start.
+            4. Divide by 365.25 to get years.
+            5. Round to one decimal place.
+        """
         _merged_ranges = self.merge_date_ranges()
 
         _first_date = _merged_ranges[0][0]

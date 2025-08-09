@@ -14,7 +14,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderCertificationSection(ResumeRenderCertificationBase):
-    """Render Certification Section."""
+    """Render a single certification entry in a resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the certification will be added.
+        certification (Certification): The certification object containing details about the certification.
+        settings (ResumeCertificationsSettings): The settings object that determines which fields to include in the rendered output.
+    """
 
     def __init__(
         self,
@@ -25,9 +31,9 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         """Initialize the basic certification renderer.
 
         Args:
-            document: The Word document object to which the certification will be added.
-            certification: The Certification object containing details about the certification.
-            settings: The settings object that determines which fields to include in the rendered output.
+            document (docx.document.Document): The Word document object to which the certification will be added.
+            certification (Certification): The Certification object containing details about the certification.
+            settings (ResumeCertificationsSettings): The settings object that determines which fields to include in the rendered output.
 
         Notes:
             1. Calls the parent class constructor to initialize base functionality.
@@ -37,7 +43,7 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         super().__init__(document, certification, settings)
 
     def render(self) -> None:
-        """Render the certification section.
+        """Render the certification section in the document.
 
         Args:
             None
@@ -75,7 +81,13 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
 
 
 class RenderCertificationsSection(ResumeRenderCertificationsBase):
-    """Render Certifications Section."""
+    """Render the entire certifications section in a resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which the certifications will be added.
+        certifications (Certifications): A list of Certification objects to be rendered.
+        settings (ResumeCertificationsSettings): The settings object that determines which fields to include in the rendered output.
+    """
 
     def __init__(
         self,
@@ -86,9 +98,9 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         """Initialize the basic certifications renderer.
 
         Args:
-            document: The Word document object to which the certifications will be added.
-            certifications: A list of Certification objects to be rendered.
-            settings: The settings object that determines which fields to include in the rendered output.
+            document (docx.document.Document): The Word document object to which the certifications will be added.
+            certifications (Certifications): A list of Certification objects to be rendered.
+            settings (ResumeCertificationsSettings): The settings object that determines which fields to include in the rendered output.
 
         Notes:
             1. Calls the parent class constructor to initialize base functionality.
@@ -98,7 +110,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         super().__init__(document, certifications, settings)
 
     def render(self) -> None:
-        """Render the certifications section.
+        """Render the certifications section in the document.
 
         Args:
             None
