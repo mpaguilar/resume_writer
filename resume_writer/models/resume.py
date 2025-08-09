@@ -21,6 +21,7 @@ class Resume(BasicBlockParse):
         experience (Experience | None): Work history, including job titles, companies, and responsibilities.
         certifications (Certifications | None): Professional certifications held by the individual.
         parse_context (ParseContext): Contextual information used during parsing of the resume.
+
     """
 
     def __init__(
@@ -51,6 +52,7 @@ class Resume(BasicBlockParse):
             5. Validate that certifications is either an instance of Certifications or None.
             6. Assign the provided arguments to instance attributes.
             7. No disk, network, or database access occurs during initialization.
+
         """
         assert isinstance(parse_context, ParseContext)
         assert isinstance(personal, (Personal, type(None)))
@@ -80,6 +82,7 @@ class Resume(BasicBlockParse):
             2. Each key maps to the same string value (e.g., "personal" → "personal").
             3. This method is used by the parsing framework to determine how to process each block.
             4. No disk, network, or database access occurs.
+
         """
         return {
             "personal": "personal",
@@ -104,6 +107,7 @@ class Resume(BasicBlockParse):
             2. Each key maps to the corresponding class (Personal, Education, Experience, Certifications).
             3. This method is used by the parsing framework to instantiate each block during parsing.
             4. No disk, network, or database access occurs.
+
         """
         return {
             "personal": Personal,

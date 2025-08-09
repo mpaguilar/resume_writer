@@ -20,11 +20,17 @@ class ParseError(Exception):
         1. The error message is enhanced with the line range (start-end) of the failure.
         2. The line range is derived from the parse_context's doc_line_num and the initial line number.
         3. The exception is initialized with the enriched message, which includes the line range.
+
     """
 
 
 class ParseContext:
     """Tracking context while parsing.
+
+    Attributes:
+        lines (list[str]): The list of lines to be parsed.
+        line_num (int): The current line number in the parsing process (1-indexed).
+        doc_line_num (int): The current line number in the original document.
 
     Args:
         lines: A list of strings representing the lines to be parsed.
@@ -42,6 +48,7 @@ class ParseContext:
         6. The __len__ method returns the number of lines in the context.
         7. The append method adds a string to the lines list.
         8. The clear method empties the lines list and resets line_num.
+
     """
 
     def __init__(self, lines: list[str], doc_line_num: int):
@@ -101,6 +108,7 @@ class ListBlockParse:
             d. Other non-empty lines are logged as skipped.
         4. All items in _items must be non-empty strings.
         5. The parsed list is returned as an instance of the class.
+
     """
 
     @classmethod
@@ -148,6 +156,7 @@ class TextBlockParse:
         3. Each line in the parse_context is added to _block_lines.
         4. The lines are joined with newlines and stripped of leading/trailing whitespace.
         5. The resulting string is returned as an instance of the class.
+
     """
 
     @classmethod
@@ -204,6 +213,7 @@ class LabelBlockParse:
         5. Remaining keys in _expected_fields are added to _init_kwargs with None values.
         6. The parse_context is added to _init_kwargs.
         7. The class is instantiated with the populated _init_kwargs.
+
     """
 
     @classmethod
@@ -304,6 +314,7 @@ class BasicBlockParse:
         6. After processing, the block contexts are converted to blocks using parse_blocks.
         7. The kwargs_parse method is called to process the blocks.
         8. The class is instantiated with the parsed kwargs.
+
     """
 
     @classmethod
@@ -433,6 +444,7 @@ class MultiBlockParse:
         8. The list_class method is called to get the type of the list items.
         9. Each block context is parsed into an object using the list_class type.
         10. The list of objects is returned as an instance of the class.
+
     """
 
     @classmethod

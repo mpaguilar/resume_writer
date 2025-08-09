@@ -1,830 +1,512 @@
 {
-  "resume_writer/models/resume.py": {
-    "filepath": "resume_writer/models/resume.py",
-    "filename": "resume.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, personal: Personal | None, education: Education | None, experience: Experience | None, certifications: Certifications | None) -> UnknownType",
-        "Initialize a Resume instance.\n\nArgs:\n    parse_context (ParseContext): The parsing context containing the input lines and line numbers.\n    personal (Personal | None): Parsed personal information, or None if not present.\n    education (Education | None): Parsed education details, or None if not present.\n    experience (Experience | None): Parsed work experience, or None if not present.\n    certifications (Certifications | None): Parsed certifications, or None if not present.\n\nReturns:\n    None: This method initializes the instance and does not return a value.\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that personal is either an instance of Personal or None.\n    3. Validate that education is either an instance of Education or None.\n    4. Validate that experience is either an instance of Experience or None.\n    5. Validate that certifications is either an instance of Certifications or None.\n    6. Assign the provided arguments to instance attributes.\n    7. No disk, network, or database access occurs during initialization."
-      ],
-      [
-        "expected_blocks() -> dict[str, str]",
-        "Return the expected block names and their corresponding constructor arguments.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, str]: A dictionary mapping block names (e.g., \"personal\") to their constructor argument names (e.g., \"personal\").\n    The keys are strings representing block types, and the values are identical strings matching the constructor parameter names.\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", and \"certifications\".\n    2. Each key maps to the same string value (e.g., \"personal\" \u2192 \"personal\").\n    3. This method is used by the parsing framework to determine how to process each block.\n    4. No disk, network, or database access occurs."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the class types for each expected block.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, type]: A dictionary mapping block names (strings) to their corresponding class types.\n    The keys are block names such as \"personal\", and the values are the corresponding class types (e.g., Personal).\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", \"certifications\".\n    2. Each key maps to the corresponding class (Personal, Education, Experience, Certifications).\n    3. This method is used by the parsing framework to instantiate each block during parsing.\n    4. No disk, network, or database access occurs."
-      ]
-    ],
-    "classes": {
-      "Resume": [
-        "Represents a resume.\n\nThis class models a resume document, organizing personal information, education, work experience, and certifications.\nIt uses a parsing framework to extract structured data from a text-based resume input.\n\nAttributes:\n    personal (Personal | None): Personal information such as name, contact details, and summary.\n    education (Education | None): Educational background, including degrees and institutions.\n    experience (Experience | None): Work history, including job titles, companies, and responsibilities.\n    certifications (Certifications | None): Professional certifications held by the individual.\n    parse_context (ParseContext): Contextual information used during parsing of the resume.",
-        [
+    "resume_writer/models/resume.py": {
+      "filepath": "resume_writer/models/resume.py",
+      "filename": "resume.py",
+      "functions": [],
+      "classes": {
+        "Resume": [
+          "Represents a resume.\n\nThis class models a resume document, organizing personal information, education, work experience, and certifications.\nIt uses a parsing framework to extract structured data from a text-based resume input.\n\nAttributes:\n    personal (Personal | None): Personal information such as name, contact details, and summary.\n    education (Education | None): Educational background, including degrees and institutions.\n    experience (Experience | None): Work history, including job titles, companies, and responsibilities.\n    certifications (Certifications | None): Professional certifications held by the individual.\n    parse_context (ParseContext): Contextual information used during parsing of the resume.",
           [
-            "__init__(self: UnknownType, parse_context: ParseContext, personal: Personal | None, education: Education | None, experience: Experience | None, certifications: Certifications | None) -> UnknownType",
-            "Initialize a Resume instance.\n\nArgs:\n    parse_context (ParseContext): The parsing context containing the input lines and line numbers.\n    personal (Personal | None): Parsed personal information, or None if not present.\n    education (Education | None): Parsed education details, or None if not present.\n    experience (Experience | None): Parsed work experience, or None if not present.\n    certifications (Certifications | None): Parsed certifications, or None if not present.\n\nReturns:\n    None: This method initializes the instance and does not return a value.\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that personal is either an instance of Personal or None.\n    3. Validate that education is either an instance of Education or None.\n    4. Validate that experience is either an instance of Experience or None.\n    5. Validate that certifications is either an instance of Certifications or None.\n    6. Assign the provided arguments to instance attributes.\n    7. No disk, network, or database access occurs during initialization."
-          ],
-          [
-            "expected_blocks() -> dict[str, str]",
-            "Return the expected block names and their corresponding constructor arguments.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, str]: A dictionary mapping block names (e.g., \"personal\") to their constructor argument names (e.g., \"personal\").\n    The keys are strings representing block types, and the values are identical strings matching the constructor parameter names.\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", and \"certifications\".\n    2. Each key maps to the same string value (e.g., \"personal\" \u2192 \"personal\").\n    3. This method is used by the parsing framework to determine how to process each block.\n    4. No disk, network, or database access occurs."
-          ],
-          [
-            "block_classes() -> dict[str, type]",
-            "Return the class types for each expected block.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, type]: A dictionary mapping block names (strings) to their corresponding class types.\n    The keys are block names such as \"personal\", and the values are the corresponding class types (e.g., Personal).\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", \"certifications\".\n    2. Each key maps to the corresponding class (Personal, Education, Experience, Certifications).\n    3. This method is used by the parsing framework to instantiate each block during parsing.\n    4. No disk, network, or database access occurs."
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, personal: Personal | None, education: Education | None, experience: Experience | None, certifications: Certifications | None) -> UnknownType",
+              "Initialize a Resume instance.\n\nArgs:\n    parse_context (ParseContext): The parsing context containing the input lines and line numbers.\n    personal (Personal | None): Parsed personal information, or None if not present.\n    education (Education | None): Parsed education details, or None if not present.\n    experience (Experience | None): Parsed work experience, or None if not present.\n    certifications (Certifications | None): Parsed certifications, or None if not present.\n\nReturns:\n    None: This method initializes the instance and does not return a value.\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that personal is either an instance of Personal or None.\n    3. Validate that education is either an instance of Education or None.\n    4. Validate that experience is either an instance of Experience or None.\n    5. Validate that certifications is either an instance of Certifications or None.\n    6. Assign the provided arguments to instance attributes.\n    7. No disk, network, or database access occurs during initialization."
+            ],
+            [
+              "expected_blocks() -> dict[str, str]",
+              "Return the expected block names and their corresponding constructor arguments.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, str]: A dictionary mapping block names (e.g., \"personal\") to their constructor argument names (e.g., \"personal\").\n    The keys are strings representing block types, and the values are identical strings matching the constructor parameter names.\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", and \"certifications\".\n    2. Each key maps to the same string value (e.g., \"personal\" \u2192 \"personal\").\n    3. This method is used by the parsing framework to determine how to process each block.\n    4. No disk, network, or database access occurs."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the class types for each expected block.\n\nArgs:\n    None: This method takes no arguments.\n\nReturns:\n    dict[str, type]: A dictionary mapping block names (strings) to their corresponding class types.\n    The keys are block names such as \"personal\", and the values are the corresponding class types (e.g., Personal).\n\nNotes:\n    1. Return a dictionary with keys \"personal\", \"education\", \"experience\", \"certifications\".\n    2. Each key maps to the corresponding class (Personal, Education, Experience, Certifications).\n    3. This method is used by the parsing framework to instantiate each block during parsing.\n    4. No disk, network, or database access occurs."
+            ]
           ]
         ]
-      ]
-    }
-  },
-  "resume_writer/models/experience.py": {
-    "filepath": "resume_writer/models/experience.py",
-    "filename": "experience.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> None",
-        "Initialize the object."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the skills."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of skills."
-      ],
-      [
-        "__getitem__(self: UnknownType, index: int) -> UnknownType",
-        "Return the skill at the given index."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, company: str, start_date: str | datetime, end_date: str | datetime | None, reason_for_change: str | None, title: str, location: str | None, job_category: str | None, employment_type: str | None, agency_name: str | None) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, basics: RoleBasics | None, summary: RoleSummary | None, responsibilities: RoleResponsibilities | None, skills: RoleSkills | None) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "expected_blocks() -> dict[str, str]",
-        "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
-      ],
-      [
-        "__init__(self: UnknownType, roles: list[Role], parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the roles."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of roles."
-      ],
-      [
-        "__getitem__(self: UnknownType, index: int) -> UnknownType",
-        "Return the role at the given index."
-      ],
-      [
-        "list_class() -> type",
-        "Return the class for the list.\n\nReturns:\n    The Role class."
-      ],
-      [
-        "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the skills."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of skills."
-      ],
-      [
-        "__getitem__(self: UnknownType, index: int) -> UnknownType",
-        "Return the skill at the given index."
-      ],
-      [
-        "__init__(self: UnknownType, title: str, parse_context: ParseContext, url: str | None, url_description: str | None, start_date: str | datetime | None, end_date: str | datetime | None) -> UnknownType",
-        "Initialize ProjectOverview object."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
-      ],
-      [
-        "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__init__(self: UnknownType, overview: ProjectOverview, description: ProjectDescription, skills: ProjectSkills | None, parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "expected_blocks() -> dict[str, str]",
-        "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
-      ],
-      [
-        "__init__(self: UnknownType, projects: list[Project], parse_context: ParseContext) -> UnknownType",
-        "Initialize the object."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the projects."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of projects."
-      ],
-      [
-        "__getitem__(self: UnknownType, index: int) -> UnknownType",
-        "Return the project at the given index."
-      ],
-      [
-        "list_class() -> type",
-        "Return the class of the list.\n\nReturns:\n    The Project class."
-      ],
-      [
-        "__init__(self: UnknownType, roles: Roles | None, projects: Projects | None, parse_context: ParseContext) -> UnknownType",
-        "Initialize with a list of Role objects."
-      ],
-      [
-        "expected_blocks() -> dict[str, str]",
-        "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
-      ]
-    ],
-    "classes": {
-      "RoleSummary": [
-        "Brief description of a role.\n\nArgs:\n    text_string: The text content of the role summary.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized RoleSummary object.\n\nNotes:\n    1. Validate that text_string is a string.\n    2. Validate that parse_context is a ParseContext object.\n    3. Store the text_string as the summary and parse_context as the context.",
-        [
+      }
+    },
+    "resume_writer/models/experience.py": {
+      "filepath": "resume_writer/models/experience.py",
+      "filename": "experience.py",
+      "functions": [],
+      "classes": {
+        "RoleSummary": [
+          "Represents a brief description of a professional role.\n\nAttributes:\n    summary (str): The text content of the role summary.\n    parse_context (ParseContext): The context object used for parsing.",
           [
-            "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
+            [
+              "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    text_string (str): The text content of the role summary.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that text_string is a string.\n    2. Validate that parse_context is a ParseContext object.\n    3. Store the text_string as the summary and parse_context as the context."
+            ]
+          ]
+        ],
+        "RoleResponsibilities": [
+          "Represents detailed descriptions of role responsibilities.\n\nAttributes:\n    text (str): The text content of the responsibilities.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    text_string (str): The text content of the responsibilities.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that text_string is a string.\n    3. Raise a ParseError if text_string is not a string.\n    4. Store the text_string as the text and parse_context as the context."
+            ]
+          ]
+        ],
+        "RoleSkills": [
+          "Represents skills used in a professional role.\n\nAttributes:\n    skills (List[str]): A list of non-empty, stripped skill strings.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> None",
+              "Initialize the object.\n\nArgs:\n    skills (List[str]): A list of skill strings.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that skills is a list.\n    3. Validate that all items in skills are strings.\n    4. Strip whitespace from each skill and filter out empty strings.\n    5. Store the cleaned list of skills and parse_context."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the skills.\n\nReturns:\n    Iterator over the skills list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of skills.\n\nReturns:\n    int: The number of skills."
+            ],
+            [
+              "__getitem__(self: UnknownType, index: int) -> UnknownType",
+              "Return the skill at the given index.\n\nArgs:\n    index (int): The index of the skill to return.\n\nReturns:\n    str: The skill at the specified index."
+            ]
+          ]
+        ],
+        "RoleBasics": [
+          "Represents basic information about a professional role.\n\nAttributes:\n    company (str): The name of the company.\n    start_date (datetime): The start date of the role.\n    end_date (datetime | None): The end date of the role or None if still ongoing.\n    title (str): The job title.\n    reason_for_change (str | None): The reason for leaving the role or None.\n    location (str | None): The job location or None.\n    job_category (str | None): The category of the job or None.\n    employment_type (str | None): The employment type or None.\n    agency_name (str | None): The name of the agency or None.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, company: str, start_date: str | datetime, end_date: str | datetime | None, reason_for_change: str | None, title: str, location: str | None, job_category: str | None, employment_type: str | None, agency_name: str | None) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    parse_context (ParseContext): The context object used for parsing.\n    company (str): The name of the company.\n    start_date (str | datetime): The start date of the role as a string or datetime object.\n    end_date (str | datetime | None): The end date of the role as a string, datetime object, or None.\n    reason_for_change (str | None): The reason for leaving the role as a string or None.\n    title (str): The job title.\n    location (str | None, optional): The job location as a string or None.\n    job_category (str | None, optional): The category of the job as a string or None.\n    employment_type (str | None, optional): The employment type as a string or None.\n    agency_name (str | None, optional): The name of the agency as a string or None.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that company and title are strings.\n    3. Validate that start_date is either a string or datetime.\n    4. Validate that end_date is a string, datetime, or None.\n    5. Validate that all other fields are appropriate types.\n    6. Parse start_date and end_date using dateparser with UTC timezone.\n    7. Store all fields as instance attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
+            ]
+          ]
+        ],
+        "Role": [
+          "Represents a complete professional role with all associated details.\n\nAttributes:\n    basics (RoleBasics | None): The RoleBasics object containing role metadata.\n    summary (RoleSummary | None): The RoleSummary object describing the role.\n    responsibilities (RoleResponsibilities | None): The RoleResponsibilities object listing duties.\n    skills (RoleSkills | None): The RoleSkills object listing skills used.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, basics: RoleBasics | None, summary: RoleSummary | None, responsibilities: RoleResponsibilities | None, skills: RoleSkills | None) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    parse_context (ParseContext): The context object used for parsing.\n    basics (RoleBasics | None): The RoleBasics object containing role metadata.\n    summary (RoleSummary | None): The RoleSummary object describing the role.\n    responsibilities (RoleResponsibilities | None): The RoleResponsibilities object listing duties.\n    skills (RoleSkills | None): The RoleSkills object listing skills used.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that basics is either a RoleBasics object or None.\n    3. Validate that summary is either a RoleSummary object or None.\n    4. Validate that responsibilities is either a RoleResponsibilities object or None.\n    5. Validate that skills is either a RoleSkills object or None.\n    6. Store the provided components as instance attributes."
+            ],
+            [
+              "expected_blocks() -> dict[str, str]",
+              "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
+            ]
+          ]
+        ],
+        "Roles": [
+          "Represents a collection of professional roles.\n\nAttributes:\n    roles (List[Role]): A list of Role objects.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, roles: list[Role], parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    roles (List[Role]): A list of Role objects.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that roles is a list.\n    2. Validate that all items in roles are Role objects.\n    3. Validate that parse_context is a ParseContext object.\n    4. Store the roles list and parse_context."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the roles.\n\nReturns:\n    Iterator over the roles list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of roles.\n\nReturns:\n    int: The number of roles."
+            ],
+            [
+              "__getitem__(self: UnknownType, index: int) -> UnknownType",
+              "Return the role at the given index.\n\nArgs:\n    index (int): The index of the role to return.\n\nReturns:\n    Role: The role at the specified index."
+            ],
+            [
+              "list_class() -> type",
+              "Return the class for the list.\n\nReturns:\n    The Role class."
+            ]
+          ]
+        ],
+        "ProjectSkills": [
+          "Represents skills used in a project.\n\nAttributes:\n    skills (List[str]): A list of non-empty, stripped skill strings.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    skills (List[str]): A list of skill strings.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that skills is a list.\n    2. Validate that all items in skills are strings.\n    3. Validate that parse_context is a ParseContext object.\n    4. Strip whitespace from each skill and filter out empty strings.\n    5. Store the cleaned list of skills."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the skills.\n\nReturns:\n    Iterator over the skills list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of skills.\n\nReturns:\n    int: The number of skills."
+            ],
+            [
+              "__getitem__(self: UnknownType, index: int) -> UnknownType",
+              "Return the skill at the given index.\n\nArgs:\n    index (int): The index of the skill to return.\n\nReturns:\n    str: The skill at the specified index."
+            ]
+          ]
+        ],
+        "ProjectOverview": [
+          "Represents basic details of a project.\n\nAttributes:\n    title (str): The title of the project.\n    url (str | None): The URL for the project or None.\n    url_description (str | None): A description of the URL or None.\n    start_date (datetime | None): The start date as a datetime object or None.\n    end_date (datetime | None): The end date as a datetime object or None.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, title: str, parse_context: ParseContext, url: str | None, url_description: str | None, start_date: str | datetime | None, end_date: str | datetime | None) -> UnknownType",
+              "Initialize ProjectOverview object.\n\nArgs:\n    title (str): The title of the project.\n    parse_context (ParseContext): The context object used for parsing.\n    url (str | None, optional): The URL for the project as a string or None.\n    url_description (str | None, optional): A description of the URL as a string or None.\n    start_date (str | datetime | None, optional): The start date as a string, datetime, or None.\n    end_date (str | datetime | None, optional): The end date as a string, datetime, or None.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that title is a string.\n    2. Validate that url and url_description are strings or None.\n    3. Validate that start_date and end_date are strings, datetimes, or None.\n    4. Validate that parse_context is a ParseContext object.\n    5. Parse start_date and end_date using dateparser with UTC timezone.\n    6. Store all fields as instance attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
+            ]
+          ]
+        ],
+        "ProjectDescription": [
+          "Represents a brief description of a project.\n\nAttributes:\n    text (str): The text content of the project description.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    text_string (str): The text content of the project description.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that text_string is a string.\n    2. Validate that parse_context is a ParseContext object.\n    3. Store the text_string as the text."
+            ]
+          ]
+        ],
+        "Project": [
+          "Represents a complete project with all associated details.\n\nAttributes:\n    overview (ProjectOverview): The ProjectOverview object containing project metadata.\n    description (ProjectDescription): The ProjectDescription object describing the project.\n    skills (ProjectSkills | None): The ProjectSkills object listing skills used.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, overview: ProjectOverview, description: ProjectDescription, skills: ProjectSkills | None, parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    overview (ProjectOverview): The ProjectOverview object containing project metadata.\n    description (ProjectDescription): The ProjectDescription object describing the project.\n    skills (ProjectSkills | None): The ProjectSkills object listing skills used.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that overview is a ProjectOverview object.\n    2. Validate that description is a ProjectDescription object.\n    3. Validate that skills is a ProjectSkills object or None.\n    4. Validate that parse_context is a ParseContext object.\n    5. Store all components as instance attributes."
+            ],
+            [
+              "expected_blocks() -> dict[str, str]",
+              "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
+            ]
+          ]
+        ],
+        "Projects": [
+          "Represents a collection of projects.\n\nAttributes:\n    projects (List[Project]): A list of Project objects.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, projects: list[Project], parse_context: ParseContext) -> UnknownType",
+              "Initialize the object.\n\nArgs:\n    projects (List[Project]): A list of Project objects.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that projects is a list.\n    2. Validate that all items in projects are Project objects.\n    3. Validate that parse_context is a ParseContext object.\n    4. Store the projects list."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the projects.\n\nReturns:\n    Iterator over the projects list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of projects.\n\nReturns:\n    int: The number of projects."
+            ],
+            [
+              "__getitem__(self: UnknownType, index: int) -> UnknownType",
+              "Return the project at the given index.\n\nArgs:\n    index (int): The index of the project to return.\n\nReturns:\n    Project: The project at the specified index."
+            ],
+            [
+              "list_class() -> type",
+              "Return the class of the list.\n\nReturns:\n    The Project class."
+            ]
+          ]
+        ],
+        "Experience": [
+          "Represents a collection of professional experience including roles and projects.\n\nAttributes:\n    roles (Roles | None): A Roles object containing work experience.\n    projects (Projects | None): A Projects object containing project details.\n    parse_context (ParseContext): The context object used for parsing.",
+          [
+            [
+              "__init__(self: UnknownType, roles: Roles | None, projects: Projects | None, parse_context: ParseContext) -> UnknownType",
+              "Initialize with a list of Role objects.\n\nArgs:\n    roles (Roles | None): A Roles object containing work experience.\n    projects (Projects | None): A Projects object containing project details.\n    parse_context (ParseContext): The context object used for parsing.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that roles is a Roles object or None.\n    2. Validate that projects is a Projects object or None.\n    3. Validate that parse_context is a ParseContext object.\n    4. Log the creation of an Experience object.\n    5. Store the roles and projects as instance attributes."
+            ],
+            [
+              "expected_blocks() -> dict[str, str]",
+              "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
+            ]
           ]
         ]
-      ],
-      "RoleResponsibilities": [
-        "Detailed description of role responsibilities.\n\nArgs:\n    text_string: The text content of the responsibilities.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized RoleResponsibilities object.\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that text_string is a string.\n    3. Raise a ParseError if text_string is not a string.\n    4. Store the text_string as the text and parse_context as the context.",
-        [
+      }
+    },
+    "resume_writer/models/certifications.py": {
+      "filepath": "resume_writer/models/certifications.py",
+      "filename": "certifications.py",
+      "functions": [],
+      "classes": {
+        "Certification": [
+          "Represents a professional certification.\n\nAttributes:\n    name (str): The name of the certification.\n    issuer (str | None): The organization that issued the certification.\n    issued (datetime | None): The date the certification was issued.\n    expires (datetime | None): The date the certification expires.\n    certification_id (str | None): An identifier for the certification.\n    parse_context (ParseContext): The context used during parsing, tracking line information.",
           [
-            "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
+            [
+              "__init__(self: UnknownType, name: str, issuer: str | None, issued: datetime | str | None, expires: datetime | str | None, certification_id: str | None, parse_context: ParseContext) -> UnknownType",
+              "Initialize a Certification object.\n\nArgs:\n    name: The name of the certification.\n    issuer: The organization that issued the certification. Can be None.\n    issued: The date the certification was issued. Can be a datetime object or a string.\n    expires: The date the certification expires. Can be a datetime object or a string.\n    certification_id: An identifier for the certification. Can be None.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that all inputs are of the correct type.\n    2. If `issued` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    3. If `expires` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    4. Assign the parsed or original values to instance attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names (as strings) to their corresponding constructor argument names.\n\nNotes:\n    1. The keys are field names as they appear in the input, and the values are the argument names used in the constructor.\n    2. The field \"certification id\" maps to \"certification_id\" in the constructor."
+            ]
+          ]
+        ],
+        "Certifications": [
+          "Represents a collection of professional certifications.\n\nAttributes:\n    certifications (list[Certification]): A list of Certification objects.\n    parse_context (ParseContext): The context used during parsing, tracking line information.",
+          [
+            [
+              "__init__(self: UnknownType, certifications: list[Certification], parse_context: ParseContext) -> UnknownType",
+              "Initialize a Certifications object.\n\nArgs:\n    certifications: A list of Certification objects.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Assign the provided list of certifications to the instance attribute `certifications`.\n    2. Assign the provided parse_context to the instance attribute `parse_context`."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the certifications.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the list of certification objects.\n\nNotes:\n    1. Return an iterator over the `certifications` list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of certifications.\n\nArgs:\n    None\n\nReturns:\n    The integer count of certifications in the list.\n\nNotes:\n    1. Return the length of the `certifications` list."
+            ],
+            [
+              "list_class() -> type",
+              "Return the type that will be contained in the list.\n\nArgs:\n    None\n\nReturns:\n    The Certification class.\n\nNotes:\n    1. Return the Certification class, which is the type of objects in the list."
+            ]
           ]
         ]
-      ],
-      "RoleSkills": [
-        "Skills used in a role.\n\nArgs:\n    skills: A list of skill strings.\n    parse_context: The context object used for parsing.\n\nReturns:\n    A list of non-empty, stripped skill strings.\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that skills is a list.\n    3. Validate that all items in skills are strings.\n    4. Strip whitespace from each skill and filter out empty strings.\n    5. Store the cleaned list of skills and parse_context.",
-        [
+      }
+    },
+    "resume_writer/models/personal.py": {
+      "filepath": "resume_writer/models/personal.py",
+      "filename": "personal.py",
+      "functions": [],
+      "classes": {
+        "ContactInfo": [
+          "Holds personal contact details such as name, email, phone, and location.\n\nAttributes:\n    name (str): The full name of the person.\n    email (str | None): The email address of the person, or None if not provided.\n    phone (str | None): The phone number of the person, or None if not provided.\n    location (str | None): The physical location (e.g., city and country) of the person, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
           [
-            "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> None",
-            "Initialize the object."
-          ],
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, name: str, email: str | None, phone: str | None, location: str | None) -> UnknownType",
+              "Initialize the contact information with provided details.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    name: The full name of the person.\n    email: The email address of the person, or None if not provided.\n    phone: The phone number of the person, or None if not provided.\n    location: The physical location (e.g., city and country) of the person, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that name is a string.\n    3. Validate that email is either a string or None.\n    4. Validate that phone is either a string or None.\n    5. Validate that location is either a string or None.\n    6. Assign the provided values to instance attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected labels for contact information fields.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (e.g., \"name\", \"email\") to their corresponding attribute names in the ContactInfo class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for ContactInfo.\n    2. The keys are the labels found in the input (e.g., \"name\", \"email\"), and the values are the corresponding attribute names in the class (e.g., \"name\")."
+            ]
+          ]
+        ],
+        "Websites": [
+          "Holds personal website and social media links.\n\nAttributes:\n    website (str | None): The personal website URL, or None if not provided.\n    github (str | None): The GitHub profile URL, or None if not provided.\n    linkedin (str | None): The LinkedIn profile URL, or None if not provided.\n    twitter (str | None): The Twitter profile URL, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
           [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the skills."
-          ],
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, website: str | None, github: str | None, linkedin: str | None, twitter: str | None) -> UnknownType",
+              "Initialize the websites information with provided links.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    website: The personal website URL, or None if not provided.\n    github: The GitHub profile URL, or None if not provided.\n    linkedin: The LinkedIn profile URL, or None if not provided.\n    twitter: The Twitter profile URL, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that website is either a string or None.\n    3. Validate that github is either a string or None.\n    4. Validate that linkedin is either a string or None.\n    5. Validate that twitter is either a string or None.\n    6. Assign the provided values to instance attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected labels for website and social media fields.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (e.g., \"website\", \"github\") to their corresponding attribute names in the Websites class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for Websites.\n    2. The keys are the labels found in the input (e.g., \"website\", \"github\"), and the values are the corresponding attribute names in the class (e.g., \"website\")."
+            ]
+          ]
+        ],
+        "VisaStatus": [
+          "Holds information about work authorization and sponsorship requirements.\n\nAttributes:\n    work_authorization (str | None): The current work authorization status (e.g., \"US Citizen\", \"H-1B\"), or None if not provided.\n    require_sponsorship (bool | None): A boolean indicating if sponsorship is required, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
           [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of skills."
-          ],
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, work_authorization: str | None, require_sponsorship: bool | str | None) -> UnknownType",
+              "Initialize the visa status with provided authorization and sponsorship details.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    work_authorization: The current work authorization status (e.g., \"US Citizen\", \"H-1B\"), or None if not provided.\n    require_sponsorship: A boolean indicating if sponsorship is required, or a string (\"yes\"/\"no\") that will be converted to a boolean, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that work_authorization is either a string or None.\n    3. Validate that require_sponsorship is a boolean, string (\"yes\"/\"no\"), or None.\n    4. Assign the provided work_authorization value to the instance attribute.\n    5. If require_sponsorship is a string, convert \"yes\" to True and \"no\" to False.\n    6. If require_sponsorship is not None and not a string, assign it directly.\n    7. Otherwise, set require_sponsorship to None."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected labels for visa and sponsorship fields.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (e.g., \"work authorization\", \"require sponsorship\") to their corresponding attribute names in the VisaStatus class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for VisaStatus.\n    2. The keys are the labels found in the input (e.g., \"work authorization\", \"require sponsorship\"), and the values are the corresponding attribute names in the class (e.g., \"work_authorization\")."
+            ]
+          ]
+        ],
+        "Banner": [
+          "Holds a personal banner message with cleaned text content.\n\nAttributes:\n    text (str): The cleaned text content of the banner, with leading/trailing and internal blank lines removed.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
           [
-            "__getitem__(self: UnknownType, index: int) -> UnknownType",
-            "Return the skill at the given index."
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
+              "Initialize the banner with cleaned text content.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the banner, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
+            ]
+          ]
+        ],
+        "Note": [
+          "Holds a personal note with cleaned text content.\n\nAttributes:\n    text (str): The cleaned text content of the note, with leading/trailing and internal blank lines removed.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
+          [
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
+              "Initialize the note with cleaned text content.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the note, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
+            ]
+          ]
+        ],
+        "Personal": [
+          "Holds all personal information including contact details, websites, visa status, banner, and note.\n\nAttributes:\n    contact_info (ContactInfo | None): An instance of ContactInfo containing personal contact details, or None if not provided.\n    websites (Websites | None): An instance of Websites containing personal website links, or None if not provided.\n    visa_status (VisaStatus | None): An instance of VisaStatus containing visa and sponsorship information, or None if not provided.\n    banner (Banner | None): An instance of Banner containing a personal banner message, or None if not provided.\n    note (Note | None): An instance of Note containing a personal note, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
+          [
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, contact_info: ContactInfo | None, websites: Websites | None, visa_status: VisaStatus | None, banner: Banner | None, note: Note | None) -> UnknownType",
+              "Initialize the personal information block with provided components.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    contact_info: An instance of ContactInfo containing personal contact details, or None if not provided.\n    websites: An instance of Websites containing personal website links, or None if not provided.\n    visa_status: An instance of VisaStatus containing visa and sponsorship information, or None if not provided.\n    banner: An instance of Banner containing a personal banner message, or None if not provided.\n    note: An instance of Note containing a personal note, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that contact_info is either a ContactInfo instance or None.\n    3. Validate that websites is either a Websites instance or None.\n    4. Validate that visa_status is either a VisaStatus instance or None.\n    5. Validate that banner is either a Banner instance or None.\n    6. Validate that note is either a Note instance or None.\n    7. Assign the provided values to instance attributes."
+            ],
+            [
+              "expected_blocks() -> dict[str, str]",
+              "Return the expected block names for parsing personal information.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (e.g., \"contact information\") to their corresponding attribute names in the Personal class.\n\nNotes:\n    1. The returned dictionary defines the expected block names in the input data for Personal.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding attribute names in the class (e.g., \"contact_info\")."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the classes used to parse each block of personal information.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (e.g., \"contact information\") to the corresponding class types for parsing.\n\nNotes:\n    1. The returned dictionary defines which classes should be used to parse each block.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding class types (e.g., ContactInfo)."
+            ]
           ]
         ]
-      ],
-      "RoleBasics": [
-        "Relevant basics for a resume.\n\nArgs:\n    parse_context: The context object used for parsing.\n    company: The name of the company.\n    start_date: The start date of the role as a string or datetime object.\n    end_date: The end date of the role as a string, datetime object, or None.\n    reason_for_change: The reason for leaving the role as a string or None.\n    title: The job title.\n    location: The job location as a string or None.\n    job_category: The category of the job as a string or None.\n    employment_type: The employment type as a string or None.\n    agency_name: The name of the agency as a string or None.\n\nReturns:\n    An initialized RoleBasics object with parsed date fields and stored attributes.\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that company and title are strings.\n    3. Validate that start_date is either a string or datetime.\n    4. Validate that end_date is a string, datetime, or None.\n    5. Validate that all other fields are appropriate types.\n    6. Parse start_date and end_date using dateparser with UTC timezone.\n    7. Store all fields as instance attributes.",
-        [
+      }
+    },
+    "resume_writer/models/education.py": {
+      "filepath": "resume_writer/models/education.py",
+      "filename": "education.py",
+      "functions": [],
+      "classes": {
+        "Degree": [
+          "Represents details of a specific academic degree earned.\n\nAttributes:\n    school (str): The name of the educational institution.\n    degree (str | None): The type of degree (e.g., Bachelor, Master).\n    start_date (datetime | None): The start date of the program.\n    end_date (datetime | None): The end date of the program.\n    major (str | None): The major field of study.\n    gpa (str | None): The grade point average.\n    parse_context (ParseContext): The context in which the parsing occurred.",
           [
-            "__init__(self: UnknownType, parse_context: ParseContext, company: str, start_date: str | datetime, end_date: str | datetime | None, reason_for_change: str | None, title: str, location: str | None, job_category: str | None, employment_type: str | None, agency_name: str | None) -> UnknownType",
-            "Initialize the object."
-          ],
+            [
+              "__init__(self: UnknownType, parse_context: ParseContext, school: str, degree: str | None, start_date: str | datetime | None, end_date: str | datetime | None, major: str | None, gpa: str | None) -> UnknownType",
+              "Initialize a Degree object with academic details.\n\nArgs:\n    parse_context: The context in which the parsing occurred, used for error reporting.\n    school: The name of the educational institution.\n    degree: The type of degree (e.g., Bachelor, Master).\n    start_date: The start date of the program, as a string or datetime object.\n    end_date: The end date of the program, as a string or datetime object.\n    major: The major field of study.\n    gpa: The grade point average, as a string.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that school is a non-empty string.\n    3. Validate that degree, major, and gpa are either strings or None.\n    4. Validate that start_date and end_date are either strings, datetime objects, or None.\n    5. If end_date is provided but start_date is not, raise a ParseError.\n    6. Parse start_date and end_date from strings into datetime objects using dateparser.\n    7. If both start_date and end_date are provided, ensure start_date is not after end_date.\n    8. Store the parsed values in the object's attributes."
+            ],
+            [
+              "expected_fields() -> dict[str, str]",
+              "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names to argument names.\n\nNotes:\n    1. Return a dictionary with keys: \"school\", \"degree\", \"start date\", \"end date\", \"major\", \"gpa\".\n    2. Each key maps to the corresponding argument name in the __init__ method."
+            ]
+          ]
+        ],
+        "Degrees": [
+          "Represents a collection of academic degrees earned.\n\nAttributes:\n    degrees (list[Degree]): A list of Degree objects representing educational achievements.\n    parse_context (ParseContext): The context in which the parsing occurred.",
           [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
+            [
+              "__init__(self: UnknownType, degrees: list[Degree], parse_context: ParseContext) -> UnknownType",
+              "Initialize a Degrees object with a list of degree records.\n\nArgs:\n    degrees: A list of Degree objects representing educational achievements.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is a list.\n    2. Validate that all items in degrees are instances of Degree.\n    3. Validate that parse_context is an instance of ParseContext.\n    4. Log the number of degrees created.\n    5. Store the degrees list and parse_context in the object."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Iterate over the degrees.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the degrees list.\n\nNotes:\n    1. Return an iterator over the degrees list."
+            ],
+            [
+              "__len__(self: UnknownType) -> UnknownType",
+              "Return the number of degrees.\n\nArgs:\n    None\n\nReturns:\n    The number of degrees in the list.\n\nNotes:\n    1. Return the length of the degrees list."
+            ],
+            [
+              "__getitem__(self: UnknownType, index: int) -> UnknownType",
+              "Return the degree at the given index.\n\nArgs:\n    index: The index of the degree to retrieve.\n\nReturns:\n    The Degree object at the specified index.\n\nNotes:\n    1. Return the degree at the given index from the degrees list."
+            ],
+            [
+              "list_class() -> type",
+              "Return the list class for this object.\n\nArgs:\n    None\n\nReturns:\n    The Degree class.\n\nNotes:\n    1. Return the Degree class as the list class for this object."
+            ]
+          ]
+        ],
+        "Education": [
+          "Represents the educational background section of a resume.\n\nAttributes:\n    degrees (Degrees | None): A Degrees object containing educational achievements, or None if no degrees.\n    parse_context (ParseContext): The context in which the parsing occurred.",
+          [
+            [
+              "__init__(self: UnknownType, degrees: Degrees | None, parse_context: ParseContext) -> UnknownType",
+              "Initialize an Education object with educational details.\n\nArgs:\n    degrees: A Degrees object containing educational achievements, or None if no degrees.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is either a Degrees object or None.\n    2. Validate that parse_context is an instance of ParseContext.\n    3. Log the number of degrees in the object.\n    4. Store the degrees and parse_context in the object."
+            ],
+            [
+              "expected_blocks() -> dict[str, type]",
+              "Return the expected blocks for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
+            ],
+            [
+              "block_classes() -> dict[str, type]",
+              "Return the block classes for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
+            ]
           ]
         ]
-      ],
-      "Role": [
-        "Details of a single work-related experience.\n\nArgs:\n    parse_context: The context object used for parsing.\n    basics: The RoleBasics object containing role metadata.\n    summary: The RoleSummary object describing the role.\n    responsibilities: The RoleResponsibilities object listing duties.\n    skills: The RoleSkills object listing skills used.\n\nReturns:\n    An initialized Role object with all components.\n\nNotes:\n    1. Validate that parse_context is a ParseContext object.\n    2. Validate that basics is either a RoleBasics object or None.\n    3. Validate that summary is either a RoleSummary object or None.\n    4. Validate that responsibilities is either a RoleResponsibilities object or None.\n    5. Validate that skills is either a RoleSkills object or None.\n    6. Store the provided components as instance attributes.",
-        [
+      }
+    },
+    "resume_writer/models/__init__.py": {
+      "filepath": "resume_writer/models/__init__.py",
+      "filename": "__init__.py",
+      "functions": [],
+      "classes": {}
+    },
+    "resume_writer/models/parsers.py": {
+      "filepath": "resume_writer/models/parsers.py",
+      "filename": "parsers.py",
+      "functions": [],
+      "classes": {
+        "ParseContext": [
+          "Tracking context while parsing.\n\nAttributes:\n    lines (list[str]): The list of lines to be parsed.\n    line_num (int): The current line number in the parsing process (1-indexed).\n    doc_line_num (int): The current line number in the original document.\n\nArgs:\n    lines: A list of strings representing the lines to be parsed.\n    doc_line_num: The current line number in the document (used for tracking).\n\nReturns:\n    An initialized ParseContext object.\n\nNotes:\n    1. The input lines are validated to ensure they are a list.\n    2. The line_num is initialized to 1 (human-readable line numbering).\n    3. The doc_line_num is initialized to the provided value.\n    4. The ParseContext supports iteration using __iter__ and __next__.\n    5. The __next__ method returns one line at a time, advancing line_num and doc_line_num.\n    6. The __len__ method returns the number of lines in the context.\n    7. The append method adds a string to the lines list.\n    8. The clear method empties the lines list and resets line_num.",
           [
-            "__init__(self: UnknownType, parse_context: ParseContext, basics: RoleBasics | None, summary: RoleSummary | None, responsibilities: RoleResponsibilities | None, skills: RoleSkills | None) -> UnknownType",
-            "Initialize the object."
-          ],
+            [
+              "__init__(self: UnknownType, lines: list[str], doc_line_num: int) -> UnknownType",
+              "Initialize ParseContext class instance."
+            ],
+            [
+              "__iter__(self: UnknownType) -> UnknownType",
+              "Return iterator."
+            ],
+            [
+              "__next__(self: UnknownType) -> str",
+              "Return next line."
+            ],
+            [
+              "__len__(self: UnknownType) -> int",
+              "Return number of lines in the context."
+            ],
+            [
+              "append(self: UnknownType, line: str) -> None",
+              "Add a line to the list of lines."
+            ],
+            [
+              "clear(self: UnknownType) -> None",
+              "Clear the list of lines."
+            ]
+          ]
+        ],
+        "ListBlockParse": [
+          "Mixin for parsing bullet points into a list.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed items.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. An empty list _items is initialized to store parsed items.\n    3. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines starting with \"* \" or \"- \" are split into a label and value.\n        c. The label is discarded, and the value is added to _items if not empty.\n        d. Other non-empty lines are logged as skipped.\n    4. All items in _items must be non-empty strings.\n    5. The parsed list is returned as an instance of the class.",
           [
-            "expected_blocks() -> dict[str, str]",
-            "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-          ],
+            [
+              "parse(cls: T, parse_context: ParseContext) -> T",
+              "Parse the bullet list into lines of text."
+            ]
+          ]
+        ],
+        "TextBlockParse": [
+          "Mixin for parsing blocks of text.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with the concatenated and cleaned text.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. An empty list _block_lines is initialized to collect lines.\n    3. Each line in the parse_context is added to _block_lines.\n    4. The lines are joined with newlines and stripped of leading/trailing whitespace.\n    5. The resulting string is returned as an instance of the class.",
           [
-            "block_classes() -> dict[str, type]",
-            "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
+            [
+              "parse(cls: T, parse_context: ParseContext) -> T",
+              "Parse the block of lines into an object."
+            ]
+          ]
+        ],
+        "LabelBlockParse": [
+          "Mixin for parsing blocks for labels.\n\nInheriting classes must implement `expected_fields` method, which\nis a mapping between the label and the argument name for the\nconstructor.\n\nExample:\n-------\n@staticmethod\ndef expected_fields() -> dict[str, str]:\n    return {\n        \"school\": \"school\",\n        \"degree\": \"degree\",\n        \"start date\": \"start_date\",\n        \"end date\": \"end_date\",\n    }\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed fields.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A dictionary _expected_fields is retrieved from the class's expected_fields method.\n    3. A dictionary _init_kwargs is initialized to store parsed field values.\n    4. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines not containing a colon are skipped.\n        c. The label part is extracted and converted to lowercase for lookup.\n        d. If the label is in _expected_fields, the value is extracted, and the key-value pair is added to _init_kwargs.\n        e. If the value is empty, it is skipped.\n        f. Other non-empty lines are logged as skipped.\n    5. Remaining keys in _expected_fields are added to _init_kwargs with None values.\n    6. The parse_context is added to _init_kwargs.\n    7. The class is instantiated with the populated _init_kwargs.",
+          [
+            [
+              "parse(cls: T, parse_context: ParseContext) -> T",
+              "Parse the block of lines into an object."
+            ]
+          ]
+        ],
+        "BasicBlockParse": [
+          "Mixin for blocks containing a mix of top level blocks.\n\nSubclasses must include two static methods:\n* `expected_blocks`: a dictionary of block names and their init arg names\n* `block_classes`: a dictionary of block names and the class to instanciate\nfor that block.\n\nExample:\n-------\n@staticmethod\ndef expected_blocks() -> dict[str, str]:\n    return {\n        \"basics\": \"basics\",\n        \"description\": \"description\",\n        \"responsibilities\": \"responsibilities\",\n        \"skills\": \"skills\",\n    }\n\n@staticmethod\ndef block_classes() -> dict[str, type]:\n    return {\n        \"basics\": RoleBasics,\n        \"description\": RoleDescription,\n        \"responsibilities\": RoleResponsibilities,\n        \"skills\": RoleSkills,\n    }\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed blocks.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A dictionary _blocks is initialized to store parsed blocks.\n    3. A variable _section_header is initialized to track the current section.\n    4. Each line in the parse_context is processed:\n        a. If the line starts with \"# \", it is a section header, and _section_header is set.\n        b. If there is no section header yet, the line is logged as unexpected.\n        c. If the line does not start with \"#\", it is added to the current section.\n    5. The section header is used to store the block context.\n    6. After processing, the block contexts are converted to blocks using parse_blocks.\n    7. The kwargs_parse method is called to process the blocks.\n    8. The class is instantiated with the parsed kwargs.",
+          [
+            [
+              "parse_blocks(cls: T, parse_context: ParseContext) -> dict[str, str]",
+              "Parse the block of lines into a dictionary of blocks."
+            ],
+            [
+              "kwargs_parse(cls: T, parse_context: ParseContext) -> dict[str, str]",
+              "Parse the block of lines into an dict.\n\nUse this when more processing has to be done."
+            ],
+            [
+              "parse(cls: T, parse_context: ParseContext) -> T",
+              "Parse the block of lines into an object."
+            ]
+          ]
+        ],
+        "MultiBlockParse": [
+          "Mixin for blocks containing multiple blocks with the same name.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with a list of parsed objects.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A list _blocks is initialized to store parsed block contexts.\n    3. A variable _current_block is initialized to collect lines for the current block.\n    4. A variable _section_header is initialized to track the current section.\n    5. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines starting with \"# \" are section headers, and _section_header is set.\n        c. If a new section header is found and _current_block is non-empty, it is added to _blocks.\n        d. If _section_header is set, the line is added to _current_block.\n    6. After processing, the last _current_block is added to _blocks if non-empty.\n    7. The block contexts in _blocks are validated.\n    8. The list_class method is called to get the type of the list items.\n    9. Each block context is parsed into an object using the list_class type.\n    10. The list of objects is returned as an instance of the class.",
+          [
+            [
+              "parse_blocks(cls: T, parse_context: ParseContext) -> list[list[str]]",
+              "Parse the block of lines into a list of blocks.\n\nRequires a static method named `list_class` which returns\nthe `type` of the list items."
+            ],
+            [
+              "parse(cls: T, parse_context: ParseContext) -> T",
+              "Parse the blocks and return a list of objects."
+            ]
           ]
         ]
-      ],
-      "Roles": [
-        "Collection of work-related experiences.\n\nArgs:\n    roles: A list of Role objects.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized Roles object containing the provided roles.\n\nNotes:\n    1. Validate that roles is a list.\n    2. Validate that all items in roles are Role objects.\n    3. Validate that parse_context is a ParseContext object.\n    4. Store the roles list and parse_context.",
-        [
-          [
-            "__init__(self: UnknownType, roles: list[Role], parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the roles."
-          ],
-          [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of roles."
-          ],
-          [
-            "__getitem__(self: UnknownType, index: int) -> UnknownType",
-            "Return the role at the given index."
-          ],
-          [
-            "list_class() -> type",
-            "Return the class for the list.\n\nReturns:\n    The Role class."
-          ]
-        ]
-      ],
-      "ProjectSkills": [
-        "Skills used in a project.\n\nArgs:\n    skills: A list of skill strings.\n    parse_context: The context object used for parsing.\n\nReturns:\n    A list of non-empty, stripped skill strings.\n\nNotes:\n    1. Validate that skills is a list.\n    2. Validate that all items in skills are strings.\n    3. Validate that parse_context is a ParseContext object.\n    4. Strip whitespace from each skill and filter out empty strings.\n    5. Store the cleaned list of skills.",
-        [
-          [
-            "__init__(self: UnknownType, skills: list[str], parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the skills."
-          ],
-          [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of skills."
-          ],
-          [
-            "__getitem__(self: UnknownType, index: int) -> UnknownType",
-            "Return the skill at the given index."
-          ]
-        ]
-      ],
-      "ProjectOverview": [
-        "Basic details of a project.\n\nArgs:\n    title: The title of the project.\n    parse_context: The context object used for parsing.\n    url: The URL for the project as a string or None.\n    url_description: A description of the URL as a string or None.\n    start_date: The start date as a string, datetime, or None.\n    end_date: The end date as a string, datetime, or None.\n\nReturns:\n    An initialized ProjectOverview object with parsed date fields.\n\nNotes:\n    1. Validate that title is a string.\n    2. Validate that url and url_description are strings or None.\n    3. Validate that start_date and end_date are strings, datetimes, or None.\n    4. Validate that parse_context is a ParseContext object.\n    5. Parse start_date and end_date using dateparser with UTC timezone.\n    6. Store all fields as instance attributes.",
-        [
-          [
-            "__init__(self: UnknownType, title: str, parse_context: ParseContext, url: str | None, url_description: str | None, start_date: str | datetime | None, end_date: str | datetime | None) -> UnknownType",
-            "Initialize ProjectOverview object."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected fields for this object.\n\nReturns:\n    A dictionary mapping label names to constructor argument names."
-          ]
-        ]
-      ],
-      "ProjectDescription": [
-        "Brief description of a project.\n\nArgs:\n    text_string: The text content of the project description.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized ProjectDescription object.\n\nNotes:\n    1. Validate that text_string is a string.\n    2. Validate that parse_context is a ParseContext object.\n    3. Store the text_string as the text.",
-        [
-          [
-            "__init__(self: UnknownType, text_string: str, parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
-          ]
-        ]
-      ],
-      "Project": [
-        "Details of a single project.\n\nArgs:\n    overview: The ProjectOverview object containing project metadata.\n    description: The ProjectDescription object describing the project.\n    skills: The ProjectSkills object listing skills used.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized Project object.\n\nNotes:\n    1. Validate that overview is a ProjectOverview object.\n    2. Validate that description is a ProjectDescription object.\n    3. Validate that skills is a ProjectSkills object or None.\n    4. Validate that parse_context is a ParseContext object.\n    5. Store all components as instance attributes.",
-        [
-          [
-            "__init__(self: UnknownType, overview: ProjectOverview, description: ProjectDescription, skills: ProjectSkills | None, parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
-          ],
-          [
-            "expected_blocks() -> dict[str, str]",
-            "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-          ],
-          [
-            "block_classes() -> dict[str, type]",
-            "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
-          ]
-        ]
-      ],
-      "Projects": [
-        "Collection of projects.\n\nArgs:\n    projects: A list of Project objects.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized Projects object containing the provided projects.\n\nNotes:\n    1. Validate that projects is a list.\n    2. Validate that all items in projects are Project objects.\n    3. Validate that parse_context is a ParseContext object.\n    4. Store the projects list.",
-        [
-          [
-            "__init__(self: UnknownType, projects: list[Project], parse_context: ParseContext) -> UnknownType",
-            "Initialize the object."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the projects."
-          ],
-          [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of projects."
-          ],
-          [
-            "__getitem__(self: UnknownType, index: int) -> UnknownType",
-            "Return the project at the given index."
-          ],
-          [
-            "list_class() -> type",
-            "Return the class of the list.\n\nReturns:\n    The Project class."
-          ]
-        ]
-      ],
-      "Experience": [
-        "Details of experience.\n\nArgs:\n    roles: A Roles object containing work experience.\n    projects: A Projects object containing project details.\n    parse_context: The context object used for parsing.\n\nReturns:\n    An initialized Experience object.\n\nNotes:\n    1. Validate that roles is a Roles object or None.\n    2. Validate that projects is a Projects object or None.\n    3. Validate that parse_context is a ParseContext object.\n    4. Log the creation of an Experience object.\n    5. Store the roles and projects as instance attributes.",
-        [
-          [
-            "__init__(self: UnknownType, roles: Roles | None, projects: Projects | None, parse_context: ParseContext) -> UnknownType",
-            "Initialize with a list of Role objects."
-          ],
-          [
-            "expected_blocks() -> dict[str, str]",
-            "Return the expected blocks for this object.\n\nReturns:\n    A dictionary mapping block names to constructor argument names."
-          ],
-          [
-            "block_classes() -> dict[str, type]",
-            "Return the classes for the blocks.\n\nReturns:\n    A dictionary mapping block names to their corresponding classes."
-          ]
-        ]
-      ]
-    }
-  },
-  "resume_writer/models/certifications.py": {
-    "filepath": "resume_writer/models/certifications.py",
-    "filename": "certifications.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, name: str, issuer: str | None, issued: datetime | str | None, expires: datetime | str | None, certification_id: str | None, parse_context: ParseContext) -> UnknownType",
-        "Initialize a Certification object.\n\nArgs:\n    name: The name of the certification.\n    issuer: The organization that issued the certification. Can be None.\n    issued: The date the certification was issued. Can be a datetime object or a string.\n    expires: The date the certification expires. Can be a datetime object or a string.\n    certification_id: An identifier for the certification. Can be None.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that all inputs are of the correct type.\n    2. If `issued` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    3. If `expires` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    4. Assign the parsed or original values to instance attributes."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names (as strings) to their corresponding constructor argument names.\n\nNotes:\n    1. The keys are field names as they appear in the input, and the values are the argument names used in the constructor.\n    2. The field \"certification id\" maps to \"certification_id\" in the constructor."
-      ],
-      [
-        "__init__(self: UnknownType, certifications: list[Certification], parse_context: ParseContext) -> UnknownType",
-        "Initialize a Certifications object.\n\nArgs:\n    certifications: A list of Certification objects.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Assign the provided list of certifications to the instance attribute `certifications`.\n    2. Assign the provided parse_context to the instance attribute `parse_context`."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the certifications.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the list of certification objects.\n\nNotes:\n    1. Return an iterator over the `certifications` list."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of certifications.\n\nArgs:\n    None\n\nReturns:\n    The integer count of certifications in the list.\n\nNotes:\n    1. Return the length of the `certifications` list."
-      ],
-      [
-        "list_class() -> type",
-        "Return the type that will be contained in the list.\n\nArgs:\n    None\n\nReturns:\n    The Certification class.\n\nNotes:\n    1. Return the Certification class, which is the type of objects in the list."
-      ]
-    ],
-    "classes": {
-      "Certification": [
-        "Represents a professional certification.\n\nAttributes:\n    name (str): The name of the certification.\n    issuer (str | None): The organization that issued the certification.\n    issued (datetime | None): The date the certification was issued.\n    expires (datetime | None): The date the certification expires.\n    certification_id (str | None): An identifier for the certification.\n    parse_context (ParseContext): The context used during parsing, tracking line information.",
-        [
-          [
-            "__init__(self: UnknownType, name: str, issuer: str | None, issued: datetime | str | None, expires: datetime | str | None, certification_id: str | None, parse_context: ParseContext) -> UnknownType",
-            "Initialize a Certification object.\n\nArgs:\n    name: The name of the certification.\n    issuer: The organization that issued the certification. Can be None.\n    issued: The date the certification was issued. Can be a datetime object or a string.\n    expires: The date the certification expires. Can be a datetime object or a string.\n    certification_id: An identifier for the certification. Can be None.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that all inputs are of the correct type.\n    2. If `issued` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    3. If `expires` is a string, parse it into a datetime object using dateparser with PREFER_DAY_OF_MONTH set to \"first\".\n    4. Assign the parsed or original values to instance attributes."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names (as strings) to their corresponding constructor argument names.\n\nNotes:\n    1. The keys are field names as they appear in the input, and the values are the argument names used in the constructor.\n    2. The field \"certification id\" maps to \"certification_id\" in the constructor."
-          ]
-        ]
-      ],
-      "Certifications": [
-        "Represents a collection of professional certifications.\n\nAttributes:\n    certifications (list[Certification]): A list of Certification objects.\n    parse_context (ParseContext): The context used during parsing, tracking line information.",
-        [
-          [
-            "__init__(self: UnknownType, certifications: list[Certification], parse_context: ParseContext) -> UnknownType",
-            "Initialize a Certifications object.\n\nArgs:\n    certifications: A list of Certification objects.\n    parse_context: The context used during parsing, tracking line information.\n\nReturns:\n    None\n\nNotes:\n    1. Assign the provided list of certifications to the instance attribute `certifications`.\n    2. Assign the provided parse_context to the instance attribute `parse_context`."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the certifications.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the list of certification objects.\n\nNotes:\n    1. Return an iterator over the `certifications` list."
-          ],
-          [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of certifications.\n\nArgs:\n    None\n\nReturns:\n    The integer count of certifications in the list.\n\nNotes:\n    1. Return the length of the `certifications` list."
-          ],
-          [
-            "list_class() -> type",
-            "Return the type that will be contained in the list.\n\nArgs:\n    None\n\nReturns:\n    The Certification class.\n\nNotes:\n    1. Return the Certification class, which is the type of objects in the list."
-          ]
-        ]
-      ]
-    }
-  },
-  "resume_writer/models/personal.py": {
-    "filepath": "resume_writer/models/personal.py",
-    "filename": "personal.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, name: str, email: str | None, phone: str | None, location: str | None) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    name: The full name of the person.\n    email: The email address of the person, or None if not provided.\n    phone: The phone number of the person, or None if not provided.\n    location: The physical location (e.g., city and country) of the person, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that name is a string.\n    3. Validate that email is either a string or None.\n    4. Validate that phone is either a string or None.\n    5. Validate that location is either a string or None.\n    6. Assign the provided values to instance attributes."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the ContactInfo class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for ContactInfo.\n    2. The keys are the labels found in the input (e.g., \"name\", \"email\"), and the values are the corresponding attribute names in the class (e.g., \"name\")."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, website: str | None, github: str | None, linkedin: str | None, twitter: str | None) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    website: The personal website URL, or None if not provided.\n    github: The GitHub profile URL, or None if not provided.\n    linkedin: The LinkedIn profile URL, or None if not provided.\n    twitter: The Twitter profile URL, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that website is either a string or None.\n    3. Validate that github is either a string or None.\n    4. Validate that linkedin is either a string or None.\n    5. Validate that twitter is either a string or None.\n    6. Assign the provided values to instance attributes."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the Websites class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for Websites.\n    2. The keys are the labels found in the input (e.g., \"website\", \"github\"), and the values are the corresponding attribute names in the class (e.g., \"website\")."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, work_authorization: str | None, require_sponsorship: bool | str | None) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    work_authorization: The current work authorization status (e.g., \"US Citizen\", \"H-1B\"), or None if not provided.\n    require_sponsorship: A boolean indicating if sponsorship is required, or a string (\"yes\"/\"no\") that will be converted to a boolean, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that work_authorization is either a string or None.\n    3. Validate that require_sponsorship is a boolean, string (\"yes\"/\"no\"), or None.\n    4. Assign the provided work_authorization value to the instance attribute.\n    5. If require_sponsorship is a string, convert \"yes\" to True and \"no\" to False.\n    6. If require_sponsorship is not None and not a string, assign it directly.\n    7. Otherwise, set require_sponsorship to None."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the VisaStatus class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for VisaStatus.\n    2. The keys are the labels found in the input (e.g., \"work authorization\", \"require sponsorship\"), and the values are the corresponding attribute names in the class (e.g., \"work_authorization\")."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the banner, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the note, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
-      ],
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, contact_info: ContactInfo | None, websites: Websites | None, visa_status: VisaStatus | None, banner: Banner | None, note: Note | None) -> UnknownType",
-        "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    contact_info: An instance of ContactInfo containing personal contact details, or None if not provided.\n    websites: An instance of Websites containing personal website links, or None if not provided.\n    visa_status: An instance of VisaStatus containing visa and sponsorship information, or None if not provided.\n    banner: An instance of Banner containing a personal banner message, or None if not provided.\n    note: An instance of Note containing a personal note, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that contact_info is either a ContactInfo instance or None.\n    3. Validate that websites is either a Websites instance or None.\n    4. Validate that visa_status is either a VisaStatus instance or None.\n    5. Validate that banner is either a Banner instance or None.\n    6. Validate that note is either a Note instance or None.\n    7. Assign the provided values to instance attributes."
-      ],
-      [
-        "expected_blocks() -> dict[str, str]",
-        "Return the expected blocks.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (as strings) to their corresponding attribute names in the Personal class.\n\nNotes:\n    1. The returned dictionary defines the expected block names in the input data for Personal.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding attribute names in the class (e.g., \"contact_info\")."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the classes for the blocks.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (as strings) to the corresponding class types for parsing.\n\nNotes:\n    1. The returned dictionary defines which classes should be used to parse each block.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding class types (e.g., ContactInfo)."
-      ]
-    ],
-    "classes": {
-      "ContactInfo": [
-        "Details of personal contact information.\n\nAttributes:\n    name (str): The full name of the person.\n    email (str | None): The email address of the person, or None if not provided.\n    phone (str | None): The phone number of the person, or None if not provided.\n    location (str | None): The physical location (e.g., city and country) of the person, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, name: str, email: str | None, phone: str | None, location: str | None) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    name: The full name of the person.\n    email: The email address of the person, or None if not provided.\n    phone: The phone number of the person, or None if not provided.\n    location: The physical location (e.g., city and country) of the person, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that name is a string.\n    3. Validate that email is either a string or None.\n    4. Validate that phone is either a string or None.\n    5. Validate that location is either a string or None.\n    6. Assign the provided values to instance attributes."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the ContactInfo class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for ContactInfo.\n    2. The keys are the labels found in the input (e.g., \"name\", \"email\"), and the values are the corresponding attribute names in the class (e.g., \"name\")."
-          ]
-        ]
-      ],
-      "Websites": [
-        "Details of personal websites.\n\nAttributes:\n    website (str | None): The personal website URL, or None if not provided.\n    github (str | None): The GitHub profile URL, or None if not provided.\n    linkedin (str | None): The LinkedIn profile URL, or None if not provided.\n    twitter (str | None): The Twitter profile URL, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, website: str | None, github: str | None, linkedin: str | None, twitter: str | None) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    website: The personal website URL, or None if not provided.\n    github: The GitHub profile URL, or None if not provided.\n    linkedin: The LinkedIn profile URL, or None if not provided.\n    twitter: The Twitter profile URL, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that website is either a string or None.\n    3. Validate that github is either a string or None.\n    4. Validate that linkedin is either a string or None.\n    5. Validate that twitter is either a string or None.\n    6. Assign the provided values to instance attributes."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the Websites class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for Websites.\n    2. The keys are the labels found in the input (e.g., \"website\", \"github\"), and the values are the corresponding attribute names in the class (e.g., \"website\")."
-          ]
-        ]
-      ],
-      "VisaStatus": [
-        "Details of personal visa information.\n\nAttributes:\n    work_authorization (str | None): The current work authorization status (e.g., \"US Citizen\", \"H-1B\"), or None if not provided.\n    require_sponsorship (bool | None): A boolean indicating if sponsorship is required, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, work_authorization: str | None, require_sponsorship: bool | str | None) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    work_authorization: The current work authorization status (e.g., \"US Citizen\", \"H-1B\"), or None if not provided.\n    require_sponsorship: A boolean indicating if sponsorship is required, or a string (\"yes\"/\"no\") that will be converted to a boolean, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that work_authorization is either a string or None.\n    3. Validate that require_sponsorship is a boolean, string (\"yes\"/\"no\"), or None.\n    4. Assign the provided work_authorization value to the instance attribute.\n    5. If require_sponsorship is a string, convert \"yes\" to True and \"no\" to False.\n    6. If require_sponsorship is not None and not a string, assign it directly.\n    7. Otherwise, set require_sponsorship to None."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected labels.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping label names (as strings) to their corresponding attribute names in the VisaStatus class.\n\nNotes:\n    1. The returned dictionary defines the expected field names in the input data for VisaStatus.\n    2. The keys are the labels found in the input (e.g., \"work authorization\", \"require sponsorship\"), and the values are the corresponding attribute names in the class (e.g., \"work_authorization\")."
-          ]
-        ]
-      ],
-      "Banner": [
-        "Details of personal banner.\n\nAttributes:\n    text (str): The cleaned text content of the banner, with leading/trailing and internal blank lines removed.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the banner, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
-          ]
-        ]
-      ],
-      "Note": [
-        "Details of personal note.\n\nAttributes:\n    text (str): The cleaned text content of the note, with leading/trailing and internal blank lines removed.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, text_string: str) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    text_string: The raw text content of the note, potentially including leading/trailing or internal blank lines.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that text_string is a string.\n    3. Split the input text_string into lines.\n    4. Remove leading blank lines.\n    5. Remove trailing blank lines.\n    6. Filter out any lines that are blank after stripping whitespace.\n    7. Join the remaining lines back into a single string and assign to self.text."
-          ]
-        ]
-      ],
-      "Personal": [
-        "Details of personal information.\n\nAttributes:\n    contact_info (ContactInfo | None): An instance of ContactInfo containing personal contact details, or None if not provided.\n    websites (Websites | None): An instance of Websites containing personal website links, or None if not provided.\n    visa_status (VisaStatus | None): An instance of VisaStatus containing visa and sponsorship information, or None if not provided.\n    banner (Banner | None): An instance of Banner containing a personal banner message, or None if not provided.\n    note (Note | None): An instance of Note containing a personal note, or None if not provided.\n    parse_context (ParseContext): The context used during parsing, containing metadata about the input.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, contact_info: ContactInfo | None, websites: Websites | None, visa_status: VisaStatus | None, banner: Banner | None, note: Note | None) -> UnknownType",
-            "Initialize the object.\n\nArgs:\n    parse_context: The context used during parsing, containing metadata about the input.\n    contact_info: An instance of ContactInfo containing personal contact details, or None if not provided.\n    websites: An instance of Websites containing personal website links, or None if not provided.\n    visa_status: An instance of VisaStatus containing visa and sponsorship information, or None if not provided.\n    banner: An instance of Banner containing a personal banner message, or None if not provided.\n    note: An instance of Note containing a personal note, or None if not provided.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that contact_info is either a ContactInfo instance or None.\n    3. Validate that websites is either a Websites instance or None.\n    4. Validate that visa_status is either a VisaStatus instance or None.\n    5. Validate that banner is either a Banner instance or None.\n    6. Validate that note is either a Note instance or None.\n    7. Assign the provided values to instance attributes."
-          ],
-          [
-            "expected_blocks() -> dict[str, str]",
-            "Return the expected blocks.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (as strings) to their corresponding attribute names in the Personal class.\n\nNotes:\n    1. The returned dictionary defines the expected block names in the input data for Personal.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding attribute names in the class (e.g., \"contact_info\")."
-          ],
-          [
-            "block_classes() -> dict[str, type]",
-            "Return the classes for the blocks.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names (as strings) to the corresponding class types for parsing.\n\nNotes:\n    1. The returned dictionary defines which classes should be used to parse each block.\n    2. The keys are the block names found in the input (e.g., \"contact information\"), and the values are the corresponding class types (e.g., ContactInfo)."
-          ]
-        ]
-      ]
-    }
-  },
-  "resume_writer/models/education.py": {
-    "filepath": "resume_writer/models/education.py",
-    "filename": "education.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, parse_context: ParseContext, school: str, degree: str | None, start_date: str | datetime | None, end_date: str | datetime | None, major: str | None, gpa: str | None) -> UnknownType",
-        "Initialize a Degree object with academic details.\n\nArgs:\n    parse_context: The context in which the parsing occurred, used for error reporting.\n    school: The name of the educational institution.\n    degree: The type of degree (e.g., Bachelor, Master).\n    start_date: The start date of the program, as a string or datetime object.\n    end_date: The end date of the program, as a string or datetime object.\n    major: The major field of study.\n    gpa: The grade point average, as a string.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that school is a non-empty string.\n    3. Validate that degree, major, and gpa are either strings or None.\n    4. Validate that start_date and end_date are either strings, datetime objects, or None.\n    5. If end_date is provided but start_date is not, raise a ParseError.\n    6. Parse start_date and end_date from strings into datetime objects using dateparser.\n    7. If both start_date and end_date are provided, ensure start_date is not after end_date.\n    8. Store the parsed values in the object's attributes."
-      ],
-      [
-        "expected_fields() -> dict[str, str]",
-        "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names to argument names.\n\nNotes:\n    1. Return a dictionary with keys: \"school\", \"degree\", \"start date\", \"end date\", \"major\", \"gpa\".\n    2. Each key maps to the corresponding argument name in the __init__ method."
-      ],
-      [
-        "__init__(self: UnknownType, degrees: list[Degree], parse_context: ParseContext) -> UnknownType",
-        "Initialize a Degrees object with a list of degree records.\n\nArgs:\n    degrees: A list of Degree objects representing educational achievements.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is a list.\n    2. Validate that all items in degrees are instances of Degree.\n    3. Validate that parse_context is an instance of ParseContext.\n    4. Log the number of degrees created.\n    5. Store the degrees list and parse_context in the object."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Iterate over the degrees.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the degrees list.\n\nNotes:\n    1. Return an iterator over the degrees list."
-      ],
-      [
-        "__len__(self: UnknownType) -> UnknownType",
-        "Return the number of degrees.\n\nArgs:\n    None\n\nReturns:\n    The number of degrees in the list.\n\nNotes:\n    1. Return the length of the degrees list."
-      ],
-      [
-        "__getitem__(self: UnknownType, index: int) -> UnknownType",
-        "Return the degree at the given index.\n\nArgs:\n    index: The index of the degree to retrieve.\n\nReturns:\n    The Degree object at the specified index.\n\nNotes:\n    1. Return the degree at the given index from the degrees list."
-      ],
-      [
-        "list_class() -> type",
-        "Return the list class for this object.\n\nArgs:\n    None\n\nReturns:\n    The Degree class.\n\nNotes:\n    1. Return the Degree class as the list class for this object."
-      ],
-      [
-        "__init__(self: UnknownType, degrees: Degrees | None, parse_context: ParseContext) -> UnknownType",
-        "Initialize an Education object with educational details.\n\nArgs:\n    degrees: A Degrees object containing educational achievements, or None if no degrees.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is either a Degrees object or None.\n    2. Validate that parse_context is an instance of ParseContext.\n    3. Log the number of degrees in the object.\n    4. Store the degrees and parse_context in the object."
-      ],
-      [
-        "expected_blocks() -> dict[str, type]",
-        "Return the expected blocks for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
-      ],
-      [
-        "block_classes() -> dict[str, type]",
-        "Return the block classes for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
-      ]
-    ],
-    "classes": {
-      "Degree": [
-        "Represents details of a specific academic degree earned.\n\nAttributes:\n    school (str): The name of the educational institution.\n    degree (str | None): The type of degree (e.g., Bachelor, Master).\n    start_date (datetime | None): The start date of the program.\n    end_date (datetime | None): The end date of the program.\n    major (str | None): The major field of study.\n    gpa (str | None): The grade point average.\n    parse_context (ParseContext): The context in which the parsing occurred.",
-        [
-          [
-            "__init__(self: UnknownType, parse_context: ParseContext, school: str, degree: str | None, start_date: str | datetime | None, end_date: str | datetime | None, major: str | None, gpa: str | None) -> UnknownType",
-            "Initialize a Degree object with academic details.\n\nArgs:\n    parse_context: The context in which the parsing occurred, used for error reporting.\n    school: The name of the educational institution.\n    degree: The type of degree (e.g., Bachelor, Master).\n    start_date: The start date of the program, as a string or datetime object.\n    end_date: The end date of the program, as a string or datetime object.\n    major: The major field of study.\n    gpa: The grade point average, as a string.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that parse_context is an instance of ParseContext.\n    2. Validate that school is a non-empty string.\n    3. Validate that degree, major, and gpa are either strings or None.\n    4. Validate that start_date and end_date are either strings, datetime objects, or None.\n    5. If end_date is provided but start_date is not, raise a ParseError.\n    6. Parse start_date and end_date from strings into datetime objects using dateparser.\n    7. If both start_date and end_date are provided, ensure start_date is not after end_date.\n    8. Store the parsed values in the object's attributes."
-          ],
-          [
-            "expected_fields() -> dict[str, str]",
-            "Return the expected fields for this object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping field names to argument names.\n\nNotes:\n    1. Return a dictionary with keys: \"school\", \"degree\", \"start date\", \"end date\", \"major\", \"gpa\".\n    2. Each key maps to the corresponding argument name in the __init__ method."
-          ]
-        ]
-      ],
-      "Degrees": [
-        "Represents a collection of academic degrees earned.\n\nAttributes:\n    degrees (list[Degree]): A list of Degree objects representing educational achievements.\n    parse_context (ParseContext): The context in which the parsing occurred.",
-        [
-          [
-            "__init__(self: UnknownType, degrees: list[Degree], parse_context: ParseContext) -> UnknownType",
-            "Initialize a Degrees object with a list of degree records.\n\nArgs:\n    degrees: A list of Degree objects representing educational achievements.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is a list.\n    2. Validate that all items in degrees are instances of Degree.\n    3. Validate that parse_context is an instance of ParseContext.\n    4. Log the number of degrees created.\n    5. Store the degrees list and parse_context in the object."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Iterate over the degrees.\n\nArgs:\n    None\n\nReturns:\n    An iterator over the degrees list.\n\nNotes:\n    1. Return an iterator over the degrees list."
-          ],
-          [
-            "__len__(self: UnknownType) -> UnknownType",
-            "Return the number of degrees.\n\nArgs:\n    None\n\nReturns:\n    The number of degrees in the list.\n\nNotes:\n    1. Return the length of the degrees list."
-          ],
-          [
-            "__getitem__(self: UnknownType, index: int) -> UnknownType",
-            "Return the degree at the given index.\n\nArgs:\n    index: The index of the degree to retrieve.\n\nReturns:\n    The Degree object at the specified index.\n\nNotes:\n    1. Return the degree at the given index from the degrees list."
-          ],
-          [
-            "list_class() -> type",
-            "Return the list class for this object.\n\nArgs:\n    None\n\nReturns:\n    The Degree class.\n\nNotes:\n    1. Return the Degree class as the list class for this object."
-          ]
-        ]
-      ],
-      "Education": [
-        "Represents the educational background section of a resume.\n\nAttributes:\n    degrees (Degrees | None): A Degrees object containing educational achievements, or None if no degrees.\n    parse_context (ParseContext): The context in which the parsing occurred.",
-        [
-          [
-            "__init__(self: UnknownType, degrees: Degrees | None, parse_context: ParseContext) -> UnknownType",
-            "Initialize an Education object with educational details.\n\nArgs:\n    degrees: A Degrees object containing educational achievements, or None if no degrees.\n    parse_context: The context in which the parsing occurred, used for error reporting.\n\nReturns:\n    None\n\nNotes:\n    1. Validate that degrees is either a Degrees object or None.\n    2. Validate that parse_context is an instance of ParseContext.\n    3. Log the number of degrees in the object.\n    4. Store the degrees and parse_context in the object."
-          ],
-          [
-            "expected_blocks() -> dict[str, type]",
-            "Return the expected blocks for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
-          ],
-          [
-            "block_classes() -> dict[str, type]",
-            "Return the block classes for the Education object.\n\nArgs:\n    None\n\nReturns:\n    A dictionary mapping block names to their corresponding classes.\n\nNotes:\n    1. Return a dictionary with a single key \"degrees\" mapping to the Degrees class."
-          ]
-        ]
-      ]
-    }
-  },
-  "resume_writer/models/__init__.py": {
-    "filepath": "resume_writer/models/__init__.py",
-    "filename": "__init__.py",
-    "functions": [],
-    "classes": {}
-  },
-  "resume_writer/models/parsers.py": {
-    "filepath": "resume_writer/models/parsers.py",
-    "filename": "parsers.py",
-    "functions": [
-      [
-        "__init__(self: UnknownType, lines: list[str], doc_line_num: int) -> UnknownType",
-        "Initialize ParseContext class instance."
-      ],
-      [
-        "__iter__(self: UnknownType) -> UnknownType",
-        "Return iterator."
-      ],
-      [
-        "__next__(self: UnknownType) -> str",
-        "Return next line."
-      ],
-      [
-        "__len__(self: UnknownType) -> int",
-        "Return number of lines in the context."
-      ],
-      [
-        "append(self: UnknownType, line: str) -> None",
-        "Add a line to the list of lines."
-      ],
-      [
-        "clear(self: UnknownType) -> None",
-        "Clear the list of lines."
-      ],
-      [
-        "parse(cls: T, parse_context: ParseContext) -> T",
-        "Parse the bullet list into lines of text."
-      ],
-      [
-        "parse(cls: T, parse_context: ParseContext) -> T",
-        "Parse the block of lines into an object."
-      ],
-      [
-        "parse(cls: T, parse_context: ParseContext) -> T",
-        "Parse the block of lines into an object."
-      ],
-      [
-        "parse_blocks(cls: T, parse_context: ParseContext) -> dict[str, str]",
-        "Parse the block of lines into a dictionary of blocks."
-      ],
-      [
-        "kwargs_parse(cls: T, parse_context: ParseContext) -> dict[str, str]",
-        "Parse the block of lines into an dict.\n\nUse this when more processing has to be done."
-      ],
-      [
-        "parse(cls: T, parse_context: ParseContext) -> T",
-        "Parse the block of lines into an object."
-      ],
-      [
-        "parse_blocks(cls: T, parse_context: ParseContext) -> list[list[str]]",
-        "Parse the block of lines into a list of blocks.\n\nRequires a static method named `list_class` which returns\nthe `type` of the list items."
-      ],
-      [
-        "parse(cls: T, parse_context: ParseContext) -> T",
-        "Parse the blocks and return a list of objects."
-      ]
-    ],
-    "classes": {
-      "ParseContext": [
-        "Tracking context while parsing.\n\nArgs:\n    lines: A list of strings representing the lines to be parsed.\n    doc_line_num: The current line number in the document (used for tracking).\n\nReturns:\n    An initialized ParseContext object.\n\nNotes:\n    1. The input lines are validated to ensure they are a list.\n    2. The line_num is initialized to 1 (human-readable line numbering).\n    3. The doc_line_num is initialized to the provided value.\n    4. The ParseContext supports iteration using __iter__ and __next__.\n    5. The __next__ method returns one line at a time, advancing line_num and doc_line_num.\n    6. The __len__ method returns the number of lines in the context.\n    7. The append method adds a string to the lines list.\n    8. The clear method empties the lines list and resets line_num.",
-        [
-          [
-            "__init__(self: UnknownType, lines: list[str], doc_line_num: int) -> UnknownType",
-            "Initialize ParseContext class instance."
-          ],
-          [
-            "__iter__(self: UnknownType) -> UnknownType",
-            "Return iterator."
-          ],
-          [
-            "__next__(self: UnknownType) -> str",
-            "Return next line."
-          ],
-          [
-            "__len__(self: UnknownType) -> int",
-            "Return number of lines in the context."
-          ],
-          [
-            "append(self: UnknownType, line: str) -> None",
-            "Add a line to the list of lines."
-          ],
-          [
-            "clear(self: UnknownType) -> None",
-            "Clear the list of lines."
-          ]
-        ]
-      ],
-      "ListBlockParse": [
-        "Mixin for parsing bullet points into a list.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed items.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. An empty list _items is initialized to store parsed items.\n    3. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines starting with \"* \" or \"- \" are split into a label and value.\n        c. The label is discarded, and the value is added to _items if not empty.\n        d. Other non-empty lines are logged as skipped.\n    4. All items in _items must be non-empty strings.\n    5. The parsed list is returned as an instance of the class.",
-        [
-          [
-            "parse(cls: T, parse_context: ParseContext) -> T",
-            "Parse the bullet list into lines of text."
-          ]
-        ]
-      ],
-      "TextBlockParse": [
-        "Mixin for parsing blocks of text.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with the concatenated and cleaned text.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. An empty list _block_lines is initialized to collect lines.\n    3. Each line in the parse_context is added to _block_lines.\n    4. The lines are joined with newlines and stripped of leading/trailing whitespace.\n    5. The resulting string is returned as an instance of the class.",
-        [
-          [
-            "parse(cls: T, parse_context: ParseContext) -> T",
-            "Parse the block of lines into an object."
-          ]
-        ]
-      ],
-      "LabelBlockParse": [
-        "Mixin for parsing blocks for labels.\n\nInheriting classes must implement `expected_fields` method, which\nis a mapping between the label and the argument name for the\nconstructor.\n\nExample:\n-------\n@staticmethod\ndef expected_fields() -> dict[str, str]:\n    return {\n        \"school\": \"school\",\n        \"degree\": \"degree\",\n        \"start date\": \"start_date\",\n        \"end date\": \"end_date\",\n    }\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed fields.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A dictionary _expected_fields is retrieved from the class's expected_fields method.\n    3. A dictionary _init_kwargs is initialized to store parsed field values.\n    4. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines not containing a colon are skipped.\n        c. The label part is extracted and converted to lowercase for lookup.\n        d. If the label is in _expected_fields, the value is extracted, and the key-value pair is added to _init_kwargs.\n        e. If the value is empty, it is skipped.\n        f. Other non-empty lines are logged as skipped.\n    5. Remaining keys in _expected_fields are added to _init_kwargs with None values.\n    6. The parse_context is added to _init_kwargs.\n    7. The class is instantiated with the populated _init_kwargs.",
-        [
-          [
-            "parse(cls: T, parse_context: ParseContext) -> T",
-            "Parse the block of lines into an object."
-          ]
-        ]
-      ],
-      "BasicBlockParse": [
-        "Mixin for blocks containing a mix of top level blocks.\n\nSubclasses must include two static methods:\n* `expected_blocks`: a dictionary of block names and their init arg names\n* `block_classes`: a dictionary of block names and the class to instanciate\nfor that block.\n\nExample:\n-------\n@staticmethod\ndef expected_blocks() -> dict[str, str]:\n    return {\n        \"basics\": \"basics\",\n        \"description\": \"description\",\n        \"responsibilities\": \"responsibilities\",\n        \"skills\": \"skills\",\n    }\n\n@staticmethod\ndef block_classes() -> dict[str, type]:\n    return {\n        \"basics\": RoleBasics,\n        \"description\": RoleDescription,\n        \"responsibilities\": RoleResponsibilities,\n        \"skills\": RoleSkills,\n    }\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with parsed blocks.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A dictionary _blocks is initialized to store parsed blocks.\n    3. A variable _section_header is initialized to track the current section.\n    4. Each line in the parse_context is processed:\n        a. If the line starts with \"# \", it is a section header, and _section_header is set.\n        b. If there is no section header yet, the line is logged as unexpected.\n        c. If the line does not start with \"#\", it is added to the current section.\n    5. The section header is used to store the block context.\n    6. After processing, the block contexts are converted to blocks using parse_blocks.\n    7. The kwargs_parse method is called to process the blocks.\n    8. The class is instantiated with the parsed kwargs.",
-        [
-          [
-            "parse_blocks(cls: T, parse_context: ParseContext) -> dict[str, str]",
-            "Parse the block of lines into a dictionary of blocks."
-          ],
-          [
-            "kwargs_parse(cls: T, parse_context: ParseContext) -> dict[str, str]",
-            "Parse the block of lines into an dict.\n\nUse this when more processing has to be done."
-          ],
-          [
-            "parse(cls: T, parse_context: ParseContext) -> T",
-            "Parse the block of lines into an object."
-          ]
-        ]
-      ],
-      "MultiBlockParse": [
-        "Mixin for blocks containing multiple blocks with the same name.\n\nArgs:\n    parse_context: The current parsing context, containing lines to parse.\n\nReturns:\n    An instance of the class with a list of parsed objects.\n\nNotes:\n    1. The parse_context is validated to ensure it is a ParseContext.\n    2. A list _blocks is initialized to store parsed block contexts.\n    3. A variable _current_block is initialized to collect lines for the current block.\n    4. A variable _section_header is initialized to track the current section.\n    5. Each line in the parse_context is processed:\n        a. Empty lines are skipped.\n        b. Lines starting with \"# \" are section headers, and _section_header is set.\n        c. If a new section header is found and _current_block is non-empty, it is added to _blocks.\n        d. If _section_header is set, the line is added to _current_block.\n    6. After processing, the last _current_block is added to _blocks if non-empty.\n    7. The block contexts in _blocks are validated.\n    8. The list_class method is called to get the type of the list items.\n    9. Each block context is parsed into an object using the list_class type.\n    10. The list of objects is returned as an instance of the class.",
-        [
-          [
-            "parse_blocks(cls: T, parse_context: ParseContext) -> list[list[str]]",
-            "Parse the block of lines into a list of blocks.\n\nRequires a static method named `list_class` which returns\nthe `type` of the list items."
-          ],
-          [
-            "parse(cls: T, parse_context: ParseContext) -> T",
-            "Parse the blocks and return a list of objects."
-          ]
-        ]
-      ]
+      }
     }
   }
-}
