@@ -1,8 +1,8 @@
 import logging
 
 import docx.document
-from resume_render.render_settings import ResumePersonalSettings
-from resume_render.resume_render_base import ResumeRenderPersonalBase
+from resume_writer.resume_render.render_settings import ResumePersonalSettings
+from resume_writer.resume_render.resume_render_base import ResumeRenderPersonalBase
 
 from resume_writer.models.personal import ContactInfo, Personal
 

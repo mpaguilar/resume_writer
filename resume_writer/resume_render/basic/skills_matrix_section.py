@@ -2,7 +2,7 @@ import logging
 
 import docx.document
 from docx.enum.table import WD_ALIGN_VERTICAL
-from utils.skills_matrix import SkillsMatrix
+from resume_writer.utils.skills_matrix import SkillsMatrix
 
 from resume_writer.models.experience import (
     Experience,
