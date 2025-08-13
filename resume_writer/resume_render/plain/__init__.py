@@ -21,10 +21,14 @@ def render_resume(resume: Resume, output_file: str) -> None:
         None: This function does not return a value.
 
     Notes:
-        1. The function retrieves the resume data from the Resume object.
-        2. It formats the resume data into plain text, using appropriate indentation and spacing.
-        3. The formatted text is written to the specified output file.
-        4. The function performs disk access to write the plain text content to the output file.
+        1. The function retrieves the resume data from the Resume object using the to_dict() method.
+        2. It constructs a list of strings representing each line of the plain text resume.
+        3. For each key-value pair in the resume data:
+            a. If the value is a list, it appends the key followed by a colon to the lines list.
+            b. Then, for each item in the list, it appends a line with two spaces of indentation and a dash.
+        4. If the value is not a list, it appends a line with the key, a colon, and the value.
+        5. The function writes the resulting plain text content to the specified output file.
+        6. The function performs disk access to write the plain text content to the output file.
     """
     # Extract resume data
     data = resume.to_dict()

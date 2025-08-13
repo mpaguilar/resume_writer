@@ -13,35 +13,32 @@ log = logging.getLogger(__name__)
 
 
 class RenderResumeHtml:
-    """Initialize the Jinja environment.
+    """Render a resume to HTML format using Jinja2 templates.
 
-    Steps:
-    1. Define a date filter function to format dates in the Jinja template.
-    2. Define a line feed to HTML break function to convert line feeds to HTML breaks.
-    3. Define a list length function to calculate the length of a list.
-    4. Initialize the Jinja environment with the custom filters.
+    This class coordinates the rendering process by initializing the Jinja2 environment,
+    managing the rendering pipeline, and saving the final output.
 
-    Returns:
-        Environment: The initialized Jinja environment.
-
+    Attributes:
+        jinja_env (Environment): The Jinja2 environment configured with custom filters.
+        resume (Resume): The resume data to be rendered.
+        settings (ResumeRenderSettings): Configuration settings for rendering.
+        renderer (RenderResume): The underlying renderer responsible for generating HTML.
+        rendered (bool): Flag indicating whether the resume has been rendered.
     """
 
     def __init__(self, resume: Resume, settings: ResumeRenderSettings) -> None:
         """Initialize the HTMLRenderer object.
 
-        Parameters
-        ----------
-        resume : Resume
-            The resume data to be rendered.
-        settings : ResumeRenderSettings
-            The settings for rendering the resume.
+        Args:
+            resume (Resume): The resume data to be rendered.
+            settings (ResumeRenderSettings): The settings for rendering the resume.
 
-        Steps
-        -----
-        1. Initialize the Jinja environment.
-        2. Store the resume and settings data.
-        3. Initialize the HTML renderer.
-
+        Notes:
+            1. Validates that resume is an instance of Resume and settings is an instance of ResumeRenderSettings.
+            2. Initializes the Jinja2 environment.
+            3. Stores the resume and settings data.
+            4. Initializes the HTML renderer.
+            5. Sets the rendered flag to False.
         """
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings)
@@ -55,15 +52,13 @@ class RenderResumeHtml:
     def init_renderer(self) -> RenderResume:
         """Initialize and return a RenderResume object.
 
-        Steps:
-        1. Create an instance of HtmlDoc.
-        2. Create a RenderResume object with the HtmlDoc,
-        Jinja environment, resume data, and settings.
-        3. Return the RenderResume object.
-
         Returns:
-        RenderResume: Initialized RenderResume object.
+            RenderResume: Initialized RenderResume object.
 
+        Notes:
+            1. Creates an instance of HtmlDoc.
+            2. Creates a RenderResume object with the HtmlDoc, Jinja environment, resume data, and settings.
+            3. Returns the RenderResume object.
         """
         _document: HtmlDoc = HtmlDoc()
         _renderer = RenderResume(
@@ -75,31 +70,34 @@ class RenderResumeHtml:
         return _renderer
 
     def init_jinja(self) -> Environment:
-        """Initialize the Jinja environment.
-
-        Steps:
-        1. Define a date filter function to format dates in the Jinja template.
-        2. Define a line feed to HTML break function to convert line feeds to HTML
-            breaks.
-        3. Define a list length function to calculate the length of a list.
-        4. Initialize the Jinja environment with the custom filters.
+        """Initialize the Jinja environment with custom filters.
 
         Returns:
             Environment: The initialized Jinja environment.
 
+        Notes:
+            1. Defines a date filter function to format dates in the Jinja template.
+            2. Defines a line feed to HTML break function to convert line feeds to HTML breaks.
+            3. Defines a list length function to calculate the length of a list.
+            4. Initializes the Jinja environment with the custom filters.
+            5. Loads templates from the 'resume_writer.resume_render.html' package.
+            6. Enables autoescaping for HTML output.
         """
-
         def date_filter(resdate: datetime | None, date_format: str = "%B %Y") -> str:
             """Format dates in Jinja template.
 
             Args:
                 resdate (datetime | None): The date to format.
-                date_format (str, optional): The format string for the date.
-                    Defaults to "%B %Y".
+                date_format (str, optional): The format string for the date. Defaults to "%B %Y".
 
             Returns:
                 str: The formatted date string or "Present" if resdate is None.
 
+            Notes:
+                1. Validates that resdate is either a datetime object or None.
+                2. Validates that date_format is a string.
+                3. Returns "Present" if resdate is None.
+                4. Otherwise, formats the date using strftime with the specified format.
             """
             assert isinstance(resdate, (datetime, type(None))), "Invalid datetime"
             assert isinstance(date_format, str), "Invalid date format"
@@ -118,6 +116,11 @@ class RenderResumeHtml:
             Returns:
                 str: The input text with line feeds replaced by HTML breaks.
 
+            Notes:
+                1. Validates that text is a string.
+                2. Replaces "\r\n" with "\n".
+                3. Replaces "\n\n" with "\n".
+                4. Replaces "\n" with "<br>".
             """
             assert isinstance(text, str)
             _txt = text.replace("\r\n", "\n")
@@ -134,6 +137,9 @@ class RenderResumeHtml:
             Returns:
                 int: The length of the list.
 
+            Notes:
+                1. Validates that lst is a list.
+                2. Returns the length of the list using len().
             """
             assert isinstance(lst, list)
             return len(lst)
@@ -153,22 +159,14 @@ class RenderResumeHtml:
     ) -> str:
         """Render the resume using the HTML renderer.
 
-        Parameters
-        ----------
-        None
+        Returns:
+            str: The rendered resume as a string.
 
-        Returns
-        -------
-        str
-            The rendered resume as a string.
-
-        Notes
-        -----
-        1. Logs an info message indicating the start of the HTML resume rendering.
-        2. Calls the render method of the HTML renderer.
-        3. Sets the rendered attribute to True.
-        4. Logs an info message indicating the completion of the HTML resume rendering.
-
+        Notes:
+            1. Logs an info message indicating the start of the HTML resume rendering.
+            2. Calls the render method of the HTML renderer.
+            3. Sets the rendered attribute to True.
+            4. Logs an info message indicating the completion of the HTML resume rendering.
         """
         log.info("Rendering HTML resume")
 
@@ -181,23 +179,18 @@ class RenderResumeHtml:
     def save(self, path: Path) -> None:
         """Save the rendered resume to a file.
 
-        Parameters
-        ----------
-        path : Path
-            The path where the resume will be saved.
+        Args:
+            path (Path): The path where the resume will be saved.
 
-        Raises
-        ------
-        AssertionError
-            If the provided path is not an instance of Path.
+        Raises:
+            AssertionError: If the provided path is not an instance of Path.
 
-        Notes
-        -----
-        1. Check if the resume is rendered. If not, log a warning and return.
-        2. Log a debug message indicating the save location.
-        3. Call the renderer's save method to save the resume to the file.
-        4. Log an info message indicating the successful save.
-
+        Notes:
+            1. Checks if the provided path is an instance of Path.
+            2. Checks if the resume has been rendered. If not, logs a warning and returns.
+            3. Logs a debug message indicating the save location.
+            4. Calls the renderer's save method to save the resume to the file.
+            5. Logs an info message indicating the successful save.
         """
         assert isinstance(path, Path)
 
@@ -212,24 +205,13 @@ class RenderResumeHtml:
     def content(self) -> str:
         """Return the rendered content of the resume.
 
-        This method should be called after the `render()` method.
+        Returns:
+            str: The rendered content of the resume as a string.
 
-        Parameters
-        ----------
-        self : object
-            Instance of the class.
-
-        Returns
-        -------
-        str
-            The rendered content of the resume as a string.
-
-        Notes
-        -----
-        1. Checks if the resume has been rendered.
-        2. If not, logs a warning message and returns an empty string.
-        3. If yes, returns the rendered content as a string.
-
+        Notes:
+            1. Checks if the resume has been rendered.
+            2. If not, logs a warning message and returns an empty string.
+            3. If yes, returns the rendered content as a string.
         """
         if not self.rendered:
             log.warning("Resume not rendered. Call `render()` first.")

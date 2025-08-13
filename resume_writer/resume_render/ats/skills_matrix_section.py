@@ -19,7 +19,14 @@ log = logging.getLogger(__name__)
 
 
 class RenderSkillsMatrixSection(ResumeRenderSkillsMatrixBase):
-    """Render skills for a functional resume."""
+    """Render skills for a functional resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document to render into.
+        experience (Experience): The parsed experience data containing roles and skill history.
+        settings (ResumeSkillsMatrixSettings): Configuration settings for rendering skills matrix.
+        parse_context (ParseContext): Contextual information used during parsing, used to track state.
+    """
 
     def __init__(
         self,

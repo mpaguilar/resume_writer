@@ -9,7 +9,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderPersonalSection(ResumeRenderPersonalBase):
-    """Render personal contact info section."""
+    """Render personal contact info section.
+
+    Attributes:
+        document (MarkdownDoc): The MarkdownDoc instance to write rendered content to.
+        personal (Personal): The Personal instance containing personal contact information.
+        settings (ResumePersonalSettings): The ResumePersonalSettings instance defining which fields to render.
+
+    Base class:
+        ResumeRenderPersonalBase
+    """
 
     def __init__(
         self,
@@ -20,9 +29,9 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         """Initialize the personal section renderer.
 
         Args:
-            document: The MarkdownDoc instance to write rendered content to.
-            personal: The Personal instance containing personal contact information.
-            settings: The ResumePersonalSettings instance defining which fields to render.
+            document (MarkdownDoc): The MarkdownDoc instance to write rendered content to.
+            personal (Personal): The Personal instance containing personal contact information.
+            settings (ResumePersonalSettings): The ResumePersonalSettings instance defining which fields to render.
 
         Returns:
             None

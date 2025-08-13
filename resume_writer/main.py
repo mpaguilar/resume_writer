@@ -29,14 +29,39 @@ log = logging.getLogger(__name__)
 
 
 def print_personal(personal: Personal) -> None:
-    """Print the personal information."""
+    """Print the personal information.
+
+    Args:
+        personal (Personal): The personal information object to print.
+
+    Returns:
+        None
+
+    Notes:
+        1. Extracts the name, email, and phone number from the personal object.
+        2. Prints each field using rich formatting with bold labels.
+    """
     rich.print(f"[bold]Name:[/bold] {personal.contact_info.name}")
     rich.print(f"[bold]Email:[/bold] {personal.contact_info.email}")
     rich.print(f"[bold]Phone:[/bold] {personal.contact_info.phone}")
 
 
 def career_years_of_experience(resume: Resume) -> None:
-    """Print the years of experience."""
+    """Calculate and print the total years of experience from resume roles.
+
+    Args:
+        resume (Resume): The resume object containing role information.
+
+    Returns:
+        None
+
+    Notes:
+        1. Retrieves all roles from the resume.
+        2. Initializes a DateStats object to manage date ranges.
+        3. Iterates over each role and adds its start and end date range to the DateStats.
+        4. Calculates the total years of experience using the date statistics.
+        5. Prints the years of experience using rich formatting with a bold label.
+    """
     _roles = resume.roles
     _date_stats = DateStats()
     for role in _roles:
@@ -48,14 +73,40 @@ def career_years_of_experience(resume: Resume) -> None:
 
 
 def dump_resume(resume: Resume) -> None:
-    """Dump the resume to the console."""
+    """Dump the entire resume data to the console.
+
+    Args:
+        resume (Resume): The resume object to dump.
+
+    Returns:
+        None
+
+    Notes:
+        1. Calls print_personal to display personal contact details.
+        2. Calls career_years_of_experience to display total years of experience.
+    """
     _personal = resume.personal
     print_personal(_personal)
     career_years_of_experience(resume)
 
 
 def load_settings(settings_file: str) -> dict:
-    """Load settings from TOML and return a dict."""
+    """Load resume rendering settings from a TOML file.
+
+    Args:
+        settings_file (str): Path to the TOML settings file.
+
+    Returns:
+        dict: A dictionary containing the parsed settings.
+
+    Notes:
+        1. Converts the settings_file path to a Path object.
+        2. Opens the TOML file in binary mode.
+        3. Parses the TOML content using tomli.load.
+        4. Prints the parsed settings using rich.
+        5. Returns the settings dictionary.
+        6. Disk access: Reads from the settings_file path.
+    """
     _settings_file = Path(settings_file)
 
     with _settings_file.open("rb") as _f:
@@ -69,7 +120,24 @@ def basic_render(
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the basic renderer."""
+    """Render the resume using the basic rendering style.
+
+    Args:
+        docx_doc (docx.document.Document): The Word document object to render into.
+        resume (Resume): The resume object containing the content to render.
+        settings (ResumeRenderSettings): The rendering settings for the output.
+
+    Returns:
+        None
+
+    Notes:
+        1. Validates that all inputs are of the correct type.
+        2. Logs the start of the rendering process.
+        3. Creates a BasicRenderResume instance with the provided document, resume, and settings.
+        4. Calls the render method on the renderer to generate the document.
+        5. Logs the completion of the rendering process.
+        6. Disk access: Saves the rendered document to the output file path.
+    """
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -85,7 +153,24 @@ def ats_render(
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the ats renderer."""
+    """Render the resume using the ATS (Applicant Tracking System) rendering style.
+
+    Args:
+        docx_doc (docx.document.Document): The Word document object to render into.
+        resume (Resume): The resume object containing the content to render.
+        settings (ResumeRenderSettings): The rendering settings for the output.
+
+    Returns:
+        None
+
+    Notes:
+        1. Validates that all inputs are of the correct type.
+        2. Logs the start of the rendering process.
+        3. Creates an AtsRenderResume instance with the provided document, resume, and settings.
+        4. Calls the render method on the renderer to generate the document.
+        5. Logs the completion of the rendering process.
+        6. Disk access: Saves the rendered document to the output file path.
+    """
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -101,7 +186,24 @@ def plain_render(
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the plain renderer."""
+    """Render the resume using the plain (minimalist) rendering style.
+
+    Args:
+        docx_doc (docx.document.Document): The Word document object to render into.
+        resume (Resume): The resume object containing the content to render.
+        settings (ResumeRenderSettings): The rendering settings for the output.
+
+    Returns:
+        None
+
+    Notes:
+        1. Validates that all inputs are of the correct type.
+        2. Logs the start of the rendering process.
+        3. Creates a PlainRenderResume instance with the provided document, resume, and settings.
+        4. Calls the render method on the renderer to generate the document.
+        5. Logs the completion of the rendering process.
+        6. Disk access: Saves the rendered document to the output file path.
+    """
     assert isinstance(docx_doc, docx.document.Document)
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
@@ -122,7 +224,24 @@ def html_render(
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the html renderer."""
+    """Render the resume as an HTML file.
+
+    Args:
+        resume (Resume): The resume object containing the content to render.
+        settings (ResumeRenderSettings): The rendering settings for the output.
+
+    Returns:
+        None
+
+    Notes:
+        1. Validates that all inputs are of the correct type.
+        2. Logs the start of the HTML rendering process.
+        3. Creates a RenderResumeHtml instance with the resume and settings.
+        4. Calls the render method to generate the HTML content.
+        5. Saves the rendered HTML to a file at "data/html_resume.html".
+        6. Logs the completion of the rendering process.
+        7. Disk access: Writes to the file "data/html_resume.html".
+    """
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
@@ -142,7 +261,24 @@ def markdown_render(
     resume: Resume,
     settings: ResumeRenderSettings,
 ) -> None:
-    """Render the resume using the markdown renderer."""
+    """Render the resume as a Markdown file.
+
+    Args:
+        resume (Resume): The resume object containing the content to render.
+        settings (ResumeRenderSettings): The rendering settings for the output.
+
+    Returns:
+        None
+
+    Notes:
+        1. Validates that all inputs are of the correct type.
+        2. Logs the start of the Markdown rendering process.
+        3. Creates a RenderResumeMarkdown instance with the resume and settings.
+        4. Calls the render method to generate the Markdown content.
+        5. Saves the rendered Markdown to a file at "data/markdown_resume.md".
+        6. Logs the completion of the rendering process.
+        7. Disk access: Writes to the file "data/markdown_resume.md".
+    """
     assert isinstance(resume, Resume)
     assert isinstance(settings, ResumeRenderSettings)
 
@@ -159,7 +295,22 @@ def markdown_render(
 
 
 def parse_text_resume(input_file: str) -> Resume:
-    """Convert text doc into Resume object."""
+    """Parse a text-based resume file and convert it into a Resume object.
+
+    Args:
+        input_file (str): Path to the text file containing the resume content.
+
+    Returns:
+        Resume: The parsed Resume object.
+
+    Notes:
+        1. Opens the input file and reads its content.
+        2. Splits the content into lines while preserving line endings.
+        3. Creates a ParseContext object with the lines and initial line number.
+        4. Parses the resume content using the Resume.parse method.
+        5. Returns the resulting Resume object.
+        6. Disk access: Reads from the input_file path.
+    """
     with open(input_file) as _f:
         _resume_text = _f.read()
         _resume_lines = _resume_text.splitlines(keepends=True)
@@ -188,7 +339,32 @@ def main(
     settings_file: str,
     resume_type: str,
 ) -> None:
-    """Convert a text resume to a .docx file."""
+    """Convert a text resume to a .docx file with specified rendering style.
+
+    Args:
+        input_file (str): Path to the input text resume file.
+        output_file (str): Path where the output .docx file will be saved.
+        settings_file (str): Path to the TOML file containing rendering settings.
+        resume_type (str): Type of resume to generate ("ats", "basic", "plain", "html", "markdown").
+
+    Returns:
+        None
+
+    Notes:
+        1. Loads the settings from the settings_file using load_settings.
+        2. Creates a ResumeRenderSettings object and updates it from the loaded settings.
+        3. Parses the input resume text file into a Resume object using parse_text_resume.
+        4. Based on resume_type, selects the appropriate rendering method:
+            a. "basic": Uses basic_render to generate a .docx file.
+            b. "plain": Uses plain_render to generate a .docx file.
+            c. "ats": Uses ats_render to generate a .docx file.
+            d. "html": Uses html_render to generate an HTML file.
+            e. "markdown": Uses markdown_render to generate a Markdown file.
+        5. Saves the rendered output to the specified output_file path if applicable.
+        6. Logs the completion of the process.
+        7. Prints the entire resume object using rich.
+        8. Disk access: Reads from input_file and settings_file; writes to output_file (for .docx) and data/html_resume.html, data/markdown_resume.md (for html/markdown).
+    """
     _settings = load_settings(settings_file)
     _render_settings = ResumeRenderSettings()
     _render_settings.update_from_dict(_settings["resume"]["render"])

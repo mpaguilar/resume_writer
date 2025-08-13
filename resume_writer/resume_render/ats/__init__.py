@@ -6,6 +6,9 @@ The primary purpose is to ensure that resume content is structured in a way
 that is easily readable and interpretable by ATS software used by employers
 to screen job applicants.
 
+Classes:
+    None
+
 Functions:
     process_resume_for_ats(resume_text: str) -> dict[str, Any]:
         Processes a resume's raw text to extract and structure relevant

@@ -15,6 +15,9 @@ log = logging.getLogger(__name__)
 class Certification(LabelBlockParse):
     """Represents a professional certification.
 
+    Base class:
+        LabelBlockParse
+
     Attributes:
         name (str): The name of the certification.
         issuer (str | None): The organization that issued the certification.
@@ -111,6 +114,9 @@ class Certification(LabelBlockParse):
 
 class Certifications(MultiBlockParse):
     """Represents a collection of professional certifications.
+
+    Base class:
+        MultiBlockParse
 
     Attributes:
         certifications (list[Certification]): A list of Certification objects.

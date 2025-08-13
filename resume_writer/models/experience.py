@@ -23,7 +23,6 @@ class RoleSummary(TextBlockParse):
     Attributes:
         summary (str): The text content of the role summary.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
@@ -58,7 +57,6 @@ class RoleResponsibilities(TextBlockParse):
     Attributes:
         text (str): The text content of the responsibilities.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
@@ -95,7 +93,6 @@ class RoleSkills(ListBlockParse):
     Attributes:
         skills (List[str]): A list of non-empty, stripped skill strings.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, skills: list[str], parse_context: ParseContext) -> None:
@@ -170,7 +167,6 @@ class RoleBasics(LabelBlockParse):
         employment_type (str | None): The employment type or None.
         agency_name (str | None): The name of the agency or None.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(  # noqa: PLR0913
@@ -297,7 +293,6 @@ class Role(BasicBlockParse):
         responsibilities (RoleResponsibilities | None): The RoleResponsibilities object listing duties.
         skills (RoleSkills | None): The RoleSkills object listing skills used.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(
@@ -394,7 +389,6 @@ class Roles(MultiBlockParse):
     Attributes:
         roles (List[Role]): A list of Role objects.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, roles: list[Role], parse_context: ParseContext):
@@ -471,7 +465,6 @@ class ProjectSkills(ListBlockParse):
     Attributes:
         skills (List[str]): A list of non-empty, stripped skill strings.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, skills: list[str], parse_context: ParseContext):
@@ -544,7 +537,6 @@ class ProjectOverview(LabelBlockParse):
         start_date (datetime | None): The start date as a datetime object or None.
         end_date (datetime | None): The end date as a datetime object or None.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(  # noqa: PLR0913
@@ -640,7 +632,6 @@ class ProjectDescription(TextBlockParse):
     Attributes:
         text (str): The text content of the project description.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, text_string: str, parse_context: ParseContext):
@@ -675,7 +666,6 @@ class Project(BasicBlockParse):
         description (ProjectDescription): The ProjectDescription object describing the project.
         skills (ProjectSkills | None): The ProjectSkills object listing skills used.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(
@@ -760,7 +750,6 @@ class Projects(MultiBlockParse):
     Attributes:
         projects (List[Project]): A list of Project objects.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(self, projects: list[Project], parse_context: ParseContext):
@@ -839,7 +828,6 @@ class Experience(BasicBlockParse):
         roles (Roles | None): A Roles object containing work experience.
         projects (Projects | None): A Projects object containing project details.
         parse_context (ParseContext): The context object used for parsing.
-
     """
 
     def __init__(

@@ -10,7 +10,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderPersonalSection(ResumeRenderPersonalBase):
-    """Render personal contact info section."""
+    """Render personal contact info section.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to which content will be added.
+        personal (Personal): The personal information model containing contact details, banner, note, websites, and visa status.
+        settings (ResumePersonalSettings): The rendering settings that control which sections are enabled or disabled.
+    """
 
     def __init__(
         self,
@@ -21,9 +27,9 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         """Initialize the personal section renderer.
 
         Args:
-            document: The Word document object to which content will be added.
-            personal: The personal information model containing contact details, banner, note, websites, and visa status.
-            settings: The rendering settings that control which sections are enabled or disabled.
+            document (docx.document.Document): The Word document object to which content will be added.
+            personal (Personal): The personal information model containing contact details, banner, note, websites, and visa status.
+            settings (ResumePersonalSettings): The rendering settings that control which sections are enabled or disabled.
 
         Returns:
             None

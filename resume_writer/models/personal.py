@@ -33,11 +33,11 @@ class ContactInfo(LabelBlockParse):
         """Initialize the contact information with provided details.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            name: The full name of the person.
-            email: The email address of the person, or None if not provided.
-            phone: The phone number of the person, or None if not provided.
-            location: The physical location (e.g., city and country) of the person, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            name (str): The full name of the person.
+            email (str | None): The email address of the person, or None if not provided.
+            phone (str | None): The phone number of the person, or None if not provided.
+            location (str | None): The physical location (e.g., city and country) of the person, or None if not provided.
 
         Returns:
             None
@@ -115,11 +115,11 @@ class Websites(LabelBlockParse):
         """Initialize the websites information with provided links.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            website: The personal website URL, or None if not provided.
-            github: The GitHub profile URL, or None if not provided.
-            linkedin: The LinkedIn profile URL, or None if not provided.
-            twitter: The Twitter profile URL, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            website (str | None): The personal website URL, or None if not provided.
+            github (str | None): The GitHub profile URL, or None if not provided.
+            linkedin (str | None): The LinkedIn profile URL, or None if not provided.
+            twitter (str | None): The Twitter profile URL, or None if not provided.
 
         Returns:
             None
@@ -200,9 +200,9 @@ class VisaStatus(LabelBlockParse):
         """Initialize the visa status with provided authorization and sponsorship details.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            work_authorization: The current work authorization status (e.g., "US Citizen", "H-1B"), or None if not provided.
-            require_sponsorship: A boolean indicating if sponsorship is required, or a string ("yes"/"no") that will be converted to a boolean, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            work_authorization (str | None): The current work authorization status (e.g., "US Citizen", "H-1B"), or None if not provided.
+            require_sponsorship (bool | str | None): A boolean indicating if sponsorship is required, or a string ("yes"/"no") that will be converted to a boolean, or None if not provided.
 
         Returns:
             None
@@ -279,8 +279,8 @@ class Banner(TextBlockParse):
         """Initialize the banner with cleaned text content.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            text_string: The raw text content of the banner, potentially including leading/trailing or internal blank lines.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            text_string (str): The raw text content of the banner, potentially including leading/trailing or internal blank lines.
 
         Returns:
             None
@@ -329,8 +329,8 @@ class Note(TextBlockParse):
         """Initialize the note with cleaned text content.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            text_string: The raw text content of the note, potentially including leading/trailing or internal blank lines.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            text_string (str): The raw text content of the note, potentially including leading/trailing or internal blank lines.
 
         Returns:
             None
@@ -391,12 +391,12 @@ class Personal(BasicBlockParse):
         """Initialize the personal information block with provided components.
 
         Args:
-            parse_context: The context used during parsing, containing metadata about the input.
-            contact_info: An instance of ContactInfo containing personal contact details, or None if not provided.
-            websites: An instance of Websites containing personal website links, or None if not provided.
-            visa_status: An instance of VisaStatus containing visa and sponsorship information, or None if not provided.
-            banner: An instance of Banner containing a personal banner message, or None if not provided.
-            note: An instance of Note containing a personal note, or None if not provided.
+            parse_context (ParseContext): The context used during parsing, containing metadata about the input.
+            contact_info (ContactInfo | None): An instance of ContactInfo containing personal contact details, or None if not provided.
+            websites (Websites | None): An instance of Websites containing personal website links, or None if not provided.
+            visa_status (VisaStatus | None): An instance of VisaStatus containing visa and sponsorship information, or None if not provided.
+            banner (Banner | None): An instance of Banner containing a personal banner message, or None if not provided.
+            note (Note | None): An instance of Note containing a personal note, or None if not provided.
 
         Returns:
             None

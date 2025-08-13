@@ -12,7 +12,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderEducationSection(ResumeRenderEducationBase):
-    """Render Education Section."""
+    """Render Education Section.
+
+    Attributes:
+        document (MarkdownDoc): The Markdown document to which the education section will be added.
+        education (Education): The Education object containing degree information to render.
+        settings (ResumeEducationSettings): The settings object defining which fields to include in the rendered output.
+    """
 
     def __init__(
         self,
@@ -23,9 +29,9 @@ class RenderEducationSection(ResumeRenderEducationBase):
         """Initialize the basic education renderer.
 
         Args:
-            document: The MarkdownDoc instance to which rendered content will be added.
-            education: The Education object containing degree information to be rendered.
-            settings: The ResumeEducationSettings object defining which fields to render.
+            document (MarkdownDoc): The Markdown document to which rendered content will be added.
+            education (Education): The Education object containing degree information to be rendered.
+            settings (ResumeEducationSettings): The settings object defining which fields to render.
 
         Returns:
             None
@@ -64,7 +70,7 @@ class RenderEducationSection(ResumeRenderEducationBase):
         """Render a single degree in the education section.
 
         Args:
-            degree: The Degree object containing details such as school, degree, major, dates, and GPA.
+            degree (Degree): The Degree object containing details such as school, degree, major, dates, and GPA.
 
         Returns:
             None

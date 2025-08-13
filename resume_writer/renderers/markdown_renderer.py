@@ -10,17 +10,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderResumeMarkdown:
-    """Initialize the Jinja environment.
+    """Render a resume in Markdown format using Jinja templates.
 
-    Steps:
-    1. Define a date filter function to format dates in the Jinja template.
-    2. Define a line feed to HTML break function to convert line feeds to HTML breaks.
-    3. Define a list length function to calculate the length of a list.
-    4. Initialize the Jinja environment with the custom filters.
+    This class orchestrates the rendering process by initializing a Jinja environment
+    with custom filters and delegating the actual rendering to a RenderResume instance.
 
-    Returns:
-        Environment: The initialized Jinja environment.
-
+    Attributes:
+        resume (Resume): The resume data to be rendered.
+        settings (ResumeRenderSettings): The settings for rendering the resume.
+        renderer (RenderResume): The renderer responsible for generating the Markdown output.
+        rendered (bool): Flag indicating whether the resume has been rendered.
     """
 
     def __init__(self, resume: Resume, settings: ResumeRenderSettings) -> None:
@@ -33,11 +32,12 @@ class RenderResumeMarkdown:
         settings : ResumeRenderSettings
             The settings for rendering the resume.
 
-        Steps
+        Notes
         -----
-        1. Store the resume and settings data.
-        2. Initialize the Markdown renderer.
-
+        1. Validate that the provided resume is an instance of Resume.
+        2. Validate that the provided settings is an instance of ResumeRenderSettings.
+        3. Store the resume and settings data.
+        4. Initialize the Markdown renderer.
         """
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings)
@@ -45,19 +45,21 @@ class RenderResumeMarkdown:
         self.resume = resume
         self.settings = settings
         self.renderer = self.init_renderer()
-        self.rendered: bool = False
+        self.rendered = False
 
     def init_renderer(self) -> RenderResume:
         """Initialize and return a RenderResume object.
 
-        Steps:
+        Returns
+        -------
+        RenderResume
+            Initialized RenderResume object.
+
+        Notes
+        -----
         1. Create an instance of MarkdownDoc.
         2. Create a RenderResume object with the MarkdownDoc, resume data, and settings.
         3. Return the RenderResume object.
-
-        Returns:
-        RenderResume: Initialized RenderResume object.
-
         """
         _document: MarkdownDoc = MarkdownDoc()
         assert isinstance(
@@ -88,10 +90,6 @@ class RenderResumeMarkdown:
     ) -> str:
         """Render the resume using the Markdown renderer.
 
-        Parameters
-        ----------
-        None
-
         Returns
         -------
         str
@@ -102,9 +100,7 @@ class RenderResumeMarkdown:
         1. Logs an info message indicating the start of the Markdown resume rendering.
         2. Calls the render method of the Markdown renderer.
         3. Sets the rendered attribute to True.
-        4. Logs an info message indicating the completion of the
-           Markdown resume rendering.
-
+        4. Logs an info message indicating the completion of the Markdown resume rendering.
         """
         log.info("Rendering Markdown resume")
 
@@ -133,7 +129,7 @@ class RenderResumeMarkdown:
         2. Log a debug message indicating the save location.
         3. Call the renderer's save method to save the resume to the file.
         4. Log an info message indicating the successful save.
-
+        5. Writes the rendered content to disk at the specified path.
         """
         assert isinstance(path, Path)
 
@@ -150,11 +146,6 @@ class RenderResumeMarkdown:
 
         This method should be called after the `render()` method.
 
-        Parameters
-        ----------
-        self : object
-            Instance of the class.
-
         Returns
         -------
         str
@@ -165,7 +156,6 @@ class RenderResumeMarkdown:
         1. Checks if the resume has been rendered.
         2. If not, logs a warning message and returns an empty string.
         3. If yes, returns the rendered content as a string.
-
         """
         if not self.rendered:
             log.warning("Resume not rendered. Call `render()` first.")

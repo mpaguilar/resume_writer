@@ -29,7 +29,14 @@ log = logging.getLogger(__name__)
 
 
 class RenderResume(ResumeRenderBase):
-    """Render a resume in basic format."""
+    """Render a resume in basic format.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render into.
+        resume (Resume): The parsed resume data structure containing personal, education, experience, certifications, and other sections.
+        settings (ResumeRenderSettings): Configuration settings for rendering, including which sections to render and their formatting options.
+        parse_context (ParseContext): The context used for parsing the resume data.
+    """
 
     def __init__(
         self,
@@ -51,7 +58,6 @@ class RenderResume(ResumeRenderBase):
             1. Stores the provided document, resume, and settings as instance attributes.
             2. Initializes the base class ResumeRenderBase with the provided document, resume, and settings.
             3. No external disk, network, or database access occurs during initialization.
-
         """
         self.parse_context = resume.parse_context
         super().__init__(document, resume, settings)
@@ -74,7 +80,6 @@ class RenderResume(ResumeRenderBase):
             6. If both experience and executive summary rendering are enabled, insert a page break after the executive summary.
             7. If experience data exists and experience section rendering is enabled, render the full experience section.
             8. No external disk, network, or database access occurs during rendering.
-
         """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(

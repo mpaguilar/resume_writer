@@ -36,10 +36,6 @@ class RenderBase:
     Used for common functionality between the different renderers,
     primarily error and warning collection.
 
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment | None): The Jinja2 environment for template rendering.
-
     Attributes:
         errors (list[str]): List of errors encountered during rendering.
         warnings (list[str]): List of warnings encountered during rendering.
@@ -51,11 +47,21 @@ class RenderBase:
         2. Validates that the document is an instance of TextDoc.
         3. Validates that jinja_env is either None or an instance of Environment.
         4. Assigns the provided document and jinja_env to instance attributes.
-
     """
 
     def __init__(self, document: TextDoc, jinja_env: Environment | None):
-        """Initialize superclass."""
+        """Initialize superclass.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment | None): The Jinja2 environment for template rendering.
+
+        Notes:
+            1. Initializes the errors and warnings lists as empty.
+            2. Validates that the document is an instance of TextDoc.
+            3. Validates that jinja_env is either None or an instance of Environment.
+            4. Assigns the provided document and jinja_env to instance attributes.
+        """
         self.errors = []
         self.warnings = []
 
@@ -78,7 +84,6 @@ class RenderBase:
             1. Opens the file at the given path in write mode.
             2. Writes the document's text content to the file.
             3. Closes the file.
-
         """
         with path.open("w") as f:
             f.write(self.document.text)
@@ -94,7 +99,6 @@ class RenderBase:
 
         Notes:
             1. Appends the error message to the errors list.
-
         """
         self.errors.append(error)
 
@@ -109,19 +113,12 @@ class RenderBase:
 
         Notes:
             1. Appends the warning message to the warnings list.
-
         """
         self.warnings.append(warning)
 
 
 class ResumeRenderBase(RenderBase):
     """Base class for rendering resumes.
-
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment | None): The Jinja2 environment for template rendering.
-        resume (Resume): The resume data to be rendered.
-        settings (ResumeRenderSettings | None): The rendering settings for the resume.
 
     Attributes:
         settings (ResumeRenderSettings): The rendering settings for the resume.
@@ -138,7 +135,6 @@ class ResumeRenderBase(RenderBase):
         4. Validates that jinja_env is either None or an instance of Environment.
         5. If settings is None, initializes settings with a new ResumeRenderSettings instance.
         6. Calls the superclass constructor to initialize common attributes.
-
     """
 
     def __init__(
@@ -148,7 +144,22 @@ class ResumeRenderBase(RenderBase):
         resume: Resume,
         settings: ResumeRenderSettings | None,
     ):
-        """Initialize superclass."""
+        """Initialize superclass.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment | None): The Jinja2 environment for template rendering.
+            resume (Resume): The resume data to be rendered.
+            settings (ResumeRenderSettings | None): The rendering settings for the resume.
+
+        Notes:
+            1. Validates that resume is an instance of Resume.
+            2. Validates that settings is either None or an instance of ResumeRenderSettings.
+            3. Validates that document is an instance of TextDoc.
+            4. Validates that jinja_env is either None or an instance of Environment.
+            5. If settings is None, initializes settings with a new ResumeRenderSettings instance.
+            6. Calls the superclass constructor to initialize common attributes.
+        """
         assert isinstance(resume, Resume)
         assert isinstance(settings, ResumeRenderSettings) or settings is None
         assert isinstance(document, TextDoc), f"document is {type(document)}"
@@ -168,13 +179,6 @@ class ResumeRenderPersonalBase(RenderBase):
 
     This class handles rendering of personal information such as name, contact details, and profile summary.
 
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment): The Jinja2 environment for template rendering.
-        personal (Personal): The personal data to be rendered.
-        template_name (str): The name of the Jinja2 template to use for rendering.
-        settings (ResumePersonalSettings): The rendering settings for the personal section.
-
     Attributes:
         settings (ResumePersonalSettings): The rendering settings for the personal section.
         personal (Personal): The personal data to be rendered.
@@ -192,7 +196,6 @@ class ResumeRenderPersonalBase(RenderBase):
         5. Calls the superclass constructor to initialize common attributes.
         6. Assigns the provided settings and personal data to instance attributes.
         7. If template_name is provided, loads the corresponding Jinja2 template.
-
     """
 
     def __init__(
@@ -203,7 +206,24 @@ class ResumeRenderPersonalBase(RenderBase):
         template_name: str,
         settings: ResumePersonalSettings,
     ):
-        """Initialize personal renderer."""
+        """Initialize personal renderer.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment): The Jinja2 environment for template rendering.
+            personal (Personal): The personal data to be rendered.
+            template_name (str): The name of the Jinja2 template to use for rendering.
+            settings (ResumePersonalSettings): The rendering settings for the personal section.
+
+        Notes:
+            1. Validates that document is an instance of TextDoc.
+            2. Validates that personal is an instance of Personal.
+            3. Validates that settings is an instance of ResumePersonalSettings.
+            4. Validates that template_name is a string.
+            5. Calls the superclass constructor to initialize common attributes.
+            6. Assigns the provided settings and personal data to instance attributes.
+            7. If template_name is provided, loads the corresponding Jinja2 template.
+        """
         assert isinstance(document, TextDoc), f"document is {type(document)}"
         assert isinstance(personal, Personal)
         assert isinstance(settings, ResumePersonalSettings)
@@ -224,13 +244,6 @@ class ResumeRenderRolesBase(RenderBase):
 
     This class handles filtering and rendering of job roles based on time constraints.
 
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment | None): The Jinja2 environment for template rendering.
-        roles (Roles): The list of job roles to be rendered.
-        template_name (str): The name of the Jinja2 template to use for rendering.
-        settings (ResumeRolesSettings): The rendering settings for the roles section.
-
     Attributes:
         _roles (Roles): The list of job roles to be rendered.
         settings (ResumeRolesSettings): The rendering settings for the roles section.
@@ -249,10 +262,6 @@ class ResumeRenderRolesBase(RenderBase):
         6. Calls the superclass constructor to initialize common attributes.
         7. Assigns the provided roles and settings to instance attributes.
         8. If template_name is provided, loads the corresponding Jinja2 template.
-
-    Returns:
-        list[Role]: A list of roles that have not been filtered out based on the time constraint.
-
     """
 
     def __init__(
@@ -263,7 +272,25 @@ class ResumeRenderRolesBase(RenderBase):
         template_name: str,
         settings: ResumeRolesSettings,
     ):
-        """Initialize the roles section."""
+        """Initialize the roles section.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment | None): The Jinja2 environment for template rendering.
+            roles (Roles): The list of job roles to be rendered.
+            template_name (str): The name of the Jinja2 template to use for rendering.
+            settings (ResumeRolesSettings): The rendering settings for the roles section.
+
+        Notes:
+            1. Validates that document is an instance of TextDoc.
+            2. Validates that roles is an instance of Roles.
+            3. Validates that settings is an instance of ResumeRolesSettings.
+            4. Validates that template_name is a string.
+            5. Validates that jinja_env is either None or an instance of Environment.
+            6. Calls the superclass constructor to initialize common attributes.
+            7. Assigns the provided roles and settings to instance attributes.
+            8. If template_name is provided, loads the corresponding Jinja2 template.
+        """
         super().__init__(document=document, jinja_env=jinja_env)
         assert isinstance(roles, Roles)
         assert isinstance(settings, ResumeRolesSettings)
@@ -291,7 +318,6 @@ class ResumeRenderRolesBase(RenderBase):
             4. If the role is older than the specified time, skips it.
             5. Otherwise, adds the role to the filtered list.
             6. Returns the filtered list of roles.
-
         """
         _ret_roles = []
         for _role in self._roles:
@@ -311,13 +337,6 @@ class ResumeRenderProjectsBase(RenderBase):
 
     This class handles rendering of projects based on provided settings.
 
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment): The Jinja2 environment for template rendering.
-        projects (Projects): The list of projects to be rendered.
-        template_name (str): The name of the Jinja2 template to use for rendering.
-        settings (ResumeProjectsSettings): The rendering settings for the projects section.
-
     Attributes:
         projects (Projects): The list of projects to be rendered.
         settings (ResumeProjectsSettings): The rendering settings for the projects section.
@@ -336,7 +355,6 @@ class ResumeRenderProjectsBase(RenderBase):
         6. Calls the superclass constructor to initialize common attributes.
         7. Assigns the provided projects and settings to instance attributes.
         8. If template_name is provided, loads the corresponding Jinja2 template.
-
     """
 
     def __init__(
@@ -347,7 +365,25 @@ class ResumeRenderProjectsBase(RenderBase):
         template_name: str,
         settings: ResumeProjectsSettings,
     ):
-        """Initialize the projects section."""
+        """Initialize the projects section.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment): The Jinja2 environment for template rendering.
+            projects (Projects): The list of projects to be rendered.
+            template_name (str): The name of the Jinja2 template to use for rendering.
+            settings (ResumeProjectsSettings): The rendering settings for the projects section.
+
+        Notes:
+            1. Validates that document is an instance of TextDoc.
+            2. Validates that projects is an instance of Projects.
+            3. Validates that settings is an instance of ResumeProjectsSettings.
+            4. Validates that template_name is a string.
+            5. Validates that jinja_env is either None or an instance of Environment.
+            6. Calls the superclass constructor to initialize common attributes.
+            7. Assigns the provided projects and settings to instance attributes.
+            8. If template_name is provided, loads the corresponding Jinja2 template.
+        """
         super().__init__(document=document, jinja_env=jinja_env)
         assert isinstance(projects, Projects)
         assert isinstance(settings, ResumeProjectsSettings)
@@ -367,12 +403,6 @@ class ResumeRenderExperienceBase(RenderBase):
 
     This class handles rendering of experience sections, including roles.
 
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment): The Jinja2 environment for template rendering.
-        experience (Experience): The experience data to be rendered.
-        settings (ResumeRolesSettings): The rendering settings for the roles section.
-
     Attributes:
         experience (Experience): The experience data to be rendered.
         settings (ResumeRolesSettings): The rendering settings for the roles section.
@@ -388,7 +418,6 @@ class ResumeRenderExperienceBase(RenderBase):
         4. Validates that document is an instance of TextDoc.
         5. Calls the superclass constructor to initialize common attributes.
         6. Assigns the provided experience and settings to instance attributes.
-
     """
 
     def __init__(
@@ -398,7 +427,22 @@ class ResumeRenderExperienceBase(RenderBase):
         experience: Experience,
         settings: ResumeRolesSettings,
     ):
-        """Initialize the roles section."""
+        """Initialize the roles section.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment): The Jinja2 environment for template rendering.
+            experience (Experience): The experience data to be rendered.
+            settings (ResumeRolesSettings): The rendering settings for the roles section.
+
+        Notes:
+            1. Validates that experience is an instance of Experience.
+            2. Validates that settings is an instance of ResumeExperienceSettings.
+            3. Validates that jinja_env is either None or an instance of Environment.
+            4. Validates that document is an instance of TextDoc.
+            5. Calls the superclass constructor to initialize common attributes.
+            6. Assigns the provided experience and settings to instance attributes.
+        """
         super().__init__(document=document, jinja_env=jinja_env)
         assert isinstance(experience, Experience)
         assert isinstance(settings, ResumeExperienceSettings)
@@ -415,13 +459,6 @@ class ResumeRenderEducationBase(RenderBase):
     """Base class for rendering resume education section.
 
     This class handles rendering of educational qualifications.
-
-    Args:
-        document (TextDoc): The text document to be rendered.
-        jinja_env (Environment): The Jinja2 environment for template rendering.
-        education (Education): The education data to be rendered.
-        template_name (str): The name of the Jinja2 template to use for rendering.
-        settings (ResumeEducationSettings): The rendering settings for the education section.
 
     Attributes:
         education (Education): The education data to be rendered.
@@ -440,7 +477,6 @@ class ResumeRenderEducationBase(RenderBase):
         5. Calls the superclass constructor to initialize common attributes.
         6. Assigns the provided education and settings to instance attributes.
         7. If template_name is provided, loads the corresponding Jinja2 template.
-
     """
 
     def __init__(
@@ -451,7 +487,24 @@ class ResumeRenderEducationBase(RenderBase):
         template_name: str,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the education rendering section."""
+        """Initialize the education rendering section.
+
+        Args:
+            document (TextDoc): The text document to be rendered.
+            jinja_env (Environment): The Jinja2 environment for template rendering.
+            education (Education): The education data to be rendered.
+            template_name (str): The name of the Jinja2 template to use for rendering.
+            settings (ResumeEducationSettings): The rendering settings for the education section.
+
+        Notes:
+            1. Validates that education is an instance of Education.
+            2. Validates that settings is an instance of ResumeEducationSettings.
+            3. Validates that template_name is a string.
+            4. Validates that jinja_env is either None or an instance of Environment.
+            5. Calls the superclass constructor to initialize common attributes.
+            6. Assigns the provided education and settings to instance attributes.
+            7. If template_name is provided, loads the corresponding Jinja2 template.
+        """
         super().__init__(document=document, jinja_env=jinja_env)
 
         assert isinstance(education, Education)
@@ -472,7 +525,6 @@ class ResumeRenderEducationBase(RenderBase):
 
         Notes:
             1. This method is currently a placeholder and not implemented.
-
         """
         raise NotImplementedError
 
@@ -484,7 +536,6 @@ class ResumeRenderEducationBase(RenderBase):
 
         Notes:
             1. This method is currently a placeholder and not implemented.
-
         """
         raise NotImplementedError
 
@@ -493,13 +544,6 @@ class ResumeRenderCertificationsBase(RenderBase):
     """Base class for rendering resume certifications section.
 
     This class handles rendering of certifications based on provided settings.
-
-    Args:
-        document (str): The text document to be rendered.
-        certifications (Certifications): The certifications data to be rendered.
-        jinja_env (Environment): The Jinja2 environment for template rendering.
-        template_name (str): The name of the Jinja2 template to use for rendering.
-        settings (ResumeCertificationsSettings): The rendering settings for the certifications section.
 
     Attributes:
         settings (ResumeCertificationsSettings): The rendering settings for the certifications section.
@@ -518,7 +562,6 @@ class ResumeRenderCertificationsBase(RenderBase):
         5. Calls the superclass constructor to initialize common attributes.
         6. Assigns the provided settings and certifications to instance attributes.
         7. If template_name is provided, loads the corresponding Jinja2 template.
-
     """
 
     def __init__(
@@ -529,7 +572,24 @@ class ResumeRenderCertificationsBase(RenderBase):
         template_name: str,
         settings: ResumeCertificationsSettings,
     ):
-        """Initialize certification renderer."""
+        """Initialize certification renderer.
+
+        Args:
+            document (str): The text document to be rendered.
+            certifications (Certifications): The certifications data to be rendered.
+            jinja_env (Environment): The Jinja2 environment for template rendering.
+            template_name (str): The name of the Jinja2 template to use for rendering.
+            settings (ResumeCertificationsSettings): The rendering settings for the certifications section.
+
+        Notes:
+            1. Validates that certifications is an instance of Certifications.
+            2. Validates that settings is an instance of ResumeCertificationsSettings.
+            3. Validates that template_name is a string.
+            4. Validates that jinja_env is either None or an instance of Environment.
+            5. Calls the superclass constructor to initialize common attributes.
+            6. Assigns the provided settings and certifications to instance attributes.
+            7. If template_name is provided, loads the corresponding Jinja2 template.
+        """
         super().__init__(document=document, jinja_env=jinja_env)
 
         assert isinstance(certifications, Certifications)
@@ -548,11 +608,6 @@ class ResumeRenderExecutiveSummaryBase(RenderBase):
 
     This class handles rendering of executive summary based on experience data.
 
-    Args:
-        document (str): The text document to be rendered.
-        experience (Experience): The experience data to be used for generating the summary.
-        settings (ResumeExecutiveSummarySettings): The rendering settings for the executive summary.
-
     Attributes:
         experience (Experience): The experience data to be used for generating the summary.
         document (str): The text document to be rendered.
@@ -565,7 +620,6 @@ class ResumeRenderExecutiveSummaryBase(RenderBase):
         2. Validates that settings is an instance of ResumeExecutiveSummarySettings.
         3. Calls the superclass constructor to initialize common attributes.
         4. Assigns the provided experience and settings to instance attributes.
-
     """
 
     def __init__(
@@ -574,7 +628,19 @@ class ResumeRenderExecutiveSummaryBase(RenderBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize the executive summary section."""
+        """Initialize the executive summary section.
+
+        Args:
+            document (str): The text document to be rendered.
+            experience (Experience): The experience data to be used for generating the summary.
+            settings (ResumeExecutiveSummarySettings): The rendering settings for the executive summary.
+
+        Notes:
+            1. Validates that experience is an instance of Experience.
+            2. Validates that settings is an instance of ResumeExecutiveSummarySettings.
+            3. Calls the superclass constructor to initialize common attributes.
+            4. Assigns the provided experience and settings to instance attributes.
+        """
         super().__init__(document=document)
         assert isinstance(experience, Experience)
         assert isinstance(settings, ResumeExecutiveSummarySettings)
@@ -588,11 +654,6 @@ class ResumeRenderSkillsMatrixBase(RenderBase):
 
     This class handles rendering of skills matrix based on experience data.
 
-    Args:
-        document (str): The text document to be rendered.
-        experience (Experience): The experience data to be used for generating the skills matrix.
-        settings (ResumeSkillsMatrixSettings): The rendering settings for the skills matrix.
-
     Attributes:
         experience (Experience): The experience data to be used for generating the skills matrix.
         document (str): The text document to be rendered.
@@ -605,7 +666,6 @@ class ResumeRenderSkillsMatrixBase(RenderBase):
         2. Validates that settings is an instance of ResumeSkillsMatrixSettings.
         3. Calls the superclass constructor to initialize common attributes.
         4. Assigns the provided experience and settings to instance attributes.
-
     """
 
     def __init__(
@@ -614,7 +674,19 @@ class ResumeRenderSkillsMatrixBase(RenderBase):
         experience: Experience,
         settings: ResumeSkillsMatrixSettings,
     ) -> None:
-        """Initialize the skills matrix section."""
+        """Initialize the skills matrix section.
+
+        Args:
+            document (str): The text document to be rendered.
+            experience (Experience): The experience data to be used for generating the skills matrix.
+            settings (ResumeSkillsMatrixSettings): The rendering settings for the skills matrix.
+
+        Notes:
+            1. Validates that experience is an instance of Experience.
+            2. Validates that settings is an instance of ResumeSkillsMatrixSettings.
+            3. Calls the superclass constructor to initialize common attributes.
+            4. Assigns the provided experience and settings to instance attributes.
+        """
         super().__init__(document=document)
         assert isinstance(experience, Experience)
         assert isinstance(settings, ResumeSkillsMatrixSettings)

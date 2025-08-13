@@ -28,18 +28,18 @@ class RenderRolesSection(ResumeRenderRolesBase):
     This class is responsible for rendering a section of job roles within a resume
     using a Jinja2 template. It processes role data and outputs formatted HTML.
 
+    Attributes:
+        document (HtmlDoc): The HTML document object to which rendered content will be added.
+        jinja_env (Environment): The Jinja2 environment used to render templates.
+        roles (Roles): A collection of job roles to be rendered.
+        template_name (str): Name of the Jinja2 template file for rendering roles.
+        settings (ResumeRolesSettings): Configuration settings for how roles should be rendered.
+
     Args:
         document (HtmlDoc): The HTML document object to which rendered content will be added.
         jinja_env (Environment): The Jinja2 environment used to render templates.
         roles (Roles): A collection of job roles to be rendered.
         settings (ResumeRolesSettings): Configuration settings for how roles should be rendered.
-
-    Attributes:
-        document (HtmlDoc): The HTML document where output will be added.
-        jinja_env (Environment): Jinja2 environment for template rendering.
-        roles (Roles): List of roles to render.
-        template_name (str): Name of the Jinja2 template file for rendering roles.
-        settings (ResumeRolesSettings): Rendering configuration for roles.
 
     Notes:
         1. Initializes the parent class with the provided document, Jinja2 environment,
@@ -61,7 +61,22 @@ class RenderRolesSection(ResumeRenderRolesBase):
         roles: Roles,
         settings: ResumeRolesSettings,
     ):
-        """Initialize roles render object."""
+        """Initialize roles render object.
+
+        Args:
+            document (HtmlDoc): The HTML document object to which rendered content will be added.
+            jinja_env (Environment): The Jinja2 environment used to render templates.
+            roles (Roles): A collection of job roles to be rendered.
+            settings (ResumeRolesSettings): Configuration settings for how roles should be rendered.
+
+        Notes:
+            1. Initializes the parent class with the provided document, Jinja2 environment,
+               roles, template name, and settings.
+
+        Returns:
+            None
+
+        """
         super().__init__(
             document=document,
             jinja_env=jinja_env,
@@ -104,18 +119,18 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
 
     This class renders a section of projects associated with a resume using a Jinja2 template.
 
+    Attributes:
+        document (HtmlDoc): The HTML document object to which rendered content will be added.
+        jinja_env (Environment): The Jinja2 environment used to render templates.
+        projects (Projects): A collection of projects to be rendered.
+        template_name (str): Name of the Jinja2 template file for rendering projects.
+        settings (ResumeProjectsSettings): Configuration settings for how projects should be rendered.
+
     Args:
         document (HtmlDoc): The HTML document object to which rendered content will be added.
         jinja_env (Environment): The Jinja2 environment used to render templates.
         projects (Projects): A collection of projects to be rendered.
         settings (ResumeProjectsSettings): Configuration settings for how projects should be rendered.
-
-    Attributes:
-        document (HtmlDoc): The HTML document where output will be added.
-        jinja_env (Environment): Jinja2 environment for template rendering.
-        projects (Projects): List of projects to render.
-        template_name (str): Name of the Jinja2 template file for rendering projects.
-        settings (ResumeProjectsSettings): Rendering configuration for projects.
 
     Notes:
         1. Initializes the parent class with the provided document, Jinja2 environment,
@@ -137,7 +152,22 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         projects: Projects,
         settings: ResumeProjectsSettings,
     ):
-        """Initialize projects render object."""
+        """Initialize projects render object.
+
+        Args:
+            document (HtmlDoc): The HTML document object to which rendered content will be added.
+            jinja_env (Environment): The Jinja2 environment used to render templates.
+            projects (Projects): A collection of projects to be rendered.
+            settings (ResumeProjectsSettings): Configuration settings for how projects should be rendered.
+
+        Notes:
+            1. Initializes the parent class with the provided document, Jinja2 environment,
+               projects, template name, and settings.
+
+        Returns:
+            None
+
+        """
         log.debug("Initializing projects render object.")
 
         super().__init__(
@@ -184,17 +214,17 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
     including roles and projects, using a Jinja2 template. It aggregates data from
     `Experience`, and uses separate renderers for roles and projects.
 
-    Args:
-        document (HtmlDoc): The HTML document object to which rendered content will be added.
-        jinja_env (Environment): The Jinja2 environment used to render templates.
-        experience (Experience): The experience data (roles and projects) to be rendered.
-        settings (ResumeExperienceSettings): Configuration settings for how experience should be rendered.
-
     Attributes:
         document (HtmlDoc): The HTML document where output will be added.
         jinja_env (Environment): Jinja2 environment for template rendering.
         experience (Experience): The experience data (roles and projects).
         settings (ResumeExperienceSettings): Rendering configuration for experience.
+
+    Args:
+        document (HtmlDoc): The HTML document object to which rendered content will be added.
+        jinja_env (Environment): The Jinja2 environment used to render templates.
+        experience (Experience): The experience data (roles and projects) to be rendered.
+        settings (ResumeExperienceSettings): Configuration settings for how experience should be rendered.
 
     Notes:
         1. Initializes the parent class with the provided document, Jinja2 environment,
@@ -220,7 +250,22 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         experience: Experience,
         settings: ResumeExperienceSettings,
     ) -> None:
-        """Initialize experience render object."""
+        """Initialize experience render object.
+
+        Args:
+            document (HtmlDoc): The HTML document object to which rendered content will be added.
+            jinja_env (Environment): The Jinja2 environment used to render templates.
+            experience (Experience): The experience data (roles and projects) to be rendered.
+            settings (ResumeExperienceSettings): Configuration settings for how experience should be rendered.
+
+        Notes:
+            1. Initializes the parent class with the provided document, Jinja2 environment,
+               experience, and settings.
+
+        Returns:
+            None
+
+        """
         log.debug("Initializing experience render object.")
         super().__init__(
             document=document,

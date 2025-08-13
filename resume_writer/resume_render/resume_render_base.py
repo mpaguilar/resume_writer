@@ -538,7 +538,7 @@ class ResumeRenderExperienceBase(RenderBase):
         Notes:
             1. Call the parent constructor.
             2. Validate that experience is of type Experience.
-            3. Validate that settings is of type ResumeRolesSettings.
+            3. Validate that settings is of type ResumeExperienceSettings.
             4. Store the experience, document, and settings.
 
         """

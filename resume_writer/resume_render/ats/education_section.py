@@ -20,13 +20,15 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
     to a Word document, including school name, degree type, dates, major, and GPA
     based on the provided settings.
 
-    Args:
+    Attributes:
         document (docx.document.Document): The Word document object to which the degree section will be added.
         degree (Degree): The Degree object containing the academic details (school, degree, dates, major, GPA).
         settings (ResumeEducationSettings): Configuration object specifying which fields to render.
 
-    Returns:
-        None: This method does not return a value.
+    Args:
+        document (docx.document.Document): The Word document object to which the degree section will be added.
+        degree (Degree): The Degree object containing the academic details (school, degree, dates, major, GPA).
+        settings (ResumeEducationSettings): Configuration object specifying which fields to render.
 
     Notes:
         1. The method initializes the rendering process for a single degree.
@@ -47,7 +49,22 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
         degree: Degree,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic degree renderer."""
+        """Initialize the basic degree renderer.
+
+        Args:
+            document (docx.document.Document): The Word document object to which the degree section will be added.
+            degree (Degree): The Degree object containing the academic details (school, degree, dates, major, GPA).
+            settings (ResumeEducationSettings): Configuration object specifying which fields to render.
+
+        Returns:
+            None: This method does not return a value.
+
+        Notes:
+            1. Calls the parent class constructor to initialize base functionality.
+            2. Sets the document, degree, and settings as instance attributes.
+            3. The method does not perform any disk, network, or database access.
+
+        """
         super().__init__(document=document, degree=degree, settings=settings)
 
     def render(self) -> None:
@@ -128,6 +145,11 @@ class RenderEducationSection(ResumeRenderEducationBase):
     to a Word document, including a heading and a list of rendered degree sections
     based on the provided settings.
 
+    Attributes:
+        document (docx.document.Document): The Word document object to which the education section will be added.
+        education (Education): The Education object containing a list of Degree objects.
+        settings (ResumeEducationSettings): Configuration object specifying which fields to render.
+
     Args:
         document (docx.document.Document): The Word document object to which the education section will be added.
         education (Education): The Education object containing a list of Degree objects.
@@ -153,7 +175,22 @@ class RenderEducationSection(ResumeRenderEducationBase):
         education: Education,
         settings: ResumeEducationSettings,
     ):
-        """Initialize the basic education renderer."""
+        """Initialize the basic education renderer.
+
+        Args:
+            document (docx.document.Document): The Word document object to which the education section will be added.
+            education (Education): The Education object containing a list of Degree objects.
+            settings (ResumeEducationSettings): Configuration object specifying which fields to render.
+
+        Returns:
+            None: This method does not return a value.
+
+        Notes:
+            1. Calls the parent class constructor to initialize base functionality.
+            2. Sets the document, education, and settings as instance attributes.
+            3. The method does not perform any disk, network, or database access.
+
+        """
         super().__init__(document, education, settings)
 
     def render(self) -> None:

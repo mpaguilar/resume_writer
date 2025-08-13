@@ -13,7 +13,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderPersonalSection(ResumeRenderPersonalBase):
-    """Render personal contact info section."""
+    """Render personal contact info section.
+
+    This class is responsible for rendering the personal information section of a resume,
+    including contact details, banner, note, websites, and visa status.
+
+    Attributes:
+        document (docx.document.Document): The Word document to which the personal section will be added.
+        personal (Personal): The personal information object containing contact details, banner, note, websites, and visa status.
+        settings (ResumePersonalSettings): The settings object that controls which elements of the personal section are rendered.
+    """
 
     def __init__(
         self,
@@ -46,7 +55,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal and settings attributes.
 
         Notes
@@ -112,7 +121,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal and settings attributes.
 
         Notes
@@ -139,7 +148,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal and settings attributes.
 
         Notes
@@ -166,7 +175,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal and settings attributes.
 
         Notes
@@ -226,7 +235,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal and settings attributes.
 
         Notes
@@ -270,7 +279,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         Parameters
         ----------
-        self : object
+        self : RenderPersonalSection
             The instance of the class containing the personal information.
 
         Notes

@@ -25,7 +25,17 @@ log = logging.getLogger(__name__)
 
 
 class RenderResume(ResumeRenderBase):
-    """Render a resume in basic format."""
+    """Render a resume in HTML format.
+
+    Attributes:
+        document (HtmlDoc): The HTML document to render into.
+        jinja_env (Environment): The Jinja2 environment used for templating.
+        resume (Resume): The resume data to render.
+        settings (ResumeRenderSettings): The rendering settings for the resume.
+
+    Inherits from:
+        ResumeRenderBase: Base class for rendering resume sections.
+    """
 
     def __init__(
         self,
@@ -34,17 +44,16 @@ class RenderResume(ResumeRenderBase):
         resume: Resume,
         settings: ResumeRenderSettings,
     ):
-        """Initialize basic resume renderer.
+        """Initialize the HTML resume renderer.
 
         Args:
-            document: The HTML document to render into.
-            jinja_env: The Jinja2 environment used for templating.
-            resume: The resume data to render.
-            settings: The rendering settings for the resume.
+            document (HtmlDoc): The HTML document to render into.
+            jinja_env (Environment): The Jinja2 environment used for templating.
+            resume (Resume): The resume data to render.
+            settings (ResumeRenderSettings): The rendering settings for the resume.
 
         Notes:
             1. Calls the parent constructor with the provided arguments.
-
         """
         super().__init__(
             document=document,
@@ -60,7 +69,7 @@ class RenderResume(ResumeRenderBase):
             None
 
         Returns:
-            None
+            None: This function does not return a value.
 
         Notes:
             1. If the resume has personal information and personal rendering is enabled, render the personal section.
@@ -68,7 +77,6 @@ class RenderResume(ResumeRenderBase):
             3. If the resume has certifications and certifications rendering is enabled, render the certifications section.
             4. If the resume has experience data and experience rendering is enabled, render the experience section.
             5. No disk, network, or database access occurs during this process.
-
         """
         if self.resume.personal and self.settings.personal:
             RenderPersonalSection(

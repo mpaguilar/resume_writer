@@ -18,7 +18,13 @@ log = logging.getLogger(__name__)
 
 
 class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
-    """Render experience for a functional resume."""
+    """Render executive summary section for a functional resume.
+
+    Attributes:
+        document (docx.document.Document): The Word document object to render the section into.
+        experience (Experience): The experience data to be rendered.
+        settings (ResumeExecutiveSummarySettings): Configuration settings for rendering the executive summary.
+    """
 
     def __init__(
         self,
@@ -26,7 +32,7 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         experience: Experience,
         settings: ResumeExecutiveSummarySettings,
     ) -> None:
-        """Initialize experience render object.
+        """Initialize executive summary render object.
 
         Args:
             document (docx.document.Document): The Word document object to render the section into.
@@ -39,13 +45,12 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         Notes:
             1. Set up the base class with the provided document, experience, and settings.
             2. Log the initialization process for debugging.
-
         """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
 
     def render(self) -> None:
-        """Render experience section for functional resume.
+        """Render executive summary section for functional resume.
 
         Args:
             None
@@ -68,7 +73,6 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
                         - Otherwise, use "Present".
                     v. Add the company and date as italicized text to the paragraph.
             5. No disk or network access occurs during this function.
-
         """
         log.debug("Rendering functional experience section.")
 

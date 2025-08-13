@@ -403,6 +403,7 @@ class BasicBlockParse:
             else:
                 log.info(f"Unexpected block: {_block}")
 
+        # if there are any expected blocks left, add them to the init kwargs with None
         _none_kwargs = {_field: None for _field in _expected_blocks.values()}
         _init_kwargs.update(_none_kwargs)
         _init_kwargs["parse_context"] = parse_context

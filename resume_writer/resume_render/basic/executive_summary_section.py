@@ -18,7 +18,16 @@ log = logging.getLogger(__name__)
 
 
 class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
-    """Render experience for a functional resume."""
+    """Render experience for a functional resume.
+
+    Inherits from:
+        ResumeRenderExecutiveSummaryBase: Base class for rendering executive summaries.
+
+    Attributes:
+        document (docx.document.Document): The Docx document object to which the executive summary will be added.
+        experience (Experience): The Experience object containing role and job data to summarize.
+        settings (ResumeExecutiveSummarySettings): The settings object that defines which categories to include in the summary.
+    """
 
     def __init__(
         self,
@@ -29,9 +38,9 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         """Initialize experience render object.
 
         Args:
-            document: The Docx document object to which the executive summary will be added.
-            experience: The Experience object containing role and job data to summarize.
-            settings: The settings object that defines which categories to include in the summary.
+            document (docx.document.Document): The Docx document object to which the executive summary will be added.
+            experience (Experience): The Experience object containing role and job data to summarize.
+            settings (ResumeExecutiveSummarySettings): The settings object that defines which categories to include in the summary.
 
         Returns:
             None
@@ -39,7 +48,6 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
         Notes:
             1. Initialize the parent class (ResumeRenderExecutiveSummaryBase) with the provided document, experience, and settings.
             2. Log a debug message indicating that the functional experience render object is being initialized.
-
         """
         log.debug("Initializing functional experience render object.")
         super().__init__(document=document, experience=experience, settings=settings)
@@ -67,7 +75,6 @@ class RenderExecutiveSummarySection(ResumeRenderExecutiveSummaryBase):
                     iv. If a company is available, determine the date string (either the last date formatted to year or "Present").
                     v. Add an italicized run with the company and date information.
             6. This function performs no disk, network, or database access.
-
         """
         log.debug("Rendering functional experience section.")
 
