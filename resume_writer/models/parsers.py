@@ -401,7 +401,7 @@ class BasicBlockParse:
                 )
                 _expected_blocks.pop(_lookup_block)
             else:
-                log.info(f"Unexpected block: {_block}")
+                log.error(f"Unexpected block: {_block}")
 
         # if there are any expected blocks left, add them to the init kwargs with None
         _none_kwargs = {_field: None for _field in _expected_blocks.values()}
