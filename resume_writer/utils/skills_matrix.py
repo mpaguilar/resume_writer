@@ -89,9 +89,10 @@ class SkillsMatrix:
         _skills = []
 
         for role in self.roles:
-            for skill in role.skills:
-                if skill not in _skills:
-                    _skills.append(skill)
+            if role.skills:
+                for skill in role.skills:
+                    if skill not in _skills:
+                        _skills.append(skill)
 
         return _skills
 
