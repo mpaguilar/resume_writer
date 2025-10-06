@@ -762,7 +762,11 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
                 settings=self.settings.roles_settings,
             ).render()
 
-        if self.settings.projects and self.experience.projects:
+        if (
+            self.settings.projects
+            and self.experience.projects
+            and len(self.experience.projects) > 0
+        ):
             RenderProjectsSection(
                 document=self.document,
                 projects=self.experience.projects,
