@@ -105,7 +105,7 @@ End date: 02/2021
 
 #### Description
 
-This should still be pretty short, 2-3 sentences.
+This should still be pretty short, include Skill 3, 2-3 sentences.
 Multiple lines are fine.
 
 #### Skills

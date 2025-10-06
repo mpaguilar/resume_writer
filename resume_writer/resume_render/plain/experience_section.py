@@ -624,6 +624,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
         if self.settings.description and self.project.description:
             _description_paragraph = self.document.add_paragraph()
+            self._highlight_skills(_description_paragraph)
             _description_run = _description_paragraph.add_run()
             _description_lines = self.project.description.text.split("\n")
             for _line in _description_lines:
@@ -640,6 +641,39 @@ class RenderProjectSection(ResumeRenderProjectBase):
             self._skills(_skills_paragraph)
             _skills_paragraph.paragraph_format.space_before = Pt(0)
             _skills_paragraph.paragraph_format.space_after = Pt(6)
+
+    def _highlight_skills(self, paragraph : docx.text.paragraph.Paragraph) -> None:
+        if(
+            self.project.skills
+            and len(self.project.skills) > 0
+        ):
+            _fragments = skills_splitter(self.project.description.text, self.project.skills)
+            _leading_space = True
+            _trailing_space = True
+            for _ndx, _fragment in enumerate(_fragments):
+                _run = paragraph.add_run()
+
+                if (_ndx + 1) < len(_fragments) and not _punctuation_end_re.match(
+                    _fragments[_ndx + 1],
+                ):
+                    _trailing_space = True
+                else:
+                    _trailing_space = False
+
+                if _fragment in self.project.skills:
+                    if _leading_space:
+                        _run.add_text(" ")
+
+                    _run.add_text(_fragment)
+                    _run.bold = True
+
+                    if _trailing_space:
+                        _run.add_text(" ")
+                else:
+                    _run.add_text(_fragment)
+
+                # used on the next iteration of the loop
+                _leading_space = not re.search(r"[({[]$", _fragment)
 
 
 class RenderProjectsSection(ResumeRenderProjectsBase):

@@ -96,10 +96,10 @@ This is written and tested with Python 3.10. It uses [Poetry](https://python-poe
 
 ### Running the app
 
-Change to the `resume_writer` directory and run `python main.py --help` to see the options.
+Change to the `resume_writer` directory and run `python -m resume_writer.main --help` to see the options.
 
 ```
-Usage: main.py [OPTIONS] INPUT_FILE
+Usage: python -m resume_writer.main [OPTIONS] INPUT_FILE
 
   Convert a text resume to a .docx file.
 

@@ -1,11 +1,11 @@
 [project]
 name = "resume-writer"
-version = "0.1.0"
+version = "0.1.1"
 license = { file = "LICENSE" }
 authors = [
     {name = "Michael Aguilar", email = "bitflip@slowlink.net"},
 ]
-requires-python = "<4.0,>=3.10"
+requires-python = ">=3.10"
 dependencies = [
     "mistune<4.0.0,>=3.0.2",
     "python-docx<2.0.0,>=1.1.2",
@@ -22,6 +22,9 @@ dependencies = [
 ]
 description = ""
 readme = "README.md"
+
+[tool.poetry]
+packages = [{include = "resume_writer"}]
 
 [tool.ruff]
 exclude = ["temporal-samples-python"]
