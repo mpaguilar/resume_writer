@@ -26,6 +26,9 @@ readme = "README.md"
 [tool.poetry]
 packages = [{include = "resume_writer"}]
 
+[tool.setuptools]
+packages = ["resume_writer"]
+
 [tool.ruff]
 exclude = ["temporal-samples-python"]
 
