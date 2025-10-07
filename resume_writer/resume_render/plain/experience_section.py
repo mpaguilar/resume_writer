@@ -487,10 +487,10 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 settings=self.settings,
             ).render()
 
-            _paragraph = self.document.add_paragraph()
-            _paragraph.paragraph_format.space_after = Pt(12)
-
-            self.add_horizontal_line(_paragraph, 2)
+            if _role != self.roles[-1]:
+                _paragraph = self.document.add_paragraph()
+                _paragraph.paragraph_format.space_after = Pt(8)
+                self.add_horizontal_line(_paragraph, 3)
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
@@ -551,11 +551,13 @@ class RenderProjectSection(ResumeRenderProjectBase):
         _title_run = paragraph.add_run()
         _title_run.add_text(_overview.title)
         _title_run.bold = True
+        _title_run.underline = True
+        _title_run.font.size = Pt(self.font_size + 2)
 
         paragraph.add_run("\t")
         paragraph.paragraph_format.space_after = Pt(6)
 
-        add_hyperlink(paragraph, f"Website: {_overview.url_description}", _overview.url)
+        add_hyperlink(paragraph, f"{_overview.url_description}", _overview.url)
 
     def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
         """Render project skills section.
@@ -578,7 +580,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
 
         _skills = ", ".join(self.project.skills)
         _skills_run = paragraph.add_run()
-
+        _skills_run.font.size = Pt(self.font_size - 2)
         _skills_run.add_text(f"Skills: {_skills}")
         _skills_run.italic = True
 
@@ -721,13 +723,23 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         """
         log.debug("Rendering projects section.")
         if len(self.projects) > 0:
-            self.document.add_heading("Projects", level=2)
+            _heading = self.document.add_heading("Projects", level=2)
+            _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
+        else:
+            log.info("No projects found")
+            return
+
         for _project in self.projects:
-            _project_render = RenderProjectSection(
+            RenderProjectSection(
                 document=self.document,
                 project=_project,
                 settings=self.settings,
             ).render()
+
+            if _project != self.projects[-1]:
+                _paragraph = self.document.add_paragraph()
+                _paragraph.paragraph_format.space_after = Pt(8)
+                self.add_horizontal_line(_paragraph, 3)
 
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
@@ -803,7 +815,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         if self.settings.render_projects_first:
             _render_projects()
+            self.document.add_paragraph().paragraph_format.space_after = Pt(4)
             _render_roles()
         else:
             _render_roles()
+            self.document.add_paragraph().paragraph_format.space_after = Pt(4)
             _render_projects()
