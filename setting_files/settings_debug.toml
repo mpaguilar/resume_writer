@@ -32,6 +32,7 @@ work_authorization = true
 [resume.render.section.experience]
 roles = true
 projects = true
+render_projects_first = true
 
 [resume.render.section.experience.section.projects]
 overview = true

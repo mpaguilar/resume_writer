@@ -415,6 +415,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         executive_summary_settings (ResumeExecutiveSummarySettings): Settings for rendering executive summary in the experience section.
         skills_matrix (bool): Flag to include skills matrix in the rendered experience section.
         skills_matrix_settings (ResumeSkillsMatrixSettings): Settings for rendering skills matrix in the experience section.
+        render_projects_first (bool): Flag to render projects before roles.
 
     Methods:
         update_from_dict(data_dict: dict | None = None) -> None
@@ -447,6 +448,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
         self.executive_summary_settings = ResumeExecutiveSummarySettings()
         self.skills_matrix = default_init
         self.skills_matrix_settings = ResumeSkillsMatrixSettings()
+        self.render_projects_first = False
 
     def update_from_dict(self, data_dict: dict | None = None) -> None:
         """Update settings for experience and subsections from a dictionary.
@@ -486,7 +488,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 
         Notes:
             1. The method constructs a dictionary with keys for roles, projects, executive_summary,
-               and skills_matrix, and their corresponding values.
+               skills_matrix, and render_projects_first, and their corresponding values.
             2. If the value for a key is True, the corresponding settings object is converted to a dictionary
                and added to the dictionary.
 
@@ -496,6 +498,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
             "projects": self.projects,
             "executive_summary": self.executive_summary,
             "skills_matrix": self.skills_matrix,
+            "render_projects_first": self.render_projects_first,
         }
         if self.roles:
             data_dict["roles"] = self.roles_settings.to_dict()

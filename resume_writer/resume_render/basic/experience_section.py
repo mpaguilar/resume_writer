@@ -562,29 +562,38 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         """Render experience section.
 
         Args:
-            None.
+            None
 
         Returns:
-            None.
+            None
 
         Notes:
-            1. Log a debug message indicating the start of rendering.
-            2. If roles are enabled and the experience has roles, render them using RenderRolesSection.
-            3. If projects are enabled and the experience has projects, render them using RenderProjectsSection.
-
+            1. Define a function to render the roles section, which is called if settings permit.
+            2. Define a function to render the projects section, which is called if settings permit.
+            3. If `render_projects_first` is `True` in settings, call project render function then role render function.
+            4. Otherwise, call role render function then project render function.
         """
         log.debug("Rendering experience section.")
 
-        if self.settings.roles and self.experience.roles:
-            RenderRolesSection(
-                document=self.document,
-                roles=self.experience.roles,
-                settings=self.settings.roles_settings,
-            ).render()
+        def _render_roles() -> None:
+            if self.settings.roles and self.experience.roles:
+                RenderRolesSection(
+                    document=self.document,
+                    roles=self.experience.roles,
+                    settings=self.settings.roles_settings,
+                ).render()
 
-        if self.settings.projects and self.experience.projects:
-            RenderProjectsSection(
-                document=self.document,
-                projects=self.experience.projects,
-                settings=self.settings.projects_settings,
-            ).render()
+        def _render_projects() -> None:
+            if self.settings.projects and self.experience.projects:
+                RenderProjectsSection(
+                    document=self.document,
+                    projects=self.experience.projects,
+                    settings=self.settings.projects_settings,
+                ).render()
+
+        if self.settings.render_projects_first:
+            _render_projects()
+            _render_roles()
+        else:
+            _render_roles()
+            _render_projects()

@@ -625,13 +625,6 @@ class RenderProjectSection(ResumeRenderProjectBase):
         if self.settings.description and self.project.description:
             _description_paragraph = self.document.add_paragraph()
             self._highlight_skills(_description_paragraph)
-            _description_run = _description_paragraph.add_run()
-            _description_lines = self.project.description.text.split("\n")
-            for _line in _description_lines:
-                _line = _line.strip()
-                if _line:
-                    _description_run.add_text(_line)
-                    _description_run.add_break()
 
             _description_paragraph.paragraph_format.space_before = Pt(0)
             _description_paragraph.paragraph_format.space_after = Pt(0)
@@ -781,28 +774,36 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
             None
 
         Notes:
-            1. Logs a debug message indicating the start of experience rendering.
-            2. Checks if roles should be rendered and if they exist.
-            3. If roles should be rendered and they exist, creates a roles section with the appropriate settings.
-            4. Checks if projects should be rendered and if they exist.
-            5. If projects should be rendered and they exist, creates a projects section with the appropriate settings.
+            1. Define a function to render the roles section, which is called if settings permit.
+            2. Define a function to render the projects section, which is called if settings permit.
+            3. If `render_projects_first` is `True` in settings, call project render function then role render function.
+            4. Otherwise, call role render function then project render function.
         """
         log.debug("Rendering experience section.")
 
-        if self.settings.roles and self.experience.roles:
-            RenderRolesSection(
-                document=self.document,
-                roles=self.experience.roles,
-                settings=self.settings.roles_settings,
-            ).render()
+        def _render_roles() -> None:
+            if self.settings.roles and self.experience.roles:
+                RenderRolesSection(
+                    document=self.document,
+                    roles=self.experience.roles,
+                    settings=self.settings.roles_settings,
+                ).render()
 
-        if (
-            self.settings.projects
-            and self.experience.projects
-            and len(self.experience.projects) > 0
-        ):
-            RenderProjectsSection(
-                document=self.document,
-                projects=self.experience.projects,
-                settings=self.settings.projects_settings,
-            ).render()
+        def _render_projects() -> None:
+            if (
+                self.settings.projects
+                and self.experience.projects
+                and len(self.experience.projects) > 0
+            ):
+                RenderProjectsSection(
+                    document=self.document,
+                    projects=self.experience.projects,
+                    settings=self.settings.projects_settings,
+                ).render()
+
+        if self.settings.render_projects_first:
+            _render_projects()
+            _render_roles()
+        else:
+            _render_roles()
+            _render_projects()

@@ -47,6 +47,7 @@ def test_dict():
                     "experience": {
                         "roles": False,
                         "projects": False,
+                        "render_projects_first": True,
                         "section": {
                             "projects": {
                                 "overview": False,
@@ -237,11 +238,13 @@ def test_roles_settings(test_dict):
 
 def test_experience_settings(test_dict):
     _experience_settings = ResumeExperienceSettings()
+    assert _experience_settings.render_projects_first is False
     _experience_settings.update_from_dict(
         test_dict["resume"]["render"]["section"]["experience"],
     )
     assert _experience_settings.roles is False
     assert _experience_settings.projects is False
+    assert _experience_settings.render_projects_first is True
 
     # check subsections
 

@@ -339,32 +339,7 @@ def main(
     settings_file: str,
     resume_type: str,
 ) -> None:
-    """Convert a text resume to a .docx file with specified rendering style.
-
-    Args:
-        input_file (str): Path to the input text resume file.
-        output_file (str): Path where the output .docx file will be saved.
-        settings_file (str): Path to the TOML file containing rendering settings.
-        resume_type (str): Type of resume to generate ("ats", "basic", "plain", "html", "markdown").
-
-    Returns:
-        None
-
-    Notes:
-        1. Loads the settings from the settings_file using load_settings.
-        2. Creates a ResumeRenderSettings object and updates it from the loaded settings.
-        3. Parses the input resume text file into a Resume object using parse_text_resume.
-        4. Based on resume_type, selects the appropriate rendering method:
-            a. "basic": Uses basic_render to generate a .docx file.
-            b. "plain": Uses plain_render to generate a .docx file.
-            c. "ats": Uses ats_render to generate a .docx file.
-            d. "html": Uses html_render to generate an HTML file.
-            e. "markdown": Uses markdown_render to generate a Markdown file.
-        5. Saves the rendered output to the specified output_file path if applicable.
-        6. Logs the completion of the process.
-        7. Prints the entire resume object using rich.
-        8. Disk access: Reads from input_file and settings_file; writes to output_file (for .docx) and data/html_resume.html, data/markdown_resume.md (for html/markdown).
-    """
+    """Convert a text resume to a .docx file with specified rendering style."""
     _settings = load_settings(settings_file)
     _render_settings = ResumeRenderSettings()
     _render_settings.update_from_dict(_settings["resume"]["render"])

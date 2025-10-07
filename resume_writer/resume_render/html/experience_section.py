@@ -289,10 +289,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
             1. Calculates the total number of roles and projects that will be rendered.
             2. If no roles or projects exist, returns early.
             3. Adds an HTML heading "Experience" to the document.
-            4. If roles are enabled and roles exist, creates and renders a `RenderRolesSection`.
-            5. If projects are enabled and projects exist, creates and renders a `RenderProjectsSection`.
+            4. Defines functions to render roles and projects sections if they are enabled and exist.
+            5. Calls the render functions in the order specified by `render_projects_first` setting.
             6. No disk, network, or database access is used.
-
         """
         log.debug("Rendering experience section.")
 
@@ -308,18 +307,27 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         self.document.add_text("<h1>Experience</h1>")
 
-        if self.settings.roles and self.experience.roles:
-            RenderRolesSection(
-                document=self.document,
-                jinja_env=self.jinja_env,
-                roles=self.experience.roles,
-                settings=self.settings.roles_settings,
-            ).render()
+        def _render_roles() -> None:
+            if self.settings.roles and self.experience.roles:
+                RenderRolesSection(
+                    document=self.document,
+                    jinja_env=self.jinja_env,
+                    roles=self.experience.roles,
+                    settings=self.settings.roles_settings,
+                ).render()
 
-        if self.settings.projects and self.experience.projects:
-            RenderProjectsSection(
-                document=self.document,
-                jinja_env=self.jinja_env,
-                projects=self.experience.projects,
-                settings=self.settings.projects_settings,
-            ).render()
+        def _render_projects() -> None:
+            if self.settings.projects and self.experience.projects:
+                RenderProjectsSection(
+                    document=self.document,
+                    jinja_env=self.jinja_env,
+                    projects=self.experience.projects,
+                    settings=self.settings.projects_settings,
+                ).render()
+
+        if self.settings.render_projects_first:
+            _render_projects()
+            _render_roles()
+        else:
+            _render_roles()
+            _render_projects()

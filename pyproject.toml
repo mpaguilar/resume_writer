@@ -1,6 +1,6 @@
 [project]
 name = "resume-writer"
-version = "0.1.1"
+version = "0.1.2"
 license = { file = "LICENSE" }
 authors = [
     {name = "Michael Aguilar", email = "bitflip@slowlink.net"},
@@ -23,11 +23,8 @@ dependencies = [
 description = ""
 readme = "README.md"
 
-[tool.poetry]
-packages = [{include = "resume_writer"}]
-
-[tool.setuptools]
-packages = ["resume_writer"]
+[tool.setuptools.packages.find]     
+include = ["resume_writer*"]
 
 [tool.ruff]
 exclude = ["temporal-samples-python"]
