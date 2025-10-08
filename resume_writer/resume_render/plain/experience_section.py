@@ -86,9 +86,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
         """
         log.debug("Rendering role skills.")
 
-        _paragraph = self.document.add_paragraph()
-
         if self.role.skills and self.settings.skills and len(self.role.skills) > 0:
+            _paragraph = self.document.add_paragraph()
             _skills_str = ", ".join(self.role.skills)
             _skills_run = _paragraph.add_run(f"Skills: {_skills_str}")
             _skills_run.font.size = Pt(self.font_size - 2)
@@ -289,7 +288,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
                 # used on the next iteration of the loop
                 _leading_space = not re.search(r"[({[]$", _fragment)
 
-            _run.add_break()
+            # _run.add_break()
 
     def _responsibilities(self) -> None:
         """Render role responsibilities section.
@@ -313,28 +312,31 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _msg = f"Rendering responsibilities for role {self.role.basics.title}"
         log.debug(_msg)
 
-        _situation_paragraph = self.document.add_paragraph()
-        _situation_paragraph.paragraph_format.space_before = Pt(0)
-        _situation_paragraph.paragraph_format.space_after = Pt(6)
-
-        _tasks_paragraph = self.document.add_paragraph()
-        _tasks_paragraph.paragraph_format.space_before = Pt(0)
-        _tasks_paragraph.paragraph_format.space_after = Pt(6)
+        # _situation_paragraph = self.document.add_paragraph()
+        # _situation_paragraph.paragraph_format.space_before = Pt(0)
+        # _situation_paragraph.paragraph_format.space_after = Pt(6)
 
         _responsibilities_lines: list[str] = self.role.responsibilities.text.replace(
             "\n\n",
             "\n",
         ).split("\n")
 
-        for _line in _responsibilities_lines:
-            # task lines start with "* "
-            if _line.startswith("* ") and self.settings.include_tasks:
-                self._render_task(_tasks_paragraph, _line)
+        if len(_responsibilities_lines) > 0:
+            _responsibilities_paragraph = self.document.add_paragraph()
+            _responsibilities_paragraph.paragraph_format.space_before = Pt(6)
+            # _responsibilities_paragraph.paragraph_format.space_after = Pt(6)
 
-            if self.settings.include_situation and _line and not _line.startswith("* "):
-                _situation_run = _situation_paragraph.add_run()
-                _situation_run.add_text(_line)
-                _situation_run.add_break()
+            for _line in _responsibilities_lines:
+                # task lines start with "* "
+                if _line.startswith("* ") and self.settings.include_tasks:
+                    self._render_task(_responsibilities_paragraph, _line)
+                    if _line is not _responsibilities_lines[-1]:
+                        _responsibilities_paragraph.add_run().add_break()
+
+                # if self.settings.include_situation and _line and not _line.startswith("* "):
+                #     _situation_run = _situation_paragraph.add_run()
+                #     _situation_run.add_text(_line)
+                #     _situation_run.add_break()
 
     def _description(self) -> None:
         """Render role summary and details section.
@@ -359,7 +361,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
             _summary_run.add_text(self.role.summary.summary.strip())
             _summary_run.font.italic = True
             _summary_run.font.bold = True
-            _summary_paragraph.paragraph_format.space_after = Pt(self.font_size)
+            # _summary_paragraph.paragraph_format.space_after = Pt(self.font_size)
             _summary_paragraph.paragraph_format.space_before = Pt(0)
 
         if self.role.responsibilities and self.settings.responsibilities:
@@ -390,7 +392,8 @@ class RenderRoleSection(ResumeRenderRoleBase):
         log.debug("Rendering roles section.")
 
         _basics_paragraph = self.document.add_paragraph()
-        _basics_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+        _basics_paragraph.paragraph_format.space_after = Pt(self.font_size / 4)
+        _basics_paragraph.paragraph_format.space_before = Pt(self.font_size)
         self._title_and_company(_basics_paragraph)
 
         # add tab stops to format title, company, dates, and location neatly
@@ -487,10 +490,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
                 settings=self.settings,
             ).render()
 
-            if _role != self.roles[-1]:
-                _paragraph = self.document.add_paragraph()
-                _paragraph.paragraph_format.space_after = Pt(8)
-                self.add_horizontal_line(_paragraph, 3)
 
 
 class RenderProjectSection(ResumeRenderProjectBase):
@@ -527,7 +526,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         log.debug("Initializing project render object.")
         super().__init__(document=document, project=project, settings=settings)
 
-    def _overview(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+    def _overview(self) -> None:
         """Render project overview section.
 
         Args:
@@ -546,18 +545,30 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """
         log.debug("Rendering project overview.")
 
+        _overview_paragraph = self.document.add_paragraph()
+        # add tab stops to format title, company, dates, and location neatly
+        _tab_stop_right = Inches(7.4)
+        _tab_stops = _overview_paragraph.paragraph_format.tab_stops
+
+        _tab_stops.add_tab_stop(
+            _tab_stop_right,
+            WD_TAB_ALIGNMENT.RIGHT,
+            WD_TAB_LEADER.SPACES,
+        )
+
         _overview = self.project.overview
 
-        _title_run = paragraph.add_run()
+        _title_run = _overview_paragraph.add_run()
         _title_run.add_text(_overview.title)
         _title_run.bold = True
         _title_run.underline = True
         _title_run.font.size = Pt(self.font_size + 2)
 
-        paragraph.add_run("\t")
-        paragraph.paragraph_format.space_after = Pt(6)
+        _overview_paragraph.add_run("\t")
+        _overview_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
+        _overview_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
 
-        add_hyperlink(paragraph, f"{_overview.url_description}", _overview.url)
+        add_hyperlink(_overview_paragraph, f"{_overview.url_description}", _overview.url)
 
     def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
         """Render project skills section.
@@ -608,21 +619,8 @@ class RenderProjectSection(ResumeRenderProjectBase):
         """
         log.debug("Rendering project section.")
 
-        _paragraph = self.document.add_paragraph()
-        # add tab stops to format title, company, dates, and location neatly
-        _tab_stop_right = Inches(7.4)
-        _tab_stops = _paragraph.paragraph_format.tab_stops
-
-        _tab_stops.add_tab_stop(
-            _tab_stop_right,
-            WD_TAB_ALIGNMENT.RIGHT,
-            WD_TAB_LEADER.SPACES,
-        )
-
         if self.settings.overview and self.project.overview:
-            self._overview(_paragraph)
-
-        _paragraph.paragraph_format.space_after = Pt(6)
+            self._overview()
 
         if self.settings.description and self.project.description:
             _description_paragraph = self.document.add_paragraph()
@@ -635,7 +633,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
             _skills_paragraph = self.document.add_paragraph()
             self._skills(_skills_paragraph)
             _skills_paragraph.paragraph_format.space_before = Pt(0)
-            _skills_paragraph.paragraph_format.space_after = Pt(6)
+            _skills_paragraph.paragraph_format.space_after = Pt(0)
 
     def _highlight_skills(self, paragraph : docx.text.paragraph.Paragraph) -> None:
         if(
@@ -736,11 +734,6 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
                 settings=self.settings,
             ).render()
 
-            if _project != self.projects[-1]:
-                _paragraph = self.document.add_paragraph()
-                _paragraph.paragraph_format.space_after = Pt(8)
-                self.add_horizontal_line(_paragraph, 3)
-
 
 class RenderExperienceSection(ResumeRenderExperienceBase):
     """Render experience section.
@@ -815,9 +808,9 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
 
         if self.settings.render_projects_first:
             _render_projects()
-            self.document.add_paragraph().paragraph_format.space_after = Pt(4)
+            # self.document.add_paragraph().paragraph_format.space_after = Pt(4)
             _render_roles()
         else:
             _render_roles()
-            self.document.add_paragraph().paragraph_format.space_after = Pt(4)
+            # self.document.add_paragraph().paragraph_format.space_after = Pt(4)
             _render_projects()

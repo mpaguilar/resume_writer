@@ -1,0 +1,62 @@
+[resume.render]
+personal = true
+certifications = true
+experience = true
+skills_matrix = false
+executive_summary = false
+font_size = "10"
+margin_width = "0.5"
+top_margin = "0.2"
+bottom_margin = "0.2"
+
+[resume.render.section.personal]
+contact_info = true
+banner = true
+websites = true
+name = true
+email = true
+phone = true
+location = true
+linkedin = true
+github = true
+website = true
+
+[resume.render.section.certifications]
+name = true
+issuer = true
+
+[resume.render.section.experience]
+roles = true
+projects = true
+render_projects_first = true
+
+[resume.render.section.experience.section.roles]
+skills = false
+responsibilities = true
+include_situation = true
+include_tasks = true
+location = true
+months_ago = "0"
+summary = true
+
+[resume.render.section.experience.section.projects]
+overview = true
+description = true
+skills = false
+title = true
+url = true
+url_description = true
+start_date = false
+end_date = false
+
+[resume.render.section.skills_matrix]
+all_skills = true
+
+[resume.render.section.executive_summary]
+categories = '''
+Architecture
+Consulting
+DevOps
+Development
+Product Support
+'''

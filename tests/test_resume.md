@@ -135,9 +135,6 @@ Performed senior tasks
 
 #### Responsibilities
 
-Performed activities associated with a senior role.
-Also did other things as required.
-
 * Proficient with (Skill 1), (always) and regularly.
 
 #### Skills
@@ -164,8 +161,6 @@ Performed junior tasks.
 
 #### Responsibilities
 
-Performed routine activities associated with a junior role.
-Other things were done as required.
 * a thing with Skill 1 successfully
 * another thing with Skill 2 successfully
 
