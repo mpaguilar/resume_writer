@@ -102,7 +102,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
         if _render_email:
-            add_hyperlink(_paragraph, _info.email, f"mailto: {_info.email}")
+            self.add_hyperlink(_paragraph, _info.email, f"mailto: {_info.email}")
             _has_content = True
 
         if _render_phone:
@@ -205,25 +205,49 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         _has_content = False
 
         if _websites.github and self.settings.github:
-            add_hyperlink(_paragraph, "GitHub", _websites.github)
+            self.add_hyperlink(
+                _paragraph,
+                text="GitHub",
+                url=_websites.github,
+                font_size=self.font_size + 2,
+                bold=True,
+            )
             _has_content = True
 
         if _websites.linkedin and self.settings.linkedin:
             if _has_content:
                 _paragraph.add_run(" | ")
-            add_hyperlink(_paragraph, "LinkedIn", _websites.linkedin)
+            self.add_hyperlink(
+                _paragraph,
+                "LinkedIn",
+                _websites.linkedin,
+                font_size=self.font_size + 2,
+                bold=True,
+            )
             _has_content = True
 
         if _websites.website and self.settings.website:
             if _has_content:
                 _paragraph.add_run(" | ")
-            add_hyperlink(_paragraph, "Website", _websites.website)
+            self.add_hyperlink(
+                _paragraph,
+                "Website",
+                _websites.website,
+                font_size=self.font_size + 2,
+                bold=True,
+            )
             _has_content = True
 
         if _websites.twitter and self.settings.twitter:
             if _has_content:
                 _paragraph.add_run(" | ")
-            add_hyperlink(_paragraph, "X/Twitter", _websites.twitter)
+            self.add_hyperlink(
+                _paragraph,
+                "X/Twitter",
+                _websites.twitter,
+                font_size=self.font_size + 2,
+                bold=True,
+            )
 
         if _has_content:
             _paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER

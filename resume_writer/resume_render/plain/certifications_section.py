@@ -2,7 +2,7 @@ import logging
 from datetime import datetime
 
 import docx.document
-from docx.enum.text import WD_TAB_ALIGNMENT, WD_TAB_LEADER
+from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_TAB_ALIGNMENT, WD_TAB_LEADER
 from docx.shared import Inches, Pt
 
 from resume_writer.models.certifications import Certification, Certifications
@@ -162,7 +162,8 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
         log.info("Rendering Certifications section.")
 
         if len(self.certifications) > 0:
-            self.document.add_heading("Certifications", level=2)
+            _heading = self.document.add_heading("Certifications", level=2)
+            _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
         else:
             return
 

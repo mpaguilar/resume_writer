@@ -1,6 +1,6 @@
 [project]
 name = "resume-writer"
-version = "0.1.3"
+version = "0.1.4"
 license = { file = "LICENSE" }
 authors = [
     {name = "Michael Aguilar", email = "bitflip@slowlink.net"},
@@ -8,7 +8,7 @@ authors = [
 requires-python = ">=3.10"
 dependencies = [
     "mistune<4.0.0,>=3.0.2",
-    "python-docx<2.0.0,>=1.1.2",
+    "python-docx>=1.2.0,<2.0.0",
     "click<9.0.0,>=8.1.7",
     "tomli<3.0.0,>=2.0.1",
     "dateparser<2.0.0,>=1.2.0",
@@ -31,12 +31,11 @@ exclude = ["temporal-samples-python"]
 
 [tool.ruff.lint]
 select = ["ALL"]
-ignore = ["ANN101", "D201", "D202",
+ignore = [ "D201", "D202",
     "RET504", # ignore assignment right before return
     "PGH003", # ignore general mypy type: ignore
     "PTH123", # ignore Path.open
     "FA102", # ignore annotation warning, we require v3.10
-    "ANN102", # ignore `cls` annotations
     "TD002", "TD003", "FIX002", # ignore TODO details
     "S101", # ignore asserts
     "ANN204", # ignore __init__ return type

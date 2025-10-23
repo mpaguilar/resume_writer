@@ -568,7 +568,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         _overview_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
         _overview_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
 
-        add_hyperlink(_overview_paragraph, f"{_overview.url_description}", _overview.url)
+        self.add_hyperlink(_overview_paragraph, f"{_overview.url_description}", _overview.url)
 
     def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
         """Render project skills section.

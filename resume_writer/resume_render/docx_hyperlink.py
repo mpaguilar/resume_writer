@@ -9,6 +9,7 @@ Found most of this in a GitHub comment.
 
 import docx
 from docx import Document
+from docx.shared import Pt
 from docx.text.paragraph import Paragraph
 
 
@@ -101,6 +102,8 @@ def add_hyperlink(
     # Create a new run object (a wrapper over a 'w:r' element)
     new_run = docx.text.run.Run(docx.oxml.shared.OxmlElement("w:r"), paragraph)
     new_run.text = text
+    new_run.font.size = Pt(14)
+    new_run.font.bold = True
 
     # Set the run's style to the builtin hyperlink style, defining it if necessary
     new_run.style = get_or_create_hyperlink_style(part.document)
