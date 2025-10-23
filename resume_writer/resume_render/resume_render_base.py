@@ -1,6 +1,5 @@
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-from tkinter import font
 
 import docx.document
 from docx import Document
