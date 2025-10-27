@@ -74,20 +74,20 @@ class RenderCertificationSection(ResumeRenderCertificationBase):
         lines = []
 
         # Add name if enabled and exists
-        if self.certification.name and self.settings.show_name:
+        if self.certification.name and self.settings.name:
             lines.append(self.certification.name)
 
         # Add issuer if enabled and exists
-        if self.certification.issuer and self.settings.show_issuer:
+        if self.certification.issuer and self.settings.issuer:
             lines.append(self.certification.issuer)
 
         # Add issued date if enabled and exists
-        if self.certification.issued_date and self.settings.show_issued:
-            lines.append(self.certification.issued_date.strftime("%B %Y"))
+        if self.certification.issued and self.settings.issued:
+            lines.append(self.certification.issued.strftime("%B %Y"))
 
         # Add expiration date if enabled and exists
-        if self.certification.expiration_date and self.settings.show_expires:
-            lines.append(self.certification.expiration_date.strftime("%B %Y"))
+        if self.certification.expires and self.settings.expires:
+            lines.append(self.certification.expires.strftime("%B %Y"))
 
         # Add the combined text as a paragraph if any content was generated
         if lines:
