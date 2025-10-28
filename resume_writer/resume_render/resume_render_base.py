@@ -122,6 +122,7 @@ class RenderBase:
 
         _normal = self.document.styles["Normal"]
         _font = _normal.font
+        _font.name = "Calibri Light"
 
         # font size should always be set. Other classes use it for scaling.
         # If it isn't set, the other classes will fail.
