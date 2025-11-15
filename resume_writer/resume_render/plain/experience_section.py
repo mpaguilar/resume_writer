@@ -169,6 +169,10 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _title_run.underline = True
         _title_run.font.size = Pt(self.font_size + 2)
 
+        if self.settings.employment_type and _basics.employment_type:
+            _employment_type_run = paragraph.add_run(f" ({_basics.employment_type})")
+            _employment_type_run.font.size = Pt(self.font_size - 1)
+
         # company name is required
         if not _basics.company:
             _msg = "Company name is required"
@@ -179,6 +183,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _company_run = paragraph.add_run(f"\t{_basics.company}")
         _company_run.bold = True
         _company_run.font.size = Pt(self.font_size + 2)
+
 
     def _dates_and_location(
         self,

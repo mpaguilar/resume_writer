@@ -38,6 +38,7 @@ include_tasks = true
 location = true
 months_ago = "0"
 summary = true
+employment_type = true
 
 [resume.render.section.experience.section.projects]
 overview = true
