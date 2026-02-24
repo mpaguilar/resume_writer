@@ -1,6 +1,6 @@
 [project]
 name = "resume-writer"
-version = "0.1.5"
+version = "0.1.6"
 license = { file = "LICENSE" }
 authors = [
     {name = "Michael Aguilar", email = "bitflip@slowlink.net"},

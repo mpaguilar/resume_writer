@@ -8,6 +8,7 @@ from resume_writer.models.personal import ContactInfo, Personal
 from resume_writer.resume_render.docx_hyperlink import add_hyperlink
 from resume_writer.resume_render.render_settings import ResumePersonalSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderPersonalBase
+from resume_writer.utils.markdown_parser import MarkdownParser
 
 log = logging.getLogger(__name__)
 
@@ -344,8 +345,12 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         if len(_banner_lines) > 0:
             _banner_paragraph = self.document.add_paragraph()
 
-            _txt = "\n".join(_banner_lines)
-            _banner_paragraph.add_run(_txt)
+            # _txt = "\n".join(_banner_lines)
+            # _banner_paragraph.add_run(_txt)
+
+            for _line in _banner_lines:
+                MarkdownParser.parse_line(_banner_paragraph, _line)
+
             _banner_paragraph.paragraph_format.space_before = Pt(4)
             _banner_paragraph.paragraph_format.space_after = Pt(10)
             # _banner_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
