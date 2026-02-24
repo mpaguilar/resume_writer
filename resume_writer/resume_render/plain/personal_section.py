@@ -325,16 +325,18 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         """
         log.debug("Rendering personal section")
 
-        _banner_lines = []
+        _banner_lines: list[str] = []
 
         if self.personal.contact_info and self.settings.contact_info:
             self._contact_info()
 
         if self.personal.banner and self.settings.banner and self.personal.banner.text:
-            _banner_lines.append(self.personal.banner.text)
+            _banner_lines = self.personal.banner.text.splitlines()
+            _banner_lines = [ _l for _l in _banner_lines if _l != "" ]
 
         if self.personal.note and self.settings.note and self.personal.note.text:
             _banner_lines.append(self.personal.note.text)
+            _banner_lines.append("\n")
 
         if self.personal.websites and self.settings.websites:
             self._websites()

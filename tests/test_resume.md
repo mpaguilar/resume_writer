@@ -22,6 +22,8 @@ Require sponsorship: No
 ## Banner
 
 Experienced Widget Expert with a lot of experience in the field.
+This is a separate line.
+**This line** has *markdown* in it.
 
 ## Note
 
