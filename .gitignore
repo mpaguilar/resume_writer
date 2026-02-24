@@ -30,6 +30,10 @@ envVars.txt
 # Personal data
 personal_data
 
+# Test output
+data/temp_*
+data/test_*
+
 # garage data
 infra/export/var/lib/garage/data
 infra/export/var/lib/garage/meta
@@ -62,5 +66,4 @@ _*.md
 
 # Continue.dev files
 .continue/
-
 
