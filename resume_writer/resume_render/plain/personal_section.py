@@ -336,6 +336,9 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
         if self.personal.note and self.settings.note and self.personal.note.text:
             _banner_lines.append(self.personal.note.text)
 
+        if self.personal.websites and self.settings.websites:
+            self._websites()
+
         if len(_banner_lines) > 0:
             _banner_paragraph = self.document.add_paragraph()
 
@@ -344,9 +347,6 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
             _banner_paragraph.paragraph_format.space_before = Pt(4)
             _banner_paragraph.paragraph_format.space_after = Pt(10)
             # _banner_paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-
-        if self.personal.websites and self.settings.websites:
-            self._websites()
 
         if self.personal.visa_status and self.settings.visa_status:
             self._visa_status()
