@@ -95,7 +95,7 @@ class RenderDegreeSection(ResumeRenderDegreeBase):
             else:
                 _start_date_run.add_break()
 
-        if self.degree.end_date and self.settings.end_date:
+        if self.settings.end_date:
             if self.degree.end_date is None:
                 _value = "Present"
             else:

@@ -83,6 +83,7 @@ class RenderResumeHtml:
             5. Loads templates from the 'resume_writer.resume_render.html' package.
             6. Enables autoescaping for HTML output.
         """
+
         def date_filter(resdate: datetime | None, date_format: str = "%B %Y") -> str:
             """Format dates in Jinja template.
 

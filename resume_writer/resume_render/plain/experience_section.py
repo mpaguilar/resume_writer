@@ -14,7 +14,6 @@ from resume_writer.models.experience import (
     Role,
     Roles,
 )
-from resume_writer.resume_render.docx_hyperlink import add_hyperlink
 from resume_writer.resume_render.render_settings import (
     ResumeExperienceSettings,
     ResumeProjectsSettings,
@@ -575,7 +574,9 @@ class RenderProjectSection(ResumeRenderProjectBase):
         _overview_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
 
         self.add_hyperlink(
-            _overview_paragraph, f"{_overview.url_description}", _overview.url
+            _overview_paragraph,
+            f"{_overview.url_description}",
+            _overview.url,
         )
 
     def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
@@ -646,7 +647,8 @@ class RenderProjectSection(ResumeRenderProjectBase):
     def _highlight_skills(self, paragraph: docx.text.paragraph.Paragraph) -> None:
         if self.project.skills and len(self.project.skills) > 0:
             _fragments = skills_splitter_project(
-                self.project.description.text, self.project.skills
+                self.project.description.text,
+                self.project.skills,
             )
             _leading_space = True
             _trailing_space = True

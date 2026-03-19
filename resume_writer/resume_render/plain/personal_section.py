@@ -5,7 +5,6 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Pt
 
 from resume_writer.models.personal import ContactInfo, Personal
-from resume_writer.resume_render.docx_hyperlink import add_hyperlink
 from resume_writer.resume_render.render_settings import ResumePersonalSettings
 from resume_writer.resume_render.resume_render_base import ResumeRenderPersonalBase
 from resume_writer.utils.markdown_parser import MarkdownParser
@@ -333,7 +332,7 @@ class RenderPersonalSection(ResumeRenderPersonalBase):
 
         if self.personal.banner and self.settings.banner and self.personal.banner.text:
             _banner_lines = self.personal.banner.text.splitlines()
-            _banner_lines = [ _l for _l in _banner_lines if _l != "" ]
+            _banner_lines = [_l for _l in _banner_lines if _l != ""]
 
         if self.personal.note and self.settings.note and self.personal.note.text:
             _banner_lines.append(self.personal.note.text)

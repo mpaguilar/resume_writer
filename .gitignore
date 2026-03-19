@@ -34,36 +34,19 @@ personal_data
 data/temp_*
 data/test_*
 
-# garage data
-infra/export/var/lib/garage/data
-infra/export/var/lib/garage/meta
-
 # env files with secrets
 *.env
-.aider*
 .env
-start_aider.sh
-
-# aider
-.aider.chat.history.md
-.aider.input.history
-.aider.tags.cache.v3/
-.aider.tags.cache.v4/
-.aider/
-.aider.model.settings.yml
-.aider.model.metadata.jso
+.env*
 
 # utilities
-start_aider.sh
-linting.sh
-.env
 _*.py
 .coverage
 DEV_PLAN.md
 _*.md
 
-
-
-# Continue.dev files
-.continue/
-
+# Agent files
+_agent/
+thoughts/
+.mindmodel/
+.git-commit-msg

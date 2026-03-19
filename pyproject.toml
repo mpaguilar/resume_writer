@@ -1,6 +1,6 @@
 [project]
 name = "resume-writer"
-version = "0.1.6"
+version = "0.2.1"
 license = { file = "LICENSE" }
 authors = [
     {name = "Michael Aguilar", email = "bitflip@slowlink.net"},
@@ -29,32 +29,45 @@ include = ["resume_writer*"]
 exclude = ["temporal-samples-python"]
 
 [tool.ruff.lint]
-select = ["ALL"]
-ignore = [ "D201", "D202",
-    "RET504", # ignore assignment right before return
-    "PGH003", # ignore general mypy type: ignore
-    "PTH123", # ignore Path.open
-    "FA102", # ignore annotation warning, we require v3.10
-        "TD002", "TD003", "FIX002", # ignore TODO details
-    "S101", # ignore asserts
-    "ANN204", # ignore __init__ return type
-    "UP032", "G001", # I like str.format
-    "TRY003", # Ignore long exception messages
-    "D104", "D100", # Ignore docstring for __init__.py, __main__.py
-    "EM101", "EM102", "G004", # Ignore strings in exception and logs, I'm feeling lazy
-    "FBT001", # ignore boolean parameters
-    "FBT002", # ignore boolean init
-    ]
+select = [
+    "A002",   # Argument shadows python built-in
+    "ANN001", # Missing type annotation for argument
+    "ANN201", # Missing return type annotation
+    "ANN401", # Disallow use of typing.Any
+    "ARG001", # Unused function argument
+    "ARG002", # Unused method argument
+    "F841",   # Unused local variable
+    "RUF006", # Store reference to asyncio.create_task return
+    "TC002",  # Move third-party import into type-checking block
+    "FAST",   # FastAPI-specific errors
+    "D417",   # Missing argument description in docstring
+    "C",      # McCabe complexity check
+    "PLR0913",# Too many arguments
+    "I001",   # Import sorting (isort)
+    "COM812", # Missing trailing comma
+    "UP035",  # Deprecated typing imports
+    "PIE790", # Unnecessary placeholder (pass)
+    "RET505", # Superfluous else/return
+    "ANN003", # Missing **kwargs type annotation
+    "B904",   # Raise without from clause
+    "FBT001", # Boolean positional arg in function def
+    "FBT003", # Boolean positional value in call
+    "UP007",  # Use X | Y for Union
+    "UP045",  # Use X | None for Optional
+    "F401",   # Unused imports
+    "SIM110", # Use any/all instead of loop
+    "TC006",  # Unquoted type expression in cast()
+    "BLE001", # Blind except: except Exception
+    "F541",   # F-string without placeholders
+    "DTZ007", # Naive datetime from strptime
+    "PLR2004",# Magic value comparison
+]
 
 [tool.ruff.lint.per-file-ignores]
-"**/tests/**/*" = ["ANN", # ignore annotations in tests
-                    "D", # ignore docstrings in tests
-                    "I", # ignore import order in tests
-                    "PLR2004", # ignore magic values in tests
-                    "DTZ005", # ignore datetime.now() in tests,
-                    "DTZ001", # ignore datetime.utcnow() in tests
-                    "B010" # ignore setattr in tests
-]
+"**/tests/**/*" = ["ANN", "D", "I", "DTZ", "COM812", "PERF401", "PLC0415", "ARG001", "PLR0913", "INP001", "E501"]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 5
 
 [tool.pytest.ini_options]
 pythonpath = [".", "./resume_writer", "./tests"]
@@ -69,4 +82,6 @@ dev = [
     "coverage<8.0.0,>=7.6.0",
     "pytest-cov>=6.2.1",
     "ruff>=0.12.8",
+    "types-pytz>=2026.1.1.20260304",
+    "types-dateparser>=1.3.0.20260211",
 ]

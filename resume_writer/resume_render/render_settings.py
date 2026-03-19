@@ -66,7 +66,7 @@ class ResumePersonalSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True):
+    def __init__(self, *, default_init: bool = True):
         """Initialize everything to default_init.
 
         Args:
@@ -151,7 +151,7 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True):
+    def __init__(self, *, default_init: bool = True):
         """Initialize everything to default_init.
 
         Args:
@@ -212,7 +212,7 @@ class ResumeCertificationsSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True):
+    def __init__(self, *, default_init: bool = True):
         """Initialize everything to default_init.
 
         Args:
@@ -272,7 +272,7 @@ class ResumeProjectsSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True):
+    def __init__(self, *, default_init: bool = True):
         """Initialize everything to default_init.
 
         Args:
@@ -344,7 +344,7 @@ class ResumeRolesSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True) -> None:
+    def __init__(self, *, default_init: bool = True) -> None:
         """Initialize everything to default_init.
 
         Args:
@@ -425,7 +425,7 @@ class ResumeExperienceSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True) -> None:
+    def __init__(self, *, default_init: bool = True) -> None:
         """Initialize all attributes to default_init and create settings objects.
 
         Args:
@@ -659,7 +659,7 @@ class ResumeRenderSettings(ResumeSettingsBase):
 
     """
 
-    def __init__(self, default_init: bool = True):
+    def __init__(self, *, default_init: bool = True):
         """Initialize all settings with appropriate objects.
 
         Args:

@@ -38,7 +38,7 @@ class RenderRoleSection(ResumeRenderRoleBase):
         settings (ResumeRolesSettings): Configuration settings for which role details to render.
         errors (list[str]): List of error messages encountered during rendering.
     """
-    
+
     def __init__(
         self,
         document: docx.document.Document,
@@ -248,7 +248,7 @@ class RenderRolesSection(ResumeRenderRolesBase):
         settings (ResumeRolesSettings): Configuration settings for which role details to render.
         errors (list[str]): List of error messages encountered during rendering.
     """
-    
+
     def __init__(
         self,
         document: docx.document.Document,
@@ -326,7 +326,7 @@ class RenderProjectSection(ResumeRenderProjectBase):
         settings (ResumeProjectsSettings): Configuration settings for which project details to render.
         errors (list[str]): List of error messages encountered during rendering.
     """
-    
+
     def __init__(
         self,
         document: docx.document.Document,
@@ -468,7 +468,7 @@ class RenderProjectsSection(ResumeRenderProjectsBase):
         settings (ResumeProjectsSettings): Configuration settings for which project details to render.
         errors (list[str]): List of error messages encountered during rendering.
     """
-    
+
     def __init__(
         self,
         document: docx.document.Document,
@@ -533,7 +533,7 @@ class RenderExperienceSection(ResumeRenderExperienceBase):
         settings (ResumeExperienceSettings): Configuration settings for which experience details to render.
         errors (list[str]): List of error messages encountered during rendering.
     """
-    
+
     def __init__(
         self,
         document: docx.document.Document,

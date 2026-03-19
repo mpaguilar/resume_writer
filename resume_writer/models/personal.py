@@ -195,6 +195,7 @@ class VisaStatus(LabelBlockParse):
         self,
         parse_context: ParseContext,
         work_authorization: str | None,
+        *,
         require_sponsorship: bool | str | None,
     ):
         """Initialize the visa status with provided authorization and sponsorship details.

@@ -11,10 +11,11 @@ class MarkdownParser:
     """
 
     @classmethod
-    def parse_line(cls, 
-                   paragraph : docx.text.paragraph.Paragraph,
-                   line) -> docx.text.paragraph.Paragraph:
-
+    def parse_line(
+        cls,
+        paragraph: docx.text.paragraph.Paragraph,
+        line: str,
+    ) -> docx.text.paragraph.Paragraph:
         bold_pattern = r"\*\*(.*?)\*\*"
         italic_pattern = r"\*(.*?)\*"
 
@@ -25,7 +26,6 @@ class MarkdownParser:
         # Split the modified text into parts based on the tokens
         parts = re.split(r"({{bold:.*?}}|{{italic:.*?}})", text)
 
-        parsed_list = []
         for part in parts:
             if part.startswith("{{bold:"):
                 # Remove the token and record as bold
@@ -36,7 +36,9 @@ class MarkdownParser:
                 # parsed_list.append({"format": "bold", "text": text_content})
             elif part.startswith("{{italic:"):
                 # Remove the token and record as italic
-                _text_content = part[len("{{italic:") : -2]  # Strip '{{italic:' and '}}'
+                _text_content = part[
+                    len("{{italic:") : -2
+                ]  # Strip '{{italic:' and '}}'
                 _run = paragraph.add_run()
                 _run.add_text(_text_content)
                 _run.italic = True

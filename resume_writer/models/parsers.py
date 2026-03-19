@@ -260,7 +260,7 @@ class LabelBlockParse:
                 log.info(f"Skipping line: {_block_line}")
 
         # if there are any expected fields left, add them to the init kwargs with None
-        _none_kwargs = {_field: None for _field in _expected_fields.values()}
+        _none_kwargs = dict.fromkeys(_expected_fields.values(), None)
         # update the init kwargs with the none kwargs
         _init_kwargs.update(_none_kwargs)
         _init_kwargs["parse_context"] = parse_context
@@ -404,7 +404,7 @@ class BasicBlockParse:
                 log.error(f"Unexpected block: {_block}")
 
         # if there are any expected blocks left, add them to the init kwargs with None
-        _none_kwargs = {_field: None for _field in _expected_blocks.values()}
+        _none_kwargs = dict.fromkeys(_expected_blocks.values(), None)
         _init_kwargs.update(_none_kwargs)
         _init_kwargs["parse_context"] = parse_context
         return _init_kwargs

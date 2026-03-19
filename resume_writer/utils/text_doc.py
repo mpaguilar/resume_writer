@@ -49,8 +49,8 @@ class MarkdownDoc(TextDoc):
         Initializes the text content to an empty string and sets flags to track the document state.
         """
         self.text: str = ""
-        self.previous_line_was_header = False
-        self.first_line = True
+        self.previous_line_was_header: bool = False
+        self.first_line: bool = True
 
     def add_text(
         self,

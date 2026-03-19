@@ -156,5 +156,7 @@ class RenderCertificationsSection(ResumeRenderCertificationsBase):
             heading.style = "Heading 2"
 
             for certification in self.certifications:
-                renderer = RenderCertificationSection(self.document, certification, self.settings)
+                renderer = RenderCertificationSection(
+                    self.document, certification, self.settings,
+                )
                 renderer.render()

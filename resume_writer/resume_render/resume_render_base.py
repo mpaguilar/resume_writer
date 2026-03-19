@@ -75,6 +75,7 @@ def get_or_create_hyperlink_style(d: Document) -> str:
 
     return "Hyperlink"
 
+
 class RenderBase:
     """Base class for rendering docx files.
 
@@ -171,6 +172,7 @@ class RenderBase:
         paragraph: Paragraph,
         text: str,
         url: str,
+        *,
         font_size: int = 0,
         bold: bool = False,
         italic: bool = False,

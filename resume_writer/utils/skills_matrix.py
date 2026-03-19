@@ -1,5 +1,6 @@
 import logging
 from datetime import datetime
+from typing import Any
 
 from resume_writer.models.experience import Role, Roles
 from resume_writer.utils.resume_stats import DateStats
@@ -187,7 +188,7 @@ class SkillsMatrix:
             return {}
 
         # create a matrix of skills and years of experience
-        _skills_matrix = {}
+        _skills_matrix: dict[str, dict[str, Any]] = {}
 
         # get a list of all the skills and years of experience
         _all_skills_yoe = self.skills_experience()

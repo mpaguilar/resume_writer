@@ -118,7 +118,7 @@ def skills_splitter(sentence: str, skills: list[str]) -> list[str]:
 
     # Create a list to store the result
     _result = []
-    _current_fragment = []
+    _current_fragment: list[str] = []
 
     # sort the skills by length in reverse order
     # this should result in more specific to less specific skills

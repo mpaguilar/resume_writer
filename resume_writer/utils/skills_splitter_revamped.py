@@ -1,14 +1,12 @@
-from typing import List, Tuple
+# No deprecated typing imports needed
 
-import nltk
 from nltk.tokenize import TreebankWordTokenizer
 
 
-def download_nltk_data():
+def download_nltk_data() -> None:
     """Ensure required NLTK data is present."""
     # Placeholder for the original download logic
     # In production, this would download necessary tokenizers
-    pass
 
 
 def _normalize_line_endings(text: str) -> str:
@@ -127,5 +125,8 @@ def skills_splitter(sentence: str, skills: list[str]) -> list[str]:
 
     # Extract fragments preserving exact text formatting
     return _extract_fragments(
-        normalized_sentence, tokens, tokens_with_spans, sorted_skills
+        normalized_sentence,
+        tokens,
+        tokens_with_spans,
+        sorted_skills,
     )
