@@ -28,6 +28,9 @@ from resume_writer.resume_render.resume_render_base import (
     ResumeRenderRolesBase,
 )
 from resume_writer.utils.skills_splitter import skills_splitter
+from resume_writer.utils.skills_splitter_revamped import (
+    skills_splitter as skills_splitter_project,
+)
 
 log = logging.getLogger(__name__)
 
@@ -183,7 +186,6 @@ class RenderRoleSection(ResumeRenderRoleBase):
         _company_run = paragraph.add_run(f"\t{_basics.company}")
         _company_run.bold = True
         _company_run.font.size = Pt(self.font_size + 2)
-
 
     def _dates_and_location(
         self,
@@ -496,7 +498,6 @@ class RenderRolesSection(ResumeRenderRolesBase):
             ).render()
 
 
-
 class RenderProjectSection(ResumeRenderProjectBase):
     """Render experience project section.
 
@@ -573,7 +574,9 @@ class RenderProjectSection(ResumeRenderProjectBase):
         _overview_paragraph.paragraph_format.space_after = Pt(self.font_size / 2)
         _overview_paragraph.paragraph_format.space_before = Pt(self.font_size / 2)
 
-        self.add_hyperlink(_overview_paragraph, f"{_overview.url_description}", _overview.url)
+        self.add_hyperlink(
+            _overview_paragraph, f"{_overview.url_description}", _overview.url
+        )
 
     def _skills(self, paragraph: docx.text.paragraph.Paragraph) -> list[str]:
         """Render project skills section.
@@ -640,12 +643,11 @@ class RenderProjectSection(ResumeRenderProjectBase):
             _skills_paragraph.paragraph_format.space_before = Pt(0)
             _skills_paragraph.paragraph_format.space_after = Pt(0)
 
-    def _highlight_skills(self, paragraph : docx.text.paragraph.Paragraph) -> None:
-        if(
-            self.project.skills
-            and len(self.project.skills) > 0
-        ):
-            _fragments = skills_splitter(self.project.description.text, self.project.skills)
+    def _highlight_skills(self, paragraph: docx.text.paragraph.Paragraph) -> None:
+        if self.project.skills and len(self.project.skills) > 0:
+            _fragments = skills_splitter_project(
+                self.project.description.text, self.project.skills
+            )
             _leading_space = True
             _trailing_space = True
             for _ndx, _fragment in enumerate(_fragments):
