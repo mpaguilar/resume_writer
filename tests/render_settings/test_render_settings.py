@@ -91,6 +91,7 @@ def test_dict():
                         "end_date": False,
                         "gpa": False,
                         "major": False,
+                        "render_at_end": True,
                     },
                     "executive_summary": {
                         "categories": "Category1\nCategory2",
@@ -185,6 +186,7 @@ def test_education_settings(test_dict):
     assert _education_settings.end_date is False
     assert _education_settings.gpa is False
     assert _education_settings.major is False
+    assert _education_settings.render_at_end is True
 
 
 def test_certifications_settings(test_dict):
@@ -272,3 +274,39 @@ def test_skills_matrix_settings(test_dict):
 
     assert _skills_matrix_settings.skills == ["Skill1", "Skill2"]
     assert _skills_matrix_settings.all_skills is True
+
+
+def test_education_settings_render_at_end_default():
+    """Test that render_at_end defaults to False."""
+    _education_settings = ResumeEducationSettings()
+    assert _education_settings.render_at_end is False
+
+
+def test_education_settings_render_at_end_can_be_set():
+    """Test that render_at_end can be set to True."""
+    _education_settings = ResumeEducationSettings()
+    _education_settings.render_at_end = True
+    assert _education_settings.render_at_end is True
+
+
+def test_education_settings_render_at_end_in_to_dict():
+    """Test that render_at_end is included in to_dict output."""
+    _education_settings = ResumeEducationSettings()
+    _dict = _education_settings.to_dict()
+    assert "render_at_end" in _dict
+    assert _dict["render_at_end"] is False
+
+
+def test_education_settings_render_at_end_update_from_dict():
+    """Test that render_at_end can be loaded from dictionary."""
+    _education_settings = ResumeEducationSettings()
+    _education_settings.update_from_dict({"render_at_end": True})
+    assert _education_settings.render_at_end is True
+
+
+def test_education_settings_render_at_end_false_from_dict():
+    """Test that render_at_end can be set to False from dictionary."""
+    _education_settings = ResumeEducationSettings()
+    _education_settings.render_at_end = True  # Set to True first
+    _education_settings.update_from_dict({"render_at_end": False})
+    assert _education_settings.render_at_end is False

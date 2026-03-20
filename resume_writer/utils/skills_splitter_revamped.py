@@ -1,4 +1,5 @@
 # No deprecated typing imports needed
+from typing import List, Tuple
 
 from nltk.tokenize import TreebankWordTokenizer
 

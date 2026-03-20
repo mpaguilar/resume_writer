@@ -142,6 +142,8 @@ class ResumeEducationSettings(ResumeSettingsBase):
         end_date (bool): Render end date of degree (default is True).
         gpa (bool): Render GPA (default is True).
         major (bool): Render major of study (default is True).
+        render_at_end (bool): Render education section at end of document
+            after Experience section instead of default position (default is False).
 
     Methods:
         __init__(default_init: bool = True) -> None
@@ -162,7 +164,8 @@ class ResumeEducationSettings(ResumeSettingsBase):
 
         Notes:
             1. All attributes are initialized to default_init.
-            2. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
+            2. The render_at_end attribute is initialized to False for backward compatibility.
+            3. The to_dict method constructs and returns a dictionary mapping each attribute to its value.
 
         """
         self.degrees = default_init  # render all degrees
@@ -172,6 +175,7 @@ class ResumeEducationSettings(ResumeSettingsBase):
         self.end_date = default_init
         self.gpa = default_init
         self.major = default_init
+        self.render_at_end = False  # Default to False for backward compatibility
 
     def to_dict(self) -> dict:
         """Return a dictionary representation of the settings.
@@ -191,6 +195,7 @@ class ResumeEducationSettings(ResumeSettingsBase):
             "end_date": self.end_date,
             "gpa": self.gpa,
             "major": self.major,
+            "render_at_end": self.render_at_end,
         }
 
 

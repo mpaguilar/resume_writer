@@ -11,6 +11,18 @@ margin_width = 0.5
 top_margin = 0.2
 bottom_margin = 0.2
 
+[resume.render.section.education]
+degrees = true
+school = true
+degree = true
+start_date = true
+end_date = true
+gpa = true
+major = true
+# When true, renders Education at end of document after Experience
+# When false (default), renders in default position after Certifications
+render_at_end = false
+
 [resume.render.section.executive_summary]
 # Categories are displayed in this order
 categories = """

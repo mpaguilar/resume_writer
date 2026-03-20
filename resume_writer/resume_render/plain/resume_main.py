@@ -74,14 +74,18 @@ class RenderResume(ResumeRenderBase):
         Notes:
             1. If personal information is present in the resume and personal section rendering is enabled, render the personal section.
             2. If certifications are present and certification section rendering is enabled, render the certifications section.
-            3. If education data exists and education section rendering is enabled, render the education section.
+            3. If education data exists, education section rendering is enabled, and render_at_end is False, render the education section in the default position (after Certifications).
             4. If experience data exists and executive summary rendering is enabled, add a centered heading "Executive Summary", then render the executive summary section using experience data.
-            5. If experience data exists and skills matrix rendering is enabled (but not necessarily executive summary), render the skills matrix section using experience data.
+            5. If experience data exists and skills matrix rendering is enabled, render the skills matrix section using experience data.
             6. If both experience and executive summary rendering are enabled, insert a page break after the executive summary.
             7. If experience data exists and experience section rendering is enabled, render the full experience section.
-            8. No external disk, network, or database access occurs during rendering.
+            8. If education data exists, education section rendering is enabled, and render_at_end is True, render the education section at the end (after Experience, before any page break).
+            9. No external disk, network, or database access occurs during rendering.
         """
+        log.debug("RenderResume.render starting")
+
         if self.resume.personal and self.settings.personal:
+            log.debug("Rendering personal section")
             RenderPersonalSection(
                 self.document,
                 self.resume.personal,
@@ -89,13 +93,20 @@ class RenderResume(ResumeRenderBase):
             ).render()
 
         if self.resume.certifications and self.settings.certifications:
+            log.debug("Rendering certifications section")
             RenderCertificationsSection(
                 self.document,
                 self.resume.certifications,
                 self.settings.certifications_settings,
             ).render()
 
-        if self.resume.education and self.settings.education:
+        # Render Education in default position (after Certifications) if render_at_end is False
+        if (
+            self.resume.education
+            and self.settings.education
+            and not self.settings.education_settings.render_at_end
+        ):
+            log.debug("Rendering education section in default position")
             RenderEducationSection(
                 self.document,
                 self.resume.education,
@@ -104,6 +115,7 @@ class RenderResume(ResumeRenderBase):
 
         # the executive summary is built from experience, so it has to exist
         if self.resume.experience and self.settings.executive_summary:
+            log.debug("Rendering executive summary section")
             _heading = self.document.add_heading("Executive Summary", 2)
             _heading.alignment = WD_ALIGN_PARAGRAPH.CENTER
 
@@ -119,6 +131,7 @@ class RenderResume(ResumeRenderBase):
             self.resume.experience and self.settings.skills_matrix
             # and self.settings.executive_summary
         ):
+            log.debug("Rendering skills matrix section")
             # add a blank line
             self.document.add_paragraph()
             RenderSkillsMatrixSection(
@@ -128,14 +141,31 @@ class RenderResume(ResumeRenderBase):
                 parse_context=self.parse_context,
             ).render()
 
-        # don't add a page break if we're rendering only the summary
-        if self.settings.experience and self.settings.executive_summary:
-            self.document.add_page_break()
-
         # render all the roles
         if self.resume.experience and self.settings.experience:
+            log.debug("Rendering experience section")
             RenderExperienceSection(
                 self.document,
                 self.resume.experience,
                 self.settings.experience_settings,
             ).render()
+
+        # Render Education at end if render_at_end is True
+        if (
+            self.resume.education
+            and self.settings.education
+            and self.settings.education_settings.render_at_end
+        ):
+            log.debug("Rendering education section at end")
+            RenderEducationSection(
+                self.document,
+                self.resume.education,
+                self.settings.education_settings,
+            ).render()
+
+        # don't add a page break if we're rendering only the summary
+        if self.settings.experience and self.settings.executive_summary:
+            log.debug("Adding page break")
+            self.document.add_page_break()
+
+        log.debug("RenderResume.render returning")

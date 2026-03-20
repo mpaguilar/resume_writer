@@ -394,7 +394,40 @@ Before submitting work:
 
 ---
 
-**Last Updated:** 2026-03-19  
+**Last Updated:** 2026-03-20  
+**Branch:** 030.education-format-changes  
+**Status:** Checkpoint complete - render_at_end feature implemented
+
+### Checkpoint 030 Completion Notes
+
+The `render_at_end` feature for the Education section has been successfully implemented:
+
+1. **New Setting Added** - `render_at_end` boolean added to `ResumeEducationSettings` class:
+   - Defaults to `False` for backward compatibility
+   - When `True`, Education section renders at end of document after Experience
+   - When `False` (default), Education renders in standard position after Certifications
+
+2. **Plain Renderer Updated** - `plain/resume_main.py` modified to:
+   - Skip early Education render when `render_at_end=True`
+   - Render Education at end (after Experience, before page break) when `render_at_end=True`
+   - Never render Education twice regardless of setting
+
+3. **Tests Added**:
+   - Unit tests for `ResumeEducationSettings.render_at_end` in `tests/render_settings/test_render_settings.py`
+   - Integration tests for `plain` renderer in `tests/render/plain/test_resume_render.py`
+   - Tests verify: default value, setting/loading from dict, both render positions, no duplicates
+
+4. **Settings Files Updated**:
+   - `settings_full_resume.toml` - includes `render_at_end` with documentation
+   - `settings_website.toml` - includes `render_at_end` setting
+
+**Test Results:** 127 tests passing, no regressions
+**Coverage:** 90% for `plain/resume_main.py`, 76% for `render_settings.py`
+**Quality:** All pre-existing complexity violations grandfathered per policy
+
+---
+
+**Previous Update:** 2026-03-19  
 **Branch:** opencode-convert  
 **Status:** Phase 2 complete - easy deficiencies addressed
 

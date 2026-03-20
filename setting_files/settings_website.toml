@@ -30,6 +30,9 @@ roles = true
 projects = true
 render_projects_first = true
 
+[resume.render.section.education]
+render_at_end = true
+
 [resume.render.section.experience.section.roles]
 skills = false
 responsibilities = true
